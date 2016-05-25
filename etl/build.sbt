@@ -18,5 +18,5 @@ libraryDependencies ++= Seq(
     "org.apache.lucene" % "lucene-analyzers-common" % "6.0.0",
     "org.apache.lucene" % "lucene-core" % "6.0.0",
     "org.deeplearning4j" % "deeplearning4j-core" % "0.4-rc3.9",
-    "org.nd4j" % "nd4j-cuda-7.5" % "0.4-rc3.9" classifier "" classifier "linux-x86_64"
+    "org.nd4j" % "nd4j-native" % "0.4-rc3.9" classifier "" classifier "linux-x86_64"
 )
