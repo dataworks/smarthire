@@ -1,0 +1,33 @@
+{
+  "name": "internship-2016-prototype-app",
+  "version": "1.0.0",
+  "description": "Prototype for 2016 internship program app",
+  "main": "index.js",
+  "dependencies": {
+    "angular": "^1.5.5",
+    "angular-resource": "^1.5.5",
+    "angular-route": "^1.5.5",
+    "bootstrap": "^3.3.6",
+    "chai": "^3.5.0",
+    "express": "^4.13.4",
+    "jquery": "^2.2.3",
+    "mocha": "^2.5.1",
+    "normalize-css": "^2.3.1",
+    "request": "^2.72.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node server/server.js",
+    "test": "./node_modules/.bin/mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dataworks/internship-2016-prototype-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dataworks/internship-2016-prototype-app/issues"
+  },
+  "homepage": "https://github.com/dataworks/internship-2016-prototype-app#readme"
+}
