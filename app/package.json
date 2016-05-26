@@ -1,7 +1,7 @@
 {
-  "name": "internship-2016-prototype-app",
+  "name": "internship-2016-app",
   "version": "1.0.0",
-  "description": "Prototype for 2016 internship program app",
+  "description": "2016 internship program node.js app",
   "main": "index.js",
   "dependencies": {
     "angular": "^1.5.5",
@@ -22,12 +22,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dataworks/internship-2016-prototype-app.git"
+    "url": "git+https://github.com/dataworks/internship-2016.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dataworks/internship-2016-prototype-app/issues"
+    "url": "https://github.com/dataworks/internship-2016/issues"
   },
-  "homepage": "https://github.com/dataworks/internship-2016-prototype-app#readme"
+  "homepage": "https://github.com/dataworks/internship-2016/app#readme"
 }
