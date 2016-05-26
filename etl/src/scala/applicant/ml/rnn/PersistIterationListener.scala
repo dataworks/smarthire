@@ -24,22 +24,22 @@ class PersistIterationListener(json: String, coefficients: String) extends Itera
     var threshold: Int = 60
 
     /**
-	 * {@inheritDoc}
-	 */
+     * {@inheritDoc}
+     */
     def invoked(): Boolean = {
         return isInvoked
     }
 
     /**
-	 * {@inheritDoc}
-	 */
+     * {@inheritDoc}
+     */
     def invoke() {
         this.isInvoked = true
     }
 
     /**
-	 * {@inheritDoc}
-	 */
+     * {@inheritDoc}
+     */
     def iterationDone(model: Model, iteration: Int) {
         invoke()
 
@@ -69,16 +69,16 @@ class PersistIterationListener(json: String, coefficients: String) extends Itera
                 bestScore = score
 
                 try {
-                    //Write the network parameters:
+                    // Write the network parameters:
                     val dos: DataOutputStream = new DataOutputStream(Files.newOutputStream(Paths.get(coefficients)))
                     Nd4j.write(net.params(), dos)
 
-                    //Write the network configuration:
+                    // Write the network configuration:
                     FileUtils.write(new File(json), net.getLayerWiseConfigurations().toJson())
                 }
                 catch {
                     case ex: Exception =>
-                        log.error(ex.getMessage(), ex)
+                    log.error(ex.getMessage(), ex)
                 }
             }
         }

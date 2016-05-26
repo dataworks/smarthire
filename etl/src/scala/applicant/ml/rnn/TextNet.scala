@@ -141,16 +141,16 @@ object TextNet {
      * @param coefficients path to model coefficients
      */
     def readNetwork(json: String, coefficients: String): MultiLayerNetwork = {
-        //Load network configuration from disk
+        // Load network configuration from disk
         val conf: MultiLayerConfiguration = MultiLayerConfiguration.fromJson(FileUtils.readFileToString(new File(json)))
 
-        //Load parameters from disk
+        // Load parameters from disk
         val input = new FileInputStream(coefficients)
         try {
             val dis: DataInputStream = new DataInputStream(input)
             val newParams: INDArray = Nd4j.read(dis)
 
-            //Create a MultiLayerNetwork from the saved configuration and parameters
+            // Create a MultiLayerNetwork from the saved configuration and parameters
             val savedNetwork: MultiLayerNetwork = new MultiLayerNetwork(conf)
             savedNetwork.init()
             savedNetwork.setParameters(newParams)

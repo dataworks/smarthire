@@ -39,13 +39,13 @@ class CharacterIterator(file: String, miniBatchSize: Int, exampleLength: Int) ex
 	private def initValidation(file: String, miniBatchSize: Int) {
 		if (!new File(file).exists()) {
 			val msg = s"Could not access file (does not exist): $file"
-      		throw new IOException(msg)
-    	}
+			throw new IOException(msg)
+		}
 
 		if (miniBatchSize <= 0) {
 			val msg = "Invalid miniBatchSize (must be > 0)"
 			throw new IllegalArgumentException(msg)
-    	}
+		}
 	}
 
 	/**
@@ -66,8 +66,8 @@ class CharacterIterator(file: String, miniBatchSize: Int, exampleLength: Int) ex
 		val maxSize: Int = lines.map(_.length).fold(lines.size)(_ + _ )
 		fileCharacters = lines.flatMap({ s =>
 			val filtered = s.filter(charToIdxMap.containsKey(_)).toString
-      		if (newLineValid) filtered + "\n" else filtered
-    	}).toArray
+			if (newLineValid) filtered + "\n" else filtered
+		}).toArray
 
 		if (exampleLength >= fileCharacters.length) {
 			val msg = s"exampleLength=$exampleLength cannot exceed number of valid characters in file (${fileCharacters.length})"
@@ -85,8 +85,8 @@ class CharacterIterator(file: String, miniBatchSize: Int, exampleLength: Int) ex
 		}
 
 		// Shuffle batch order to prevent bias in the ml algorithm
-    	Collections.shuffle(exampleStartOffsets, Characters.getRandom())
- 	}
+		Collections.shuffle(exampleStartOffsets, Characters.getRandom())
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -105,17 +105,17 @@ class CharacterIterator(file: String, miniBatchSize: Int, exampleLength: Int) ex
 	/**
 	 * {@inheritDoc}
 	 */
-  	def next(num: Int): DataSet = {
-    	if (exampleStartOffsets.size() == 0) {
+	def next(num: Int): DataSet = {
+		if (exampleStartOffsets.size() == 0) {
 			throw new NoSuchElementException()
 		}
 
 		val currMinibatchSize = Math.min(num, exampleStartOffsets.size())
 
 		// Note the order here:
-    	// dimension 0 = number of examples in minibatch
-    	// dimension 1 = size of each vector (i.e., number of characters)
-    	// dimension 2 = length of each time series/example
+		// dimension 0 = number of examples in minibatch
+		// dimension 1 = size of each vector (i.e., number of characters)
+		// dimension 2 = length of each time series/example
 		val input = Nd4j.zeros(currMinibatchSize, validCharacters.length, exampleLength)
 		val labels = Nd4j.zeros(currMinibatchSize, validCharacters.length, exampleLength)
 
@@ -140,7 +140,7 @@ class CharacterIterator(file: String, miniBatchSize: Int, exampleLength: Int) ex
 	 * {@inheritDoc}
 	 */
 	def totalExamples(): Int = {
- 		return (fileCharacters.length - 1) / miniBatchSize - 2
+		return (fileCharacters.length - 1) / miniBatchSize - 2
 	}
 
 	/**
@@ -181,7 +181,7 @@ class CharacterIterator(file: String, miniBatchSize: Int, exampleLength: Int) ex
 	/**
 	 * {@inheritDoc}
 	 */
- 	def cursor(): Int = {
+	def cursor(): Int = {
 		return totalExamples() - exampleStartOffsets.size()
 	}
 
@@ -202,7 +202,7 @@ class CharacterIterator(file: String, miniBatchSize: Int, exampleLength: Int) ex
 	/**
 	 * {@inheritDoc}
 	 */
-  	def getLabels: List[String] = {
+	def getLabels: List[String] = {
 		throw new UnsupportedOperationException("Not implemented")
 	}
 

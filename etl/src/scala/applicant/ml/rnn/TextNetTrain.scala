@@ -39,7 +39,7 @@ object TextNetTrain {
     def buildConf(lstmLayerSize: Int, tbpttLength: Int, iter: CharacterIterator): MultiLayerConfiguration = {
         val nOut: Int = iter.totalOutcomes()
 
-        //Set up network configuration:
+        // Set up network configuration:
         val conf: MultiLayerConfiguration = new NeuralNetConfiguration.Builder()
             .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT).iterations(1)
             .learningRate(0.1)
@@ -69,34 +69,34 @@ object TextNetTrain {
      * @param options command line options
      */
     def train(options: Command) = {
-        //Number of units in each GravesLSTM layer
+        // Number of units in each GravesLSTM layer
         val lstmLayerSize = 200
 
-        //Length for truncated backpropagation through time. i.e., do parameter updates ever 50 characters
+        // Length for truncated backpropagation through time. i.e., do parameter updates ever 50 characters
         val tbpttLength = 50
 
-        //Size of mini batch to use when training
+        // Size of mini batch to use when training
         val miniBatchSize = 32
 
-        //Length of each training example sequence to use. This could certainly be increased
+        // Length of each training example sequence to use. This could certainly be increased
         val exampleLength = 1000
 
-        //Total number of training epochs
+        // Total number of training epochs
         val numEpochs = 1
 
-        //How frequently to generate samples from the network? 1000 characters / 50 tbptt length: 20 parameter updates per minibatch
+        // How frequently to generate samples from the network? 1000 characters / 50 tbptt length: 20 parameter updates per minibatch
         val generateSamplesEveryNMinibatches = 10
 
-        //Number of samples to generate after each training epoch
+        // Number of samples to generate after each training epoch
         val nSamplesToGenerate = 4
 
-        //Length of each sample to generate
+        // Length of each sample to generate
         val nCharactersToSample = 300
 
-        //Optional character initialization; a random character is used if null
+        // Optional character initialization; a random character is used if null
         val generationInitialization: String = null
 
-        //Get a DataSetIterator that handles vectorization of text into something we can use to train our GravesLSTM network.
+        // Get a DataSetIterator that handles vectorization of text into something we can use to train our GravesLSTM network.
         val iter: CharacterIterator = Characters.getIterator(options.inputFile, miniBatchSize, exampleLength)
 
         val net = new MultiLayerNetwork(buildConf(lstmLayerSize, tbpttLength, iter))
@@ -105,7 +105,7 @@ object TextNetTrain {
 
         val textNet: TextNet = new TextNet(net)
 
-        //Print the  number of parameters in the network (and for each layer)
+        // Print the  number of parameters in the network (and for each layer)
         val layers: Array[Layer] = net.getLayers
         val totalNumParams = layers.zipWithIndex.map({ case (layer, i) =>
             val nParams: Int = layer.numParams()
@@ -117,7 +117,7 @@ object TextNetTrain {
 
         var miniBatchNumber = 0
 
-        //Do training, and then generate and print samples from network
+        // Do training, and then generate and print samples from network
         (0 until numEpochs).foreach { i =>
             while(iter.hasNext()) {
                 val ds = iter.next()

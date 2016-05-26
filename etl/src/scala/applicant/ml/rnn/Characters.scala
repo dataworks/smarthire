@@ -22,15 +22,15 @@ object Characters {
 	 * @param miniBatchSize batch size
 	 */
 	def getIterator(file: String, miniBatchSize: Int, sequenceLength: Int): CharacterIterator = {
-        val f = new File(file)
-        log.info("Using input file: " + f.getAbsolutePath())
+		val f = new File(file)
+		log.info("Using input file: " + f.getAbsolutePath())
 
-        if (!f.exists()) {
-            throw new IOException("File does not exist: " + file)
-        }
+		if (!f.exists()) {
+			throw new IOException("File does not exist: " + file)
+		}
 
-        return new CharacterIterator(file, miniBatchSize, sequenceLength)
-    }
+		return new CharacterIterator(file, miniBatchSize, sequenceLength)
+	}
 
 	/**
 	 * Returns the default Random number generator.
@@ -113,9 +113,9 @@ object Characters {
 	 */
 	private def getCharacterSet(): Array[Char] = {
 		return (('a' to 'z').toSeq ++
-			('A' to 'Z').toSeq ++
-			('0' to '9').toSeq ++
-			Seq[Char]('!', '&', '(', ')', '?', '-', '\'', '"', ',', '.', ':', ';', ' ', '\n', '\t')).toArray
+				('A' to 'Z').toSeq ++
+				('0' to '9').toSeq ++
+				Seq[Char]('!', '&', '(', ')', '?', '-', '\'', '"', ',', '.', ':', ';', ' ', '\n', '\t')).toArray
 	}
 
 	/**
@@ -126,7 +126,7 @@ object Characters {
 	private def getIndexMap(): Map[Character, Integer] = {
 		val map: Map[Character, Integer] = new HashMap()
 
-		//Store valid characters is a map for later use in vectorization
+		// Store valid characters is a map for later use in vectorization
 		characterSet.zipWithIndex.foreach {
 			case (ch, i) => map.put(ch, i)
 		}
