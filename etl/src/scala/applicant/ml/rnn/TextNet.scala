@@ -112,21 +112,15 @@ class TextNet(net: MultiLayerNetwork) {
      * @return Array[Double] adjusted probability distribution
      */
     private def adjustCreativity(distribution: Array[Double], factor: Double): Array[Double] = {
-        var array: INDArray = Nd4j.create(distribution);
+        var array: INDArray = Nd4j.create(distribution, 'f')
 
         // a = log(a) / scale factor
         // a = exp(a) / sum(exp(a))
-        array = Transforms.log(array).div(factor);
-        array = Transforms.exp(array);
-        array = array.div(array.sumNumber());
+        array = Transforms.log(array).div(factor)
+        array = Transforms.exp(array)
+        array = array.div(array.sumNumber())
 
-        // Copy data to a new Array[Double]
-        val ret: Array[Double] = new Array[Double](array.length())
-        (0 until array.length()).foreach { i =>
-            ret(i) = array.getDouble(i)
-        }
-
-        return ret;
+        return array.data().asDouble()
     }
 }
 

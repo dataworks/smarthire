@@ -132,9 +132,7 @@ object TextNetTrain {
                          (if (generationInitialization == null) "" else generationInitialization) + "\"")
                     val samples = textNet.getText(generationInitialization, nCharactersToSample, nSamplesToGenerate)
                     samples.indices.foreach { j =>
-                        log.info("----- Sample " + j + " -----")
-                        log.info(samples(j))
-                        log.info(" ")
+                        log.info("\n----- Sample " + j + " -----\n" + samples(j) + "\n")
                     }
                 }
             }

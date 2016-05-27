@@ -20,7 +20,7 @@ import scala.collection.JavaConverters._
 class CharacterIterator(file: String, miniBatchSize: Int, exampleLength: Int) extends DataSetIterator {
     val log: Logger = LoggerFactory.getLogger(getClass())
 
-    val exampleStartOffsets: LinkedList[Integer] = new LinkedList();
+    val exampleStartOffsets: LinkedList[Integer] = new LinkedList()
 
     var charToIdxMap: Map[Character, Integer] = new HashMap()
     var validCharacters: Array[Char] = Array[Char]()
@@ -116,8 +116,8 @@ class CharacterIterator(file: String, miniBatchSize: Int, exampleLength: Int) ex
         // dimension 0 = number of examples in minibatch
         // dimension 1 = size of each vector (i.e., number of characters)
         // dimension 2 = length of each time series/example
-        val input = Nd4j.zeros(currMinibatchSize, validCharacters.length, exampleLength)
-        val labels = Nd4j.zeros(currMinibatchSize, validCharacters.length, exampleLength)
+        val input =  Nd4j.create(Array(currMinibatchSize, validCharacters.length, exampleLength), 'f')
+        val labels = Nd4j.create(Array(currMinibatchSize, validCharacters.length, exampleLength), 'f')
 
         (0 until currMinibatchSize).foreach { i =>
             val startIdx = exampleStartOffsets.removeFirst()
