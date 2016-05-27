@@ -116,7 +116,7 @@ class CharacterIterator(file: String, miniBatchSize: Int, exampleLength: Int) ex
         // dimension 0 = number of examples in minibatch
         // dimension 1 = size of each vector (i.e., number of characters)
         // dimension 2 = length of each time series/example
-        val input =  Nd4j.create(Array(currMinibatchSize, validCharacters.length, exampleLength), 'f')
+        val input = Nd4j.create(Array(currMinibatchSize, validCharacters.length, exampleLength), 'f')
         val labels = Nd4j.create(Array(currMinibatchSize, validCharacters.length, exampleLength), 'f')
 
         (0 until currMinibatchSize).foreach { i =>

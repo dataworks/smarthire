@@ -23,5 +23,5 @@ libraryDependencies ++= Seq(
     "org.apache.lucene" % "lucene-core" % "6.0.0",
     "org.deeplearning4j" % "deeplearning4j-core" % "0.4-rc3.9",
     "org.nd4j" % "nd4j-native" % "0.4-rc3.9" classifier "" classifier "linux-x86_64",
-	"org.scalatest" % "scalatest_2.10" % "2.2.6" % "test"
+    "org.scalatest" % "scalatest_2.10" % "2.2.6" % "test"
 )
