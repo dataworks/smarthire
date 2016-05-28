@@ -13,10 +13,16 @@ app.get('/applicants', function(req, res) {
     skills: ['Grails', 'Groovy', 'Ext JS']
   }, {
     name: 'Laura Schweitzer',
-    score: 0.45,
+    score: 0.98,
     currentEntity: 'Data Works Inc.',
     currentLocation: 'Reston, VA',
     skills: ['Pentaho', 'Ruby on Rails', 'Javascript']
+  }, , {
+    name: 'Dave Mezzetti',
+    score: 0.10,
+    currentEntity: 'Data Works Inc.',
+    currentLocation: 'Reston, VA',
+    skills: ['Scala', 'Spark', 'Tweeting']
   }]);
 });
 
