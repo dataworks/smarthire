@@ -17,7 +17,7 @@ class TextNetSpec extends FlatSpec {
 
         var results = textnet invokePrivate adjustCreativity(Array[Double](0.7, 0.2, 0.1), 1.0)
         results = results.map(x => BigDecimal(x).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble)
-        results must equal (Array[Double](0.7, 0.2, 0.11))
+        results must equal (Array[Double](0.7, 0.2, 0.1))
 
         results = textnet invokePrivate adjustCreativity(Array[Double](0.7, 0.2, 0.1), 0.7)
         results = results.map(x => BigDecimal(x).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble)
