@@ -20,7 +20,7 @@ app.get("/applicants", function(req, res) {
     "skills": ["Pentaho", "Ruby on Rails", "Javascript"]
   }, {
     "name": "Dave Mezzetti",
-    "score": 0.10,
+    "score": 0.30,
     "currentEntity": "Data Works Inc.",
     "currentLocation": "Reston, VA",
     "skills": ["Scala", "Spark", "Tweeting"]
