@@ -1,5 +1,5 @@
 # 2016 Internship Program
 
-Nitin Sudini
+Nitin R Sudini
 Alissa Cobb
 Dennis Huang
