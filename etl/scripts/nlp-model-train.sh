@@ -1,6 +1,6 @@
 #!/bin/bash
 
-COMMAND="java -cp `cat .classpath` -Xmx2048m applicant.nlp.ModelTrain"
+COMMAND="java -cp `cat .run` -Xmx2048m applicant.nlp.ModelTrain"
 
 TRAINING=model/resumes-nlp.train
 
