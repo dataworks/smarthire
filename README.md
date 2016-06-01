@@ -2,6 +2,6 @@
 
 Nitin R Sudini
 Alissa M Cobb
-Dennis Huang--testing
+Dennis Huang
 Brantley Gilbert
 William Goubeaux
