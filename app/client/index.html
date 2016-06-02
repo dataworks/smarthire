@@ -5,23 +5,28 @@
 	<link rel="stylesheet" href="normalize-css/normalize.css" />
 	<link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="css/app.css" />
+	<link href='https://fonts.googleapis.com/css?family=Jaldi:700' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Keania+One' rel='stylesheet' type='text/css'>
 </head>
+
 <body ng-controller="ApplicantCtrl">
+
 	<div class="container">
 
+<div class="jumbotron">
 		<div class="page-header">
-		  <h1>Pimp My Resumé</h1>
+		
+		  <h1>ResCheck</h1>
 		</div>
-
 		<ul class="nav nav-pills" ng-controller="HeaderCtrl">
 		  <li role="presentation" ng-class="{ active: isActive('/applicants')}"><a href="#/applicants">Applicants</a></li>
 		  <li role="presentation" ng-class="{ active: isActive('/search')}"><a href="#/search">Search</a></li>
 		  <li role="presentation" ng-class="{ active: isActive('/explore')}"><a href="#/explore">Explore</a></li>
 		</ul>
-
+		</div>
 		<div class="content" ng-view></div>
-
 	</div>
+
 
 	<script src="jquery/dist/jquery.min.js"></script>
 	<script src="bootstrap/dist/js/bootstrap.min.js"></script>
@@ -34,7 +39,7 @@
 	<script src="app/components/applicants/applicantService.js"></script>
 	<script src="app/components/explore/exploreController.js"></script>
 	<script src="app/components/search/searchController.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js"></script>
+
 </body>
 </html>
 </html>
