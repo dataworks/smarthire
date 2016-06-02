@@ -15,7 +15,7 @@ import org.apache.tika.parser._
 import org.apache.tika.sax.WriteOutContentHandler
 import java.io._
 
-object TikaFileParser {
+object ResumeReader {
 
   def tikaFunc (a: (String, PortableDataStream)) = {
 
@@ -31,7 +31,7 @@ object TikaFileParser {
     stream.close
 
     //Write results to file
-    val outputfile = new File("/dataworks/users/brantley/workspace/git/internship-2016/" + file.getName + ".txt")
+    val outputfile = new File("~/" + file.getName + ".txt")
     val bw = new BufferedWriter(new FileWriter(outputfile))
     bw.write(handler.toString())
     bw.close()
@@ -40,7 +40,7 @@ object TikaFileParser {
 
   def main(args: Array[String]) {
     //Parse PDF using Tika
-    val filesPath = "/dataworks/users/brantley/workspace/git/internship-2016/etl/data/resumes/pdf/*.pdf"
+    val filesPath = "/dataworks/users/william/workspace/git/internship-2016/etl/data/resumes/pdf/0a2e76a5cd1ff3c7.pdf"
     val conf = new SparkConf().setAppName("ResumeReader")
     val sc = new SparkContext(conf)
     val fileData = sc.binaryFiles(filesPath)
@@ -48,4 +48,3 @@ object TikaFileParser {
 
   }
 }
-
