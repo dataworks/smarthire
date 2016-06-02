@@ -22,9 +22,3 @@ h1 {
 ul.nav {
 	padding-top: 40px;
 }
-
-.columns {
-	-webkit-colum-count: 3;
-	-moz-colum-count: 3;
-	column-count: 3;
-}
