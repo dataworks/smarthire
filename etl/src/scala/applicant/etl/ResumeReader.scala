@@ -31,7 +31,7 @@ object TikaFileParser {
     stream.close
 
     //Write results to file
-    val outputfile = new File("TEXT_OUTPUT_HERE" + file.getName + ".txt")
+    val outputfile = new File("/dataworks/users/brantley/workspace/git/internship-2016/" + file.getName + ".txt")
     val bw = new BufferedWriter(new FileWriter(outputfile))
     bw.write(handler.toString())
     bw.close()
@@ -40,8 +40,8 @@ object TikaFileParser {
 
   def main(args: Array[String]) {
     //Parse PDF using Tika
-    val filesPath = "RESUME_PATH_HERE"
-    val conf = new SparkConf().setAppName("TikaFileParser")
+    val filesPath = "/dataworks/users/brantley/workspace/git/internship-2016/etl/data/resumes/pdf/*.pdf"
+    val conf = new SparkConf().setAppName("ResumeReader")
     val sc = new SparkContext(conf)
     val fileData = sc.binaryFiles(filesPath)
     fileData.foreach( x => tikaFunc(x))
