@@ -5,3 +5,10 @@
 .applicant-row {
   padding: 10px 0px 10px 0px;
 }
+
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+h1 { font-family: 'Metrophobic', Arial, serif; font-weight: 400; }
