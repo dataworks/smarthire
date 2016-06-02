@@ -82,7 +82,7 @@ object TextNetTrain {
         val exampleLength = 1000
 
         // Total number of training epochs
-        val numEpochs = 1
+        val numEpochs = 100
 
         // How frequently to generate samples from the network? 1000 characters / 50 tbptt length: 20 parameter updates per minibatch
         val generateSamplesEveryNMinibatches = 10
@@ -97,7 +97,7 @@ object TextNetTrain {
         val generationInitialization: String = null
 
         // Get a DataSetIterator that handles vectorization of text into something we can use to train our GravesLSTM network.
-        val iter: CharacterIterator = Characters.getIterator(options.inputFile, miniBatchSize, exampleLength)
+        var iter: CharacterIterator = Characters.getIterator(options.inputFile, miniBatchSize, exampleLength)
 
         val net = new MultiLayerNetwork(buildConf(lstmLayerSize, tbpttLength, iter))
         net.init()
@@ -137,8 +137,8 @@ object TextNetTrain {
                 }
             }
 
-            // Reset iterator for another epoch
-            iter.reset()
+            // Recreate iterator for another epoch
+            iter = Characters.getIterator(options.inputFile, miniBatchSize, exampleLength)
         }
 
         log.info("Training complete")
