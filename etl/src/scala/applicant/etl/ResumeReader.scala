@@ -6,6 +6,9 @@ Spark job w/ Scala
 Takes a PDF and uses Apache Tika
 to parse out text and write to text file
 ************************************/
+
+package applicant.etl
+
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkContext._
 import org.apache.spark.SparkConf
@@ -30,18 +33,30 @@ object ResumeReader {
 
     stream.close
 
+    println(handler.toString())
+    println("---------------------------------------------")
+    /*
     //Write results to file
-    val outputfile = new File("~/" + file.getName + ".txt")
+    val outputfile = new File("~/")
     val bw = new BufferedWriter(new FileWriter(outputfile))
     bw.write(handler.toString())
     bw.close()
+    */
   }
 
 
   def main(args: Array[String]) {
+
+    if (args.length < 1) {
+      System.err.println("Improper command line arguments")
+      System.exit(1)
+    }
+
+    var directory = args(0)
+
     //Parse PDF using Tika
-    val filesPath = "/dataworks/users/william/workspace/git/internship-2016/etl/data/resumes/pdf/0a2e76a5cd1ff3c7.pdf"
-    val conf = new SparkConf().setAppName("ResumeReader")
+    val filesPath = "file:///" + directory + "*"
+    val conf = new SparkConf().setMaster("local[*]").setAppName("ResumeReader")
     val sc = new SparkContext(conf)
     val fileData = sc.binaryFiles(filesPath)
     fileData.foreach( x => tikaFunc(x))
