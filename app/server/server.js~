@@ -20,7 +20,11 @@ app.get("/applicants", function(req, res) {
     "skills": ["Pentaho", "Ruby on Rails", "Javascript"]
   }, {
     "name": "Dave Mezzetti",
+<<<<<<< HEAD
     "score": 0.40,
+=======
+    "score": 0.99,
+>>>>>>> ee9cc2eb70b1b338cc80cca61cbc09643fed29d8
     "currentEntity": "Data Works Inc.",
     "currentLocation": "Reston, VA",
     "skills": ["Scala", "Spark", "Tweeting"]
@@ -47,6 +51,10 @@ var server = app.listen(8082, function () {
   var host = server.address().address
   var port = server.address().port
 
+<<<<<<< HEAD
   console.log("Example app listening at http://%s:%s", host, port)
+=======
+  console.log("App listening at http://%s:%s", host, port)
+>>>>>>> ee9cc2eb70b1b338cc80cca61cbc09643fed29d8
 
 })

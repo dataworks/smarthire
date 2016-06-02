@@ -24,6 +24,12 @@ app.get("/applicants", function(req, res) {
     "currentEntity": "Data Works Inc.",
     "currentLocation": "Reston, VA",
     "skills": ["Scala", "Spark", "Tweeting"]
+  }, {
+    "name": "Dennis Schweitzer",
+    "score": 0.58,
+    "currentEntity": "Data Works Inc.",
+    "currentLocation": "Reston, VA",
+    "skills": ["Pentaho", "Ruby on Rails", "Javascript"]
   }]);
 });
 
