@@ -20,16 +20,10 @@ app.get("/applicants", function(req, res) {
     "skills": ["Pentaho", "Ruby on Rails", "Javascript"]
   }, {
     "name": "Dave Mezzetti",
-    "score": 0.30,
+    "score": 0.99,
     "currentEntity": "Data Works Inc.",
     "currentLocation": "Reston, VA",
     "skills": ["Scala", "Spark", "Tweeting"]
-  }, {
-    "name": "Dennis Schweitzer",
-    "score": 0.58,
-    "currentEntity": "Data Works Inc.",
-    "currentLocation": "Reston, VA",
-    "skills": ["Pentaho", "Ruby on Rails", "Javascript"]
   }]);
 });
 
