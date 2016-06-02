@@ -13,5 +13,6 @@ body {
 
 h1 { 
 	font-family: 'Keania One', cursive;
-	font-weight: 400; 
+	font-weight: 400;
+	padding-top: 50px;
 }
