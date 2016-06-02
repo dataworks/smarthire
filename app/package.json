@@ -20,7 +20,7 @@
   "devDependencies": {},
   "scripts": {
     "start": "node server/server.js",
-    "test": "./node_modules/.bin/mocha --reporter spec"
+    "test": "./node_modules/.bin/mocha --reporter mocha-tap-reporter"
   },
   "repository": {
     "type": "git",
