@@ -27,5 +27,6 @@ libraryDependencies ++= Seq(
     "org.apache.spark" %% "spark-core" % "1.6.1",
     "org.apache.spark" % "spark-mllib_2.10" % "1.6.1",
     "org.apache.tika" % "tika-core" % "1.13",
-    "org.apache.tika" % "tika-parsers" % "1.13"
+    "org.apache.tika" % "tika-parsers" % "1.13",
+    "org.apache.hadoop" % "hadoop-client" % "2.7.2"
 )
