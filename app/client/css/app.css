@@ -7,6 +7,14 @@
   /*outline: 1px solid black;*/
 }
 
+.jumbotron {
+  margin-top: 30px;
+}
+
+.navbar-default {
+  background-color: #00A6F6;
+}
+
 body {
   padding-top: 50px;
   padding-bottom: 20px;
@@ -21,12 +29,8 @@ h1 {
 	font-family: 'Keania One', cursive;
 	font-weight: 400; 
 	position: absolute;
-	top: 40px;
+	top: 90px;
 
-}
-
-ul.nav {
-	padding-top: 40px;
 }
 
 /*.md-button.md-fab {
