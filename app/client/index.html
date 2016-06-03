@@ -2,11 +2,13 @@
 <html lang="en" ng-app="applicantApp">
 <head>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<link rel="stylesheet" href="normalize-css/normalize.css" />
 	<link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="css/app.css" />
 	<link href='https://fonts.googleapis.com/css?family=Jaldi:700' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Original+Surfer' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="angular-material/angular-material.min.css">
 
 	<!-- header code needed for fixed nav bar -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -83,7 +85,8 @@ window.onload = function(){
               <ul class="dropdown-menu">
                 <li><a href="#">Location</a></li>
                 <li><a href="#">Graphs</a></li>
-                <li><a href="#">Positions</a></li>
+                <li><a href="#">Favorites</a></li>
+                <li><a href="#">Archive</a></li>
                 <li role="separator" class="divider"></li>
                 <li class="dropdown-header">Additional Weblinks</li>
                 <li><a href="http://www.indeed.com/">Indeed</a></li>
@@ -135,15 +138,16 @@ window.onload = function(){
 	<!--footer-->
 	<div class="footer">
 		<a href="http://www.dataworks-inc.com">
-			<img src="https://dataworks-inc.com/wp-content/themes/dtw/assets/img/logo.png" alt ="logo" align="right">
+			<img src="https://dataworks-inc.com/wp-content/themes/dtw/assets/img/logo.png" alt ="logo" align="center">
 		</a>
 	</div>
 
 	<script src="jquery/dist/jquery.min.js"></script>
 	<script src="bootstrap/dist/js/bootstrap.min.js"></script>
 	<script src="angular/angular.min.js"></script>
-  <script src="angular-resource/angular-resource.min.js"></script>
-  <script src="angular-route/angular-route.min.js"></script>
+  	<script src="angular-resource/angular-resource.min.js"></script>
+ 	<script src="angular-route/angular-route.min.js"></script>
+ 	<script src="angular-material/angular-material.min.js"></script>
 	<script src="app/app.js"></script>
 	<script src="app/components/header/headerController.js"></script>
 	<script src="app/components/applicants/applicantController.js"></script>
