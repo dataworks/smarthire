@@ -9,6 +9,7 @@ import org.apache.tika.parser._
 import org.apache.tika.sax.WriteOutContentHandler
 import java.io._
 import scopt.OptionParser
+import org.elasticsearch.spark._
 
 /**
  *@author Brantley Gilbert
@@ -63,8 +64,17 @@ object ResumeReader {
   def parseResumes(options: Command) {
     //File path from the command line, uses wildcard to open all files
     val filesPath = options.sourceDirectory + "*"
-    //Create Spark configuration object, need to add Elasticsearch elements
-    val conf = new SparkConf().setMaster(options.sparkMaster).setAppName("ResumeReader")
+    //Create Spark configuration object, with Elasticsearch configuration
+    val conf = new SparkConf().setMaster(options.sparkMaster).setAppName("ResumeReader").set("es.index.auto.create", "true").set("es.nodes", "172.31.61.189").set("es.port", "9201").set("es.http.timeout", "5m").set("es.scroll.size", "50")
+
+    /*
+      The internal hostname is ip-172-31-61-189.ec2.internal (172.31.61.189).  Internally the REST API is available on port 9200 and the native transport runs on port 9300.
+    */
+    /*
+      val sparkconf = new SparkConf().setAppName(“ElasticSearch”).setMaster(“local”).set(“es.index.auto.create”, “true”).set(“es.nodes”, “192.168.56.102”).set(“es.port”,”9201″).set(“es.http.timeout”,”5m”).set(“es.scroll.size”,”50″)
+      val sc = new SparkContext(sparkconf)
+    */
+
     //Create Spark RDD using conf
     val sc = new SparkContext(conf)
     //Create a key-value pair RDD of files within resume directory
