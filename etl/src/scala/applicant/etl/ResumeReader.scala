@@ -8,6 +8,7 @@ import org.apache.tika.metadata._
 import org.apache.tika.parser._
 import org.apache.tika.sax.WriteOutContentHandler
 import java.io._
+import scopt.OptionParser
 
 /**
  *@author Brantley Gilbert
@@ -17,6 +18,10 @@ import java.io._
  */
 
 object ResumeReader {
+
+  //Class to store command line options
+  case class Command(sourceDirectory: String = "", sparkMaster: String = "")
+
   /**
    * Uses Apache Tika library to parse out text from a PDF
    *
@@ -52,32 +57,14 @@ object ResumeReader {
 
   }
 
-
-  def main(args: Array[String]) {
-
-    /**
-     * Main method
-     * <p>
-     * Spark job to read all PDF files in a directory and use
-     * Apache Tika to parse out the text.  Needed to extract
-     * usable text from PDF resumes
-     * <p>
-     *
-     * @param args Array of Strings: <Resume Directory> <Spark Master>
-     */
-    if (args.length < 2) {
-      System.err.println("Improper command line arguments.")
-      System.err.println("Usage: ResumeReader <Resume Directory> <Spark Master>")
-      System.exit(1)
-    }
-
-    var directory = args(0)
-    var spark_master = args(1)
-
-    //File path, uses local directory now, can change for HFDS-S3
-    val filesPath = "file:///" + directory + "*"
+  /**
+   * Will itialize the spark objects and pass off files to tika
+   */
+  def parseResumes(options: Command) {
+    //File path from the command line, uses wildcard to open all files
+    val filesPath = options.sourceDirectory + "*"
     //Create Spark configuration object, need to add Elasticsearch elements
-    val conf = new SparkConf().setMaster(spark_master).setAppName("ResumeReader")
+    val conf = new SparkConf().setMaster(options.sparkMaster).setAppName("ResumeReader")
     //Create Spark RDD using conf
     val sc = new SparkContext(conf)
     //Create a key-value pair RDD of files within resume directory
@@ -86,5 +73,43 @@ object ResumeReader {
     //Sends value of each key-value pair (PortableDataStream)
     // to extractText function
     fileData.values.foreach( x => extractText(x))
+    sc.stop()
+  }
+
+  def main(args: Array[String]) {
+
+  /**
+   * Main method
+   * <p>
+   * Spark job to read all PDF files in a directory and use
+   * Apache Tika to parse out the text.  Needed to extract
+   * usable text from PDF resumes
+   * <p>
+   *
+   * @param args Array of Strings: <Resume Directory> <Spark Master>
+   */
+
+    //Command line option parser
+    val parser = new OptionParser[Command]("ResumeReader") {
+        opt[String]('d', "directory") required() valueName("<directory>") action { (x, c) =>
+            c.copy(sourceDirectory = x)
+        } text ("Path to resumes")
+        opt[String]('m', "master") required() valueName("<master>") action { (x, c) =>
+            c.copy(sparkMaster = x)
+        } text ("Spark master argument.")
+
+        note ("Reades through a directory of resumes and parses the text from each.\n")
+        help("help") text("Prints this usage text")
+    }
+
+    // Parses command line arguments and passes them to the search
+    parser.parse(args, Command()) match {
+        //If the command line options were all present continue
+        case Some(options) =>
+            //Read all of the files in sourceDirectory and use Tika to grab the text from each
+            parseResumes(options)
+        //Elsewise, just exit
+        case None =>
+    }
   }
 }

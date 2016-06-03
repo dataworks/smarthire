@@ -15,6 +15,8 @@
 
 .navbar-default {
   background-color: #00A6F6;
+  font-family: 'Gurajada', serif;
+  font-size: 175%;
 }
 
 .nav.navbar-nav li a {
@@ -26,7 +28,14 @@
 
 .dropdown-menu li a{
   color: black !important;
-  font-size: 100% !important;
+  font-size: 125% !important;
+  font-family: 'Alegreya', serif !important;
+}
+
+.dropdown-header li a{
+  color: black !important;
+  font-size: 500% !important;
+  font-family: 'Alegreya', serif !important;
 }
 
 body {
@@ -34,6 +43,7 @@ body {
   padding-bottom: 0px;
 }
 
+<<<<<<< HEAD
 
 #dw {
 	position: relative;
@@ -43,6 +53,8 @@ body {
   width: 180px;
 }
 
+=======
+>>>>>>> b7c3b7f10860a98a982a366bb3e727581d9bd018
 h1 { 
 	font-family: 'Original Surfer', cursive;
 	font-weight: 400; 
@@ -55,7 +67,7 @@ h1 {
 .footer {
   position: relative;
   margin-bottom: 0;
-  height: 250px;
+  height: 110px;
   background-color: #E0E0E0;
   font-size: 14px;
 }
@@ -64,6 +76,14 @@ h1 {
   position: absolute;
   bottom: 0;
   right: 42.25%;
+}
+
+.footer img {
+  position: relative;
+  bottom: -25px;
+  left: 660px;
+  height: 30px;
+  width: 180px;
 }
 
 #tfheader{
