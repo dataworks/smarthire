@@ -28,7 +28,7 @@ object ResumeReader {
    *
    *@param data A PortableDataStream from Spark of a PDF file
    */
-  def extractText (data: PortableDataStream) = {
+  def extractText (data: PortableDataStream) : String = {
 
     // Apache Tika parser object, auto detects file type
     val myparser : AutoDetectParser = new AutoDetectParser()
@@ -56,6 +56,7 @@ object ResumeReader {
     println(handler.toString())
     println("---------------------------------------------")
 
+    return handler.toString()
   }
 
   /**
