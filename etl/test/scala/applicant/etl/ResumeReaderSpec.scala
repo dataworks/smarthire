@@ -21,12 +21,11 @@ class ResumeReaderSpec extends FlatSpec {
      */
     "Resume Parser" should "parse a PDF file and return plain text" in {
 
-
     val conf = new SparkConf().setMaster("local[*]").setAppName("ResumeReaderSpec")
     val sc = new SparkContext(conf)
-    val fileData = sc.binaryFiles()
+    val fileData = sc.binaryFiles("*")
 
-    resumeRead.extractText(fileData.values) shouldBe a [String]
+    ResumeReader.extractText(fileData.values) shouldBe a [String]
     sc.stop()
 
     }
