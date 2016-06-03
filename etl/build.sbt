@@ -25,5 +25,7 @@ libraryDependencies ++= Seq(
     "org.nd4j" % "nd4j-native" % "0.4-rc3.9" classifier "" classifier "linux-x86_64",
     "org.scalatest" % "scalatest_2.10" % "2.2.6" % "test",
     "org.apache.tika" % "tika-core" % "1.13",
-    "org.apache.tika" % "tika-parsers" % "1.13"
+    "org.apache.tika" % "tika-parsers" % "1.13",
+    "org.elasticsearch" % "elasticsearch-hadoop" % "2.3.2",
+    "org.elasticsearch" % "elasticsearch-spark_2.10" % "2.3.2"
 )
