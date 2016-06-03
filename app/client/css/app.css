@@ -21,12 +21,8 @@ h1 {
 	font-family: 'Keania One', cursive;
 	font-weight: 400; 
 	position: absolute;
-	top: 40px;
+	top: 70px;
 
-}
-
-ul.nav {
-	padding-top: 40px;
 }
 
 /*.md-button.md-fab {
