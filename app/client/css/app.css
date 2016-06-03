@@ -26,6 +26,7 @@
 
 .dropdown-menu li a{
   color: black !important;
+  font-size: 100% !important;
 }
 
 body {
