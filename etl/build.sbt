@@ -15,6 +15,9 @@ scalaSource in Test := baseDirectory.value / "test"
 // Needed for JavaCPP
 classpathTypes += "maven-plugin"
 
+resolvers += "clojars" at "https://clojars.org/repo"
+resolvers += "conjars" at "http://conjars.org/repo"
+
 libraryDependencies ++= Seq(
     "com.github.scopt" %% "scopt" % "3.4.0",
     "net.sourceforge.htmlcleaner" % "htmlcleaner" % "2.16",
