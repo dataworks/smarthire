@@ -32,9 +32,9 @@
   font-family: 'Alegreya', serif !important;
 }
 
-.dropdown-header li a{
+.dropdown-header {
   color: black !important;
-  font-size: 500% !important;
+  font-size: 150% !important;
   font-family: 'Alegreya', serif !important;
 }
 
@@ -49,6 +49,7 @@ body {
   left: 525px;
   height: 30px;
   width: 180px;
+
 }
 
 h1 { 
