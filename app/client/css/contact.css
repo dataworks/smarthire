@@ -13,6 +13,7 @@
   background-color: #CCFF90;
 }*/
 
+
 .navbar-default {
   background-color: #00A6F6;
   font-family: 'Gurajada', serif;
@@ -85,14 +86,22 @@ body {
   width: 50px;
 }
 
+<<<<<<< HEAD
+/*h1 { 
+=======
 h1 { 
+>>>>>>> c4d5a3d47e7d7a6047e17b2b937bb103a7a6bbd0
 	font-family: 'Original Surfer', cursive;
 	font-weight: 400; 
 	position: absolute;
 	top: 105px;
 	font-color: #B71C1C;
 
+<<<<<<< HEAD
+}*/
+=======
 }
+>>>>>>> c4d5a3d47e7d7a6047e17b2b937bb103a7a6bbd0
 
 .footer {
   position: absolute;
@@ -154,6 +163,9 @@ h1 {
   }
   .tfclear{
     clear:both;
+<<<<<<< HEAD
+  }
+=======
   }
 
 /*.md-button.md-fab {
@@ -163,3 +175,4 @@ h1 {
   height: 5.6rem;
   border-radius: 50%;
 }*/
+>>>>>>> c4d5a3d47e7d7a6047e17b2b937bb103a7a6bbd0
