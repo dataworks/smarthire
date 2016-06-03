@@ -7,6 +7,7 @@ import org.apache.spark.input.PortableDataStream
 import org.scalatest.FlatSpec
 import org.scalatest.MustMatchers._
 import org.scalatest.PrivateMethodTester._
+import applicant.etl.ResumeReader
 
 /**
  *@author Brantley Gilbert
@@ -24,7 +25,7 @@ class ResumeReaderSpec extends FlatSpec {
     val sc = new SparkContext(conf)
     val fileData = sc.binaryFiles("*")
 
-    extractText(fileData.values) shouldBe a [String]
+    ResumeReader.extractText(fileData.values) shouldBe a [String]
     sc.stop()
 
     }
