@@ -26,7 +26,7 @@ describe("Applicant Server", function() {
           expect(response.statusCode).to.equal(200);
 
           var data = JSON.parse(body);
-          expect(data).to.have.length(4);
+          expect(data).to.have.length(3);
           expect(data[0].name).to.equal('Joe Schweitzer');
 
           done();
