@@ -20,17 +20,21 @@ import java.io._
 
 object ResumeReader {
 
-  def tikaFunc (a: PortableDataStream) = {
+  def extractText (a: PortableDataStream) = {
 
     //val file : File = new File(a._1.drop(5))
     val myparser : AutoDetectParser = new AutoDetectParser()
-    val stream : InputStream = new DataInputStream(a.open())
+    val stream : InputStream = a.open()
     val handler : WriteOutContentHandler = new WriteOutContentHandler(-1)
     val metadata : Metadata = new Metadata()
     val context : ParseContext = new ParseContext()
-    myparser.parse(stream, handler, metadata, context)
 
-    stream.close
+    try {
+      myparser.parse(stream, handler, metadata, context)
+    }
+    finally {
+      stream.close
+    }
 
     println(handler.toString())
     println("---------------------------------------------")
@@ -41,7 +45,7 @@ object ResumeReader {
   def main(args: Array[String]) {
 
     if (args.length < 2) {
-      System.err.println("Imporper command line arguments.")
+      System.err.println("Improper command line arguments.")
       System.err.println("Usage: ResumeReader <Resume Directory> <Spark Master>")
       System.exit(1)
     }
@@ -54,6 +58,6 @@ object ResumeReader {
     val conf = new SparkConf().setMaster(spark_master).setAppName("ResumeReader")
     val sc = new SparkContext(conf)
     val fileData = sc.binaryFiles(filesPath)
-    fileData.values.foreach( x => tikaFunc(x))
+    fileData.values.foreach( x => extractText(x))
   }
 }
