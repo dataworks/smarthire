@@ -79,7 +79,8 @@ object ResumeReader {
     val fileData = sc.binaryFiles(filesPath)
     //Sends value of each key-value pair (PortableDataStream)
     // to extractText function
-    fileData.values.foreach( x => extractText(x))
+    println(fileData.values)
+    //fileData.values.foreach( x => Map("text" -> extractText(x))).saveToEs("resume_raw_text/resume")
     sc.stop()
   }
 
