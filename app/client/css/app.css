@@ -43,18 +43,47 @@ body {
   padding-bottom: 0px;
 }
 
-<<<<<<< HEAD
 
 #dw {
-	position: relative;
-	bottom: -125px;
-  left: 525px;
+	position: absolute;
+	bottom: 35px;
+  left: 42.75%;
   height: 30px;
   width: 180px;
 }
 
-=======
->>>>>>> b7c3b7f10860a98a982a366bb3e727581d9bd018
+#fb {
+  position: absolute;
+  bottom: 55px;
+  right: 0px;
+  height: 50px;
+  width: 50px;
+}
+
+#tw {
+  position: absolute;
+  bottom: 55px;
+  right: 50px;
+  height: 50px;
+  width: 50px;
+}
+
+#gt {
+  position: absolute;
+  bottom: 55px;
+  right: 100px;
+  height: 50px;
+  width: 50px;
+}
+
+#li {
+  position: absolute;
+  bottom: 55px;
+  right: 150px;
+  height: 50px;
+  width: 50px;
+}
+
 h1 { 
 	font-family: 'Original Surfer', cursive;
 	font-weight: 400; 
@@ -76,14 +105,6 @@ h1 {
   position: absolute;
   bottom: 0;
   right: 42.25%;
-}
-
-.footer img {
-  position: relative;
-  bottom: -25px;
-  left: 660px;
-  height: 30px;
-  width: 180px;
 }
 
 #tfheader{
