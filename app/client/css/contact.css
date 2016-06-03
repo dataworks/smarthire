@@ -86,6 +86,21 @@ body {
   width: 50px;
 }
 
+
+/*h1 { 
+=======
+h1 { 
+>>>>>>> c4d5a3d47e7d7a6047e17b2b937bb103a7a6bbd0
+	font-family: 'Original Surfer', cursive;
+	font-weight: 400; 
+	position: absolute;
+	top: 105px;
+	font-color: #B71C1C;
+
+<<<<<<< HEAD
+}*/
+
+
 .footer {
   position: absolute;
   height: 110px;
@@ -147,3 +162,4 @@ body {
   .tfclear{
     clear:both;
   }
+
