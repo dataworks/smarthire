@@ -43,8 +43,6 @@ body {
   padding-bottom: 0px;
 }
 
-<<<<<<< HEAD
-
 #dw {
 	position: relative;
 	bottom: -125px;
@@ -53,8 +51,6 @@ body {
   width: 180px;
 }
 
-=======
->>>>>>> b7c3b7f10860a98a982a366bb3e727581d9bd018
 h1 { 
 	font-family: 'Original Surfer', cursive;
 	font-weight: 400; 
@@ -87,7 +83,7 @@ h1 {
 }
 
 #tfheader{
-    background-color:#OOA6F6;
+    background-color: #OOA6F6;
   }
   #tfnewsearch{
     float:right;
