@@ -11,6 +11,10 @@
   margin-top: 30px;
 }
 
+.navbar-default {
+  background-color: #00A6F6;
+}
+
 body {
   padding-top: 50px;
   padding-bottom: 20px;
