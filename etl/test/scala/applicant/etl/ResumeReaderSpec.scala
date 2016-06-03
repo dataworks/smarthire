@@ -24,7 +24,7 @@ class ResumeReaderSpec extends FlatSpec {
     val sc = new SparkContext(conf)
     val fileData = sc.binaryFiles("*")
 
-    resumeRead.extractText(fileData.values) shouldBe a [String]
+    extractText(fileData.values) shouldBe a [String]
     sc.stop()
 
     }
