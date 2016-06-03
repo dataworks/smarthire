@@ -87,8 +87,7 @@ body {
 }
 
 .footer {
-  position: relative;
-  margin-bottom: 0;
+  position: absolute;
   height: 110px;
   background-color: #E0E0E0;
   font-size: 14px;
@@ -148,12 +147,4 @@ body {
   .tfclear{
     clear:both;
   }
-  
 
-/*.md-button.md-fab {
-  line-height: 5.6rem;
-  min-width: 0;
-  width: 5.6rem;
-  height: 5.6rem;
-  border-radius: 50%;
-}*/
