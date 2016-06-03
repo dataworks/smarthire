@@ -101,15 +101,16 @@ h1 {
 }*/
 
 
-.footer {
-  position: relative;
-  margin-bottom: 0;
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%; 
   height: 110px;
   background-color: #E0E0E0;
   font-size: 14px;
 }
 
-.footer > p {
+footer > p {
   position: absolute;
   bottom: 0;
   right: 42.25%;
