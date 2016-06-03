@@ -36,7 +36,10 @@ body {
 
 img {
 	position: relative;
-	bottom: -25px;
+	bottom: -175px;
+  left: 660px;
+  height: 30px;
+  width: 180px;
 }
 
 h1 { 
@@ -53,6 +56,13 @@ h1 {
   margin-bottom: 0;
   height: 250px;
   background-color: #E0E0E0;
+  font-size: 14px;
+}
+
+.footer > p {
+  position: absolute;
+  bottom: 0;
+  right: 42.25%;
 }
 
 #tfheader{
