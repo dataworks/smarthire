@@ -1,7 +1,7 @@
 var applicantApp = angular.module('applicantApp', [
   'ngRoute',
   'applicantControllers',
-  'applicantServices'
+  'applicantServices',
 ]);
 
 var applicantControllers = angular.module('applicantControllers', []);
