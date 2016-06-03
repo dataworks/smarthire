@@ -32,9 +32,9 @@
   font-family: 'Alegreya', serif !important;
 }
 
-.dropdown-header li a{
+.dropdown-header {
   color: black !important;
-  font-size: 500% !important;
+  font-size: 150% !important;
   font-family: 'Alegreya', serif !important;
 }
 
@@ -50,8 +50,10 @@ body {
   left: 42.75%;
   height: 30px;
   width: 180px;
+
 }
 
+<<<<<<< HEAD
 #fb {
   position: absolute;
   bottom: 55px;
@@ -108,7 +110,7 @@ h1 {
 }
 
 #tfheader{
-    background-color:#OOA6F6;
+    background-color: #OOA6F6;
   }
   #tfnewsearch{
     float:right;
