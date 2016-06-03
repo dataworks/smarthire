@@ -86,7 +86,7 @@ body {
   width: 50px;
 }
 
-<<<<<<< HEAD
+
 /*h1 { 
 =======
 h1 { 
@@ -99,9 +99,7 @@ h1 {
 
 <<<<<<< HEAD
 }*/
-=======
-}
->>>>>>> c4d5a3d47e7d7a6047e17b2b937bb103a7a6bbd0
+
 
 .footer {
   position: relative;
@@ -164,10 +162,8 @@ h1 {
   }
   .tfclear{
     clear:both;
-<<<<<<< HEAD
   }
-=======
-  }
+  
 
 /*.md-button.md-fab {
   line-height: 5.6rem;
@@ -176,4 +172,3 @@ h1 {
   height: 5.6rem;
   border-radius: 50%;
 }*/
->>>>>>> c4d5a3d47e7d7a6047e17b2b937bb103a7a6bbd0
