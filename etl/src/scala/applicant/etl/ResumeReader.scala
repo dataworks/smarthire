@@ -47,16 +47,18 @@ object ResumeReader {
 
   def main(args: Array[String]) {
 
-    if (args.length < 1) {
-      System.err.println("Improper command line arguments")
+    if (args.length < 2) {
+      System.err.println("Imporper command line arguments.")
+      System.err.println("Usage: ResumeReader <Resume Directory> <Spark Master>")
       System.exit(1)
     }
 
     var directory = args(0)
+    var spark_master = args(1)
 
     //Parse PDF using Tika
     val filesPath = "file:///" + directory + "*"
-    val conf = new SparkConf().setMaster("local[*]").setAppName("ResumeReader")
+    val conf = new SparkConf().setMaster(spark_master).setAppName("ResumeReader")
     val sc = new SparkContext(conf)
     val fileData = sc.binaryFiles(filesPath)
     fileData.foreach( x => tikaFunc(x))

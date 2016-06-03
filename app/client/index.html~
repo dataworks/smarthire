@@ -74,8 +74,13 @@
           <!-- <ul class="nav navbar-nav navbar-right">
             <li><a href="../navbar/">Default</a></li>
             <li><a href="../navbar-static-top/">Static top</a></li>
-            <li class=""><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>
+<<<<<<< HEAD
+            <li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>
           </ul> -->
+=======
+            <li class=""><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>
+          </ul>
+>>>>>>> fcec273e34eb6c6f42f293486c9084d51e9d5144
         </div><!--/.nav-collapse -->
       </div>
     </nav>
