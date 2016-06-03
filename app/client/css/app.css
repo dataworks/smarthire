@@ -35,10 +35,10 @@ body {
 }
 
 
-img {
+#dw {
 	position: relative;
-	bottom: -175px;
-  left: 660px;
+	bottom: -125px;
+  left: 525px;
   height: 30px;
   width: 180px;
 }
