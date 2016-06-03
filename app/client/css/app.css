@@ -45,6 +45,13 @@ h1 {
 
 }
 
+.footer {
+  position: relative;
+  margin-bottom: 0;
+  height: 300px;
+  background-color: #F6F7F8;
+}
+
 #tfheader{
     background-color:#OOA6F6;
   }
