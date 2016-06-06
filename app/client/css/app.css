@@ -47,7 +47,9 @@
 .navbar-header >p{
   color: white;
   font-size: 175%;
-  margin-top: 0.5%;
+  margin-top: 2%;
+  padding-right: 30%;
+  font-weight: bold;
 }
 
 .nav.navbar-nav li a {
@@ -166,7 +168,8 @@ footer {
   }
   #tfnewsearch{
     float:right;
-    padding: 3%;
+    padding:20px;
+    margin-top: -5px;
   }
   .tftextinput2{
     margin: 0;
@@ -203,6 +206,13 @@ footer {
   .tfclear{
     clear:both;
   }
+
+@media (max-width: 768px) {
+  #tfnewsearch{
+    float: left;
+    margin-left: -1%;
+  }
+}
 
 /*.md-button.md-fab {
   line-height: 5.6rem;
