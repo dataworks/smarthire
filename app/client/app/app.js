@@ -7,32 +7,32 @@ var applicantApp = angular.module('applicantApp', [
 var applicantControllers = angular.module('applicantControllers', []);
 var applicantServices = angular.module('applicantServices', ['ngResource']);
 
-applicantApp.config(['$routeProvider', //'$locationProvider',
-  function($routeProvider/*, $locationProvider*/) {
+applicantApp.config(['$routeProvider', '$locationProvider',
+  function($routeProvider, $locationProvider) {
     $routeProvider.
-      when('/applicants', {
+      when('/service/applicants', {
         templateUrl: 'app/components/applicants/applicantView.html',
         controller: 'ApplicantCtrl'
       }).
-      when('/search', {
+      when('/service/search', {
         templateUrl: 'app/components/search/searchView.html',
         controller: 'SearchCtrl'
       }).
-      when('/explore', {
+      when('/service/explore', {
         templateUrl: 'app/components/explore/exploreView.html',
         controller: 'ExploreCtrl'
       }).
-      when('/about', {
+      when('/service/about', {
         templateUrl: 'app/components/about/aboutView.html',
         controller: 'AboutCtrl'
       }).
-      when('/contact', {
+      when('/service/contact', {
         templateUrl: 'app/components/contact/contactView.html',
         controller: 'ContactCtrl'
       }).
       otherwise({
-        redirectTo: '/applicants'
+        redirectTo: '/service/applicants'
       });
 
-    // $locationProvider.html5Mode(true);
+    $locationProvider.html5Mode(true);
   }]);

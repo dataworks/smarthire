@@ -49,6 +49,11 @@ app.get("/search", function(req, res) {
   });
 });
 
+//HTML5 mode
+app.all('/*', function(req, res) {
+  res.sendFile('index.html', {root: __dirname + "/../client/"});
+});
+
 var server = app.listen(8082, function () {
   var host = server.address().address
   var port = server.address().port
