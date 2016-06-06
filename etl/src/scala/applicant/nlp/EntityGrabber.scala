@@ -12,19 +12,14 @@ import scala.collection.JavaConversions._
 import scala.collection.mutable.{ListBuffer, Map}
 import scala.io.Source
 
-import scopt.OptionParser
-
 /**
  * Uses entity models to parse information from a resume text string
  *
- * @param modelFiles comma separated paths to NLP model binaryFiles
+ * @param modelFiles a list of string paths to NLP models
  * @param patterns a path to a file containing regular expression files
  */
-class EntityGrabber(modelFiles: String, patterns: String) {
+class EntityGrabber(models: List[String], patterns: String) {
     //Initialization
-    //grab the names out of the modelFiles string
-    val models = modelFiles.split(",")
-
     // Load trained models to tag
     var nameFinders = new Array[TokenNameFinder](models.length)
     for (x <- 0 until nameFinders.length) {
