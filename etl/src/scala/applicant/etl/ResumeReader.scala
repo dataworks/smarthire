@@ -66,7 +66,7 @@ object ResumeReader {
     //File path from the command line, uses wildcard to open all files
     val filesPath = options.sourceDirectory + "*"
     //Create Spark configuration object, with Elasticsearch configuration
-    val conf = new SparkConf().setMaster(options.sparkMaster).setAppName("ResumeReader").set("es.nodes", "172.31.61.189").set("es.port", "9201")
+    val conf = new SparkConf().setMaster(options.sparkMaster).setAppName("ResumeReader").set("es.nodes", "172.31.61.189").set("es.port", "9200")
 
     /*
       The internal hostname is ip-172-31-61-189.ec2.internal (172.31.61.189).  Internally the REST API is available on port 9200 and the native transport runs on port 9300.
@@ -80,7 +80,7 @@ object ResumeReader {
     //Sends value of each key-value pair (PortableDataStream)
     // to extractText function
     println(fileData.values)
-    //fileData.values.foreach( x => Map("text" -> extractText(x))).saveToEs("resume_raw_text/resume")
+    fileData.values.map( x => Map("text" -> extractText(x))).saveToEs("resume_raw_text/resume")
     sc.stop()
   }
 
