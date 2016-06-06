@@ -1,4 +1,4 @@
-applicantControllers.controller('AboutCtrl', ['$scope', 'Applicant',
-  function ($scope, Applicant) {
-    //$scope.applicants = Applicant.query();
+applicantControllers.controller('AboutCtrl', ['$scope',
+  function ($scope) {
+ 
   }]);
