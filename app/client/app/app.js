@@ -7,8 +7,8 @@ var applicantApp = angular.module('applicantApp', [
 var applicantControllers = angular.module('applicantControllers', []);
 var applicantServices = angular.module('applicantServices', ['ngResource']);
 
-applicantApp.config(['$routeProvider',
-  function($routeProvider) {
+applicantApp.config(['$routeProvider', '$locationProvider',
+  function($routeProvider, $locationProvider) {
     $routeProvider.
       when('/applicants', {
         templateUrl: 'app/components/applicants/applicantView.html',
@@ -33,4 +33,6 @@ applicantApp.config(['$routeProvider',
       otherwise({
         redirectTo: '/applicants'
       });
+
+    $locationProvider.html5Mode(true);
   }]);
