@@ -1,15 +1,17 @@
+/*62.5% = 10px*/
+
 .content {
-  padding-top: 10px;
-  padding-bottom: 30px
+  padding-top: 62.5%;
+  padding-bottom: 187.5%;
 }
 
 .applicant-row {
-  padding: 0px 0px 10px 0px;
+  padding: 0% 0% 62.5% 0%;
   /*outline: 1px solid black;*/
 }
 
 .jumbotron {
-  margin-top: 100px;
+  margin-top: 625%;
   background-color: #CCFF90;
 }
 
@@ -27,6 +29,7 @@
 
 .narbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover{
   background-color: #8BC34A; 
+
 }
 
 p{
