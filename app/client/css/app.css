@@ -1,17 +1,15 @@
-/*62.5% = 10px*/
-
 .content {
-  padding-top: 62.5%;
-  padding-bottom: 187.5%;
+  padding-top: 0%;
+  padding-bottom: 10%;
 }
 
 .applicant-row {
-  padding: 0% 0% 62.5% 0%;
+  padding: 0px 0px 10px 0px;
   /*outline: 1px solid black;*/
 }
 
 .jumbotron {
-  margin-top: 625%;
+  margin-top: 100px;
   background-color: #CCFF90;
 }
 
@@ -64,68 +62,79 @@ body {
 
 
 #dw {
-	position: absolute;
-	bottom: 35px;
-  left: 42.75%;
-  height: 30px;
-  width: 180px;
+	margin-top: .5%;
+  left: 5%;
+  height: 75%;
+  width: auto;
+}
 
+.dwl{
+  text-align: center;
+  position: relative;
+  margin-top: .5%;
+  left: 5%;
+  height: 35%;
+  width: auto;
 }
 
 #fb {
-  position: absolute;
-  bottom: 55px;
-  right: 0px;
-  height: 50px;
-  width: 50px;
+  float: right;
+  position: relative;
+  padding-right: .25%;
+  margin-top: .5%;
+  height: 40%;
+  width: auto;
 }
 
 #tw {
-  position: absolute;
-  bottom: 55px;
-  right: 50px;
-  height: 50px;
-  width: 50px;
+  float: right;
+  position: relative;
+  padding-right: .25%;
+  margin-top: .5%;
+  height: 40%;
+  width: auto;
 }
 
 #gt {
-  position: absolute;
-  bottom: 55px;
-  right: 100px;
-  height: 50px;
-  width: 50px;
+  float: right;
+  position: relative;
+  padding-right: .25%;
+  margin-top: .5%;
+  height: 40%;
+  width: auto;
 }
 
 #li {
-  position: absolute;
-  bottom: 55px;
-  right: 150px;
-  height: 50px;
-  width: 50px;
+  float: right;
+  position: relative;
+  padding-right: .25%;
+  margin-top: .5%;
+  height: 40%;
+  width: auto;
 }
 
 h1 { 
 	font-family: 'Original Surfer', cursive;
 	font-weight: 400; 
-	position: absolute;
+	position: relative;
 	top: 105px;
 	font-color: #B71C1C;
 
 }
 
 footer {
-  position: absolute;
+  position: relative;
   bottom: 0;
   width: 100%; 
   height: 110px;
   background-color: #E0E0E0;
-  font-size: 14px;
+  font-size: 65%;
 }
 
-footer > p {
-  position: absolute;
-  bottom: 0;
-  right: 42.25%;
+.copy {
+  padding-left: 10%;
+  text-align: center;
+  font-size: 150%;
 }
 
 #tfheader{
