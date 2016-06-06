@@ -3,7 +3,7 @@ var request = require("request");
 
 describe("Applicant Server", function() {
     describe("Applicants List", function() {
-      var url = "http://localhost:8082/applicants";
+      var url = "http://localhost:8082/service/applicants";
 
       it("returns dummy applicants", function(done) {
         request(url, function(error, response, body) {
@@ -19,7 +19,7 @@ describe("Applicant Server", function() {
     });
 
     describe("Search", function() {
-      var url = "http://localhost:8082/search";
+      var url = "http://localhost:8082/service/search";
 
       it("returns dummy applicants", function(done) {
         request(url, function(error, response, body) {
