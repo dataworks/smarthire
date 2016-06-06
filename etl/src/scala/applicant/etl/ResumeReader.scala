@@ -10,6 +10,7 @@ import org.apache.tika.sax.WriteOutContentHandler
 import java.io._
 import scopt.OptionParser
 import org.elasticsearch.spark._
+import org.apache.commons.io.FilenameUtils
 
 /**
  *@author Brantley Gilbert
@@ -78,7 +79,7 @@ object ResumeReader {
     // to extractText function
     fileData.values.map{
       currentFile => Map(
-          "id" -> currentFile.getPath(),
+          "id" -> FilenameUtils.getBaseName(currentFile.getPath()),
           "text" -> extractText(currentFile)
         )
 
