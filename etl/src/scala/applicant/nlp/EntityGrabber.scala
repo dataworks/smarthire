@@ -16,6 +16,7 @@ import scopt.OptionParser
 
 /**
  * Uses entity models to parse information from a resume text string
+ *
  * @param modelFiles comma separated paths to NLP model binaryFiles
  * @param patterns a path to a file containing regular expression files
  */
@@ -61,7 +62,7 @@ class EntityGrabber(modelFiles: String, patterns: String) {
     }
 
     /**
-     * Executes the entity grabber using command line options passed in.
+     * Use the models to grab the entity values from a string
      *
      * @param options command line options
      */
