@@ -54,7 +54,7 @@
   font-weight: bold;
   color: white;
   font-size: 150%;
-  top: 10px;
+  margin-top: 7.5%;
 }
 
 .dropdown-menu li a{
@@ -166,7 +166,7 @@ footer {
   }
   #tfnewsearch{
     float:right;
-    padding:20px;
+    padding: 3%;
   }
   .tftextinput2{
     margin: 0;
