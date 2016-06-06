@@ -22,6 +22,10 @@ applicantApp.config(['$routeProvider',
         templateUrl: 'app/components/explore/exploreView.html',
         controller: 'ExploreCtrl'
       }).
+      when('/about', {
+        templateUrl: 'app/components/about/aboutView.html',
+        controller: 'AboutCtrl'
+      }).
       otherwise({
         redirectTo: '/applicants'
       });
