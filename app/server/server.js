@@ -5,7 +5,7 @@ var app = express();
 app.use(express.static("client"));
 app.use(express.static("node_modules"));
 
-app.get("/applicants", function(req, res) {
+app.get("/service/applicants", function(req, res) {
   res.json([{
     "name": "Joe Schweitzer",
     "score": 0.99,
@@ -33,7 +33,7 @@ app.get("/applicants", function(req, res) {
   }]);
 });
 
-app.get("/search", function(req, res) {
+app.get("/service/search", function(req, res) {
   var client = new elasticsearch.Client({
     host: 'interns.dataworks-inc.com/elasticsearch'
   });
@@ -47,6 +47,11 @@ app.get("/search", function(req, res) {
   }, function (error) {
     console.trace(error.message);
   });
+});
+
+//HTML5 mode
+app.all('/*', function(req, res) {
+  res.sendFile('index.html', {root: __dirname + "/../client/"});
 });
 
 var server = app.listen(8082, function () {
