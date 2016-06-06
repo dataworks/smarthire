@@ -1,6 +1,6 @@
 .content {
   padding-top: 0%;
-  padding-bottom: 23.5%;
+  padding-bottom: 22.5%;
 }
 
 .applicant-row {
@@ -27,6 +27,18 @@
 
 .navbar-default .navbar-toggle:hover{
   background-color: #8BC34A; 
+}
+
+.glyphicon{
+  text-align: center;
+}
+
+.btn-default{
+  font-size: 12.9px;
+  margin: 0;
+  margin-top: 2px;
+  float: right;
+  border-radius: 0;
 }
 
 .navbar-header >p{
