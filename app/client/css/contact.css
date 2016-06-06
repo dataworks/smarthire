@@ -1,0 +1,31 @@
+h2 {
+	color: #1976D2;
+	font-size: 300%;
+}
+
+#phone {
+	position: relative;
+	height: 100px;
+	width: 25%;
+	border: 3px solid #686663;
+	background-color: #00A6F6;
+	font-size: 235%;
+	/*text-align: center;*/
+	vertical-align: middle;
+}
+
+#map {
+	position: relative;
+	left: 35%;
+}
+
+#direct {
+	position: relative;
+	left: 35%;
+	top: -30%;
+	height: 100px;
+	width: 25%;
+	border: 3px solid #686663;
+	background-color: #00A6F6;
+
+}
