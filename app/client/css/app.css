@@ -30,6 +30,18 @@
 
 }
 
+.glyphicon {
+  text-align: center;
+}
+
+.btn-default {
+  font-size: 12.9px;
+  margin: 0;
+  margin-top: 2px;
+  float: right;
+  border-radius: 0;
+}
+
 p{
   color: white;
   font-size: 175%;
