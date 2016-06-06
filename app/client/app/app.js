@@ -26,6 +26,10 @@ applicantApp.config(['$routeProvider',
         templateUrl: 'app/components/about/aboutView.html',
         controller: 'AboutCtrl'
       }).
+      when('/contact', {
+        templateUrl: 'app/components/contact/contactView.html',
+        controller: 'ContactCtrl'
+      }).
       otherwise({
         redirectTo: '/applicants'
       });
