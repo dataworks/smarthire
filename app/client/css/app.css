@@ -25,6 +25,10 @@
   margin-top: 2.25%;
 }
 
+.narbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover{
+  background-color: #8BC34A; 
+}
+
 p{
   color: white;
   font-size: 175%;
