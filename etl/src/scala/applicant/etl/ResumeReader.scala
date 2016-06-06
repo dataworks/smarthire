@@ -84,7 +84,7 @@ object ResumeReader {
         )
 
     }
-      .saveToEs("resume_raw_text/resume", Map("es.mapping.id" -> "id"))
+      .saveToEs("resume_raw_text/resume", Map("es.mapping.id" -> "id", "es.mapping.exclude" -> "id"))
     sc.stop()
   }
 
