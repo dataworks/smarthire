@@ -35,6 +35,7 @@ app.get("/service/applicants", function(req, res) {
   }]);
 });
 
+// possible changes to work with local the host to hosts, added [] and added the local to the host list
 app.get("/service/search", function(req, res) {
   var client = new elasticsearch.Client({
     host: 'interns.dataworks-inc.com/elasticsearch'
