@@ -27,10 +27,22 @@
     font-size: 500%;
   }
   .dwl{
-    padding-top: 1.5%;
+    padding-top: 2%;
   }
   .footer{
     height: 80px;
+  }
+  .fb{
+    padding-top: 1.5%
+  }
+  .li{
+    padding-top: 1.5%
+  }
+  .tw{
+    padding-top: 1.5%
+  }
+  .gt{
+    padding-top: 1.5%
   }
 }
 .jumbotron {
