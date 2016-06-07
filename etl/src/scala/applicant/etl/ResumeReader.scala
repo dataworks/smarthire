@@ -86,17 +86,20 @@ object ResumeReader {
     val broadcastGrabber = sc.broadcast(grabber)
 
     fileData.values.foreach{x =>
-      println(broadcastGrabber.value.execute(extractText(x)))
+      broadcastGrabber.value.load(extractText(x))
+      println(broadcastGrabber.value.query("location"))
     }
 
-/*    fileData.values.map{
+    //Save to ES function
+    /*fileData.values.map{
       currentFile => Map(
           "id" -> FilenameUtils.getBaseName(currentFile.getPath()),
           "text" -> extractText(currentFile)
         )
 
-    }
+      }
       .saveToEs("resume_raw_text/resume", Map("es.mapping.id" -> "id", "es.mapping.exclude" -> "id"))*/
+
     sc.stop()
 
 
