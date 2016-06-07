@@ -10,7 +10,6 @@
 	<link href='https://fonts.googleapis.com/css?family=Alegreya' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Original+Surfer' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Gurajada' rel='stylesheet' type='text/css'>
-	<link href='https://fonts.googleapis.com/css?family=Alegreya' rel='stylesheet' type='text/css'>
 
 	<!-- header code needed for fixed nav bar -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -31,12 +30,12 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="navbar-fixed-top.css" rel="stylesheet">
+    <!-- Custom styles for this template 
+    <link href="navbar-fixed-top.css" rel="stylesheet"> -->
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]
+    <script src="../../assets/js/ie-emulation-modes-warning.js"></script> -->
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -46,22 +45,6 @@
 
     <!-- this is for the search bar -->
     <meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
-<!-- JAVASCRIPT to clear search text when the field is clicked -->
-<script type="text/javascript">
-window.onload = function(){ 
-	//Get submit button
-	var submitbutton = document.getElementById("tfq");
-	//Add listener to submit button
-	if(submitbutton.addEventListener){
-		submitbutton.addEventListener("click", function() {
-			if (submitbutton.value == 'Search our website'){//Customize this text string to whatever you want
-				submitbutton.value = '';
-			}
-		});
-	}
-}
-</script>
-
 <base href='/'>
 
 </head>
@@ -177,13 +160,9 @@ window.onload = function(){
 	<script src="app/components/applicants/applicantService.js"></script>
 	<script src="app/components/explore/exploreController.js"></script>
 	<script src="app/components/search/searchController.js"></script>
-
-	<!--scripts needed for Navbar -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script> -->
+    <script src="js/searchButton.js"></script>
 
 </body>
 </html>
