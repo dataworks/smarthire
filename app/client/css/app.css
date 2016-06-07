@@ -27,21 +27,21 @@
     font-size: 500%;
   }
   .dwl{
-    padding-top: 2%;
+    padding-top: 3%;
   }
   .footer{
     height: 80px;
   }
-  .fb{
+  #fb{
     padding-top: 1.5%
   }
-  .li{
+  #li{
     padding-top: 1.5%
   }
-  .tw{
+  #tw{
     padding-top: 1.5%
   }
-  .gt{
+  #gt{
     padding-top: 1.5%
   }
 }
