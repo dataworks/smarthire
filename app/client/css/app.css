@@ -154,13 +154,14 @@ h1 {
 	font-color: #B71C1C;
 }
 
-.copy {
-  /*padding-left: 10%;*/
+/*.copy {
+  padding-top: .5%;
+  padding-left: -1.5%;
   margin: 0;
   text-align: center;
   font-size: 100%;
 }
-
+*/
 #tfheader{
     background-color: #OOA6F6;
   }
@@ -212,6 +213,6 @@ body {
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
-  height: 60px;
+  height: 70px;
   background-color: #f5f5f5;
 }
