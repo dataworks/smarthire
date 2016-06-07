@@ -1,8 +1,10 @@
 var express = require("express");
 var elasticsearch = require("elasticsearch");
+var root = express();
 var app = express();
 
 app.use(express.static("client"));
+
 app.use(express.static("node_modules"));
 
 app.get("/service/applicants", function(req, res) {
@@ -49,12 +51,18 @@ app.get("/service/search", function(req, res) {
   });
 });
 
+root.get("/", function(req, res) {
+  res.redirect("/app");
+});
+
+root.use('/app', app);
+
 //HTML5 mode
 app.all('/*', function(req, res) {
   res.sendFile('index.html', {root: __dirname + "/../client/"});
 });
 
-var server = app.listen(8082, function () {
+var server = root.listen(8082, function () {
   var host = server.address().address
   var port = server.address().port
 
