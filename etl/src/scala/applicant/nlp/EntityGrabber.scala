@@ -18,7 +18,7 @@ import scala.io.Source
  * @param modelFiles a list of string paths to NLP models
  * @param patterns a path to a file containing regular expression files
  */
-class EntityGrabber(models: List[String], patterns: String) {
+class EntityGrabber(models: Seq[String], patterns: String) {
     //Initialization
     // Load trained models to tag
     var nameFinders = new Array[TokenNameFinder](models.length)

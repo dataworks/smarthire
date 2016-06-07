@@ -11,6 +11,7 @@ import java.io._
 import scopt.OptionParser
 import org.elasticsearch.spark._
 import org.apache.commons.io.FilenameUtils
+import applicant.nlp._
 
 /**
  *@author Brantley Gilbert
@@ -75,8 +76,12 @@ object ResumeReader {
     //Create a key-value pair RDD of files within resume directory
     //RDD is an array of tuples (String, PortableDataStream)
     val fileData = sc.binaryFiles(filesPath)
-    //Sends value of each key-value pair (PortableDataStream)
-    // to extractText function
+
+    // Create EntityGrabber object
+    val models = Seq[String]("model/nlp/en-ner-degree.bin", "model/nlp/en-ner-location.bin", "model/nlp/en-ner-organization.bin", "model/nlp/en-ner-person.bin", "model/nlp/en-ner-school.bin", "model/nlp/en-ner-title.bin")
+    val patterns = "model/nlp/regex.txt"
+    val grabber = new EntityGrabber(models, patterns)
+
     fileData.values.map{
       currentFile => Map(
           "id" -> FilenameUtils.getBaseName(currentFile.getPath()),
@@ -86,6 +91,8 @@ object ResumeReader {
     }
       .saveToEs("resume_raw_text/resume", Map("es.mapping.id" -> "id", "es.mapping.exclude" -> "id"))
     sc.stop()
+
+
   }
 
   def main(args: Array[String]) {
