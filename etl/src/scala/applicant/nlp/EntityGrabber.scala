@@ -62,6 +62,9 @@ class EntityGrabber(models: Seq[String], patterns: String) {
      * @param options command line options
      */
     def load(resumeText: String) = {
+        //Clear the internal set
+        entitySet.clear()
+
         // Find the entites and values
         val whitespaceTokenizerLine = WhitespaceTokenizer.INSTANCE.tokenize(resumeText)
         if (whitespaceTokenizerLine.length == 0) {
