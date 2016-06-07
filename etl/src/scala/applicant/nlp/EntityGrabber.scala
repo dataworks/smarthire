@@ -9,7 +9,7 @@ import opennlp.tools.tokenize.WhitespaceTokenizer
 import opennlp.tools.util.{ObjectStream, PlainTextByLineStream, Span}
 
 import scala.collection.JavaConversions._
-import scala.collection.mutable.{ListBuffer, Map}
+import scala.collection.mutable.{ListBuffer, Map, LinkedHashSet}
 import scala.io.Source
 
 /**
@@ -45,7 +45,6 @@ class EntityGrabber(models: List[String], patterns: String) {
         val lines = Source.fromFile(file).getLines.toSeq
         for (line <- lines) {
             if (line.trim().length() > 0 && !line.startsWith("#")) {
-                println(line)
 
                 // Add regex pattern/type mapping
                 val expression: Array[String] = line.split("\\s*=\\s*")
@@ -61,7 +60,7 @@ class EntityGrabber(models: List[String], patterns: String) {
      *
      * @param options command line options
      */
-    def execute(resumeText: String) {
+    def execute(resumeText: String): LinkedHashSet[(String, String)] = {
         // Find the entites and values
         val whitespaceTokenizerLine = WhitespaceTokenizer.INSTANCE.tokenize(resumeText)
         if (whitespaceTokenizerLine.length == 0) {
@@ -78,24 +77,19 @@ class EntityGrabber(models: List[String], patterns: String) {
         val reducedNames = NameFinderME.dropOverlappingSpans(names.toArray)
         val nameSample = new NameSample(whitespaceTokenizerLine, reducedNames, false)
 
-        printEntities(nameSample)
-    }
+        //Put all of the entities into a returnable structure
+        val entitySet = LinkedHashSet[(String, String)]()
+        val sentence = nameSample.getSentence()
+        val entityNames = nameSample.getNames()
 
-    /**
-     * Prints the entities tagged by the nlp models.
-     *
-     * @param sample tagged entity
-     */
-    def printEntities(sample: NameSample) {
-        val sentence = sample.getSentence()
-        val names = sample.getNames()
-
-        for (name <- names) {
+        for (name <- entityNames) {
             // Build and clean entity
             var entity = sentence.slice(name.getStart(), name.getEnd()).mkString(" ")
             entity = entity.replaceAll("\\,$", "")
 
-            println(name.getType() + "->" + entity)
+            entitySet += (name.getType() -> entity)
         }
+
+        return entitySet
     }
 }
