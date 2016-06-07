@@ -13,6 +13,8 @@ import org.elasticsearch.spark._
 import org.apache.commons.io.FilenameUtils
 import applicant.nlp._
 
+import scala.collection.mutable.{ListBuffer, Map, LinkedHashSet}
+
 /**
  *@author Brantley Gilbert
  *
@@ -85,9 +87,17 @@ object ResumeReader {
 
     val broadcastGrabber = sc.broadcast(grabber)
 
-    fileData.values.foreach{x =>
-      broadcastGrabber.value.load(extractText(x))
-      println(broadcastGrabber.value.query("location"))
+    fileData.values.foreach { x =>
+      var entitySet: LinkedHashSet[(String, String)] = null
+      val text = extractText(x)
+
+      broadcastGrabber.synchronized {
+        entitySet = broadcastGrabber.value.load(text)
+      }
+
+      val results = broadcastGrabber.value.query("location", entitySet)
+      for (result <- results) { println(result) }
+      println()
     }
 
     //Save to ES function

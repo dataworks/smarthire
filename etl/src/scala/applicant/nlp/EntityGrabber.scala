@@ -22,9 +22,7 @@ class EntityGrabber(models: Seq[String], patterns: String) {
     //Initialization
     // Load trained models to tag
     var nameFinders = new Array[TokenNameFinder](models.length)
-    var entitySet = LinkedHashSet[(String, String)]()
     for (x <- 0 until nameFinders.length) {
-
         val model = new TokenNameFinderModel(new File(models(x)))
         nameFinders(x) = new NameFinderME(model)
     }
@@ -61,9 +59,8 @@ class EntityGrabber(models: Seq[String], patterns: String) {
      *
      * @param options command line options
      */
-    def load(resumeText: String) = {
-        //Clear the internal set
-        entitySet.clear()
+    def load(resumeText: String): LinkedHashSet[(String, String)]  = {
+        val entitySet = LinkedHashSet[(String, String)]()
 
         // Find the entites and values
         val whitespaceTokenizerLine = WhitespaceTokenizer.INSTANCE.tokenize(resumeText)
@@ -92,6 +89,8 @@ class EntityGrabber(models: Seq[String], patterns: String) {
 
             entitySet += (name.getType() -> entity)
         }
+
+        return entitySet
     }
 
     /**
@@ -100,8 +99,8 @@ class EntityGrabber(models: Seq[String], patterns: String) {
      * @param entityType what entity type you want to query
      * @return A list of entity values
      */
-    def query(entityType: String): ListBuffer[String] = {
-      val result = ListBuffer[String]()
+    def query(entityType: String, entitySet: LinkedHashSet[(String, String)]): ListBuffer[String] = {
+      val result = new ListBuffer[String]()
 
       for (pair <- entitySet) {
         if (pair._1 == entityType) {
