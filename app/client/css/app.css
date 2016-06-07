@@ -13,6 +13,17 @@
   border-bottom: 0;
 }
 
+.page-header > h1{
+  font-size: 700%; 
+  color : #1976D2;
+}
+
+@media (max-width: 768px) {
+  #tfnewsearch{
+    float: left;
+    margin-left: -1%;
+  }
+}
 .jumbotron {
   margin-top: 10%;
   background-color: #CCFF90;
@@ -187,12 +198,7 @@ h1 {
     clear:both;
   }
 
-@media (max-width: 768px) {
-  #tfnewsearch{
-    float: left;
-    margin-left: -1%;
-  }
-}
+
 
 /* Sticky footer styles
 -------------------------------------------------- */
