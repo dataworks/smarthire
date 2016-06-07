@@ -26,6 +26,12 @@
   .page-header > h1{
     font-size: 500%;
   }
+  .copy{
+    padding-top: 1%;
+  }
+  .footer{
+    height: 80px;
+  }
 }
 .jumbotron {
   margin-top: 10%;
