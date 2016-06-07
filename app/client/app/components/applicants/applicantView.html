@@ -1,14 +1,23 @@
+<head>
+	<link rel="stylesheet" href="css/appView.css" />
+</head>
 
+	<div class="row_table-header">
+		<div class="col-md-2">
+			<h3> Score</h3> 
+		</div>
+		<div class="col-md-4">
+			<h3>Applicant Information</h3>
+		</div>
+	</div>
 		
 		<div class="row applicant-row" ng-repeat="applicant in applicants">
-			 <div class="col-md-2" style='padding-top:5px;'><font size='5'> 
-			 <h3> <b>Score </b></h3>
-			 {{applicant.score}}</font></div>
+			 <div id="s" class="col-md-2">
+			 {{applicant.score}}</div>
 			  <div class="col-md-4">
-			  		<h3> <b>Applicant Information</b> </h3>
-					<div><font size='5'>{{applicant.name}} </font></div>
-					<div><font size='3'>{{applicant.currentEntity}}</font></div>
-				    <div><font size='3'>{{applicant.currentLocation}}</font></div>
-					<div><font size='3'>{{applicant.skills.join(', ')}}</font></div>
+					<div id='name'>{{applicant.name}}</div>
+					<div id='entity'>{{applicant.currentEntity}}</div>
+				    <div id='loc'>{{applicant.currentLocation}}</div>
+					<div id='skills'>{{applicant.skills.join(', ')}}</div>
 				</div>
 		</div>
