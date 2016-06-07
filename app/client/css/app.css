@@ -1,11 +1,15 @@
 .content {
   padding-top: 0%;
-  padding-bottom: 22.5%;
+  padding-bottom: 5.5%;
 }
 
 .applicant-row {
   padding: 0% 0% 2.5% 0%;
   /*outline: 1px solid black;*/
+}
+
+.page-header{
+  background-color: #CCFF90;
 }
 
 .jumbotron {
@@ -62,13 +66,15 @@
 .dropdown-menu li a{
   color: black !important;
   font-size: 125% !important;
-  font-family: 'Alegreya', serif !important;
+  font-family: 'Raleway', sans-serif !important;
+  font-weight: normal;
 }
 
 .dropdown-header {
   color: black !important;
   font-size: 150% !important;
-  font-family: 'Alegreya', serif !important;
+  font-family: 'Raleway', sans-serif !important;
+  font-weight: normal;
 }
 
 body {

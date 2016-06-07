@@ -10,8 +10,8 @@ h2 {
 	border: 3px solid #686663;
 	background-color: #00A6F6;
 	font-size: 235%;
-	/*text-align: center;*/
-	vertical-align: middle;
+	text-align: center;
+	vertical-align: 
 }
 
 #map {
