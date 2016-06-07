@@ -94,7 +94,6 @@ body {
   text-align: center;
   position: relative;
   margin-top: .5%;
-  left: 5%;
   height: 55%;
   width: auto;
 }
@@ -156,6 +155,7 @@ h1 {
 
 .copy {
   /*padding-left: 10%;*/
+  margin: 0;
   text-align: center;
   font-size: 100%;
 }
