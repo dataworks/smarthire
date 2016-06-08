@@ -27,8 +27,15 @@
 				<td>{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
 				<td>{{applicant.education.degree}}</td>
 				<td>{{applicant.contact.phone}} <br> {{applicant.contact.email}} <br> {{applicant.contact.url}}
-				<td>like / dislike</td>
-			</tr>
+				<td><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  onclick="window.location.href='favorites'">
+						<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+					</button>
+					<button id="down" type="button" class="btn btn-default" aria-label="Left Align" onclick="window.location.href='archive'">
+  						<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+  						<a href="/archive"></a>
+					</button>
+				</td>
+				</tr>
 
 
 
