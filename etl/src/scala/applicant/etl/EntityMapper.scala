@@ -37,6 +37,10 @@ object EntityMapper {
           otherOrganizationList += pair._2
         case ("person", _) if (name == "not found") => name = pair._2
         case ("school", _) if (school == "not found") => school = pair._2
+
+        case ("gpa", _) if (gpa == "not found") => gpa = pair._2
+        case ("email", _) if (email == "not found") => email = pair._2
+        case ("phone", _) if (phone == "not found") => phone = pair._2
       }
     }
 
