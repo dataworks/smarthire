@@ -5,15 +5,23 @@ import applicant.nlp._
 import scala.collection.mutable.{ListBuffer, Map, LinkedHashSet}
 
 /**
- *@author Brantley
  *
  *@version 0.0.1
  *
  */
 
 object EntityMapper {
+  /**
+   * Pulls in the results from extractText and EntityGrabber and ouputs as formatted map for ES
+   *
+   * @param taggedEntities A LinkedHashSet object from the EntityGrabber class
+   * @param applicantID A String to be used as the applicant's unique ID
+   * @param fullText A String of the full parsed resume from extractText
+   * @return A map formatted to save to ES as JSON
+   */
   def createMap(taggedEntities: LinkedHashSet[(String, String)], applicantID: String, fullText: String): Map[String, Object] = {
-    var name, score, recentTitle, recentLocation, recentOrganization, degree, school, gpa, url, email, phone: String = "not found"
+    var name, recentTitle, recentLocation, recentOrganization, degree, school, gpa, url, email, phone: String = "not found"
+    var score: Double = 0.0
     val languageList: ListBuffer[String] = new ListBuffer[String]()
     val bigDataList: ListBuffer[String] = new ListBuffer[String]()
     val etlList: ListBuffer[String] = new ListBuffer[String]()
@@ -23,9 +31,6 @@ object EntityMapper {
     val otherTitleList: ListBuffer[String] = new ListBuffer[String]()
     val otherLocationList: ListBuffer[String] = new ListBuffer[String]()
     val otherOrganizationList: ListBuffer[String] = new ListBuffer[String]()
-
-    //For now we set score manually
-    score = "0.0"
 
     //degree, location, organization, person, school, title, bigdata, database, etl, webapp, mobile, language, gpa, email, phone, url
 
@@ -52,10 +57,12 @@ object EntityMapper {
       }
     }
 
+    val strScore: String = String.valueOf(score)
+
     val map: Map[String, Object] = Map(
       "id" -> applicantID,
       "name" -> name,
-      "score" -> score,
+      "score" -> strScore,
       "currentLocation" -> Map(
         "title" -> recentTitle,
         "location" -> recentLocation,
