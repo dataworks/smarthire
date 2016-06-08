@@ -33,6 +33,10 @@ table{
 	width:100%;
 }
 
+#hide{
+  border-top:0;
+}
+
 #up{
   font-size: 100%;
   margin: 0;
