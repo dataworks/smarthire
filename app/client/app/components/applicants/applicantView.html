@@ -1,7 +1,5 @@
 <head>
-	<link rel="stylesheet" href="css/appView.css" />
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-
+	<link rel="stylesheet" href="css/appView.css"/>
 </head>
 
 <body>
@@ -39,7 +37,7 @@
 					</button>
 				</td>
 				
-				<td><a href="#" id="show_1" onclick="test()">Show Extra</a></td>
+				<td><a href="#" id="show_1">Show Extra</a></td>
 			</tr>
 			<tr>
         		<td colspan="5">
@@ -56,14 +54,8 @@
 		</table>
 	</div>
 	<script>
-	function test() {
-		console.log("test");
-	}
 		$("#show_1").click(function(event) {
-			console.log("test");
-    $("#extra_" + $(this).attr('id').substr(5)).slideToggle("slow");
-});
+   			$("#extra_" + $(this).attr('id').substr(5)).slideToggle("slow");
+		});
 	</script>
-
-	<!-- <script type="text/javascript" src="tableCollapse.js"></script> -->
 </body> 
