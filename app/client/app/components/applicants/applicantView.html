@@ -16,8 +16,9 @@
 			 {{applicant.score}}</div>
 			  <div class="col-md-4">
 					<div id='name'>{{applicant.name}}</div>
-					<div id='entity'>{{applicant.currentEntity}}</div>
-				    <div id='loc'>{{applicant.currentLocation}}</div>
+					<div id='org'>{{applicant.currentLocation.organization}}</div>
+				    <div id='loc'>{{applicant.currentLocation.location}}</div>
+				    <div id='title'>{{applicant.currentLocation.title}}
 					<div id='skills'>{{applicant.skills.language.join(', ')}}</div>
 				</div>
 		</div>

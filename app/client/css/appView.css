@@ -13,13 +13,13 @@
 	outline: 1px solid black;
 }
 
-#skills{
-	font-size: 125%;
+#name{
+	font-size: 175%;
 	outline: 1px solid black;
 }
 
-#name{
-	font-size: 175%;
+#skills{
+	font-size: 105%;
 	outline: 1px solid black;
 }
 
@@ -28,7 +28,12 @@
 	outline: 1px solid black;
 }
 
-#entity{
+#title{
+	font-size: 125%;
+	outline: 1px solid black;
+}
+
+#org{
 	font-size: 125%;
 	outline: 1px solid black;
 }
