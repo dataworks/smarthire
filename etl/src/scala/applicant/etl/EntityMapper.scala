@@ -14,7 +14,7 @@ import scala.collection.mutable.{ListBuffer, Map, LinkedHashSet}
 object EntityMapper {
   def createMap(taggedEntities: LinkedHashSet[(String, String)]): Map[String, Object] = {
     val map: Map[String, Object] = Map()
-
+    map += ("test" -> "requires test text")
 
 
     return map

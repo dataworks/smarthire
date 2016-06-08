@@ -93,11 +93,11 @@ object ResumeReader {
 
       broadcastGrabber.synchronized {
         entitySet = broadcastGrabber.value.extractEntities(text)
-        val entityMap: Map[String, Object] = EntityMapper.createMap(entitySet)
+        EntityMapper.createMap(entitySet)
         //sc.makeRDD(Seq(entityMap)) //.saveToEs
       }
 
-    }.saveToEs("resume_raw_text/resume", Map("es.mapping.id" -> "id", "es.mapping.exclude" -> "id"))
+    }.saveToEs("map_test/test")//, Map("es.mapping.id" -> "id", "es.mapping.exclude" -> "id"))
 
     sc.stop()
 
