@@ -93,8 +93,7 @@ object ResumeReader {
 
       broadcastGrabber.synchronized {
         entitySet = broadcastGrabber.value.extractEntities(text)
-        EntityMapper.createMap(entitySet)
-        //sc.makeRDD(Seq(entityMap)) //.saveToEs
+        EntityMapper.createMap(entitySet, FilenameUtils.getBaseName(currentFile.getPath()), text)
       }
 
     }.saveToEs("map_test/test")//, Map("es.mapping.id" -> "id", "es.mapping.exclude" -> "id"))
