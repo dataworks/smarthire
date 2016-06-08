@@ -38,10 +38,19 @@
 	outline: 1px solid black;
 }
 
-table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
+table{
+	width:100%;
+    /*border: 1px solid black;*/
+
 }
-th, td {
-    padding: 5px;
+td {
+    /*padding: 5px;*/
+    border-bottom: 1px solid gray;
+    text-align: center;
+
+}
+
+th{
+	border-bottom: 1px solid black;
+	text-align: center;
 }
