@@ -31,15 +31,25 @@
 
 table{
 	width:100%;
-  outline: 1px solid black;
 }
 
-thead{
-  outline: 1px solid black;
+th{
+  text-align: center;
 }
+
+td{
+  text-align: center;
+}
+
 
 #hide{
   border-top:0;
+}
+
+#eye{
+  font-size: 125%;
+  float:left;
+  
 }
 
 #up{
