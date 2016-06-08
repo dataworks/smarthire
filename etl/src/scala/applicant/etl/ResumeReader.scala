@@ -87,31 +87,18 @@ object ResumeReader {
 
     val broadcastGrabber = sc.broadcast(grabber)
 
-    fileData.values.foreach { currentFile =>
+    fileData.values.map { currentFile =>
       var entitySet: LinkedHashSet[(String, String)] = null
       val text = extractText(currentFile)
 
       broadcastGrabber.synchronized {
         entitySet = broadcastGrabber.value.extractEntities(text)
+        EntityMapper.createMap(entitySet, FilenameUtils.getBaseName(currentFile.getPath()), text)
       }
 
-      val results = EntityGraber.query("location", entitySet)
-      for (result <- results) { println(result) }
-      println()
-    }
-
-    //Save to ES function
-    /*fileData.values.map{
-      currentFile => Map(
-          "id" -> FilenameUtils.getBaseName(currentFile.getPath()),
-          "text" -> extractText(currentFile)
-        )
-
-      }
-      .saveToEs("resume_raw_text/resume", Map("es.mapping.id" -> "id", "es.mapping.exclude" -> "id"))*/
+    }.saveToEs("map_test/test")//, Map("es.mapping.id" -> "id", "es.mapping.exclude" -> "id"))
 
     sc.stop()
-
 
   }
 

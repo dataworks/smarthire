@@ -30,6 +30,14 @@ applicantApp.config(['$routeProvider', '$locationProvider',
         templateUrl: 'app/components/contact/contactView.html',
         controller: 'ContactCtrl'
       }).
+      when('/favorites', {
+        templateUrl: 'app/components/favorites/favoritesView.html',
+        controller: 'FavoritesCtrl'
+      }).
+      when('/archive', {
+        templateUrl: 'app/components/archive/archiveView.html',
+        controller: 'ArchiveCtrl'
+      }).
       otherwise({
         redirectTo: '/applicants'
       });

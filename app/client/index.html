@@ -50,8 +50,8 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Explore <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Archive</a></li>
-                <li><a href="#">Favorites</a></li>
+                <li role="presentation" ng-class="{ active: isActive('archive')}"><a href="archive">Archive</a></li>
+                <li role="presentation" ng-class="{ active: isActive('favorites')}"><a href="favorites">Favorites</a></li>
                 <li><a href="#">Graphs</a></li>
                 <li><a href="#">Location</a></li>
                 <li role="separator" class="divider"></li>
@@ -70,7 +70,8 @@
 			<div id="tfheader">
 				<form id="tfnewsearch" method="get" action="http://interns.dataworks-inc.com/app/applicants">
 				        <input type="text" id="tfq" class="tftextinput2" name="q" size="21" maxlength="120" value="Search our website"><!--<input type="submit" value=">" class="tfbutton2"> -->
-				        <button type="button" class="btn btn-default">
+				        <!-- need to figure out how to connect button to search bar -->
+				        <button type="button" class="btn btn-default" onclick="window.location.href='http://interns.dataworks-inc.com/app/applicants'">
 				       		<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 				       	</button>
 				</form>
