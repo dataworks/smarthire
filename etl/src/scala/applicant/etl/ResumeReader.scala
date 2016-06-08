@@ -13,6 +13,8 @@ import org.elasticsearch.spark._
 import org.apache.commons.io.FilenameUtils
 import applicant.nlp._
 
+import scala.collection.mutable.{ListBuffer, Map, LinkedHashSet}
+
 /**
  *@author Brantley Gilbert
  *
@@ -66,6 +68,7 @@ object ResumeReader {
     val conf = new SparkConf().setMaster(options.sparkMaster)
       .setAppName("ResumeReader").set("es.nodes", "172.31.61.189")
       .set("es.port", "9200")
+      .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
 
     /*
       The internal hostname is ip-172-31-61-189.ec2.internal (172.31.61.189).  Internally the REST API is available on port 9200 and the native transport runs on port 9300.
@@ -78,18 +81,35 @@ object ResumeReader {
     val fileData = sc.binaryFiles(filesPath)
 
     // Create EntityGrabber object
-    val models = Seq[String]("model/nlp/en-ner-degree.bin", "model/nlp/en-ner-location.bin", "model/nlp/en-ner-organization.bin", "model/nlp/en-ner-person.bin", "model/nlp/en-ner-school.bin", "model/nlp/en-ner-title.bin")
+    val models = List[String]("model/nlp/en-ner-degree.bin", "model/nlp/en-ner-location.bin", "model/nlp/en-ner-organization.bin", "model/nlp/en-ner-person.bin", "model/nlp/en-ner-school.bin", "model/nlp/en-ner-title.bin")
     val patterns = "model/nlp/regex.txt"
     val grabber = new EntityGrabber(models, patterns)
 
-    fileData.values.map{
+    val broadcastGrabber = sc.broadcast(grabber)
+
+    fileData.values.foreach { x =>
+      var entitySet: LinkedHashSet[(String, String)] = null
+      val text = extractText(x)
+
+      broadcastGrabber.synchronized {
+        entitySet = broadcastGrabber.value.load(text)
+      }
+
+      val results = broadcastGrabber.value.query("location", entitySet)
+      for (result <- results) { println(result) }
+      println()
+    }
+
+    //Save to ES function
+    /*fileData.values.map{
       currentFile => Map(
           "id" -> FilenameUtils.getBaseName(currentFile.getPath()),
           "text" -> extractText(currentFile)
         )
 
-    }
-      .saveToEs("resume_raw_text/resume", Map("es.mapping.id" -> "id", "es.mapping.exclude" -> "id"))
+      }
+      .saveToEs("resume_raw_text/resume", Map("es.mapping.id" -> "id", "es.mapping.exclude" -> "id"))*/
+
     sc.stop()
 
 

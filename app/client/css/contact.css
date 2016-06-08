@@ -16,13 +16,14 @@ h2 {
 
 #map {
 	position: relative;
-	left: 35%;
+    left: 29.5%;
+    float: right;
+    padding-top: 10%;
 }
 
 #direct {
 	position: relative;
-	left: 35%;
-	top: -30%;
+    float: right;
 	height: 100px;
 	width: 25%;
 	border: 3px solid #686663;
