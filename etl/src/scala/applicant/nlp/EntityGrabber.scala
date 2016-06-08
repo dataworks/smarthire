@@ -59,11 +59,11 @@ class EntityGrabber(models: Seq[String], patterns: String) {
      *
      * @param options command line options
      */
-    def load(resumeText: String): LinkedHashSet[(String, String)]  = {
+    def extractEntities(text: String): LinkedHashSet[(String, String)]  = {
         val entitySet = LinkedHashSet[(String, String)]()
 
         // Find the entites and values
-        val whitespaceTokenizerLine = WhitespaceTokenizer.INSTANCE.tokenize(resumeText)
+        val whitespaceTokenizerLine = WhitespaceTokenizer.INSTANCE.tokenize(text)
         if (whitespaceTokenizerLine.length == 0) {
             for (nameFinder <- nameFinders) {
                 nameFinder.clearAdaptiveData()
@@ -93,21 +93,28 @@ class EntityGrabber(models: Seq[String], patterns: String) {
         return entitySet
     }
 
-    /**
-     * Will grab all values of an entity type. Make sure that the entities are loaded first.
-     *
-     * @param entityType what entity type you want to query
-     * @return A list of entity values
-     */
-    def query(entityType: String, entitySet: LinkedHashSet[(String, String)]): ListBuffer[String] = {
-      val result = new ListBuffer[String]()
+}
 
-      for (pair <- entitySet) {
-        if (pair._1 == entityType) {
-          result += pair._2
-        }
+/**
+ * A static class in order to query results
+ *
+ */
+object EntityGraber {
+  /**
+   * Will grab all values of an entity type. Make sure that the entities are loaded first.
+   *
+   * @param entityType what entity type you want to query
+   * @return A list of entity values
+   */
+  def query(entityType: String, entitySet: LinkedHashSet[(String, String)]): ListBuffer[String] = {
+    val result = new ListBuffer[String]()
+
+    for (pair <- entitySet) {
+      if (pair._1 == entityType) {
+        result += pair._2
       }
-
-      return result
     }
+
+    return result
+  }
 }
