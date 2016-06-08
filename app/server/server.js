@@ -8,55 +8,41 @@ app.use(express.static("client"));
 app.use(express.static("node_modules"));
 
 app.get("/service/applicants", function(req, res) {
-  var client = new elasticsearch.Client({
-    host: '172.31.61.189:9200'
-  });
+//   res.json([{
+//     "name": "Joe Schweitzer",
+//     "score": 0.99,
+//     "currentEntity": "Data Works Inc.",
+//     "currentLocation": "Reston, VA",
+//     "skills": ["Grails", "Groovy", "Ext JS"]
+//   }, {
+//     "name": "Laura Schweitzer",
+//     "score": 0.98,
+//     "currentEntity": "Data Works Inc.",
+//     "currentLocation": "Reston, VA",
+//     "skills": ["Pentaho", "Ruby on Rails", "Javascript"]
+//   }, {
+//     "name": "Dave Mezzetti",
+//     "score": 0.30,
+//     "currentEntity": "Data Works Inc.",
+//     "currentLocation": "Reston, VA",
+//     "skills": ["Scala", "Spark", "Tweeting"]
+//   }, {
+//     "name": "Dennis Schweitzer",
+//     "score": 0.58,
+//     "currentEntity": "Data Works Inc.",
+//     "currentLocation": "Reston, VA",
+//     "skills": ["Pentaho", "Ruby on Rails", "Javascript"]
+//   }]);
+// });
 
-  client.search({
-    index: 'sample_json',
-    q: 'type:applicant'
-  }).then(function (body) {
-    var hits = body.hits.hits.map(function(hit) { return hit._source; });;
-    res.json(hits);
-  }, function (error) {
-    console.trace(error.message);
-  });
-
-  // res.json([{
-  //   "name": "Joe Schweitzer",
-  //   "score": 0.99,
-  //   "currentEntity": "Data Works Inc.",
-  //   "currentLocation": "Reston, VA",
-  //   "skills": ["Grails", "Groovy", "Ext JS"]
-  // }, {
-  //   "name": "Laura Schweitzer",
-  //   "score": 0.98,
-  //   "currentEntity": "Data Works Inc.",
-  //   "currentLocation": "Reston, VA",
-  //   "skills": ["Pentaho", "Ruby on Rails", "Javascript"]
-  // }, {
-  //   "name": "Dave Mezzetti",
-  //   "score": 0.30,
-  //   "currentEntity": "Data Works Inc.",
-  //   "currentLocation": "Reston, VA",
-  //   "skills": ["Scala", "Spark", "Tweeting"]
-  // }, {
-  //   "name": "Dennis Schweitzer",
-  //   "score": 0.58,
-  //   "currentEntity": "Data Works Inc.",
-  //   "currentLocation": "Reston, VA",
-  //   "skills": ["Pentaho", "Ruby on Rails", "Javascript"]
-  // }]);
-});
-
-// possible changes to work with local the host to hosts, added [] and added the local to the host list
-app.get("/service/search", function(req, res) {
+// // possible changes to work with local the host to hosts, added [] and added the local to the host list
+// app.get("/service/search", function(req, res) {
   var client = new elasticsearch.Client({
     host: 'interns.dataworks-inc.com/elasticsearch'
   });
 
   client.search({
-    index: 'test',
+    index: 'sample_json',
     q: req.params.query || '*'
   }).then(function (body) {
     var hits = body.hits.hits.map(function(hit) { return hit._source; });;
