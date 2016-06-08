@@ -18,7 +18,7 @@
 			</thead>
 
 			<tbody ng-repeat="applicant in applicants">
-				<tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
+				<tr data-toggle="collapse" data-target="#demo1-{{$index}}" class="accordion-toggle">
 					<td><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
 					<td>{{applicant.score}}</td>
 					<td>{{applicant.name}}</td>
@@ -35,7 +35,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td  id="hide" colspan="12" class="hiddenRow"><div class="accordian-body collapse" id="demo1"> 
+				<td  id="hide" colspan="12" class="hiddenRow"><div class="accordian-body collapse" id="demo1-{{$index}}"> 
 					<table class="table table-striped">
 						<thead>
 							<tr><td><a href="WorkloadURL">Workload link</a></td><td>Bandwidth: Dandwidth Details</td><td>OBS Endpoint: end point</td></tr>
