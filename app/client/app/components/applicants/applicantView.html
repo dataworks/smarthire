@@ -10,7 +10,28 @@
 			<h3>Applicant Information</h3>
 		</div>
 	</div>
-		
+	<table style="width:100%">
+  <tr>
+    <th>Firstname</th>
+    <th>Lastname</th>
+    <th>Points</th>
+  </tr>
+  <tr>
+    <td>Jill</td>
+    <td>Smith</td>
+    <td>50</td>
+  </tr>
+  <tr>
+    <td>Eve</td>
+    <td>Jackson</td>
+    <td>94</td>
+  </tr>
+  <tr>
+    <td>John</td>
+    <td>Doe</td>
+    <td>80</td>
+  </tr>
+	
 		<div class="row applicant-row" ng-repeat="applicant in applicants">
 			 <div id="s" class="col-md-2">
 			 {{applicant.score}}</div>
@@ -22,3 +43,5 @@
 					<div id='skills'>{{applicant.skills.language.join(', ')}}</div>
 				</div>
 		</div>
+
+</table>
