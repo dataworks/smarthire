@@ -3,7 +3,7 @@
 </head>
 
 <body>
-	<div class="row-applicant-row" ng-repeat="applicant in applicants">
+	<div class="row-applicant-row" >
 		<table class="table table-condensed">
 
 			<thead>
@@ -17,7 +17,7 @@
 				</tr>
 			</thead>
 
-			<tbody>
+			<tbody ng-repeat="applicant in applicants">
 				<tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
 					<td><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
 					<td>{{applicant.score}}</td>
@@ -55,6 +55,7 @@
 			</tbody>
 		</table>
 	</div>
+  </body>
 	
 
 	

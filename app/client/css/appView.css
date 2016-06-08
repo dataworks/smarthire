@@ -33,6 +33,10 @@ table{
 	width:100%;
 }
 
+thead {
+	background-repeat: no-repeat;
+}
+
 #up{
   font-size: 100%;
   margin: 0;
