@@ -17,12 +17,11 @@ object EntityMapper {
     val languageList: ListBuffer[String] = new ListBuffer[String]()
     val etlList: ListBuffer[String] = new ListBuffer[String]()
     val databaseList: ListBuffer[String] = new ListBuffer[String]()
+    val webappList: ListBuffer[String] = new ListBuffer[String]()
+    val mobileList: ListBuffer[String] = new ListBuffer[String]()
     val otherTitleList: ListBuffer[String] = new ListBuffer[String]()
     val otherLocationList: ListBuffer[String] = new ListBuffer[String]()
     val otherOrganizationList: ListBuffer[String] = new ListBuffer[String]()
-    val webappList: ListBuffer[String] = new ListBuffer[String]()
-    val mobileList: ListBuffer[String] = new ListBuffer[String]()
-    val infoList: ListBuffer[Map[String, Object]] = new ListBuffer[Map[String, Object]]()
 
     //For now we set score manually
     score = "0.0"
@@ -32,9 +31,12 @@ object EntityMapper {
     taggedEntities.foreach { pair =>
       pair match {
         case ("degree", _) if (degree == "not found") => degree = pair._2
-        case ("location", _) if (recentLocation == "not found") => recentLocation = pair._2
-        case ("organization", _) if (recentOrganization == "not found") => recentOrganization = pair._2
+        case ("location", _) => if (recentLocation == "not found") { recentLocation = pair._2 }
+          otherLocationList += pair._2
+        case ("organization", _)  => if (recentOrganization == "not found") { recentOrganization = pair._2 }
+          otherOrganizationList += pair._2
         case ("person", _) if (name == "not found") => name = pair._2
+        case ("school", _) if (school == "not found") => school = pair._2
       }
     }
 
