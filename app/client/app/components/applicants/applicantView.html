@@ -1,7 +1,10 @@
 <head>
 	<link rel="stylesheet" href="css/appView.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
 </head>
 
+<body>
 <!-- 	<div class="row_table-header">
 		<div class="col-md-2">
 			<h3> Score</h3> 
@@ -28,18 +31,29 @@
 				<td>{{applicant.education.degree}}</td>
 				<td>{{applicant.contact.phone}} <br> {{applicant.contact.email}} <br> {{applicant.contact.url}}
 				<td>like / dislike</td>
+				<td><a href="#" id="show_1" onclick="test()">Show Extra</a></td>
 			</tr>
+			<tr>
+        		<td colspan="5">
+            		<div id="extra_1" style="display: none;">
+                		<br>hidden row
+               		 	<br>hidden row
+                		<br>hidden row
+            		</div>
+        		</td>
+   			</tr>
 
+		</table>
+	</div>
+	<script>
+	function test() {
+		console.log("test");
+	}
+		$("#show_1").click(function(event) {
+			console.log("test");
+    $("#extra_" + $(this).attr('id').substr(5)).slideToggle("slow");
+});
+	</script>
 
-
-			<!--  <div id="s" class="col-md-2">
-			 {{applicant.score}}</div>
-			  <div class="col-md-4">
-					<div id='name'>{{applicant.name}}</div>
-					<div id='org'>{{applicant.currentLocation.organization}}</div>
-				    <div id='loc'>{{applicant.currentLocation.location}}</div>
-				    <div id='title'>{{applicant.currentLocation.title}}
-					<div id='skills'>{{applicant.skills.language.join(', ')}}</div>
-				</div> -->
-			</table>
-		</div>
+	<!-- <script type="text/javascript" src="tableCollapse.js"></script> -->
+</body> 
