@@ -3,15 +3,6 @@
 </head>
 
 <body>
-<!-- 	<div class="row_table-header">
-		<div class="col-md-2">
-			<h3> Score</h3> 
-		</div>
-		<div class="col-md-4">
-			<h3>Applicant Information</h3>
-		</div>
-	</div> -->
-
 	<div class="row-applicant-row" ng-repeat="applicant in applicants">
 		<table>
 			<tr>
@@ -53,9 +44,78 @@
 
 		</table>
 	</div>
-	<script>
-		$("#show_1").click(function(event) {
-   			$("#extra_" + $(this).attr('id').substr(5)).slideToggle("slow");
-		});
-	</script>
+
+ <div class="col-lg-6">
+        	<div class="panel panel-default">
+            <div class="panel-heading"><h3>Object Store</h3></div>
+            <div class="panel-body">
+<table class="table table-condensed" style="border-collapse:collapse;">
+
+    <thead>
+        <tr><th>&nbsp;</th>
+            <th>Job Name</th>
+            <th>Description</th>
+            <th>Provider Name</th>
+            <th>Region</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
+                  <td><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
+            <td>OBS Name</td>
+            <td>OBS Description</td>
+            <td>hpcloud</td>
+            <td>nova</td>
+          <td> created</td>
+
+        </tr>
+        <tr>
+            <td colspan="12" class="hiddenRow"><div class="accordian-body collapse" id="demo1"> 
+              <table class="table table-striped">
+                      <thead>
+                        <tr><td><a href="WorkloadURL">Workload link</a></td><td>Bandwidth: Dandwidth Details</td><td>OBS Endpoint: end point</td></tr>
+                        <tr><th>Access Key</th><th>Secret Key</th><th>Status </th><th> Created</th><th> Expires</th><th>Actions</th></tr>
+                      </thead>
+                      <tbody>
+                        <tr><td>access-key-1</td><td>secretKey-1</td><td>Status</td><td>some date</td><td>some date</td><td><a href="#" class="btn btn-default btn-sm">
+                  <i class="glyphicon glyphicon-cog"></i></a></td></tr>
+                        
+                     
+                    
+                      </tbody>
+               	</table>
+              
+              </div> </td>
+        </tr>
+        <tr data-toggle="collapse" data-target="#demo2" class="accordion-toggle">
+                <td><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
+                <td>OBS Name</td>
+            <td>OBS Description</td>
+            <td>hpcloud</td>
+            <td>nova</td>
+          <td> created</td>
+        </tr>
+        <tr>
+            <td colspan="6" class="hiddenRow"><div id="demo2" class="accordian-body collapse">Demo2</div></td>
+        </tr>
+        <tr data-toggle="collapse" data-target="#demo3" class="accordion-toggle">
+            <td><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
+            <td>OBS Name</td>
+            <td>OBS Description</td>
+            <td>hpcloud</td>
+            <td>nova</td>
+          <td> created</td>
+        </tr>
+        <tr>
+            <td colspan="6" class="hiddenRow"><div id="demo3" class="accordian-body collapse">Demo3</div></td>
+        </tr>
+    </tbody>
+</table>
+            </div>
+        
+          </div> 
+        
+      </div>
 </body> 
