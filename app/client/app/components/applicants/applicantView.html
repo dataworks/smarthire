@@ -2,22 +2,44 @@
 	<link rel="stylesheet" href="css/appView.css" />
 </head>
 
-	<div class="row_table-header">
+<!-- 	<div class="row_table-header">
 		<div class="col-md-2">
 			<h3> Score</h3> 
 		</div>
 		<div class="col-md-4">
 			<h3>Applicant Information</h3>
 		</div>
-	</div>
-		
-		<div class="row applicant-row" ng-repeat="applicant in applicants">
-			 <div id="s" class="col-md-2">
+	</div> -->
+
+	<div class="row-applicant-row" ng-repeat="applicant in applicants">
+		<table>
+			<tr>
+				<th>Score</th>
+				<th>Name</th>
+				<th>Current Info</th>
+				<th>Degree</th>
+				<th>Contact</th>
+				<th>Options</th>
+			</tr>
+			<tr>
+				<td>{{applicant.score}}</td>
+				<td>{{applicant.name}}</td>
+				<td>{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
+				<td>{{applicant.education.degree}}</td>
+				<td>{{applicant.contact.phone}} <br> {{applicant.contact.email}} <br> {{applicant.contact.url}}
+				<td>like / dislike</td>
+			</tr>
+
+
+
+			<!--  <div id="s" class="col-md-2">
 			 {{applicant.score}}</div>
 			  <div class="col-md-4">
 					<div id='name'>{{applicant.name}}</div>
-					<div id='entity'>{{applicant.currentEntity}}</div>
-				    <div id='loc'>{{applicant.currentLocation}}</div>
+					<div id='org'>{{applicant.currentLocation.organization}}</div>
+				    <div id='loc'>{{applicant.currentLocation.location}}</div>
+				    <div id='title'>{{applicant.currentLocation.title}}
 					<div id='skills'>{{applicant.skills.language.join(', ')}}</div>
-				</div>
+				</div> -->
+			</table>
 		</div>
