@@ -25,7 +25,7 @@ import scala.collection.mutable.{ListBuffer, Map, LinkedHashSet}
 object ResumeReader {
 
   //Class to store command line options
-  case class Command(sourceDirectory: String = "", sparkMaster: String = "")
+  case class Command(sourceDirectory: String = "", sparkMaster: String = "", esNodes: String = "", esPort: String = "")
 
   /**
    * Uses Apache Tika library to parse out text from a PDF
@@ -66,8 +66,8 @@ object ResumeReader {
     val filesPath = options.sourceDirectory + "*"
     //Create Spark configuration object, with Elasticsearch configuration
     val conf = new SparkConf().setMaster(options.sparkMaster)
-      .setAppName("ResumeReader").set("es.nodes", "172.31.61.189")
-      .set("es.port", "9200")
+      .setAppName("ResumeReader").set("es.nodes", options.esNodes)
+      .set("es.port", options.esPort)
       .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
 
     /*
@@ -136,6 +136,12 @@ object ResumeReader {
         opt[String]('m', "master") required() valueName("<master>") action { (x, c) =>
             c.copy(sparkMaster = x)
         } text ("Spark master argument.")
+        opt[String]('n', "nodes") required() valueName("<nodes>") action { (x, c) =>
+            c.copy(esNodes = x)
+        } text ("list of Elasticsearch nodes to connect to, usually IP address of ES server.")
+        opt[String]('p', "port") required() valueName("<port>") action { (x, c) =>
+            c.copy(esPort = x)
+        } text ("Default HTTP/REST port used for connecting to Elasticsearch, usually 9200.")
 
         note ("Reades through a directory of resumes and parses the text from each.\n")
         help("help") text("Prints this usage text")
