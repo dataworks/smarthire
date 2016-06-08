@@ -17,6 +17,9 @@ object EntityMapper {
     val languageList: ListBuffer[String] = new ListBuffer[String]()
     val etlList: ListBuffer[String] = new ListBuffer[String]()
     val databaseList: ListBuffer[String] = new ListBuffer[String]()
+    val otherTitleList: ListBuffer[String] = new ListBuffer[String]()
+    val otherLocationList: ListBuffer[String] = new ListBuffer[String]()
+    val otherOrganizationList: ListBuffer[String] = new ListBuffer[String]()
     val webappList: ListBuffer[String] = new ListBuffer[String]()
     val mobileList: ListBuffer[String] = new ListBuffer[String]()
     val infoList: ListBuffer[Map[String, Object]] = new ListBuffer[Map[String, Object]]()
@@ -61,7 +64,14 @@ object EntityMapper {
         "email" -> email,
         "phone" -> phone
       ),
-      "additionalInfo" -> infoList
+      "additionalInfo" -> Map(
+        "pastPostions" -> Map(
+          "title" -> otherTitleList,
+          "location" -> otherLocationList,
+          "organization" -> otherOrganizationList
+        ),
+        "resume" -> fullText
+      )
     )
 
     return map
