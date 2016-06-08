@@ -87,15 +87,15 @@ object ResumeReader {
 
     val broadcastGrabber = sc.broadcast(grabber)
 
-    fileData.values.foreach { x =>
+    fileData.values.foreach { currentFile =>
       var entitySet: LinkedHashSet[(String, String)] = null
-      val text = extractText(x)
+      val text = extractText(currentFile)
 
       broadcastGrabber.synchronized {
-        entitySet = broadcastGrabber.value.load(text)
+        entitySet = broadcastGrabber.value.extractEntities(text)
       }
 
-      val results = broadcastGrabber.value.query("location", entitySet)
+      val results = EntityGraber.query("location", entitySet)
       for (result <- results) { println(result) }
       println()
     }
