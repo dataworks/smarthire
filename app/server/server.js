@@ -42,7 +42,7 @@ app.get("/service/applicants", function(req, res) {
   });
 
   client.search({
-    index: 'sample_json',
+    index: 'test',
     q: req.params.query || '*'
   }).then(function (body) {
     var hits = body.hits.hits.map(function(hit) { return hit._source; });;
