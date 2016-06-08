@@ -33,6 +33,10 @@ table{
 	width:100%;
 }
 
+thead{
+  counter-increment: none;
+}
+
 #up{
   font-size: 100%;
   margin: 0;
