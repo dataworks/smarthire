@@ -45,7 +45,7 @@ app.get("/service/applicants", function(req, res) {
     index: 'sample_json',
     q: req.params.query || '*'
   }).then(function (body) {
-    var hits = body.hits.hits.map(function(hit) { return hit._source; });;
+    var hits = body.hits.hits.map(function(hit) { return hit; });;
     res.json(hits);
   }, function (error) {
     console.trace(error.message);
