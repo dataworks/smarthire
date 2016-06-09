@@ -22,12 +22,7 @@ object EntityMapper {
   def createMap(taggedEntities: LinkedHashSet[(String, String)], applicantID: String, fullText: String): Map[String, Object] = {
     var name, recentTitle, recentLocation, recentOrganization, degree, school, gpa, url, email, phone: String = "not found"
     var score: Double = 0.0
-    val languageList: ListBuffer[String] = new ListBuffer[String]()
-    val bigDataList: ListBuffer[String] = new ListBuffer[String]()
-    val etlList: ListBuffer[String] = new ListBuffer[String]()
-    val databaseList: ListBuffer[String] = new ListBuffer[String]()
-    val webappList: ListBuffer[String] = new ListBuffer[String]()
-    val mobileList: ListBuffer[String] = new ListBuffer[String]()
+    val skillsList: ListBuffer[Map[String,String]] = new ListBuffer[Map[String,String]]()
     val otherTitleList: ListBuffer[String] = new ListBuffer[String]()
     val otherLocationList: ListBuffer[String] = new ListBuffer[String]()
     val otherOrganizationList: ListBuffer[String] = new ListBuffer[String]()
@@ -45,12 +40,7 @@ object EntityMapper {
         case ("school", _) if (school == "not found") => school = pair._2
         case ("title", _) => if (recentTitle == "not found") { recentTitle = pair._2 }
           otherTitleList += pair._2
-        case ("bigdata", _) => bigDataList += pair._2
-        case ("database", _) => databaseList += pair._2
-        case ("etl", _) => etlList += pair._2
-        case ("webapp", _) => webappList += pair._2
-        case ("mobile", _) => mobileList += pair._2
-        case ("language", _) => languageList += pair._2
+        case ("bigdata", _) | ("database", _) | ("etl", _) | ("webapp", _) | ("mobile", _) | ("language", _)  => skillsList += Map(pair._1 -> pair._2.toLowerCase())
         case ("gpa", _) if (gpa == "not found") => gpa = pair._2
         case ("email", _) if (email == "not found") => email = pair._2
         case ("phone", _) if (phone == "not found") => phone = pair._2
@@ -75,14 +65,7 @@ object EntityMapper {
         "location" -> recentLocation,
         "organization" -> recentOrganization
       ),
-      "skills" -> Map(
-          "langage" -> languageList,
-          "bigdata" -> bigDataList,
-          "etl" -> etlList,
-          "database" -> databaseList,
-          "webapp" -> webappList,
-          "mobile" -> mobileList
-      ),
+      "skills" -> skillsList,
       "education" -> Map(
         "degree" -> degree,
         "school" -> school,
