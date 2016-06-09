@@ -16,10 +16,10 @@ app.get("/service/applicants", function(req, res) {
   });
 
   client.search({
-    index: 'map_test',
+    index: 'sample_json',
     q: req.params.query || '*'
   }).then(function (body) {
-    var hits = body.hits.hits.map(function(hit) { return hit; });;
+    var hits = body.hits.hits.map(function(hit) { return hit._source; });;
     res.json(hits);
   }, function (error) {
     console.trace(error.message);
