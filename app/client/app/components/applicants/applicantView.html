@@ -24,7 +24,7 @@
 					<td>{{applicant.name}}</td>
 					<td>{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
 					<td>{{applicant.education.degree}}</td>
-					<td>{{applicant.contact.phone}} <br> {{applicant.contact.email}} <br> <a ng-href="{{applicant.contact.url}}">{{applicant.contact.url}}</a></td>
+					<td><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <br> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> <a ng-href="{{applicant.contact.url}}">{{applicant.contact.url}}</a></td>
 					<td><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  onclick="window.location.href='favorites'">
 						<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
 					</button>
