@@ -1,33 +1,8 @@
-/*#s {
-	padding-top: .5%;
-	font-size: 175%;
-	outline: 1px solid black;
+#profile{
+  position: relative;
+  height: .5%
+  width: auto;
 }
-
-#name{
-	font-size: 175%;
-	outline: 1px solid black;
-}
-
-#skills{
-	font-size: 105%;
-	outline: 1px solid black;
-}
-
-#loc{
-	font-size: 125%;
-	outline: 1px solid black;
-}
-
-#title{
-	font-size: 125%;
-	outline: 1px solid black;
-}
-
-#org{
-	font-size: 125%;
-	outline: 1px solid black;
-}*/
 
 table{
 	width:100%;
