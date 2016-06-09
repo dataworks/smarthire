@@ -36,7 +36,7 @@ app.get("/service/applicants", function(req, res) {
     }
 
    console.log("Query = " + query);
-   
+
     client.search({
       index: 'sample_json',
       q: req.params.query || query
