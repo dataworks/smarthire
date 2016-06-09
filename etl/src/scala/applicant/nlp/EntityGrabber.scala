@@ -1,8 +1,9 @@
 package applicant.nlp
 
 import java.io.File
-import java.nio.charset.Charset
+import java.io.ByteArrayInputStream
 import java.util.regex.Pattern
+import java.nio.charset.Charset
 
 import opennlp.tools.namefind.{NameFinderME, NameSample, RegexNameFinder, TokenNameFinder, TokenNameFinderModel}
 import opennlp.tools.tokenize.WhitespaceTokenizer
@@ -62,11 +63,12 @@ class EntityGrabber(models: Seq[String], patterns: String) {
     def extractEntities(text: String): LinkedHashSet[(String, String)]  = {
         val entitySet = LinkedHashSet[(String, String)]()
 
-        //Tokenize each line from the given text
-        val lines: Array[String] = text.split(System.getProperty("line.separator"))
-
-        for (line <- lines) {
+        var line: String = null
+        val untokenizedLineStream = new PlainTextByLineStream(new ByteArrayInputStream(text.getBytes()), Charset.forName("UTF-8"))
+        while ({ line = untokenizedLineStream.read(); line != null }) {
           if (!line.equals("")) {
+            println("Read Line, \"" + line + "\"")
+
             // Find the entites and values
             val whitespaceTokenizerLine = WhitespaceTokenizer.INSTANCE.tokenize(text)
             if (whitespaceTokenizerLine.length == 0) {

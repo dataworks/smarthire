@@ -4,12 +4,6 @@ import applicant.nlp._
 
 import scala.collection.mutable.{ListBuffer, Map, LinkedHashSet}
 
-/**
- *
- *@version 0.0.1
- *
- */
-
 object EntityMapper {
   /**
    * Pulls in the results from extractText and EntityGrabber and ouputs as formatted map for ES
@@ -20,7 +14,7 @@ object EntityMapper {
    * @return A map formatted to save to ES as JSON
    */
   def createMap(taggedEntities: LinkedHashSet[(String, String)], applicantID: String, fullText: String): Map[String, Object] = {
-    var name, recentTitle, recentLocation, recentOrganization, degree, school, gpa, url, email, phone, notFound: String = "not found"
+    var name, recentTitle, recentLocation, recentOrganization, degree, school, gpa, url, email, phone, notFound: String = ""
 
     val languageList: ListBuffer[String] = new ListBuffer[String]()
     val bigDataList: ListBuffer[String] = new ListBuffer[String]()
@@ -60,13 +54,6 @@ object EntityMapper {
     }
 
     val strScore: String = String.valueOf(score)
-
-    if (url.equalsIgnoreCase(notFound)) {
-      url = ""
-    }
-    if (gpa.equalsIgnoreCase(notFound)) {
-      gpa = ""
-    }
 
     val map: Map[String, Object] = Map(
       "id" -> applicantID,

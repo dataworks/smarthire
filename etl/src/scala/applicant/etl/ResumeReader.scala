@@ -96,7 +96,7 @@ object ResumeReader {
         EntityMapper.createMap(entitySet, FilenameUtils.getBaseName(currentFile.getPath()), text)
       }
 
-    }.saveToEs("map_test/test", Map("es.mapping.id" -> "id"))
+    }.saveToEs("applicants/applicant", Map("es.mapping.id" -> "id"))
 
     sc.stop()
 
