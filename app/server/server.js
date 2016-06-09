@@ -12,6 +12,12 @@ var applicantConfig = {
   type: "applicant"
 };
 
+var labelConfig = {
+  url: "172.31.61.189:9200",
+  index: "labels",
+  type: "label"
+};
+
 app.use(express.static("client"));
 
 app.use(express.static("node_modules"));
@@ -27,56 +33,49 @@ app.get("/service/applicants", function(req, res) {
   // var query = "name:Dave Mezzetti";
   esservice.query(labelConfig, req, res, "*", function(res, hits){
     //var ids = map source -> _id
-
-    //same query logic * or NOT id ()
-
-    esservice.query(applicantsConfig, req, res, query, null);
-  });
-
-// // possible changes to work with local the host to hosts, added [] and added the local to the host list
-// app.get("/service/search", function(req, res) {
-  // var client = new elasticsearch.Client({
-  //   host: 'interns.dataworks-inc.com/elasticsearch'
-  // });
-
-  // client.search({
-  //   index: 'sample_json',
-  //   q: req.params.query || '*'
-  // }).then(function (body) {
-  //   var hits = body.hits.hits.map(function(hit) { return hit._source; });;
-  //   res.json(hits);
-  // }, function (error) {
-  //   console.trace(error.message);
-  // });
-
-  client.search({
-    index: 'labels',
-    q: req.params.query || '*'
-  }).then(function (body) {
-    var ids = body.hits.hits.map(function(hit) { 
+      var ids = body.hits.hits.map(function(hit) { 
       return hit._source.id
     });;
 
+    //same query logic * or NOT id ()
     var query = '*';
     if (ids.length > 0) {
       query = "NOT id:(" + ids.join(",") + ")"
     }
+    console.log("Query = " + query);
 
-   console.log("Query = " + query);
 
-    client.search({
-      index: 'sample_json',
-      q: req.params.query || query
-    }).then(function (body) {
-      var hits = body.hits.hits.map(function(hit) { return hit._source; });;
-      res.json(hits);
-    }, function (error) {
-      console.trace(error.message);
-    });
-
-  }, function (error) {
-    console.trace(error.message);
+    esservice.query(applicantsConfig, req, res, query, null);
   });
+
+  // client.search({
+  //   index: 'labels',
+  //   q: req.params.query || '*'
+  // }).then(function (body) {
+  //   var ids = body.hits.hits.map(function(hit) { 
+  //     return hit._source.id
+  //   });;
+
+  //   var query = '*';
+  //   if (ids.length > 0) {
+  //     query = "NOT id:(" + ids.join(",") + ")"
+  //   }
+
+  //  console.log("Query = " + query);
+
+  //   client.search({
+  //     index: 'sample_json',
+  //     q: req.params.query || query
+  //   }).then(function (body) {
+  //     var hits = body.hits.hits.map(function(hit) { return hit._source; });;
+  //     res.json(hits);
+  //   }, function (error) {
+  //     console.trace(error.message);
+  //   });
+
+  // }, function (error) {
+  //   console.trace(error.message);
+  // });
 
 
 });
@@ -102,7 +101,6 @@ app.post("/service/favorites", function(req, res) {
   console.log(error);
 });
 
->>>>>>> 066179af4768f3e5ab4d9c77e4e8a4d448c2d87e
 });
 
 root.get("/", function(req, res) {
@@ -123,8 +121,6 @@ var server = root.listen(8082, function () {
   console.log("Example app listening at http://%s:%s", host, port)
 
 })
-
-
 
 
 //   res.json([{
