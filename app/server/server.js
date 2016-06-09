@@ -27,9 +27,9 @@ app.get("/service/applicants", function(req, res) {
 });
 
 //code for favorites
-// app.post("/service/favorites", function(req, res) {
-  
-// })
+app.post("/service/favorites", function(req, res) {
+  console.log(req);
+});
 
 root.get("/", function(req, res) {
   res.redirect("/app");
