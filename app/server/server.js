@@ -8,32 +8,6 @@ app.use(express.static("client"));
 app.use(express.static("node_modules"));
 
 app.get("/service/applicants", function(req, res) {
-//   res.json([{
-//     "name": "Joe Schweitzer",
-//     "score": 0.99,
-//     "currentEntity": "Data Works Inc.",
-//     "currentLocation": "Reston, VA",
-//     "skills": ["Grails", "Groovy", "Ext JS"]
-//   }, {
-//     "name": "Laura Schweitzer",
-//     "score": 0.98,
-//     "currentEntity": "Data Works Inc.",
-//     "currentLocation": "Reston, VA",
-//     "skills": ["Pentaho", "Ruby on Rails", "Javascript"]
-//   }, {
-//     "name": "Dave Mezzetti",
-//     "score": 0.30,
-//     "currentEntity": "Data Works Inc.",
-//     "currentLocation": "Reston, VA",
-//     "skills": ["Scala", "Spark", "Tweeting"]
-//   }, {
-//     "name": "Dennis Schweitzer",
-//     "score": 0.58,
-//     "currentEntity": "Data Works Inc.",
-//     "currentLocation": "Reston, VA",
-//     "skills": ["Pentaho", "Ruby on Rails", "Javascript"]
-//   }]);
-// });
 
 // // possible changes to work with local the host to hosts, added [] and added the local to the host list
 // app.get("/service/search", function(req, res) {
@@ -42,7 +16,7 @@ app.get("/service/applicants", function(req, res) {
   });
 
   client.search({
-    index: 'sample_json',
+    index: 'sample',
     q: req.params.query || '*'
   }).then(function (body) {
     var hits = body.hits.hits.map(function(hit) { return hit._source; });;
@@ -70,3 +44,33 @@ var server = root.listen(8082, function () {
   console.log("Example app listening at http://%s:%s", host, port)
 
 })
+
+
+
+
+//   res.json([{
+//     "name": "Joe Schweitzer",
+//     "score": 0.99,
+//     "currentEntity": "Data Works Inc.",
+//     "currentLocation": "Reston, VA",
+//     "skills": ["Grails", "Groovy", "Ext JS"]
+//   }, {
+//     "name": "Laura Schweitzer",
+//     "score": 0.98,
+//     "currentEntity": "Data Works Inc.",
+//     "currentLocation": "Reston, VA",
+//     "skills": ["Pentaho", "Ruby on Rails", "Javascript"]
+//   }, {
+//     "name": "Dave Mezzetti",
+//     "score": 0.30,
+//     "currentEntity": "Data Works Inc.",
+//     "currentLocation": "Reston, VA",
+//     "skills": ["Scala", "Spark", "Tweeting"]
+//   }, {
+//     "name": "Dennis Schweitzer",
+//     "score": 0.58,
+//     "currentEntity": "Data Works Inc.",
+//     "currentLocation": "Reston, VA",
+//     "skills": ["Pentaho", "Ruby on Rails", "Javascript"]
+//   }]);
+// });
