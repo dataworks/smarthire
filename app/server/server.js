@@ -1,4 +1,5 @@
 var express = require("express");
+var bodyParser = require("body-parser");
 var elasticsearch = require("elasticsearch");
 var root = express();
 var app = express();
@@ -6,6 +7,12 @@ var app = express();
 app.use(express.static("client"));
 
 app.use(express.static("node_modules"));
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
+app.use(bodyParser.json());
 
 app.get("/service/applicants", function(req, res) {
 
@@ -16,19 +23,58 @@ app.get("/service/applicants", function(req, res) {
   });
 
   client.search({
-    index: 'sample_json',
+    index: 'labels',
     q: req.params.query || '*'
   }).then(function (body) {
-    var hits = body.hits.hits.map(function(hit) { return hit._source; });;
-    res.json(hits);
+    var ids = body.hits.hits.map(function(hit) { 
+      return hit._source.id
+    });;
+
+    var query = '*';
+    if (ids.length > 0) {
+      query = "NOT id:(" + ids.join(",") + ")"
+    }
+
+   console.log("Query = " + query);
+   
+    client.search({
+      index: 'sample_json',
+      q: req.params.query || query
+    }).then(function (body) {
+      var hits = body.hits.hits.map(function(hit) { return hit._source; });;
+      res.json(hits);
+    }, function (error) {
+      console.trace(error.message);
+    });
+
   }, function (error) {
     console.trace(error.message);
   });
+
+
 });
 
 //code for favorites
 app.post("/service/favorites", function(req, res) {
-  console.log(req);
+  var client = new elasticsearch.Client({
+    host: 'interns.dataworks-inc.com/elasticsearch'
+  });
+
+  var id = req.body.id;
+  var type = req.body.type;
+
+  client.index({
+  index: 'labels',
+  type: 'label',
+  id: id,
+  body: {
+    id: id,
+    type: type,
+  }
+}, function (error, response) {
+  console.log(error);
+});
+
 });
 
 root.get("/", function(req, res) {

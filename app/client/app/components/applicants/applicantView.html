@@ -25,10 +25,10 @@
 					<td>{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
 					<td>{{applicant.education.degree}} <br> {{applicant.id}}</td>
 					<td><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <br> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> <a ng-href="{{applicant.contact.url}}">{{applicant.contact.url}}</a></td>
-					<td><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  onclick="window.location.href='favorites'"> 
+					<td><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite')"> 
 						<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
 					</button>
-					<button id="down" type="button" class="btn btn-default" aria-label="Left Align" onclick="window.location.href='archive'">
+					<button id="down" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'archive')">
 						<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
 						<a href="/archive"></a>
 					</button>

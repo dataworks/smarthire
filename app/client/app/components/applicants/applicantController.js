@@ -1,8 +1,9 @@
-applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant',
-  function ($scope, Applicant) {
+applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favorite',
+  function ($scope, Applicant, Favorite) {
     $scope.applicants = Applicant.query();
-    $scope.markFavorite = function (id) {
-    	console.log(id);
+    $scope.mark = function (id, type) {
+    	var favorite = new Favorite({'id': id, 'type' : type});
+		favorite.$save();
     };
   }]);
 
