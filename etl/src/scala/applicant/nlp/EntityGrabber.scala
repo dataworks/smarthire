@@ -1,8 +1,9 @@
 package applicant.nlp
 
 import java.io.File
-import java.nio.charset.Charset
+import java.io.ByteArrayInputStream
 import java.util.regex.Pattern
+import java.nio.charset.Charset
 
 import opennlp.tools.namefind.{NameFinderME, NameSample, RegexNameFinder, TokenNameFinder, TokenNameFinderModel}
 import opennlp.tools.tokenize.WhitespaceTokenizer
@@ -62,32 +63,40 @@ class EntityGrabber(models: Seq[String], patterns: String) {
     def extractEntities(text: String): LinkedHashSet[(String, String)]  = {
         val entitySet = LinkedHashSet[(String, String)]()
 
-        // Find the entites and values
-        val whitespaceTokenizerLine = WhitespaceTokenizer.INSTANCE.tokenize(text)
-        if (whitespaceTokenizerLine.length == 0) {
-            for (nameFinder <- nameFinders) {
-                nameFinder.clearAdaptiveData()
+        var line: String = null
+        val untokenizedLineStream = new PlainTextByLineStream(new ByteArrayInputStream(text.getBytes()), Charset.forName("UTF-8"))
+        while ({ line = untokenizedLineStream.read(); line != null }) {
+          if (!line.equals("")) {
+            println("Read Line, \"" + line + "\"")
+
+            // Find the entites and values
+            val whitespaceTokenizerLine = WhitespaceTokenizer.INSTANCE.tokenize(text)
+            if (whitespaceTokenizerLine.length == 0) {
+                for (nameFinder <- nameFinders) {
+                    nameFinder.clearAdaptiveData()
+                }
             }
-        }
 
-        val names: ListBuffer[Span] = new ListBuffer[Span]()
-        for (nameFinder <- nameFinders) {
-            names.appendAll(nameFinder.find(whitespaceTokenizerLine))
-        }
+            val names: ListBuffer[Span] = new ListBuffer[Span]()
+            for (nameFinder <- nameFinders) {
+                names.appendAll(nameFinder.find(whitespaceTokenizerLine))
+            }
 
-        val reducedNames = NameFinderME.dropOverlappingSpans(names.toArray)
-        val nameSample = new NameSample(whitespaceTokenizerLine, reducedNames, false)
+            val reducedNames = NameFinderME.dropOverlappingSpans(names.toArray)
+            val nameSample = new NameSample(whitespaceTokenizerLine, reducedNames, false)
 
-        //Put all of the entities into entitySet
-        val sentence = nameSample.getSentence()
-        val entityNames = nameSample.getNames()
+            //Put all of the entities into entitySet
+            val sentence = nameSample.getSentence()
+            val entityNames = nameSample.getNames()
 
-        for (name <- entityNames) {
-            // Build and clean entity
-            var entity = sentence.slice(name.getStart(), name.getEnd()).mkString(" ")
-            entity = entity.replaceAll("\\,$", "")
+            for (name <- entityNames) {
+                // Build and clean entity
+                var entity = sentence.slice(name.getStart(), name.getEnd()).mkString(" ")
+                entity = entity.replaceAll("\\,$", "")
 
-            entitySet += (name.getType() -> entity)
+                entitySet += (name.getType() -> entity)
+            }
+          }
         }
 
         return entitySet
