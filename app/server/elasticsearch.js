@@ -1,6 +1,6 @@
 var elasticsearch = require('elasticsearch');
 
-exports.query = function(config, req, res, query, sort) {
+exports.query = function(config, req, res, query, handler) {
    var client = new elasticsearch.Client({
        host: config.url
    });
@@ -15,12 +15,18 @@ exports.query = function(config, req, res, query, sort) {
                    query: query
                }
            }
-       },
-       size: 100,
-       sort: sort
+       }
+       // sort: sort 
    }).then(function(resp) {
        // Parse ES response and send result back
-       parseResponse(resp, res);
+       var hits = module.exports.parseResponse(resp, res);
+
+       if (handler) {
+          handler(res, hits);
+       }
+       else {
+          module.exports.defaultHandler(res, hits);
+       }
 
        // Release client resources
        client.close();
@@ -35,16 +41,10 @@ exports.query = function(config, req, res, query, sort) {
 /**
 * Parses an ES response, formats it and sends data on the HTTP response.
 */
-function parseResponse(resp, res) {
-   var hits = resp.hits.hits;
-   var results = [];
-   for (var x = 0; x < hits.length; x++) {
-       results.push(hits[x]._source);
-   }
+exports.parseResponse = function(resp, res) {
+    return resp.hits.hits.map(function(hit) { return hit._source; });
+}
 
-   // Write response direct back to client
-   res.send({
-       "rows": results,
-       "total": results.length
-   });
+exports.defaultHandler = function(res, hits) {
+    res.json(hits);
 }
