@@ -59,6 +59,13 @@ object EntityMapper {
 
     val strScore: String = String.valueOf(score)
 
+    if (url.equalsIgnoreCase("not found")) {
+      url = ""
+    }
+    if (gpa.equalsIgnoreCase("not found")) {
+      gpa = ""
+    }
+
     val map: Map[String, Object] = Map(
       "id" -> applicantID,
       "name" -> name,
