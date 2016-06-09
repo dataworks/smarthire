@@ -16,7 +16,7 @@ app.get("/service/applicants", function(req, res) {
   });
 
   client.search({
-    index: 'sample',
+    index: 'sample_json',
     q: req.params.query || '*'
   }).then(function (body) {
     var hits = body.hits.hits.map(function(hit) { return hit; });;
@@ -25,6 +25,11 @@ app.get("/service/applicants", function(req, res) {
     console.trace(error.message);
   });
 });
+
+//code for favorites
+// app.post("/service/favorites", function(req, res) {
+  
+// })
 
 root.get("/", function(req, res) {
   res.redirect("/app");
