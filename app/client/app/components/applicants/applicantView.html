@@ -20,12 +20,12 @@
 			<tbody ng-repeat="applicant in applicants">
 				<tr data-toggle="collapse" data-target="#demo1-{{$index}}" class="accordion-toggle">
 					<td><button id="eye" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
-					<td>{{applicant.score}}</td>
-					<td>{{applicant.name}}</td>
-					<td>{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
-					<td>{{applicant.education.degree}}</td>
-					<td><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <br> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> <a ng-href="{{applicant.contact.url}}">{{applicant.contact.url}}</a></td>
-					<td><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  onclick="window.location.href='favorites'">
+					<td>{{applicant._source.score}}</td>
+					<td>{{applicant._source.name}}</td>
+					<td>{{applicant._source.currentLocation.organization}} <br> {{applicant._source.currentLocation.location}}<br> {{applicant._source.currentLocation.title}}</td>
+					<td>{{applicant._source.education.degree}} <br> {{applicant._id}}</td>
+					<td><a ng-href="tel:{{applicant._source.contact.phone}}"> {{applicant._source.contact.phone}} </a> <br> <a ng-href="mailto:{{applicant._source.contact.email}}"> {{applicant._source.contact.email}}</a> <br> <a ng-href="{{applicant._source.contact.url}}">{{applicant._source.contact.url}}</a></td>
+					<td><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  onclick="window.location.href='favorites'"> 
 						<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
 					</button>
 					<button id="down" type="button" class="btn btn-default" aria-label="Left Align" onclick="window.location.href='archive'">
@@ -41,7 +41,7 @@
 							<tr><th>Skills</th><th>Education</th> <th>Profile Image </th></tr>
 						</thead>
 						<tbody>
-							<tr><td><b>ETL:</b> {{applicant.skills.etl.join(', ')}} <br> <b>Web App:</b> {{applicant.skills.webapp.join(', ')}} <br> <b>Languages:</b> {{applicant.skills.language.join(', ')}} <br> <b>Mobile:</b> {{applicant.skills.mobile.join(', ')}} <br> <b>Databases:</b> {{applicant.skills.database.join(', ')}}</td><td><b>School:</b> {{applicant.education.school}} <br> <b>GPA:</b> {{applicant.education.gpa}}</td><td><img id="profile" src="images/profile.png"></td><td><a href="WorkloadURL">View Resume</a></td></tr>
+							<tr><td><b>ETL:</b> {{applicant._source.skills.etl.join(', ')}} <br> <b>Web App:</b> {{applicant._source.skills.webapp.join(', ')}} <br> <b>Languages:</b> {{applicant._source.skills.language.join(', ')}} <br> <b>Mobile:</b> {{applicant._source.skills.mobile.join(', ')}} <br> <b>Databases:</b> {{applicant._source.skills.database.join(', ')}}</td><td><b>School:</b> {{applicant._source.education.school}} <br> <b>GPA:</b> {{applicant._source.education.gpa}}</td><td><img id="profile" src="images/profile.png"></td><td><a href="WorkloadURL">View Resume</a></td></tr>
 							</tbody>
 						</table>
 						
