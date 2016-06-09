@@ -20,7 +20,9 @@ object EntityMapper {
    * @return A map formatted to save to ES as JSON
    */
   def createMap(taggedEntities: LinkedHashSet[(String, String)], applicantID: String, fullText: String): Map[String, Object] = {
-    var name, recentTitle, recentLocation, recentOrganization, degree, school, gpa, url, email, phone: String = "not found"
+    val notFound: String = ""
+
+    var name, recentTitle, recentLocation, recentOrganization, degree, school, gpa, url, email, phone: String = notFound
     var score: Double = 0.0
     val skillsList: ListBuffer[Map[String,String]] = new ListBuffer[Map[String,String]]()
     val otherTitleList: ListBuffer[String] = new ListBuffer[String]()
@@ -31,28 +33,29 @@ object EntityMapper {
 
     taggedEntities.foreach { pair =>
       pair match {
-        case ("degree", _) if (degree == "not found") => degree = pair._2
-        case ("location", _) => if (recentLocation == "not found") { recentLocation = pair._2 }
+        case ("degree", _) if (degree == notFound) => degree = pair._2
+        case ("location", _) => if (recentLocation == notFound) { recentLocation = pair._2 }
           otherLocationList += pair._2
-        case ("organization", _)  => if (recentOrganization == "not found") { recentOrganization = pair._2 }
+        case ("organization", _)  => if (recentOrganization == notFound) { recentOrganization = pair._2 }
           otherOrganizationList += pair._2
-        case ("person", _) if (name == "not found") => name = pair._2
-        case ("school", _) if (school == "not found") => school = pair._2
-        case ("title", _) => if (recentTitle == "not found") { recentTitle = pair._2 }
+        case ("person", _) if (name == notFound) => name = pair._2
+        case ("school", _) if (school == notFound) => school = pair._2
+        case ("title", _) => if (recentTitle == notFound) { recentTitle = pair._2 }
           otherTitleList += pair._2
         case ("bigdata", _) | ("database", _) | ("etl", _) | ("webapp", _) | ("mobile", _) | ("language", _)  => skillsList += Map(pair._1 -> pair._2.toLowerCase())
-        case ("gpa", _) if (gpa == "not found") => gpa = pair._2
-        case ("email", _) if (email == "not found") => email = pair._2
-        case ("phone", _) if (phone == "not found") => phone = pair._2
+        case ("gpa", _) if (gpa == notFound) => gpa = pair._2
+        case ("email", _) if (email == notFound) => email = pair._2
+        case ("phone", _) if (phone == notFound) => phone = pair._2
+        case _ =>
       }
     }
 
     val strScore: String = String.valueOf(score)
 
-    if (url.equalsIgnoreCase("not found")) {
+    if (url.equalsIgnoreCase(notFound)) {
       url = ""
     }
-    if (gpa.equalsIgnoreCase("not found")) {
+    if (gpa.equalsIgnoreCase(notFound)) {
       gpa = ""
     }
 
