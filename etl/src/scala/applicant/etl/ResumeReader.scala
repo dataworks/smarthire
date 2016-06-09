@@ -11,6 +11,7 @@ import java.io._
 import scopt.OptionParser
 import org.elasticsearch.spark._
 import org.apache.commons.io.FilenameUtils
+import org.apache.commons.codec.binary.Base64
 import applicant.nlp._
 
 import scala.collection.mutable.{ListBuffer, Map, LinkedHashSet}
@@ -97,6 +98,13 @@ object ResumeReader {
       }
 
     }.saveToEs("applicants/applicant", Map("es.mapping.id" -> "id"))
+
+    fileData.values.map{ currentFile =>
+      Map(
+        "id" -> FilenameUtils.getBaseName(currentFile.getPath()),
+        "base64string" -> currentFile.toArray
+      )
+    }.saveToEs("applicants/binaryPDF", Map("es.mapping.id" -> "id"))
 
     sc.stop()
 
