@@ -15,6 +15,10 @@ td{
   text-align: center;
 }
 
+#body{
+  text-align: left;
+}
+
 
 #hide{
   border-top:0;
