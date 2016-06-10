@@ -1,33 +1,33 @@
 var expect  = require("chai").expect;
 var request = require("request");
 
-describe("Applicant Server", function() {
-    describe("Applicants List", function() {
-      var url = "http://localhost:8082/app/service/applicants";
+describe("Favorite Server", function() {
+    describe("Favorites List", function() {
+      var url = "http://localhost:8082/app/service/favorites";
 
       it("returns dummy applicants", function(done) {
         request(url, function(error, response, body) {
           expect(response.statusCode).to.equal(200);
 
           var data = JSON.parse(body);
-          expect(data).to.have.length(1);
-          expect(data[0].name).to.equal('Dave Mezzetti');
+          expect(data).to.have.length(3);
+          //expect(data[0].name).to.equal('Dave Mezzetti');
 
           done();
         });
       });
     });
 
-    describe("Search", function() {
-      var url = "http://localhost:8082/app/service/search";
+    describe("Archive Server", function() {
+      var url = "http://localhost:8082/app/service/archive";
 
       it("returns dummy applicants", function(done) {
         request(url, function(error, response, body) {
           expect(response.statusCode).to.equal(200);
 
           var data = JSON.parse(body);
-          expect(data).to.have.length(1);
-          expect(data[0].name).to.equal('Dave Mezzetti');
+          expect(data).to.have.length(2);
+          //expect(data[0].name).to.equal('Dave Mezzetti');
 
           done();
         });
