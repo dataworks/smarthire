@@ -7,13 +7,13 @@ var app = express();
 var esservice = require("./elasticsearch.js");
 
 var applicantConfig = {
-  url: "172.31.61.189:9200",
+  url: "interns.dataworks-inc.com/elasticsearch",
   index: "applicants",
   type: "applicant"
 };
 
 var labelConfig = {
-  url: "172.31.61.189:9200",
+  url: "interns.dataworks-inc.com/elasticsearch",
   index: "labels",
   type: "label"
 };
