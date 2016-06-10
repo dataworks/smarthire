@@ -33,17 +33,17 @@ app.get("/service/applicants", function(req, res) {
   // var query = "name:Dave Mezzetti";
   esservice.query(labelConfig, req, res, "*", function(res, hits){
     //var ids = map source -> _id
-      var ids = body.hits.hits.map(function(hit) { 
-      return hit._source.id
-    });;
 
+    var ids = res.hits.hits.map(function(hit) { return hit._source; });
+    console.log(ids);
     //same query logic * or NOT id ()
+
     var query = '*';
     if (ids.length > 0) {
       query = "NOT id:(" + ids.join(",") + ")"
     }
-    console.log("Query = " + query);
 
+   console.log("Query = " + query);
 
     esservice.query(applicantsConfig, req, res, query, null);
   });
@@ -77,7 +77,6 @@ app.get("/service/applicants", function(req, res) {
   //   console.trace(error.message);
   // });
 
-
 });
 
 //code for favorites
@@ -100,7 +99,6 @@ app.post("/service/favorites", function(req, res) {
 }, function (error, response) {
   console.log(error);
 });
-
 });
 
 root.get("/", function(req, res) {

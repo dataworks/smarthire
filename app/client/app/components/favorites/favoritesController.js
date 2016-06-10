@@ -1,4 +1,5 @@
-applicantControllers.controller('FavoritesCtrl', ['$scope',
-  function ($scope) {
+applicantControllers.controller('FavoritesCtrl', ['$scope', 'Favorite',
+  function ($scope, Favorite) {
+  	$scope.favorites = Favorite.query();
  
   }]);
