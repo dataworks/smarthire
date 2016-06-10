@@ -90,16 +90,20 @@ object ResumeReader {
 
     val broadcastGrabber = sc.broadcast(grabber)
 
-    //fileData.values.map { currentFile =>
-    //  var entitySet: LinkedHashSet[(String, String)] = null
-    //  val text = extractText(currentFile)
-    //
-    //  broadcastGrabber.synchronized {
-    //    entitySet = broadcastGrabber.value.extractEntities(text)
-    //    EntityMapper.createMap(entitySet, FilenameUtils.getBaseName(currentFile.getPath()), text)
-    //  }
-    //
-    //}.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
+    var fileCount: Int = 0
+
+    fileData.values.map { currentFile =>
+      var entitySet: LinkedHashSet[(String, String)] = null
+      val text = extractText(currentFile)
+      fileCount += 1
+      println(fileCount + " files parsed")
+      
+      broadcastGrabber.synchronized {
+        entitySet = broadcastGrabber.value.extractEntities(text)
+        EntityMapper.createMap(entitySet, FilenameUtils.getBaseName(currentFile.getPath()), text)
+      }
+
+    }.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
 
     fileData.values.map{ currentFile =>
       Map(

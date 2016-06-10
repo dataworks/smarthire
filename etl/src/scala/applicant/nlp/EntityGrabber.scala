@@ -67,7 +67,6 @@ class EntityGrabber(models: Seq[String], patterns: String) {
         val untokenizedLineStream = new PlainTextByLineStream(new ByteArrayInputStream(text.getBytes()), Charset.forName("UTF-8"))
         while ({ line = untokenizedLineStream.read(); line != null }) {
           if (!line.equals("")) {
-            println("Read Line, \"" + line + "\"")
 
             // Find the entites and values
             val whitespaceTokenizerLine = WhitespaceTokenizer.INSTANCE.tokenize(line)
