@@ -94,6 +94,29 @@ app.get("/service/favorites", function(req, res) {
   console.log(error);
 });
 
+//get code for archive
+app.get("/service/favorites", function(req, res) {
+  // var query = "name:Dave Mezzetti";
+  esservice.query(labelConfig, req, res, "type: archive", function(res, hits){
+    //var ids = map source -> _id
+    var query = '*';
+    if (hits && hits.length > 0) {
+      var ids = hits.map(function(hit) { return hit.id; })
+
+      //same query logic * or NOT id ()
+      if (ids && ids.length > 0) {
+        query = "id:(" + ids.join(",") + ")"
+      }
+   } 
+
+    esservice.query(applicantConfig, req, res, query, null);
+  });
+
+},function (error, response) {
+  console.log(error);
+});
+
+
 root.get("/", function(req, res) {
   res.redirect("/app");
 });
