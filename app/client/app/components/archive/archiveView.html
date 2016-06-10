@@ -8,28 +8,29 @@
 		<table class="table table-condensed">
 
 			<thead id="head">
-				<tr><th>Expand&nbsp;</th>
-					<th>Score</th>
-					<th>Name</th>
+				<tr><th id="e">Expand&nbsp;</th>
+					<th id="s">Score</th>
+					<th id="n">Name</th>
 					<th>Current Info</th>
 					<th>Degree</th>
 					<th>Contact</th>
-					<th>Options</th>
+					<th id="o">Options</th>
 				</tr>
 			</thead>
 
+
 			<tbody ng-repeat="label in labels">
 				<tr class="accordion-toggle">
-					<td><button id="eye" class="btn btn-default btn-xs" data-toggle="collapse" data-target="#demo1-{{$index}}" ><span class="glyphicon glyphicon-eye-open"></span></button></td>
-					<td>{{label.id}}</td>
-					<td>{{label.name}}</td>
-					<td><br> <br> </td>
-					<td> <br></td>
-					<td><a ng-href=""> </a> <br> <a ng-href=""> </a> <br> <a ng-href=""></a></td>
-					<td><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click=""> 
+					<td id="e"><button id="eye" class="btn btn-default btn-xs" data-toggle="collapse" data-target="#demo1-{{$index}}"><span class="glyphicon glyphicon-eye-open"></span></button></td>
+					<td id="s">{{label.score}}</td>
+					<td id="n">{{label.name}}</td>
+					<td>{{label.currentLocation.organization}} <br> {{label.currentLocation.location}}<br> {{label.currentLocation.title}}</td>
+					<td>{{label.education.degree}}</td>
+					<td><a ng-href="tel:{{label.contact.phone}}"> {{label.contact.phone}} </a> <br> <a ng-href="mailto:{{label.contact.email}}"> {{label.contact.email}}</a> <br> <a ng-href="{{label.contact.url}}">{{label.contact.url}}</a></td>
+					<td id="o"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(label.id, 'favorite')"> 
 						<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
 					</button>
-					<button id="down" type="button" class="btn btn-default" aria-label="Left Align" ng-click="">
+					<button id="down" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(label.id, 'archive')">
 						<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
 						<a href="/archive"></a>
 					</button>
