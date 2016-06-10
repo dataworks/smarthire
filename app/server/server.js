@@ -4,7 +4,7 @@ var elasticsearch = require("elasticsearch");
 var root = express();
 var app = express();
 
-var esservice = require("./elasticsearch.js")
+var esservice = require("./elasticsearch.js");
 
 var applicantConfig = {
   url: "172.31.61.189:9200",
@@ -36,10 +36,9 @@ app.get("/service/applicants", function(req, res) {
     var query = '*';
     if (hits && hits.length > 0) {
       var ids = hits.map(function(hit) { return hit.id; })
-
       //same query logic * or NOT id ()
       if (ids && ids.length > 0) {
-        query = "NOT id:(" + ids.join(",") + ")"
+        query = "NOT id:(" + ids.join(",") + ")";
       }
    } 
 
@@ -89,7 +88,6 @@ app.get("/service/favorites", function(req, res) {
 
     esservice.query(applicantConfig, req, res, query, null);
   });
-
 },function (error, response) {
   console.log(error);
 });
