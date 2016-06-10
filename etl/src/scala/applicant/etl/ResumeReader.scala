@@ -26,7 +26,9 @@ import scala.collection.mutable.{ListBuffer, Map, LinkedHashSet}
 object ResumeReader {
 
   //Class to store command line options
-  case class Command(sourceDirectory: String = "", sparkMaster: String = "", esNodes: String = "", esPort: String = "")
+  case class Command(sourceDirectory: String = "", sparkMaster: String = "",
+    esNodes: String = "", esPort: String = "", esAppIndex: String = "",
+    nlpRegex: String = "", nlpModels: String = "", esAttIndex: String = "")
 
   /**
    * Uses Apache Tika library to parse out text from a PDF
@@ -82,29 +84,31 @@ object ResumeReader {
     val fileData = sc.binaryFiles(filesPath)
 
     // Create EntityGrabber object
-    val models = List[String]("model/nlp/en-ner-degree.bin", "model/nlp/en-ner-location.bin", "model/nlp/en-ner-organization.bin", "model/nlp/en-ner-person.bin", "model/nlp/en-ner-school.bin", "model/nlp/en-ner-title.bin")
-    val patterns = "model/nlp/regex.txt"
+    val models = options.nlpModels.split(",").map(_.trim) //Trimmed in case someone puts spaces in the model paths
+    val patterns = options.nlpRegex
     val grabber = new EntityGrabber(models, patterns)
 
     val broadcastGrabber = sc.broadcast(grabber)
 
-    fileData.values.map { currentFile =>
-      var entitySet: LinkedHashSet[(String, String)] = null
-      val text = extractText(currentFile)
-
-      broadcastGrabber.synchronized {
-        entitySet = broadcastGrabber.value.extractEntities(text)
-        EntityMapper.createMap(entitySet, FilenameUtils.getBaseName(currentFile.getPath()), text)
-      }
-
-    }.saveToEs("applicants/applicant", Map("es.mapping.id" -> "id"))
+    //fileData.values.map { currentFile =>
+    //  var entitySet: LinkedHashSet[(String, String)] = null
+    //  val text = extractText(currentFile)
+    //
+    //  broadcastGrabber.synchronized {
+    //    entitySet = broadcastGrabber.value.extractEntities(text)
+    //    EntityMapper.createMap(entitySet, FilenameUtils.getBaseName(currentFile.getPath()), text)
+    //  }
+    //
+    //}.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
 
     fileData.values.map{ currentFile =>
       Map(
         "id" -> FilenameUtils.getBaseName(currentFile.getPath()),
-        "base64string" -> currentFile.toArray
+        "base64string" -> currentFile.toArray,
+        "filename" -> FilenameUtils.getName(currentFile.getPath()),
+        "type" -> FilenameUtils.getExtension(currentFile.getPath())
       )
-    }.saveToEs("applicants/binaryPDF", Map("es.mapping.id" -> "id"))
+    }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "id"))
 
     sc.stop()
 
@@ -127,18 +131,30 @@ object ResumeReader {
     val parser = new OptionParser[Command]("ResumeReader") {
         opt[String]('d', "directory") required() valueName("<directory>") action { (x, c) =>
             c.copy(sourceDirectory = x)
-        } text ("Path to resumes")
+        } text ("Path to resumes.")
         opt[String]('m', "master") required() valueName("<master>") action { (x, c) =>
             c.copy(sparkMaster = x)
         } text ("Spark master argument.")
         opt[String]('n', "nodes") required() valueName("<nodes>") action { (x, c) =>
             c.copy(esNodes = x)
-        } text ("list of Elasticsearch nodes to connect to, usually IP address of ES server.")
+        } text ("Elasticsearch node to connect to, usually IP address of ES server.")
         opt[String]('p', "port") required() valueName("<port>") action { (x, c) =>
             c.copy(esPort = x)
         } text ("Default HTTP/REST port used for connecting to Elasticsearch, usually 9200.")
+        opt[String]('i', "applicantindex") required() valueName("<applicantindex>") action { (x, c) =>
+            c.copy(esAppIndex = x)
+        } text ("Name of the Elasticsearch index to save applicant data to.")
+        opt[String]('a', "attachmentindex") required() valueName("<attachmentindex>") action { (x, c) =>
+            c.copy(esAttIndex = x)
+        } text ("Name of the Elasticsearch index to save attachment data to.")
+        opt[String]('r', "regex") required() valueName("<regex>") action { (x, c) =>
+            c.copy(nlpRegex = x)
+        } text ("Location of the regex file for OpenNLP, usually named regex.txt")
+        opt[String]('o', "models") required() valueName("<models>") action { (x, c) =>
+            c.copy(nlpModels = x)
+        } text ("Path to the binary models for OpenNLP, comma delimited")
 
-        note ("Reades through a directory of resumes and parses the text from each.\n")
+        note ("Reades through a directory of resumes, parses the text from each, and saves the applicant data to Elasticsearch\n")
         help("help") text("Prints this usage text")
     }
 
