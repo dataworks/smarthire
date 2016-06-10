@@ -114,6 +114,28 @@ app.get("/service/archive", function(req, res) {
   console.log(error);
 });
 
+//code for archive, changes between favorite and archive--REQUIRED
+app.post("/service/archive", function(req, res) {
+    var client = new elasticsearch.Client({
+      host: 'interns.dataworks-inc.com/elasticsearch'
+    });
+
+    var id = req.body.id;
+    var type = req.body.type;
+
+    client.index({
+    index: 'labels',
+    type: 'label',
+    id: id,
+    body: {
+      id: id,
+      type: type,
+    }
+  }, function (error, response) {
+    console.log(error);
+  });
+});
+
 
 root.get("/", function(req, res) {
   res.redirect("/app");
