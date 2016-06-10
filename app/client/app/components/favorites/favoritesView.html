@@ -19,9 +19,9 @@
 			</thead>
 
 			<tbody ng-repeat="label in labels">
-				<tr data-toggle="collapse" data-target="#demo1-{{$index}}" class="accordion-toggle">
-					<td><button id="eye" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
-					<td>{{label.type}}</td>
+				<tr class="accordion-toggle">
+					<td><button id="eye" class="btn btn-default btn-xs" data-toggle="collapse" data-target="#demo1-{{$index}}" ><span class="glyphicon glyphicon-eye-open"></span></button></td>
+					<td></td>
 					<td>{{label.id}}</td>
 					<td>{{label.name}}<br> <br> </td>
 					<td> <br></td>

@@ -38,7 +38,7 @@ app.get("/service/applicants", function(req, res) {
       var ids = hits.map(function(hit) { return hit.id; })
       //same query logic * or NOT id ()
       if (ids && ids.length > 0) {
-        query = "NOT id:(" + ids.join(",") + ")";
+        query = "NOT id:(" + ids.join(" ") + ")";
       }
    } 
 
@@ -82,7 +82,7 @@ app.get("/service/favorites", function(req, res) {
 
       //same query logic * or NOT id ()
       if (ids && ids.length > 0) {
-        query = "id:(" + ids.join(",") + ")"
+        query = "id:(" + ids.join(" ") + ")"
       }
    } 
 
@@ -103,7 +103,7 @@ app.get("/service/archive", function(req, res) {
 
       //same query logic * or NOT id ()
       if (ids && ids.length > 0) {
-        query = "id:(" + ids.join(",") + ")"
+        query = "id:(" + ids.join(" ") + ")"
       }
    } 
 
