@@ -34,15 +34,13 @@ app.get("/service/applicants", function(req, res) {
   esservice.query(labelConfig, req, res, "*", function(res, hits){
     //var ids = map source -> _id
     var query = '*';
-    if(hits && hits.length > 0) {
-      var ids = hits.hits.map(function(hit) { return hit._source.id; })
-      // console.log("test");
+    if (hits && hits.length > 0) {
+      var ids = hits.map(function(hit) { return hit.id; })
       //same query logic * or NOT id ()
       if (ids && ids.length > 0) {
         query = "NOT id:(" + ids.join(",") + ")";
       }
    } 
-   console.log("Query = " + query);
 
     esservice.query(applicantConfig, req, res, query, null);
   });
@@ -51,7 +49,7 @@ app.get("/service/applicants", function(req, res) {
   console.log(error);
 });
 
-//code for favorites
+//code for favorites, changes between favorite and archive--REQUIRED
 app.post("/service/favorites", function(req, res) {
     var client = new elasticsearch.Client({
       host: 'interns.dataworks-inc.com/elasticsearch'
@@ -75,8 +73,21 @@ app.post("/service/favorites", function(req, res) {
 
 //get code for favorites
 app.get("/service/favorites", function(req, res) {
-    esservice.query(labelConfig, req, res, "*", null);
+  // var query = "name:Dave Mezzetti";
+  esservice.query(labelConfig, req, res, "type: favorite", function(res, hits){
+    //var ids = map source -> _id
+    var query = '*';
+    if (hits && hits.length > 0) {
+      var ids = hits.map(function(hit) { return hit.id; })
 
+      //same query logic * or NOT id ()
+      if (ids && ids.length > 0) {
+        query = "id:(" + ids.join(",") + ")"
+      }
+   } 
+
+    esservice.query(applicantConfig, req, res, query, null);
+  });
 },function (error, response) {
   console.log(error);
 });

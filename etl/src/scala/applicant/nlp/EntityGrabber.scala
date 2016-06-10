@@ -70,7 +70,7 @@ class EntityGrabber(models: Seq[String], patterns: String) {
             println("Read Line, \"" + line + "\"")
 
             // Find the entites and values
-            val whitespaceTokenizerLine = WhitespaceTokenizer.INSTANCE.tokenize(text)
+            val whitespaceTokenizerLine = WhitespaceTokenizer.INSTANCE.tokenize(line)
             if (whitespaceTokenizerLine.length == 0) {
                 for (nameFinder <- nameFinders) {
                     nameFinder.clearAdaptiveData()
