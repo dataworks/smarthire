@@ -1,6 +1,7 @@
 package applicant.etl
 
 import applicant.nlp._
+import java.text.DecimalFormat
 
 import scala.collection.mutable.{ListBuffer, Map, LinkedHashSet}
 
@@ -26,6 +27,7 @@ object EntityMapper {
     val otherTitleList: ListBuffer[String] = new ListBuffer[String]()
     val otherLocationList: ListBuffer[String] = new ListBuffer[String]()
     val otherOrganizationList: ListBuffer[String] = new ListBuffer[String]()
+    val df: DecimalFormat = new DecimalFormat("#.##")
 
     //degree, location, organization, person, school, title, bigdata, database, etl, webapp, mobile, language, gpa, email, phone, url
 
@@ -40,12 +42,12 @@ object EntityMapper {
         case ("school", _) if (school == notFound) => school = pair._2
         case ("title", _) => if (recentTitle == notFound) { recentTitle = pair._2 }
           otherTitleList += pair._2
-        case ("bigdata", _) => (bigDataList += pair._2, score += 0.1)
-        case ("database", _) => (databaseList += pair._2, score += 0.1)
-        case ("etl", _) => (etlList += pair._2, score += 0.1)
-        case ("webapp", _) => (webappList += pair._2, score += 0.1)
-        case ("mobile", _) => (mobileList += pair._2, score += 0.1)
-        case ("language", _) => (languageList += pair._2, score += 0.1)
+        case ("bigdata", _) => (bigDataList += pair._2, score += 1)
+        case ("database", _) => (databaseList += pair._2, score += 1)
+        case ("etl", _) => (etlList += pair._2, score += 1)
+        case ("webapp", _) => (webappList += pair._2, score += 1)
+        case ("mobile", _) => (mobileList += pair._2, score += 1)
+        case ("language", _) => (languageList += pair._2, score += 1)
         case ("gpa", _) if (gpa == notFound) => gpa = pair._2
         case ("email", _) if (email == notFound) => email = pair._2
         case ("phone", _) if (phone == notFound) => phone = pair._2
@@ -53,7 +55,12 @@ object EntityMapper {
       }
     }
 
-    val strScore: String = String.valueOf(score)
+    score = score/10
+
+    if (score > 1)
+      score = 1
+
+    val strScore: String = String.valueOf(df.format(score))
 
     val map: Map[String, Object] = Map(
       "id" -> applicantID,
