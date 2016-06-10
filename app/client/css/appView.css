@@ -11,8 +11,26 @@ th{
   text-align: center;
 }
 
+#s{
+  width: 5% !important;
+}
+
+#e{
+  width: 5% !important;
+}
+
+#o{
+  width: 7% !important;
+}
+
+#n{
+  width: 10% !important;
+}
+
 td{
   text-align: center;
+  width: 15%;
+  outline: 1px solid black;
 }
 
 #body{

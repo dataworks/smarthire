@@ -7,25 +7,25 @@
 		<table class="table table-condensed">
 
 			<thead id="head">
-				<tr><th>Expand&nbsp;</th>
-					<th>Score</th>
-					<th>Name</th>
+				<tr><th id="e">Expand&nbsp;</th>
+					<th id="s">Score</th>
+					<th id="n">Name</th>
 					<th>Current Info</th>
 					<th>Degree</th>
 					<th>Contact</th>
-					<th>Options</th>
+					<th id="o">Options</th>
 				</tr>
 			</thead>
 
 			<tbody ng-repeat="applicant in applicants">
 				<tr class="accordion-toggle">
-					<td><button id="eye" class="btn btn-default btn-xs" data-toggle="collapse" data-target="#demo1-{{$index}}"><span class="glyphicon glyphicon-eye-open"></span></button></td>
-					<td>{{applicant.score}}</td>
-					<td>{{applicant.name}}</td>
+					<td id="e"><button id="eye" class="btn btn-default btn-xs" data-toggle="collapse" data-target="#demo1-{{$index}}"><span class="glyphicon glyphicon-eye-open"></span></button></td>
+					<td id="s">{{applicant.score}}</td>
+					<td id="n">{{applicant.name}}</td>
 					<td>{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
 					<td>{{applicant.education.degree}}</td>
 					<td><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <br> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> <a ng-href="{{applicant.contact.url}}">{{applicant.contact.url}}</a></td>
-					<td><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite')"> 
+					<td id="o"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite')"> 
 						<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
 					</button>
 					<button id="down" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'archive')">
