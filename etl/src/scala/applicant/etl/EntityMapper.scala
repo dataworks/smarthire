@@ -72,6 +72,11 @@ object EntityMapper {
         "webapp" -> webappList,
         "mobile" -> mobileList
       ),
+      "education" -> Map(
+      "degree" -> degree,
+      "school" -> school,
+      "gpa" -> gpa
+      ),
       "contact" -> Map(
         "url" -> url,
         "email" -> email,
