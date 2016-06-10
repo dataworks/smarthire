@@ -33,50 +33,23 @@ app.get("/service/applicants", function(req, res) {
   // var query = "name:Dave Mezzetti";
   esservice.query(labelConfig, req, res, "*", function(res, hits){
     //var ids = map source -> _id
-
-    var ids = res.hits.hits.map(function(hit) { return hit._source; });
-    console.log(ids);
-    //same query logic * or NOT id ()
-
     var query = '*';
-    if (ids.length > 0) {
-      query = "NOT id:(" + ids.join(",") + ")"
-    }
+    console.log(hits);
+    if(hits && hits.length > 0) {
+      var ids = hits.hits.map(function(hit) { return hit._source.id; })
 
+      //same query logic * or NOT id ()
+      if (ids &&ids.length > 0) {
+        query = "NOT id:(" + ids.join(",") + ")"
+      }
+   } 
    console.log("Query = " + query);
 
     esservice.query(applicantsConfig, req, res, query, null);
   });
 
-  // client.search({
-  //   index: 'labels',
-  //   q: req.params.query || '*'
-  // }).then(function (body) {
-  //   var ids = body.hits.hits.map(function(hit) { 
-  //     return hit._source.id
-  //   });;
-
-  //   var query = '*';
-  //   if (ids.length > 0) {
-  //     query = "NOT id:(" + ids.join(",") + ")"
-  //   }
-
-  //  console.log("Query = " + query);
-
-  //   client.search({
-  //     index: 'sample_json',
-  //     q: req.params.query || query
-  //   }).then(function (body) {
-  //     var hits = body.hits.hits.map(function(hit) { return hit._source; });;
-  //     res.json(hits);
-  //   }, function (error) {
-  //     console.trace(error.message);
-  //   });
-
-  // }, function (error) {
-  //   console.trace(error.message);
-  // });
-
+},function (error, response) {
+  console.log(error);
 });
 
 //code for favorites

@@ -31,6 +31,7 @@ exports.query = function(config, req, res, query, handler) {
        // Release client resources
        client.close();
    }, function(err) {
+       console.log(err.message);
        res.status(400).send(err.message);
 
        // Release client resources
