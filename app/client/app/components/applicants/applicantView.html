@@ -18,8 +18,8 @@
 			</thead>
 
 			<tbody ng-repeat="applicant in applicants">
-				<tr data-toggle="collapse" data-target="#demo1-{{$index}}" class="accordion-toggle">
-					<td><button id="eye" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
+				<tr class="accordion-toggle">
+					<td><button id="eye" class="btn btn-default btn-xs" data-toggle="collapse" data-target="#demo1-{{$index}}"><span class="glyphicon glyphicon-eye-open"></span></button></td>
 					<td>{{applicant.score}}</td>
 					<td>{{applicant.name}}</td>
 					<td>{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
