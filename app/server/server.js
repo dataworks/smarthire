@@ -33,6 +33,7 @@ app.get("/service/applicants", function(req, res) {
   // var query = "name:Dave Mezzetti";
   esservice.query(labelConfig, req, res, "*", function(res, hits){
     //var ids = map source -> _id
+     // .then(function (body) {
       var ids = body.hits.hits.map(function(hit) { 
       return hit._source.id
     });;
