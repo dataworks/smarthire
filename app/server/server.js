@@ -34,7 +34,7 @@ app.get("/service/applicants", function(req, res) {
   esservice.query(labelConfig, req, res, "*", function(res, hits){
     //var ids = map source -> _id
     var query = '*';
-    console.log(hits);
+    // console.log(hits);
     if(hits && hits.length > 0) {
       var ids = hits.hits.map(function(hit) { return hit._source.id; })
 
@@ -45,7 +45,7 @@ app.get("/service/applicants", function(req, res) {
    } 
    console.log("Query = " + query);
 
-    esservice.query(applicantsConfig, req, res, query, null);
+    esservice.query(applicantConfig, req, res, query, null);
   });
 
 },function (error, response) {
