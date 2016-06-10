@@ -1,3 +1,2 @@
 #!/bin/bash
-
-java -cp `cat .classpath` -Xmx2048m -Dlog4j.configuration=file:log4j.properties applicant.etl.ResumeReader "$@" --directory ~/Documents/ --master local[*] --nodes 172.31.61.189 --port 9200
+java -cp `cat .classpath` -Xmx2048m -Dlog4j.configuration=file:log4j.properties applicant.etl.ResumeReader "$@" --directory ~/Documents/ --master local[1] --nodes 172.31.61.189 --port 9200 --applicantindex applicants --attachmentindex attachments --regex model/nlp/regex.txt --models model/nlp/en-ner-degree.bin,model/nlp/en-ner-location.bin,model/nlp/en-ner-organization.bin,model/nlp/en-ner-person.bin,model/nlp/en-ner-school.bin,model/nlp/en-ner-title.bin
