@@ -39,13 +39,13 @@ app.get("/service/applicants", function(req, res) {
       var ids = hits.hits.map(function(hit) { return hit._source.id; })
 
       //same query logic * or NOT id ()
-      if (ids &&ids.length > 0) {
+      if (ids && ids.length > 0) {
         query = "NOT id:(" + ids.join(",") + ")"
       }
    } 
    console.log("Query = " + query);
 
-    esservice.query(applicantsConfig, req, res, query, null);
+    esservice.query(applicantConfig, req, res, query, null);
   });
 
 },function (error, response) {
@@ -54,24 +54,24 @@ app.get("/service/applicants", function(req, res) {
 
 //code for favorites
 app.post("/service/favorites", function(req, res) {
-  var client = new elasticsearch.Client({
-    host: 'interns.dataworks-inc.com/elasticsearch'
-  });
+    var client = new elasticsearch.Client({
+      host: 'interns.dataworks-inc.com/elasticsearch'
+    });
 
-  var id = req.body.id;
-  var type = req.body.type;
+    var id = req.body.id;
+    var type = req.body.type;
 
-  client.index({
-  index: 'labels',
-  type: 'label',
-  id: id,
-  body: {
+    client.index({
+    index: 'labels',
+    type: 'label',
     id: id,
-    type: type,
-  }
-}, function (error, response) {
-  console.log(error);
-});
+    body: {
+      id: id,
+      type: type,
+    }
+  }, function (error, response) {
+    console.log(error);
+  });
 });
 
 root.get("/", function(req, res) {
