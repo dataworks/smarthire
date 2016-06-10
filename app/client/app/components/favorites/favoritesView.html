@@ -1,3 +1,7 @@
+<head>
+	<link rel="stylesheet" href="css/appView.css"/>
+</head>
+
 <body ng-controller="FavoritesCtrl">
 	<h2>Favorites</h2>
 	<div class="row-favorites-row" >
@@ -14,7 +18,7 @@
 				</tr>
 			</thead>
 
-			<tbody ng-repeat="favorite in favorites">
+			<tbody ng-repeat="label in labels">
 				<tr data-toggle="collapse" data-target="#demo1-{{$index}}" class="accordion-toggle">
 					<td><button id="eye" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
 					<td>{{label.id}}</td>
