@@ -28,7 +28,15 @@ app.get("/service/applicants", function(req, res) {
   esservice.query(labelConfig, req, res, "*", function(res, hits){
     //var ids = map source -> _id
 
+    var ids = res.hits.hits.map(function(hit) { return hit._source; });
     //same query logic * or NOT id ()
+
+    var query = '*';
+    if (ids.length > 0) {
+      query = "NOT id:(" + ids.join(",") + ")"
+    }
+
+   console.log("Query = " + query);
 
     esservice.query(applicantsConfig, req, res, query, null);
   });
@@ -77,34 +85,34 @@ app.get("/service/applicants", function(req, res) {
   //   console.trace(error.message);
   // });
 
-  client.search({
-    index: 'labels',
-    q: req.params.query || '*'
-  }).then(function (body) {
-    var ids = body.hits.hits.map(function(hit) { 
-      return hit._source.id
-    });;
+  // client.search({
+  //   index: 'labels',
+  //   q: req.params.query || '*'
+  // }).then(function (body) {
+  //   var ids = body.hits.hits.map(function(hit) { 
+  //     return hit._source.id
+  //   });;
 
-    var query = '*';
-    if (ids.length > 0) {
-      query = "NOT id:(" + ids.join(",") + ")"
-    }
+  //   var query = '*';
+  //   if (ids.length > 0) {
+  //     query = "NOT id:(" + ids.join(",") + ")"
+  //   }
 
-   console.log("Query = " + query);
+  //  console.log("Query = " + query);
    
-    client.search({
-      index: 'sample_json',
-      q: req.params.query || query
-    }).then(function (body) {
-      var hits = body.hits.hits.map(function(hit) { return hit._source; });;
-      res.json(hits);
-    }, function (error) {
-      console.trace(error.message);
-    });
+  //   client.search({
+  //     index: 'sample_json',
+  //     q: req.params.query || query
+  //   }).then(function (body) {
+  //     var hits = body.hits.hits.map(function(hit) { return hit._source; });;
+  //     res.json(hits);
+  //   }, function (error) {
+  //     console.trace(error.message);
+  //   });
 
-  }, function (error) {
-    console.trace(error.message);
-  });
+  // }, function (error) {
+  //   console.trace(error.message);
+  // });
 
 
 });
@@ -129,8 +137,6 @@ app.post("/service/favorites", function(req, res) {
 }, function (error, response) {
   console.log(error);
 });
-
->>>>>>> 066179af4768f3e5ab4d9c77e4e8a4d448c2d87e
 });
 
 root.get("/", function(req, res) {
