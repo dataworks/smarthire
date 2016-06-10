@@ -1,1 +1,50 @@
-<h2>Archive</h2>
+<body ng-controller="ArchiveCtrl">
+	<h2>Archive</h2>
+	<div class="row-archives-row" >
+		<table class="table table-condensed">
+
+			<thead id="head">
+				<tr><th>Expand&nbsp;</th>
+					<th>Score</th>
+					<th>Name</th>
+					<th>Current Info</th>
+					<th>Degree</th>
+					<th>Contact</th>
+					<th>Options</th>
+				</tr>
+			</thead>
+
+			<tbody ng-repeat="archive in archives">
+				<tr data-toggle="collapse" data-target="#demo1-{{$index}}" class="accordion-toggle">
+					<td><button id="eye" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
+					<td>{{label.id}}</td>
+					<td></td>
+					<td><br> <br> </td>
+					<td> <br></td>
+					<td><a ng-href=""> </a> <br> <a ng-href=""> </a> <br> <a ng-href=""></a></td>
+					<td><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click=""> 
+						<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+					</button>
+					<button id="down" type="button" class="btn btn-default" aria-label="Left Align" ng-click="">
+						<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+						<a href="/archive"></a>
+					</button>
+				</td>
+			</tr>
+			<tr>
+				<td  id="hide" colspan="12" class="hiddenRow"><div class="accordian-body collapse" id="demo1-{{$index}}"> 
+					<table class="table table-striped">
+						<thead>
+							<tr><th>Skills</th><th>Education</th> <th>Profile Image </th></tr>
+						</thead>
+						<tbody>
+							<tr><td id='body'><b>ETL:</b> <br> <b>Web App:</b> <br> <b>Languages:</b>  <br> <b>Mobile:</b>  <br> <b>Databases:</b> </td><td><b>School:</b> <br> <b>GPA:</b> </td><td><img id="profile" src="images/profile.png"></td><td><a href="WorkloadURL">View Resume</a></td></tr>
+							</tbody>
+						</table>
+						
+					</div> </td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+  </body>
