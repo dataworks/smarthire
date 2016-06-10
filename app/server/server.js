@@ -8,7 +8,7 @@ var esservice = require("./elasticsearch.js");
 
 var applicantConfig = {
   url: "172.31.61.189:9200",
-  index: "sample_json",
+  index: "applicants",
   type: "applicant"
 };
 
