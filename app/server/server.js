@@ -93,7 +93,7 @@ app.get("/service/favorites", function(req, res) {
 });
 
 //get code for archive
-app.get("/service/favorites", function(req, res) {
+app.get("/service/archive", function(req, res) {
   // var query = "name:Dave Mezzetti";
   esservice.query(labelConfig, req, res, "type: archive", function(res, hits){
     //var ids = map source -> _id
