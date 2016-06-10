@@ -74,6 +74,17 @@ app.post("/service/favorites", function(req, res) {
 });
 });
 
+//get code for favorites
+app.get("/service/favorites", function(req, res) {
+
+ 
+
+    esservice.query(labelConfig, req, res, "*", null);
+
+},function (error, response) {
+  console.log(error);
+});
+
 root.get("/", function(req, res) {
   res.redirect("/app");
 });
@@ -91,7 +102,7 @@ var server = root.listen(8082, function () {
 
   console.log("Example app listening at http://%s:%s", host, port)
 
-})
+});
 
 
 //   res.json([{
