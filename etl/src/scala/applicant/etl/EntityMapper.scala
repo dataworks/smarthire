@@ -31,7 +31,7 @@ object EntityMapper {
 
     taggedEntities.foreach { pair =>
       pair match {
-        case ("degree", _) if (degree == notFound) => degree = pair._2
+        case ("degree", _) if (degree == notFound) => (degree = pair._2)
         case ("location", _) => if (recentLocation == notFound) { recentLocation = pair._2 }
           otherLocationList += pair._2
         case ("organization", _)  => if (recentOrganization == notFound) { recentOrganization = pair._2 }
@@ -40,12 +40,12 @@ object EntityMapper {
         case ("school", _) if (school == notFound) => school = pair._2
         case ("title", _) => if (recentTitle == notFound) { recentTitle = pair._2 }
           otherTitleList += pair._2
-        case ("bigdata", _) => bigDataList += pair._2
-        case ("database", _) => databaseList += pair._2
-        case ("etl", _) => etlList += pair._2
-        case ("webapp", _) => webappList += pair._2
-        case ("mobile", _) => mobileList += pair._2
-        case ("language", _) => languageList += pair._2
+        case ("bigdata", _) => (bigDataList += pair._2, score += 0.1)
+        case ("database", _) => (databaseList += pair._2, score += 0.1)
+        case ("etl", _) => (etlList += pair._2, score += 0.1)
+        case ("webapp", _) => (webappList += pair._2, score += 0.1)
+        case ("mobile", _) => (mobileList += pair._2, score += 0.1)
+        case ("language", _) => (languageList += pair._2, score += 0.1)
         case ("gpa", _) if (gpa == notFound) => gpa = pair._2
         case ("email", _) if (email == notFound) => email = pair._2
         case ("phone", _) if (phone == notFound) => phone = pair._2
