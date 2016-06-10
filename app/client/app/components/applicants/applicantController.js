@@ -5,6 +5,8 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
     	var favorite = new Favorite({'id': id, 'type' : type});
 		favorite.$save();
     };
+
+
     // $scope.ret = function (id, type) {
     // 	var retObject = new RetObject({'id': id, 'type' : type});
     // 	retObject.$save();
