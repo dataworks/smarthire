@@ -1,3 +1,7 @@
+<head>
+	<link rel="stylesheet" href="css/appView.css"/>
+</head>
+
 <body ng-controller="ArchiveCtrl">
 	<h2>Archive</h2>
 	<div class="row-archives-row" >
@@ -14,11 +18,11 @@
 				</tr>
 			</thead>
 
-			<tbody ng-repeat="archive in archives">
-				<tr data-toggle="collapse" data-target="#demo1-{{$index}}" class="accordion-toggle">
-					<td><button id="eye" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
+			<tbody ng-repeat="label in labels">
+				<tr class="accordion-toggle">
+					<td><button id="eye" class="btn btn-default btn-xs" data-toggle="collapse" data-target="#demo1-{{$index}}" ><span class="glyphicon glyphicon-eye-open"></span></button></td>
 					<td>{{label.id}}</td>
-					<td></td>
+					<td>{{label.name}}</td>
 					<td><br> <br> </td>
 					<td> <br></td>
 					<td><a ng-href=""> </a> <br> <a ng-href=""> </a> <br> <a ng-href=""></a></td>
