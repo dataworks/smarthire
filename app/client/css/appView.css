@@ -20,7 +20,7 @@ th{
 }
 
 #o{
-  width: 7% !important;
+  width: 5% !important;
 }
 
 #n{
@@ -41,6 +41,22 @@ td{
 
 #hide{
   border-top:0;
+}
+
+#file{
+  font-size: 100%;
+  margin: 0;
+  margin-top: .75%;
+  border: none;
+  color: #007ead; 
+  background: none; 
+  padding: 5%;  
+}
+
+#file:hover{
+  text-decoration: none;
+  background: none;
+  color: #1DE9B6;
 }
 
 #eye{

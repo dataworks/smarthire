@@ -33,7 +33,7 @@
 					<td id="n">{{applicant.name}}</td>
 					<td>{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
 					<td>{{applicant.education.degree}}</td>
-					<td><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <br> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> <a ng-href="{{applicant.contact.url}}">{{applicant.contact.url}}</a></td>
+					<td><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <br> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> </td>
 					<td id="o"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite')"> 
 						<span title="Add to Favorites" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
 					</button>
@@ -45,16 +45,20 @@
 						<span title="View more" class="glyphicon glyphicon-eye-open">
 						</span>
 					</button>
+					<button id="file" type="button" class="btn btn-default" aria-label="Left Align" ng-click="">
+						<span title="View more" class="glyphicon glyphicon-file">
+						</span>
+					</button>
 				</td>
 			</tr>
 			<tr>
 				<td  id="hide" colspan="12" class="hiddenRow"><div class="accordian-body collapse" id="demo1-{{$index}}"> 
 					<table class="table table-striped">
 						<thead>
-							<tr><th>Skills</th><th>Education</th> <th>Profile Image </th></tr>
+							<tr><th>Skills</th><th>Education</th><th>Web Links</th></tr>
 						</thead>
 						<tbody>
-							<tr><td id='body'><b>ETL:</b> {{applicant.skills.etl.join(', ')}} <br> <b>Web App:</b> {{applicant.skills.webapp.join(', ')}} <br> <b>Languages:</b> {{applicant.skills.language.join(', ')}} <br> <b>Mobile:</b> {{applicant.skills.mobile.join(', ')}} <br> <b>Databases:</b> {{applicant.skills.database.join(', ')}}<br> <b> Big Data:</b> {{applicant.skills.bigdata.join(',')}}</td><td><b>School:</b> {{applicant.education.school}} <br> <b>GPA:</b> {{applicant.education.gpa}} <br> </td><td><a href="WorkloadURL">View Resume</a></td></tr>
+							<tr><td id='body'><b>ETL:</b> {{applicant.skills.etl.join(', ')}} <br> <b>Web App:</b> {{applicant.skills.webapp.join(', ')}} <br> <b>Languages:</b> {{applicant.skills.language.join(', ')}} <br> <b>Mobile:</b> {{applicant.skills.mobile.join(', ')}} <br> <b>Databases:</b> {{applicant.skills.database.join(', ')}}<br> <b> Big Data:</b> {{applicant.skills.bigdata.join(',')}}</td><td><b>School:</b> {{applicant.education.school}} <br> <b>GPA:</b> {{applicant.education.gpa}} <br> </td><td id='body'> <b>Linked-in: </b><a ng-href="{{applicant.contact.linkedin}}">{{applicant.contact.linkedin}} </a> <br> <b> GitHub: </b><a ng-href="{{applicant.contact.github}}"> {{applicant.contact.github}} </a> <br> <b>Indeed: </b><a ng-href="{{applicant.contact.indeed}}"> {{applicant.contact.indeed}} </a></td>
 						</tbody>
 					</table>
 
