@@ -5,7 +5,7 @@ import java.text.DecimalFormat
 
 import scala.collection.mutable.{ListBuffer, Map, LinkedHashSet}
 
-object EntityMapper {
+object EntityRecord {
   /**
    * Pulls in the results from extractText and EntityGrabber and ouputs as formatted map for ES
    *
@@ -14,7 +14,7 @@ object EntityMapper {
    * @param fullText A String of the full parsed resume from extractText
    * @return A map formatted to save to ES as JSON
    */
-  def createMap(taggedEntities: LinkedHashSet[(String, String)], applicantID: String, fullText: String): Map[String, Object] = {
+  def create(taggedEntities: LinkedHashSet[(String, String)], applicantID: String, fullText: String): Map[String, Object] = {
     var name, recentTitle, recentLocation, recentOrganization, degree, school, gpa, url, email, phone, notFound: String = ""
 
     val languageList: ListBuffer[String] = new ListBuffer[String]()
