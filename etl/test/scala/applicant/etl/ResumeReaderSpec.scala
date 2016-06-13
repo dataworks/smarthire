@@ -43,10 +43,6 @@ class ResumeReaderSpec extends FlatSpec {
 
     text = text.replace(" ", "").replace("\n", "").replace("-", "")
 
-    println(lines)
-    println()
-    println(text)
-
     text mustEqual lines
     sc.stop()
 

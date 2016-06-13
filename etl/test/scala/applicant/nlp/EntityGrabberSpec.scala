@@ -29,10 +29,6 @@ import scala.collection.mutable.LinkedHashSet
 
      val entities = grabber.extractEntities(lines)
 
-     for (entity <- entities) {
-       println("Grabbed intity" + entity)
-     }
-
      entities.contains(("person","jason frederick")) mustBe (true)
      entities.contains(("title","web developer")) mustBe (true)
      entities.contains(("organization","american financial group, inc.")) mustBe (true)
