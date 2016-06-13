@@ -10,7 +10,7 @@ describe("Favorite Server", function() {
           expect(response.statusCode).to.equal(200);
 
           var data = JSON.parse(body);
-          expect(data).to.have.length(3);
+          expect(data).toBeGreaterThan(0);
           //expect(data[0].name).to.equal('Dave Mezzetti');
 
           done();
@@ -26,7 +26,7 @@ describe("Favorite Server", function() {
           expect(response.statusCode).to.equal(200);
 
           var data = JSON.parse(body);
-          expect(data).to.have.length(3);
+          expect(data).toBeGreaterThan(0);
           //expect(data[0].name).to.equal('Dave Mezzetti');
 
           done();
