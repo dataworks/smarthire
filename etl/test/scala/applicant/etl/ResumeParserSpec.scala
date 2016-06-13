@@ -16,13 +16,13 @@ import org.scalatest.PrivateMethodTester._
  *@version 0.0.1
  *
  */
-class ResumeReaderSpec extends FlatSpec {
+class ResumeParserSpec extends FlatSpec {
   /**
    * Scala Test Spec to test the ResumeReader object.
    */
   "Resume Parser" must "parse a PDF file and return plain text" in {
 
-    var filePath: String = "data/test/resume.pdf"
+    var filePath: String = "data/test/resume.txt"
 
     var lines: String = ""
     var br: BufferedReader = new BufferedReader(new FileReader(filePath))
@@ -39,7 +39,7 @@ class ResumeReaderSpec extends FlatSpec {
     val sc = new SparkContext(conf)
     val fileData = sc.binaryFiles("data/test/resume.pdf")
 
-    var text: String = ResumeReader.extractText(fileData.values.first())
+    var text: String = ResumeParser.extractText(fileData.values.first())
 
     text = text.replace(" ", "").replace("\n", "").replace("-", "")
 
