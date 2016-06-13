@@ -1,5 +1,5 @@
 #profile{
-  height: 40%;
+  height: 25%;
   width: auto;
 }
 
@@ -12,7 +12,7 @@ th{
 }
 
 #s{
-  width: 5% !important;
+  width: 4% !important;
 }
 
 #e{
@@ -30,7 +30,8 @@ th{
 td{
   text-align: center;
   width: 15%;
-  outline: 1px solid black;
+  bottom-border: 1px solid #CCC;
+  /*border: 1px solid black;*/
 }
 
 #body{
@@ -43,40 +44,47 @@ td{
 }
 
 #eye{
-  font-size: 125%;
-  float:left;
-  
+  font-size: 100%;
+  margin: 0;
+  margin-top: .75%;
+  border: none;
+  color: #007ead; 
+  background: none; 
+  padding: 5%;
+ }
+
+#eye:hover{
+  text-decoration: none;
+  background: none;
+  color: #FDD835;
 }
 
 #up{
   font-size: 100%;
   margin: 0;
-  margin-top: .75%;
-  float: right;
-  border-color: #CCFF90;
-  background: -webkit-gradient(linear, left top, left bottom, from(#FFEB3B), to(#64DD17));
-}
+  border: none;
+  color: #007ead;
+  background: none; 
+  padding: 5%;
+ }
 
 #up:hover{
 	text-decoration: none;
-    background: #007ead;
-    background: -webkit-gradient(linear, left top, left bottom, from(#FBC02D), to(#2E7D32));
-    background: -moz-linear-gradient(top,  #FFEB3B,  #4CAF50);
+  background: none;
+  color: #4CAF50;
 }
 
 #down{
   font-size: 100%;
   margin: 0;
-  margin-top: .75%;
-  float: right;
-  border-color: #CCFF90;
-  background: -webkit-gradient(linear, left top, left bottom, from(#FB8C00), to(#F44336));
-
+  border: none;
+  color: #007ead; 
+  background: none;
+  padding: 5%;
 }
 
  #down:hover {
     text-decoration: none;
-    background: #007ead;
-    background: -webkit-gradient(linear, left top, left bottom, from(#E65100), to(#B71C1C));
-    background: -moz-linear-gradient(top,  #FFEB3B,  #4CAF50);
+    background: none;
+    color: #D50000;
   }
