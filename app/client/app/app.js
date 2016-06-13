@@ -31,12 +31,12 @@ applicantApp.config(['$routeProvider', '$locationProvider',
         controller: 'ContactCtrl'
       }).
       when('/favorites', {
-        templateUrl: 'app/components/favorites/favoritesView.html',
-        controller: 'FavoritesCtrl'
+        templateUrl: 'app/components/applicants/applicantView.html',
+        controller: 'ApplicantCtrl'
       }).
       when('/archive', {
-        templateUrl: 'app/components/archive/archiveView.html',
-        controller: 'ArchiveCtrl'
+        templateUrl: 'app/components/applicants/applicantView.html',
+        controller: 'ApplicantCtrl'
       }).
       otherwise({
         redirectTo: '/applicants'

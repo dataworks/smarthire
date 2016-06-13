@@ -17,18 +17,54 @@
 				</tr>
 			</thead>
 
-			<tbody ng-repeat="applicant in applicants">
+			<!-- <div ng-if="location == 'applicants'"> -->
+				<tbody ng-repeat="applicant in applicants">
+					<tr class="accordion-toggle">
+						<td id="e"><button id="eye" class="btn btn-default btn-xs" data-toggle="collapse" data-target="#demo1-{{$index}}"><span class="glyphicon glyphicon-eye-open"></span></button></td>
+						<td id="s">{{applicant.score}}</td>
+						<td id="n">{{applicant.name}}</td>
+						<td>{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
+						<td>{{applicant.education.degree}}</td>
+						<td><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <br> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> <a ng-href="{{applicant.contact.url}}">{{applicant.contact.url}}</a></td>
+						<td id="o"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite')"> 
+							<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+						</button>
+						<button id="down" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'archive')">
+							<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+							<a href="/archive"></a>
+						</button>
+					</td>
+				</tr>
+				<tr>
+					<td  id="hide" colspan="12" class="hiddenRow"><div class="accordian-body collapse" id="demo1-{{$index}}"> 
+						<table class="table table-striped">
+							<thead>
+								<tr><th>Skills</th><th>Education</th> <th>Profile Image </th></tr>
+							</thead>
+							<tbody>
+								<tr><td id='body'><b>ETL:</b> {{applicant.skills.etl.join(', ')}} <br> <b>Web App:</b> {{applicant.skills.webapp.join(', ')}} <br> <b>Languages:</b> {{applicant.skills.language.join(', ')}} <br> <b>Mobile:</b> {{applicant.skills.mobile.join(', ')}} <br> <b>Databases:</b> {{applicant.skills.database.join(', ')}}<br> <b> Big Data:</b> {{applicant.skills.bigdata.join(',')}}</td><td><b>School:</b> {{applicant.education.school}} <br> <b>GPA:</b> {{applicant.education.gpa}} <br> </td><td><img id="profile" src="images/profile.png"></td><td><a href="WorkloadURL">View Resume</a></td></tr>
+							</tbody>
+						</table>
+						
+					</div> </td>
+				</tr>
+			</tbody>
+		<!-- </div> -->
+
+
+<!-- 		<div ng-if="location == 'favorite' || location == 'archive'">
+		<tbody ng-repeat="label in labels">
 				<tr class="accordion-toggle">
 					<td id="e"><button id="eye" class="btn btn-default btn-xs" data-toggle="collapse" data-target="#demo1-{{$index}}"><span class="glyphicon glyphicon-eye-open"></span></button></td>
-					<td id="s">{{applicant.score}}</td>
-					<td id="n">{{applicant.name}}</td>
-					<td>{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
-					<td>{{applicant.education.degree}}</td>
-					<td><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <br> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> <a ng-href="{{applicant.contact.url}}">{{applicant.contact.url}}</a></td>
-					<td id="o"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite')"> 
+					<td id="s">{{label.score}}</td>
+					<td id="n">{{label.name}}</td>
+					<td>{{label.currentLocation.organization}} <br> {{label.currentLocation.location}}<br> {{label.currentLocation.title}}</td>
+					<td>{{label.education.degree}}</td>
+					<td><a ng-href="tel:{{label.contact.phone}}"> {{label.contact.phone}} </a> <br> <a ng-href="mailto:{{label.contact.email}}"> {{label.contact.email}}</a> <br> <a ng-href="{{label.contact.url}}">{{label.contact.url}}</a></td>
+					<td id="o"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(label.id, 'favorite')"> 
 						<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
 					</button>
-					<button id="down" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'archive')">
+					<button id="down" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(label.id, 'archive')">
 						<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
 						<a href="/archive"></a>
 					</button>
@@ -41,13 +77,14 @@
 							<tr><th>Skills</th><th>Education</th> <th>Profile Image </th></tr>
 						</thead>
 						<tbody>
-							<tr><td id='body'><b>ETL:</b> {{applicant.skills.etl.join(', ')}} <br> <b>Web App:</b> {{applicant.skills.webapp.join(', ')}} <br> <b>Languages:</b> {{applicant.skills.language.join(', ')}} <br> <b>Mobile:</b> {{applicant.skills.mobile.join(', ')}} <br> <b>Databases:</b> {{applicant.skills.database.join(', ')}}<br> <b> Big Data:</b> {{applicant.skills.bigdata.join(',')}}</td><td><b>School:</b> {{applicant.education.school}} <br> <b>GPA:</b> {{applicant.education.gpa}} <br> </td><td><img id="profile" src="images/profile.png"></td><td><a href="WorkloadURL">View Resume</a></td></tr>
+							<tr><td id='body'><b>ETL:</b> <br> <b>Web App:</b> <br> <b>Languages:</b>  <br> <b>Mobile:</b>  <br> <b>Databases:</b> <br> <b> Big Data:</b> </td><td><b>School:</b> <br> <b>GPA:</b> </td><td><img id="profile" src="images/profile.png"></td><td><a href="WorkloadURL">View Resume</a></td></tr>
 							</tbody>
 						</table>
 						
 					</div> </td>
 				</tr>
 			</tbody>
-		</table>
-	</div>
-  </body>
+			</div> -->
+	</table>
+</div>
+</body>
