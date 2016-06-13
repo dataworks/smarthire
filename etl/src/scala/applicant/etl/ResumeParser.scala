@@ -23,7 +23,7 @@ import scala.collection.mutable.{ListBuffer, Map, LinkedHashSet}
  *
  */
 
-object ResumeReader {
+object ResumeParser {
 
   //Class to store command line options
   case class Command(sourceDirectory: String = "", sparkMaster: String = "",
@@ -69,7 +69,7 @@ object ResumeReader {
     val filesPath = options.sourceDirectory + "*"
     //Create Spark configuration object, with Elasticsearch configuration
     val conf = new SparkConf().setMaster(options.sparkMaster)
-      .setAppName("ResumeReader").set("es.nodes", options.esNodes)
+      .setAppName("ResumeParser").set("es.nodes", options.esNodes)
       .set("es.port", options.esPort)
       .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
 
@@ -83,10 +83,10 @@ object ResumeReader {
     //RDD is an array of tuples (String, PortableDataStream)
     val fileData = sc.binaryFiles(filesPath)
 
-    // Create EntityGrabber object
+    // Create EntityExtractor object
     val models = options.nlpModels.split(",").map(_.trim) //Trimmed in case someone puts spaces in the model paths
     val patterns = options.nlpRegex
-    val grabber = new EntityGrabber(models, patterns)
+    val grabber = new EntityExtractor(models, patterns)
 
     val broadcastGrabber = sc.broadcast(grabber)
 
@@ -97,10 +97,10 @@ object ResumeReader {
       val text = extractText(currentFile)
       fileCount += 1
       println(fileCount + " files parsed")
-      
+
       broadcastGrabber.synchronized {
         entitySet = broadcastGrabber.value.extractEntities(text)
-        EntityMapper.createMap(entitySet, FilenameUtils.getBaseName(currentFile.getPath()), text)
+        EntityRecord.create(entitySet, FilenameUtils.getBaseName(currentFile.getPath()), text)
       }
 
     }.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
@@ -132,7 +132,7 @@ object ResumeReader {
    */
 
     //Command line option parser
-    val parser = new OptionParser[Command]("ResumeReader") {
+    val parser = new OptionParser[Command]("ResumeParser") {
         opt[String]('d', "directory") required() valueName("<directory>") action { (x, c) =>
             c.copy(sourceDirectory = x)
         } text ("Path to resumes.")
