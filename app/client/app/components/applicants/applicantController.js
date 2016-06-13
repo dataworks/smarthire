@@ -2,6 +2,8 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
   function ($scope, Applicant, Favorite, $location, Archive) {
     $scope.applicants = Applicant.query();
 
+    $scope.selection = "Applicant";
+
     $scope.showSelectValue = function(type) {
         console.log(type);
         if (type == 'Favorite') {
