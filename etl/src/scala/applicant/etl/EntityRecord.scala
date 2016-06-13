@@ -15,7 +15,7 @@ object EntityRecord {
    * @return A map formatted to save to ES as JSON
    */
   def create(taggedEntities: LinkedHashSet[(String, String)], applicantID: String, fullText: String): Map[String, Object] = {
-    var name, recentTitle, recentLocation, recentOrganization, degree, school, gpa, email, phone, notFound: String = ""
+    var name, recentTitle, recentLocation, recentOrganization, degree, school, gpa, email, phone, notFound, linkedin, indeed, github: String = ""
 
     val languageList: ListBuffer[String] = new ListBuffer[String]()
     val bigDataList: ListBuffer[String] = new ListBuffer[String]()
@@ -50,7 +50,10 @@ object EntityRecord {
         case ("mobile", _) => (mobileList += pair._2, score += 1)
         case ("language", _) => (languageList += pair._2, score += 1)
         case ("gpa", _) if (gpa == notFound) => gpa = pair._2
-        case ("url", _)|("indeed", _)|("linkedin", _)|("github", _) => (urlList += pair._2)
+        case ("url", _) => (urlList += pair._2)
+        case ("indeed", _) if (indeed == notFound) => indeed = pair._2
+        case ("linkedin", _) if (linkedin == notFound) => linkedin = pair._2
+        case ("github", _) if (github == notFound) => github = pair._2
         case ("email", _) if (email == notFound) => email = pair._2
         case ("phone", _) if (phone == notFound) => phone = pair._2
         case _ =>
@@ -87,7 +90,9 @@ object EntityRecord {
       "gpa" -> gpa
       ),
       "contact" -> Map(
-        "url" -> urlList,
+        "indeed" -> indeed,
+        "linkedin" -> linkedin,
+        "github" -> github,
         "email" -> email,
         "phone" -> phone
       ),
@@ -95,7 +100,8 @@ object EntityRecord {
         "pastPositions" -> Map(
           "title" -> otherTitleList,
           "location" -> otherLocationList,
-          "organization" -> otherOrganizationList
+          "organization" -> otherOrganizationList,
+          "url" -> urlList
         ),
         "resume" -> fullText
       )
