@@ -5,7 +5,15 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
     $scope.applicants = Applicant.query();
     $scope.filter = function(type) {
         console.log(type);
-        //$scope.applicants = type.query();
+        if (type == 'Favorite') {
+            $scope.applicants = Favorite.query();
+        }
+        if (type == 'Archive') {
+            $scope.applicants = Archive.query();
+        }
+        if (type == 'Applicant') {
+            $scope.applicants = Applicant.query();
+        }
 
     };
 
