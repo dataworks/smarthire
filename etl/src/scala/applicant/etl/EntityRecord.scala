@@ -15,7 +15,7 @@ object EntityRecord {
    * @return A map formatted to save to ES as JSON
    */
   def create(taggedEntities: LinkedHashSet[(String, String)], applicantID: String, fullText: String): Map[String, Object] = {
-    var name, recentTitle, recentLocation, recentOrganization, degree, school, gpa, url, email, phone, notFound: String = ""
+    var name, recentTitle, recentLocation, recentOrganization, degree, school, gpa, email, phone, notFound: String = ""
 
     val languageList: ListBuffer[String] = new ListBuffer[String]()
     val bigDataList: ListBuffer[String] = new ListBuffer[String]()
@@ -23,6 +23,7 @@ object EntityRecord {
     val databaseList: ListBuffer[String] = new ListBuffer[String]()
     val webappList: ListBuffer[String] = new ListBuffer[String]()
     val mobileList: ListBuffer[String] = new ListBuffer[String]()
+    val urlList: ListBuffer[String] = new ListBuffer[String]()
     var score: Double = 0.0
     val otherTitleList: ListBuffer[String] = new ListBuffer[String]()
     val otherLocationList: ListBuffer[String] = new ListBuffer[String]()
@@ -49,6 +50,7 @@ object EntityRecord {
         case ("mobile", _) => (mobileList += pair._2, score += 1)
         case ("language", _) => (languageList += pair._2, score += 1)
         case ("gpa", _) if (gpa == notFound) => gpa = pair._2
+        case ("url", _)|("indeed", _)|("linkedin", _)|("github", _) => (urlList += pair._2)
         case ("email", _) if (email == notFound) => email = pair._2
         case ("phone", _) if (phone == notFound) => phone = pair._2
         case _ =>
@@ -85,7 +87,7 @@ object EntityRecord {
       "gpa" -> gpa
       ),
       "contact" -> Map(
-        "url" -> url,
+        "url" -> urlList,
         "email" -> email,
         "phone" -> phone
       ),
