@@ -4,13 +4,13 @@
 
 <body>
 	<label class="checkbox-inline">
-		<input type="checkbox" id="inlineCheckbox1" value="option1"> All
+		<input type="checkbox" ng-model="confirm1" ng-change="filter('Applicant')" id="inlineCheckbox1" value="option1" > All
 	</label>
 	<label class="checkbox-inline">
-	 	<input type="checkbox" id="inlineCheckbox2" value="option2"> Favorites
+	 	<input type="checkbox" ng-model="confirm2" ng-change="filter('Favorite')" id="inlineCheckbox2" value="option2" > Favorites
 	</label>
 	<label class="checkbox-inline">
-		<input type="checkbox" id="inlineCheckbox3" value="option3"> Archived
+		<input type="checkbox" ng-model="confirm3" ng-change="filter('Archive')" id="inlineCheckbox3" value="option3" > Archived
 	</label>
 	<div class="row-applicant-row" >
 		<table class="table table-condensed">
