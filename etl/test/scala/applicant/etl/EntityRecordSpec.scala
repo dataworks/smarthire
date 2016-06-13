@@ -36,11 +36,11 @@ import scala.collection.mutable.{LinkedHashSet, ListBuffer, HashMap}
      map.get("currentLocation").get.asInstanceOf[HashMap[String, String]].get("location") mustBe (Some("Thousand Oaks, CA"))
    }
 
-   "EntityRecord" must "store teh first organization" in {
+   "EntityRecord" must "store the first organization" in {
      map.get("currentLocation").get.asInstanceOf[HashMap[String, String]].get("organization") mustBe (Some("American Financial Group, Inc."))
    }
 
-   "EntityRecord" must "store teh first degree" in {
+   "EntityRecord" must "store the first degree" in {
      map.get("education").get.asInstanceOf[HashMap[String, String]].get("degree") mustBe (Some("BS Biology"))
    }
 
