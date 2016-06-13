@@ -22,7 +22,7 @@ class ResumeReaderSpec extends FlatSpec {
    */
   "Resume Parser" must "parse a PDF file and return plain text" in {
 
-    var filePath: String = "test/scala/applicant/nlp/resume.txt"
+    var filePath: String = "data/test/resume.pdf"
 
     var lines: String = ""
     var br: BufferedReader = new BufferedReader(new FileReader(filePath))

@@ -16,7 +16,7 @@ import scala.collection.mutable.LinkedHashSet
      val patterns = "model/nlp/regex.txt"
      val grabber = new EntityGrabber(models, patterns)
 
-     var filePath: String = "test/scala/applicant/nlp/resume.txt"
+     var filePath: String = "data/test/resume.txt"
 
      var lines: String = ""
      var br: BufferedReader = new BufferedReader(new FileReader(filePath))
