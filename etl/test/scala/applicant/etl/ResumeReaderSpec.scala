@@ -5,8 +5,8 @@ import org.apache.spark.SparkContext._
 import org.apache.spark.SparkConf
 import org.apache.spark.input.PortableDataStream
 import org.scalatest.FlatSpec
-import org.scalatest.MustMatchers._
 import org.scalatest.PrivateMethodTester._
+import org.scalatest.Matchers._
 import applicant.etl.ResumeReader
 
 /**
@@ -23,9 +23,10 @@ class ResumeReaderSpec extends FlatSpec {
 
       val conf = new SparkConf().setMaster("local[*]").setAppName("ResumeReaderSpec")
       val sc = new SparkContext(conf)
-      val fileData = sc.binaryFiles("*")
+      val fileData = sc.binaryFiles("test/scala/applicant/etl/testResume.pdf")
 
-      ResumeReader.extractText(fileData.values.first()) mustBe an[String]
+      val outStr = ResumeReader.extractText(fileData.values.first())
+      outStr should include ("contribute my experiences and skills to the Information Technology industry")
       sc.stop()
 
     }
