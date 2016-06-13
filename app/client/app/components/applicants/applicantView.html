@@ -3,7 +3,7 @@
 </head>
 
 <body>
-	<label class="checkbox-inline">
+	<!-- <label class="checkbox-inline">
 		<input type="checkbox" ng-model="confirm1" ng-change="filter('Applicant')" id="inlineCheckbox1" value="option1" > All
 	</label>
 	<label class="checkbox-inline">
@@ -11,7 +11,17 @@
 	</label>
 	<label class="checkbox-inline">
 		<input type="checkbox" ng-model="confirm3" ng-change="filter('Archive')" id="inlineCheckbox3" value="option3" > Archived
-	</label>
+	</label> -->
+
+	<div class="block">
+            <select ng-model="selection" ng-change="filter('Applicant')">  
+                <option value="area1">All</option>  
+                <option value="area2">Favorites</option> 
+                <option value="area3">Archived</option> 
+            </select>
+           
+       </div>
+
 	<div class="row-applicant-row" >
 		<table class="table table-condensed">
 			<thead id="head">
