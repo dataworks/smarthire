@@ -48,6 +48,7 @@
 .jumbotron {
   margin-top: 10%;
   background-color: #CCFF90;
+  width: 100%;
 }
 
 .navbar-default {
