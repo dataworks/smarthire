@@ -1,5 +1,5 @@
-applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favorite', '$location', 'Archive', 
-  function ($scope, Applicant, Favorite, $location, Archive) {
+applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favorite', '$location', '$anchorScroll', 'Archive', 
+  function ($scope, Applicant, Favorite, $location, Archive, $anchorScroll) {
     $scope.applicants = Applicant.query();
 
     $scope.selection = "Applicant";
@@ -22,7 +22,6 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
 		// favorite.$save();
         favorite.$save().then(function(){
             $scope.applicants = Applicant.query();
-            
         });
     };
 
