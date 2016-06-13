@@ -10,7 +10,7 @@ American Financial Group, Inc. - Thousand Oaks, CA
 ETL Developer
 Alaska Air Group, Inc. - Columbus, GA
 Responsibilities:
-- Designed and developed an object oriented software sugges for the implementation of imported user training and optimization.
+- Designed and developed an object oriented software suggest for the implementation of imported user training and optimization.
 - Implemented the design patterns using Servlets and JavaScript for various logic
 - Experience in developing the maker functional template using JQuery, J
 
