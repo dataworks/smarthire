@@ -17,7 +17,10 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
 
     $scope.mark = function (id, type) {
     	var favorite = new Favorite({'id': id, 'type' : type});
-		favorite.$save();
+		// favorite.$save();
+        favorite.$save().then(function(){
+            $scope.applicants = Applicant.query();
+        });
     };
 
     // $scope.ret = function (id, type) {
