@@ -20,6 +20,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
 		// favorite.$save();
         favorite.$save().then(function(){
             $scope.applicants = Applicant.query();
+            
         });
     };
 
