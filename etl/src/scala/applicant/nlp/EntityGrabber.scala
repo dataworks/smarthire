@@ -91,7 +91,7 @@ class EntityGrabber(models: Seq[String], patterns: String) {
             for (name <- entityNames) {
                 // Build and clean entity
                 var entity = sentence.slice(name.getStart(), name.getEnd()).mkString(" ")
-                entity = entity.replaceAll("\\,$", "")
+                entity = entity.replaceAll("\\,$", "").toLowerCase
 
                 entitySet += (name.getType() -> entity)
             }
