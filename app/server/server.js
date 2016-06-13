@@ -51,14 +51,14 @@ app.get("/service/applicants", function(req, res) {
 
 //code for favorites, changes between favorite and archive--REQUIRED
 app.post("/service/favorites", function(req, res) {
-    var client = new elasticsearch.Client({
-      host: 'interns.dataworks-inc.com/elasticsearch'
-    });
+  var client = new elasticsearch.Client({
+    host: 'interns.dataworks-inc.com/elasticsearch'
+  });
 
-    var id = req.body.id;
-    var type = req.body.type;
+  var id = req.body.id;
+  var type = req.body.type;
 
-    client.index({
+  client.index({
     index: 'labels',
     type: 'label',
     id: id,
@@ -66,8 +66,9 @@ app.post("/service/favorites", function(req, res) {
       id: id,
       type: type,
     }
-  }, function (error, response) {
+  }).then(function (error, response) {
     console.log(error);
+    res.end();
   });
 });
 
