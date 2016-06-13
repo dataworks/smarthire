@@ -8,8 +8,8 @@ import scala.collection.mutable.{LinkedHashSet, ListBuffer, HashMap}
  * Scala Test Spec to test the EntityMapper
  *
  */
- class EntityMapperSpec extends FlatSpec {
-   "CreateMap" must "uuh create a map" in {
+ class EntityRecordSpec extends FlatSpec {
+   "Create" must "create a map" in {
      val input: LinkedHashSet[(String, String)] = LinkedHashSet[(String, String)]()
 
      input += ("person" -> "Jason Frederick")
@@ -23,7 +23,7 @@ import scala.collection.mutable.{LinkedHashSet, ListBuffer, HashMap}
      input += ("degree" -> "BS Biology")
      input += ("school" -> "Harvard University")
 
-     val map = EntityMapper.createMap(input, "Wow what a good resume name", "This is totally the text that gave us these entities :D")
+     val map = EntityRecord.create(input, "Wow what a good resume name", "This is totally the text that gave us these entities :D")
 
      map.get("name").get mustBe ("Jason Frederick")
      map.get("currentLocation").get.asInstanceOf[HashMap[String, String]].get("title") mustBe (Some("Web Developer"))

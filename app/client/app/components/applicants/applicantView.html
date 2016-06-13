@@ -6,9 +6,9 @@
 
 	<div class="block">
             <select ng-model="selection" ng-change="showSelectValue(selection)"> 
-                <option value="Applicant" >Applicant</option>  
+                <option value="Applicant" selected>Applicant</option>  
                 <option value="Favorite">Favorite</option>  
-               <option value="Archive">Archive</option> 
+               <option  value="Archive">Archive</option> 
             </select>
     </div>
 
@@ -35,14 +35,14 @@
 					<td>{{applicant.education.degree}}</td>
 					<td><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <br> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> <a ng-href="{{applicant.contact.url}}">{{applicant.contact.url}}</a></td>
 					<td id="o"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite')"> 
-						<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+						<span title="Add to Favorites" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
 					</button>
 					<button id="down" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'archive')">
-						<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+						<span title="Add to Archive" class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
 						<a href="/archive"></a>
 					</button>			
 					<button id="eye" class="btn btn-default btn-xs" data-toggle="collapse" data-target="#demo1-{{$index}}">
-						<span class="glyphicon glyphicon-eye-open">
+						<span title="View more" class="glyphicon glyphicon-eye-open">
 						</span>
 					</button>
 				</td>

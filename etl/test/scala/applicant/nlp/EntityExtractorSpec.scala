@@ -10,11 +10,11 @@ import scala.collection.mutable.LinkedHashSet
  * Scala Test Spec to test the EntityGrabber
  *
  */
- class EntityGrabberSpec extends FlatSpec {
+ class EntityExtractorSpec extends FlatSpec {
    "Execute" must "grab entities" in {
      val models = List[String]("model/nlp/en-ner-degree.bin", "model/nlp/en-ner-location.bin", "model/nlp/en-ner-organization.bin", "model/nlp/en-ner-person.bin", "model/nlp/en-ner-school.bin", "model/nlp/en-ner-title.bin")
      val patterns = "model/nlp/regex.txt"
-     val grabber = new EntityGrabber(models, patterns)
+     val extractor = new EntityExtractor(models, patterns)
 
      var filePath: String = "data/test/resume.txt"
 
@@ -27,7 +27,7 @@ import scala.collection.mutable.LinkedHashSet
 
      br.close()
 
-     val entities = grabber.extractEntities(lines)
+     val entities = extractor.extractEntities(lines)
 
      entities.contains(("person","jason frederick")) mustBe (true)
      entities.contains(("title","web developer")) mustBe (true)
