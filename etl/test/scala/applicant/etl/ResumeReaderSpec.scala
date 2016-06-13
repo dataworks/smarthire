@@ -37,7 +37,7 @@ class ResumeReaderSpec extends FlatSpec {
 
     val conf = new SparkConf().setMaster("local[*]").setAppName("ResumeReaderSpec")
     val sc = new SparkContext(conf)
-    val fileData = sc.binaryFiles("test/scala/applicant/etl/testResume.pdf")
+    val fileData = sc.binaryFiles("data/test/resume.pdf")
 
     var text: String = ResumeReader.extractText(fileData.values.first())
 
