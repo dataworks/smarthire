@@ -65,7 +65,8 @@ app.post("/service/favorites", function(req, res) {
     body: {
       id: id,
       type: type,
-    }
+    },
+    refresh: true
   }).then(function (error, response) {
     console.log(error);
     res.end();
@@ -131,7 +132,8 @@ app.post("/service/archive", function(req, res) {
     body: {
       id: id,
       type: type,
-    }
+    },
+    refresh: true
   }, function (error, response) {
     console.log(error);
   });
