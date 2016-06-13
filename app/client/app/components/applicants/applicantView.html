@@ -3,9 +3,17 @@
 </head>
 
 <body>
+	<label class="checkbox-inline">
+		<input type="checkbox" ng-model="confirm1" ng-change="filter('Applicant')" id="inlineCheckbox1" value="option1" > All
+	</label>
+	<label class="checkbox-inline">
+	 	<input type="checkbox" ng-model="confirm2" ng-change="filter('Favorite')" id="inlineCheckbox2" value="option2" > Favorites
+	</label>
+	<label class="checkbox-inline">
+		<input type="checkbox" ng-model="confirm3" ng-change="filter('Archive')" id="inlineCheckbox3" value="option3" > Archived
+	</label>
 	<div class="row-applicant-row" >
 		<table class="table table-condensed">
-
 			<thead id="head">
 				<tr><th id="e">Expand&nbsp;</th>
 					<th id="s">Score</th>
@@ -17,7 +25,6 @@
 				</tr>
 			</thead>
 
-			<!-- <div ng-if="location == 'applicants'"> -->
 				<tbody ng-repeat="applicant in applicants">
 					<tr class="accordion-toggle">
 						<td id="e"><button id="eye" class="btn btn-default btn-xs" data-toggle="collapse" data-target="#demo1-{{$index}}"><span class="glyphicon glyphicon-eye-open"></span></button></td>
@@ -49,42 +56,6 @@
 					</div> </td>
 				</tr>
 			</tbody>
-		<!-- </div> -->
-
-
-<!-- 		<div ng-if="location == 'favorite' || location == 'archive'">
-		<tbody ng-repeat="label in labels">
-				<tr class="accordion-toggle">
-					<td id="e"><button id="eye" class="btn btn-default btn-xs" data-toggle="collapse" data-target="#demo1-{{$index}}"><span class="glyphicon glyphicon-eye-open"></span></button></td>
-					<td id="s">{{label.score}}</td>
-					<td id="n">{{label.name}}</td>
-					<td>{{label.currentLocation.organization}} <br> {{label.currentLocation.location}}<br> {{label.currentLocation.title}}</td>
-					<td>{{label.education.degree}}</td>
-					<td><a ng-href="tel:{{label.contact.phone}}"> {{label.contact.phone}} </a> <br> <a ng-href="mailto:{{label.contact.email}}"> {{label.contact.email}}</a> <br> <a ng-href="{{label.contact.url}}">{{label.contact.url}}</a></td>
-					<td id="o"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(label.id, 'favorite')"> 
-						<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-					</button>
-					<button id="down" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(label.id, 'archive')">
-						<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
-						<a href="/archive"></a>
-					</button>
-				</td>
-			</tr>
-			<tr>
-				<td  id="hide" colspan="12" class="hiddenRow"><div class="accordian-body collapse" id="demo1-{{$index}}"> 
-					<table class="table table-striped">
-						<thead>
-							<tr><th>Skills</th><th>Education</th> <th>Profile Image </th></tr>
-						</thead>
-						<tbody>
-							<tr><td id='body'><b>ETL:</b> <br> <b>Web App:</b> <br> <b>Languages:</b>  <br> <b>Mobile:</b>  <br> <b>Databases:</b> <br> <b> Big Data:</b> </td><td><b>School:</b> <br> <b>GPA:</b> </td><td><img id="profile" src="images/profile.png"></td><td><a href="WorkloadURL">View Resume</a></td></tr>
-							</tbody>
-						</table>
-						
-					</div> </td>
-				</tr>
-			</tbody>
-			</div> -->
 	</table>
 </div>
 </body>

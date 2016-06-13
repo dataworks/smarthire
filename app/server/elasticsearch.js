@@ -10,7 +10,7 @@ exports.query = function(config, req, res, query, handler) {
        index: config.index,
        type: config.type,
        body: {
-          size: 25,
+          size: 150,
            query: {
                query_string: {
                    query: query
