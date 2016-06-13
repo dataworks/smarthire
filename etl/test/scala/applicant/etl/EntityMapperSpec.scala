@@ -25,10 +25,6 @@ import scala.collection.mutable.{LinkedHashSet, ListBuffer, HashMap}
 
      val map = EntityMapper.createMap(input, "Wow what a good resume name", "This is totally the text that gave us these entities :D")
 
-      for (item <- map) {
-        println(item)
-      }
-
      map.get("name").get mustBe ("Jason Frederick")
      map.get("currentLocation").get.asInstanceOf[HashMap[String, String]].get("title") mustBe (Some("Web Developer"))
      map.get("currentLocation").get.asInstanceOf[HashMap[String, String]].get("location") mustBe (Some("Thousand Oaks, CA"))
