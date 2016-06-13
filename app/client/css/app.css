@@ -32,6 +32,12 @@
   .jumbotron{
     width: 100%;
   }
+  .form-wrapper-2 button{
+    padding: 1%;
+  }
+  .form-wrapper-2 input{
+    padding: 2.5%;
+  }
   #fb{
     padding-top: 1.5%
   }
@@ -45,9 +51,11 @@
     padding-top: 1.5%
   }
 }
+
 .jumbotron {
   margin-top: 10%;
   background-color: #CCFF90;
+  width: 100%;
 }
 
 .navbar-default {
@@ -179,14 +187,17 @@ h1 {
 /*search bar*/
 .button_box2{
   width: 100%;
+  float: left;
 }
 
 .form-wrapper-2{
   width: 100%;
+  float: left;
 }
 
 .form-wrapper-2 input {
-padding: 2.5%;
+padding: 1.5%;
+margin-top: 12.5%;
 float: left;
 font: 65% 'Raleway', sans-serif;
 border: 0;
@@ -206,12 +217,12 @@ font-style: italic;
 .form-wrapper-2 button {
   /*overflow: visible;*/
   position: relative;
-  float: right;
+  float: left;
   border: 0;
-  padding: 0;
   cursor: pointer;
-  padding: 3.5%;
-  font-size: 65%;
+  padding: 3%;
+  margin-top: 12.5%;
+  font-size: 55%;
   color: black;
   text-transform: uppercase;
   text-align: center;

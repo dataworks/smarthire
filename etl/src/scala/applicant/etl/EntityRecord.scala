@@ -51,9 +51,15 @@ object EntityRecord {
         case ("language", _) => (languageList += pair._2, score += 1)
         case ("gpa", _) if (gpa == notFound) => gpa = pair._2
         case ("url", _) => (urlList += pair._2)
-        case ("indeed", _) if (indeed == notFound) => indeed = pair._2
-        case ("linkedin", _) if (linkedin == notFound) => linkedin = pair._2
-        case ("github", _) if (github == notFound) => github = pair._2
+        case ("indeed", _) if (indeed == notFound && pair._2.startsWith("http")) => indeed = pair._2
+        case ("indeed", _) if (indeed == notFound && pair._2.startsWith("www")) => indeed = "http://" + pair._2
+        case ("indeed", _) if (indeed == notFound) => indeed = "http://www." + pair._2
+        case ("linkedin", _) if (linkedin == notFound && pair._2.startsWith("http")) => linkedin = pair._2
+        case ("linkedin", _) if (linkedin == notFound && pair._2.startsWith("www")) => linkedin = "http://" + pair._2
+        case ("linkedin", _) if (linkedin == notFound) => linkedin = "http://www." + pair._2
+        case ("github", _) if (github == notFound && pair._2.startsWith("http")) => github = pair._2
+        case ("github", _) if (github == notFound && pair._2.startsWith("www")) => github = "http://" + pair._2
+        case ("github", _) if (github == notFound) => github = "http://www." + pair._2
         case ("email", _) if (email == notFound) => email = pair._2
         case ("phone", _) if (phone == notFound) => phone = pair._2
         case _ =>
