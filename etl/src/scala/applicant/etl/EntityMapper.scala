@@ -72,7 +72,7 @@ object EntityMapper {
         "organization" -> recentOrganization
       ),
       "skills" -> Map(
-        "langage" -> languageList,
+        "language" -> languageList,
         "bigdata" -> bigDataList,
         "etl" -> etlList,
         "database" -> databaseList,
@@ -90,7 +90,7 @@ object EntityMapper {
         "phone" -> phone
       ),
       "additionalInfo" -> Map(
-        "pastPostions" -> Map(
+        "pastPositions" -> Map(
           "title" -> otherTitleList,
           "location" -> otherLocationList,
           "organization" -> otherOrganizationList
