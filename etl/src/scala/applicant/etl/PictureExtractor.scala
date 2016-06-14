@@ -15,6 +15,44 @@ import scala.collection.mutable.LinkedHashMap
 object PictureExtractor {
   case class Command(sparkMaster: String = "", esNodes: String = "", esPort: String = "", esAttIndex: String = "")
 
+
+  /**
+   * Will clean up a raw url in order to get a link to the user's profile picture
+   *
+   * @param rawUrl The url pulled straight from the user's resume
+   */
+  def cleanGithubUrl(rawUrl: String): Option[String] = {
+    rawUrl match {
+      case url if url.startsWith("https://github.com") =>
+        var slashCount = 0
+        val urlBuilder = new StringBuilder()
+
+        var slashedUrl = url
+
+        if (!slashedUrl.endsWith("/")) {
+          slashedUrl += "/"
+        }
+
+        //Grab each character up to the 4th '/'
+        for (c <- slashedUrl; if slashCount < 4) {
+          urlBuilder.append(c)
+
+          if (c.equals('/')) {
+            slashCount += 1
+          }
+        }
+
+        //remove the trailing '/'
+        urlBuilder.setLength(urlBuilder.length - 1)
+        //add .png extension
+        urlBuilder.append(".png")
+        return Some(urlBuilder.toString())
+      case _ =>
+        return None
+    }
+  }
+
+
   /**
    * Will download the profile picture
    *
@@ -54,7 +92,11 @@ object PictureExtractor {
           val githubOption = contact.asInstanceOf[LinkedHashMap[String, String]].get("github")
           githubOption match {
             case Some(githubUrl) =>
-              downloadPicture(applicantId, githubUrl)
+               cleanGithubUrl(githubUrl) match {
+                case Some(properUrl) =>
+                  downloadPicture(applicantId, properUrl)
+                case None =>
+              }
             case None =>
           }
         case None =>
