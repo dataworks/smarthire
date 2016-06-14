@@ -2,6 +2,7 @@ var applicantApp = angular.module('applicantApp', [
   'ngRoute',
   'applicantControllers',
   'applicantServices',
+  'infinite-scroll',
 ]);
 
 var applicantControllers = angular.module('applicantControllers', []);

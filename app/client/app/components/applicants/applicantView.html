@@ -25,7 +25,7 @@
 					<th id="o">Options</th>
 				</tr>
 			</thead>
-
+			<div infinite-scroll="myPagingFunction()" infinite-scroll-distance="3">
 			<tbody ng-repeat="applicant in applicants">
 				<tr class="accordion-toggle">
 					<td id="p"><img id = "profile" src="images/profile.png"></td>
@@ -65,6 +65,7 @@
 				</div> </td>
 			</tr>
 		</tbody>
+		</div>
 	</table>
 </div>
 </body>

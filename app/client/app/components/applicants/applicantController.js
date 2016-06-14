@@ -4,6 +4,13 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
 
     $scope.selection = "Applicant";
 
+    $scope.myPagingFunction = function(){
+        var last = $scope.applicants[$scope.applicants.length-25];
+        for(var i = 25; i <= $scope.applicants.length; i++){
+            $scope.applicants.push(last + i);
+        }
+    };
+
     $scope.showSelectValue = function(type) {
         console.log(type);
         if (type == 'Favorite') {
