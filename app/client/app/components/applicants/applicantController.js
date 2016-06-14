@@ -4,12 +4,17 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
 
     $scope.selection = "Applicant";
 
-    $scope.barLimit = 25;
+    $scope.barLimit = 0;
+
 
     $scope.increaseLimit = function(){
         $scope.barLimit += 15;
-        console.log('Increase Bar Limit', $scope.barLimit)
+        if($scope.barLimit >= $scope.applicants.length && $scope.barLimit > 15){
+            angular.element("#footer").show();
+        }
+        console.log('Increase Bar Limit', $scope.barLimit, $scope.applicants.length)
     };
+
 
     $scope.showSelectValue = function(type) {
         console.log(type);
