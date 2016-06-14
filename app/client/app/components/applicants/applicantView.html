@@ -14,6 +14,7 @@
 
 
 	<div class="row-applicant-row" >
+		<div infinite-scroll="increaseLimit()" infinite-scroll-distance="0">
 		<table class="table table-condensed" >
 			<thead id="head">
 				<tr><th id="e">Profile</th>
@@ -25,7 +26,7 @@
 					<th id="o">Options</th>
 				</tr>
 			</thead>
-		<div infinite-scroll="increaseLimit()" infinite-scroll-distance="0">
+		
 			<tbody ng-repeat="applicant in applicants | limitTo:barLimit">
 					<tr class="accordion-toggle">
 						<td id="p"><img id = "profile" src="images/profile.png"></td>
