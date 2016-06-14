@@ -5,6 +5,8 @@ import org.apache.spark.SparkConf
 import org.apache.spark.input.PortableDataStream
 import org.elasticsearch.spark._
 import scopt.OptionParser
+import java.security.MessageDigest
+import org.apache.commons.io.FilenameUtils
 
 import scala.collection.mutable.LinkedHashMap
 
@@ -70,16 +72,24 @@ object PictureExtractor {
       val connection = url.openConnection().asInstanceOf[HttpURLConnection]
       connection.setRequestMethod("GET")
       var in: InputStream = connection.getInputStream //< ------------------- Use TextExtractor to pull meta data and other info
-      /*
+
       val byteArray = Stream.continually(in.read).takeWhile(-1 !=).map(_.toByte).toArray
-      in.close()
+      val indata: DataInputStream = new DataInputStream(new ByteArrayInputStream(byteArray))
 
       var out: BufferedOutputStream = new BufferedOutputStream(new FileOutputStream(applicantId + ".png"))
       out.write(byteArray)
       out.close()
+      in.close()
 
-      return Map(("Cake is pretty good" -> "Oui"), ("Anybody want a peanut?" -> "Fezzik"))
-      */
+      return Map(
+        "hash" -> MessageDigest.getInstance("MD5").digest(byteArray),
+        "applicantid" -> applicantId,
+        "base64string" -> byteArray,
+        "filename" -> FilenameUtils.getName(githubUrl),
+        "extension" -> FilenameUtils.getExtension(githubUrl),
+        "metadata" -> TextExtractor.extractMetadata(indata)
+        )
+
   }
 
   /**
@@ -113,7 +123,7 @@ object PictureExtractor {
             case Some(githubUrl) =>
                cleanGithubUrl(githubUrl) match {
                 case Some(properUrl) =>
-                  downloadPicture(applicantId, properUrl)
+                  println(downloadPicture(applicantId, properUrl))
                 case None =>
               }
             case None =>
