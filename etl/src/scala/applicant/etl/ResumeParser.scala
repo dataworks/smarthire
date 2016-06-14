@@ -13,6 +13,7 @@ import org.elasticsearch.spark._
 import org.apache.commons.io.FilenameUtils
 import org.apache.commons.codec.binary.Base64
 import applicant.nlp._
+import java.security.MessageDigest
 
 import scala.collection.mutable.{ListBuffer, Map, LinkedHashMap}
 
@@ -29,37 +30,6 @@ object ResumeParser {
   case class Command(sourceDirectory: String = "", sparkMaster: String = "",
     esNodes: String = "", esPort: String = "", esAppIndex: String = "",
     nlpRegex: String = "", nlpModels: String = "", esAttIndex: String = "")
-
-  /**
-   * Uses Apache Tika library to parse out text from a PDF
-   *
-   *@param data A PortableDataStream from Spark of a PDF file
-   */
-  def extractText (data: PortableDataStream) : String = {
-
-    // Apache Tika parser object, auto detects file type
-    val myparser : AutoDetectParser = new AutoDetectParser()
-    // Input stream for parser, from PortableDataStream data
-    val stream : InputStream = data.open()
-    // Creates object to hold text ouput from Tika parser
-    val handler : WriteOutContentHandler = new WriteOutContentHandler(-1)
-    // Creates a object to hold the metadata of the file being parsed
-    val metadata : Metadata = new Metadata()
-    // Object to pass context information to Tika parser, use to modify parser
-    val context : ParseContext = new ParseContext()
-
-
-    try {
-      // Parse text from file and store in hander object
-      myparser.parse(stream, handler, metadata, context)
-    }
-    finally {
-      // Close stream after parsing
-      stream.close
-    }
-
-    return handler.toString()
-  }
 
   /**
    * Will itialize the spark objects and pass off files to tika
@@ -93,8 +63,7 @@ object ResumeParser {
     var fileCount: Int = 0
 
     fileData.values.map { currentFile =>
-      //var entitySet: LinkedHashMap[(String, String),(String,String)] = null
-      val text = extractText(currentFile)
+      val text = TextExtractor.extractText(currentFile.open())
       fileCount += 1
       println(fileCount + " files parsed")
 
@@ -107,13 +76,14 @@ object ResumeParser {
 
     fileData.values.map{ currentFile =>
       Map(
-        "hash" -> "",
+        "hash" -> MessageDigest.getInstance("MD5").digest(currentFile.toArray),
         "applicantid" -> FilenameUtils.getBaseName(currentFile.getPath()),
         "base64string" -> currentFile.toArray,
         "filename" -> FilenameUtils.getName(currentFile.getPath()),
-        "type" -> FilenameUtils.getExtension(currentFile.getPath())
-      )
-    }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash", "es.mapping.exclude" -> "hash"))
+        "extension" -> FilenameUtils.getExtension(currentFile.getPath()),
+        "metadata" -> TextExtractor.extractMetadata(currentFile.open())
+        )
+    }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
 
     sc.stop()
 

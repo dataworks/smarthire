@@ -29,65 +29,25 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.get("/service/applicants", function(req, res) {
-
-  // var query = "name:Dave Mezzetti";
   esservice.query(labelConfig, req, res, "*", function(res, hits){
     //var ids = map source -> _id
-    var query = '*';
-    if (hits && hits.length > 0) {
-      var ids = hits.map(function(hit) { return hit.id; })
-      //same query logic * or NOT id ()
-      if (ids && ids.length > 0) {
-        query = "NOT id:(" + ids.join(" ") + ")";
-      }
-   } 
-
+    var query = esservice.map(res, hits, 'applicant');
     esservice.query(applicantConfig, req, res, query, null);
   });
-
 },function (error, response) {
   console.log(error);
 });
 
 //code for favorites, changes between favorite and archive--REQUIRED
 app.post("/service/favorites", function(req, res) {
-  var client = new elasticsearch.Client({
-    host: 'interns.dataworks-inc.com/elasticsearch'
-  });
-
-  var id = req.body.id;
-  var type = req.body.type;
-
-  client.index({
-    index: 'labels',
-    type: 'label',
-    id: id,
-    body: {
-      id: id,
-      type: type,
-    },
-    refresh: true
-  }).then(function (error, response) {
-    console.log(error);
-    res.end();
-  });
+  esservice.index(req, res, labelConfig);
 });
 
 //get code for favorites
 app.get("/service/favorites", function(req, res) {
-  // var query = "name:Dave Mezzetti";
   esservice.query(labelConfig, req, res, "type: favorite", function(res, hits){
     //var ids = map source -> _id
-    var query = '*';
-    if (hits && hits.length > 0) {
-      var ids = hits.map(function(hit) { return hit.id; })
-
-      //same query logic * or NOT id ()
-      if (ids && ids.length > 0) {
-        query = "id:(" + ids.join(" ") + ")"
-      }
-   } 
-
+    var query = esservice.map(res, hits, 'favorite');
     esservice.query(applicantConfig, req, res, query, null);
   });
 },function (error, response) {
@@ -96,19 +56,9 @@ app.get("/service/favorites", function(req, res) {
 
 //get code for archive
 app.get("/service/archive", function(req, res) {
-  // var query = "name:Dave Mezzetti";
   esservice.query(labelConfig, req, res, "type: archive", function(res, hits){
     //var ids = map source -> _id
-    var query = '*';
-    if (hits && hits.length > 0) {
-      var ids = hits.map(function(hit) { return hit.id; })
-
-      //same query logic * or NOT id ()
-      if (ids && ids.length > 0) {
-        query = "id:(" + ids.join(" ") + ")"
-      }
-   } 
-
+    var query = esservice.map(res, hits, 'archive');
     esservice.query(applicantConfig, req, res, query, null);
   });
 
@@ -118,25 +68,7 @@ app.get("/service/archive", function(req, res) {
 
 //code for archive, changes between favorite and archive--REQUIRED
 app.post("/service/archive", function(req, res) {
-    var client = new elasticsearch.Client({
-      host: 'interns.dataworks-inc.com/elasticsearch'
-    });
-
-    var id = req.body.id;
-    var type = req.body.type;
-
-    client.index({
-    index: 'labels',
-    type: 'label',
-    id: id,
-    body: {
-      id: id,
-      type: type,
-    },
-    refresh: true
-  }, function (error, response) {
-    console.log(error);
-  });
+  esservice.index(req, res, labelConfig);
 });
 
 

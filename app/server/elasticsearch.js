@@ -50,3 +50,45 @@ exports.parseResponse = function(resp, res) {
 exports.defaultHandler = function(res, hits) {
     res.json(hits);
 }
+
+/**
+* Creates a new index
+*
+*/
+exports.index = function(req, res, config) {
+  var client = new elasticsearch.Client({
+    host: config.url
+  });
+
+  var id = req.body.id;
+  var type = req.body.type;
+
+  client.index({
+    index: config.index,
+    type: config.type,
+    id: id,
+    body: {
+      id: id,
+      type: type,
+    },
+    refresh: true
+  }).then(function (error, response) {
+    console.log(error);
+    res.end();
+  });
+}
+
+exports.map = function(res, hits, type) {
+    if (hits && hits.length > 0) {
+      var ids = hits.map(function(hit) { return hit.id; })
+      //same query logic * or NOT id ()
+      if (ids && ids.length > 0) { 
+        if(type === 'applicant')
+          return "NOT id:(" + ids.join(" ") + ")";
+        else
+          return "id:(" + ids.join(" ") + ")";
+      }
+    }
+    else
+      return '*'; 
+}

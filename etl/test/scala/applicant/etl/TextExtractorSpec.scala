@@ -11,16 +11,14 @@ import org.scalatest.MustMatchers._
 import org.scalatest.PrivateMethodTester._
 
 /**
- *@author Brantley Gilbert
- *
- *@version 0.0.1
+ * Test class for TextExtractor
  *
  */
-class ResumeParserSpec extends FlatSpec {
+class TextExtractorSpec extends FlatSpec {
   /**
-   * Scala Test Spec to test the ResumeReader object.
+   * Scala Test Spec to test the TextExtractor object.
    */
-  "Resume Parser" must "parse a PDF file and return plain text" in {
+  "Text Extractor" must "parse a PDF file and return plain text" in {
 
     var filePath: String = "data/test/resume.txt"
 
@@ -39,7 +37,7 @@ class ResumeParserSpec extends FlatSpec {
     val sc = new SparkContext(conf)
     val fileData = sc.binaryFiles("data/test/resume.pdf")
 
-    var text: String = ResumeParser.extractText(fileData.values.first())
+    var text: String = TextExtractor.extractText(fileData.values.first().open())
 
     text = text.replace(" ", "").replace("\n", "").replace("-", "")
 
