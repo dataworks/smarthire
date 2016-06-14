@@ -10,7 +10,7 @@ import opennlp.tools.tokenize.WhitespaceTokenizer
 import opennlp.tools.util.{ObjectStream, PlainTextByLineStream, Span}
 
 import scala.collection.JavaConversions._
-import scala.collection.mutable.{ListBuffer, Map, LinkedHashSet}
+import scala.collection.mutable.{ListBuffer, Map, LinkedHashMap}
 import scala.io.Source
 
 /**
@@ -60,8 +60,8 @@ class EntityExtractor(models: Seq[String], patterns: String) {
      *
      * @param options command line options
      */
-    def extractEntities(text: String): LinkedHashSet[(String, String)]  = {
-        val entitySet = LinkedHashSet[(String, String)]()
+    def extractEntities(text: String): LinkedHashMap[(String, String),(String, String)]  = {
+        val entitySet = LinkedHashMap[(String, String),(String, String)]()
 
         var line: String = null
         val untokenizedLineStream = new PlainTextByLineStream(new ByteArrayInputStream(text.getBytes()), Charset.forName("UTF-8"))
@@ -91,9 +91,9 @@ class EntityExtractor(models: Seq[String], patterns: String) {
             for (name <- entityNames) {
                 // Build and clean entity
                 var entity = sentence.slice(name.getStart(), name.getEnd()).mkString(" ")
-                entity = entity.replaceAll("\\,$", "").toLowerCase
+                entity = entity.replaceAll("\\,$", "")
 
-                entitySet += (name.getType() -> entity)
+                entitySet += ((name.getType().toLowerCase, entity.toLowerCase) -> (name.getType(), entity))
             }
           }
         }

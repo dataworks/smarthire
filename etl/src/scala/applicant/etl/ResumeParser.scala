@@ -14,7 +14,7 @@ import org.apache.commons.io.FilenameUtils
 import org.apache.commons.codec.binary.Base64
 import applicant.nlp._
 
-import scala.collection.mutable.{ListBuffer, Map, LinkedHashSet}
+import scala.collection.mutable.{ListBuffer, Map, LinkedHashMap}
 
 /**
  *@author Brantley Gilbert
@@ -86,20 +86,20 @@ object ResumeParser {
     // Create EntityExtractor object
     val models = options.nlpModels.split(",").map(_.trim) //Trimmed in case someone puts spaces in the model paths
     val patterns = options.nlpRegex
-    val grabber = new EntityExtractor(models, patterns)
+    val extractor = new EntityExtractor(models, patterns)
 
-    val broadcastGrabber = sc.broadcast(grabber)
+    val broadcastExtractor = sc.broadcast(extractor)
 
     var fileCount: Int = 0
 
     fileData.values.map { currentFile =>
-      var entitySet: LinkedHashSet[(String, String)] = null
+      //var entitySet: LinkedHashMap[(String, String),(String,String)] = null
       val text = extractText(currentFile)
       fileCount += 1
       println(fileCount + " files parsed")
 
-      broadcastGrabber.synchronized {
-        entitySet = broadcastGrabber.value.extractEntities(text)
+      broadcastExtractor.synchronized {
+        val entitySet = broadcastExtractor.value.extractEntities(text)
         EntityRecord.create(entitySet, FilenameUtils.getBaseName(currentFile.getPath()), text)
       }
 
@@ -107,12 +107,13 @@ object ResumeParser {
 
     fileData.values.map{ currentFile =>
       Map(
-        "id" -> FilenameUtils.getBaseName(currentFile.getPath()),
+        "hash" -> "",
+        "applicantid" -> FilenameUtils.getBaseName(currentFile.getPath()),
         "base64string" -> currentFile.toArray,
         "filename" -> FilenameUtils.getName(currentFile.getPath()),
         "type" -> FilenameUtils.getExtension(currentFile.getPath())
       )
-    }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "id"))
+    }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash", "es.mapping.exclude" -> "hash"))
 
     sc.stop()
 
