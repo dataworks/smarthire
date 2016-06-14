@@ -51,26 +51,7 @@ app.get("/service/applicants", function(req, res) {
 
 //code for favorites, changes between favorite and archive--REQUIRED
 app.post("/service/favorites", function(req, res) {
-  var client = new elasticsearch.Client({
-    host: 'interns.dataworks-inc.com/elasticsearch'
-  });
-
-  var id = req.body.id;
-  var type = req.body.type;
-
-  client.index({
-    index: 'labels',
-    type: 'label',
-    id: id,
-    body: {
-      id: id,
-      type: type,
-    },
-    refresh: true
-  }).then(function (error, response) {
-    console.log(error);
-    res.end();
-  });
+  esservice.index(req,res);
 });
 
 //get code for favorites
@@ -118,25 +99,7 @@ app.get("/service/archive", function(req, res) {
 
 //code for archive, changes between favorite and archive--REQUIRED
 app.post("/service/archive", function(req, res) {
-    var client = new elasticsearch.Client({
-      host: 'interns.dataworks-inc.com/elasticsearch'
-    });
-
-    var id = req.body.id;
-    var type = req.body.type;
-
-    client.index({
-    index: 'labels',
-    type: 'label',
-    id: id,
-    body: {
-      id: id,
-      type: type,
-    },
-    refresh: true
-  }, function (error, response) {
-    console.log(error);
-  });
+  esservice.index(req,res);
 });
 
 

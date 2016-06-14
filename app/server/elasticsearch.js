@@ -50,3 +50,26 @@ exports.parseResponse = function(resp, res) {
 exports.defaultHandler = function(res, hits) {
     res.json(hits);
 }
+
+exports.index = function(req, res) {
+  var client = new elasticsearch.Client({
+    host: 'interns.dataworks-inc.com/elasticsearch'
+  });
+
+  var id = req.body.id;
+  var type = req.body.type;
+
+  client.index({
+    index: 'labels',
+    type: 'label',
+    id: id,
+    body: {
+      id: id,
+      type: type,
+    },
+    refresh: true
+  }).then(function (error, response) {
+    console.log(error);
+    res.end();
+  });
+}
