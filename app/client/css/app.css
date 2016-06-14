@@ -188,6 +188,7 @@ h1 {
 .button_box2{
   width: 100%;
   float: left;
+  margin: 0 5% 0 5%;
 }
 
 .form-wrapper-2{
@@ -202,10 +203,6 @@ float: left;
 font: 65% 'Raleway', sans-serif;
 border: 0;
 background: white;
-}
-
-.for-wapper-2 input: onclick{
-  border: white;
 }
 
 .form-wrapper-2 input::-webkit-input-placeholder {
