@@ -3,7 +3,7 @@ package applicant.etl
 import applicant.nlp._
 import java.text.DecimalFormat
 
-import scala.collection.mutable.{ListBuffer, Map, LinkedHashSet}
+import scala.collection.mutable.{ListBuffer, Map, LinkedHashMap}
 
 object EntityRecord {
   /**
@@ -14,7 +14,7 @@ object EntityRecord {
    * @param fullText A String of the full parsed resume from extractText
    * @return A map formatted to save to ES as JSON
    */
-  def create(taggedEntities: LinkedHashSet[(String, String)], applicantID: String, fullText: String): Map[String, Object] = {
+  def create(taggedEntities: LinkedHashMap[(String, String),(String,String)], applicantID: String, fullText: String): Map[String, Object] = {
     var name, recentTitle, recentLocation, recentOrganization, degree, school, gpa, email, phone, notFound, linkedin, indeed, github: String = ""
 
     val languageList: ListBuffer[String] = new ListBuffer[String]()
@@ -32,7 +32,7 @@ object EntityRecord {
 
     //degree, location, organization, person, school, title, bigdata, database, etl, webapp, mobile, language, gpa, email, phone, url
 
-    taggedEntities.foreach { pair =>
+    taggedEntities.values.foreach { pair =>
       pair match {
         case ("degree", _) if (degree == notFound) => (degree = pair._2)
         case ("location", _) => if (recentLocation == notFound) { recentLocation = pair._2 }
