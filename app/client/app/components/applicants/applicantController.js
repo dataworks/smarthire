@@ -4,7 +4,12 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
 
     $scope.selection = "Applicant";
 
-  
+    $scope.barLimit = 25;
+
+    $scope.increaseLimit = function(){
+        $scope.barLimit += 15;
+        console.log('Increase Bar Limit', $scope.barLimit)
+    };
     $scope.showSelectValue = function(type) {
         console.log(type);
         if (type == 'Favorite') {

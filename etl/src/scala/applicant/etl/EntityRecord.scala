@@ -3,7 +3,7 @@ package applicant.etl
 import applicant.nlp._
 import java.text.DecimalFormat
 
-import scala.collection.mutable.{ListBuffer, Map, LinkedHashSet}
+import scala.collection.mutable.{ListBuffer, Map, LinkedHashMap}
 
 object EntityRecord {
   /**
@@ -14,8 +14,8 @@ object EntityRecord {
    * @param fullText A String of the full parsed resume from extractText
    * @return A map formatted to save to ES as JSON
    */
-  def create(taggedEntities: LinkedHashSet[(String, String)], applicantID: String, fullText: String): Map[String, Object] = {
-    var name, recentTitle, recentLocation, recentOrganization, degree, school, gpa, url, email, phone, notFound: String = ""
+  def create(taggedEntities: LinkedHashMap[(String, String),(String,String)], applicantID: String, fullText: String): Map[String, Object] = {
+    var name, recentTitle, recentLocation, recentOrganization, degree, school, gpa, email, phone, notFound, linkedin, indeed, github: String = ""
 
     val languageList: ListBuffer[String] = new ListBuffer[String]()
     val bigDataList: ListBuffer[String] = new ListBuffer[String]()
@@ -23,6 +23,7 @@ object EntityRecord {
     val databaseList: ListBuffer[String] = new ListBuffer[String]()
     val webappList: ListBuffer[String] = new ListBuffer[String]()
     val mobileList: ListBuffer[String] = new ListBuffer[String]()
+    val urlList: ListBuffer[String] = new ListBuffer[String]()
     var score: Double = 0.0
     val otherTitleList: ListBuffer[String] = new ListBuffer[String]()
     val otherLocationList: ListBuffer[String] = new ListBuffer[String]()
@@ -31,7 +32,7 @@ object EntityRecord {
 
     //degree, location, organization, person, school, title, bigdata, database, etl, webapp, mobile, language, gpa, email, phone, url
 
-    taggedEntities.foreach { pair =>
+    taggedEntities.values.foreach { pair =>
       pair match {
         case ("degree", _) if (degree == notFound) => (degree = pair._2)
         case ("location", _) => if (recentLocation == notFound) { recentLocation = pair._2 }
@@ -49,6 +50,16 @@ object EntityRecord {
         case ("mobile", _) => (mobileList += pair._2, score += 1)
         case ("language", _) => (languageList += pair._2, score += 1)
         case ("gpa", _) if (gpa == notFound) => gpa = pair._2
+        case ("url", _) => (urlList += pair._2)
+        case ("indeed", _) if (indeed == notFound && pair._2.startsWith("http")) => indeed = pair._2
+        case ("indeed", _) if (indeed == notFound && pair._2.startsWith("www")) => indeed = "http://" + pair._2
+        case ("indeed", _) if (indeed == notFound) => indeed = "http://www." + pair._2
+        case ("linkedin", _) if (linkedin == notFound && pair._2.startsWith("http")) => linkedin = pair._2
+        case ("linkedin", _) if (linkedin == notFound && pair._2.startsWith("www")) => linkedin = "http://" + pair._2
+        case ("linkedin", _) if (linkedin == notFound) => linkedin = "http://www." + pair._2
+        case ("github", _) if (github == notFound && pair._2.startsWith("http")) => github = pair._2
+        case ("github", _) if (github == notFound && pair._2.startsWith("www")) => github = "http://" + pair._2
+        case ("github", _) if (github == notFound) => github = "http://www." + pair._2
         case ("email", _) if (email == notFound) => email = pair._2
         case ("phone", _) if (phone == notFound) => phone = pair._2
         case _ =>
@@ -85,7 +96,9 @@ object EntityRecord {
       "gpa" -> gpa
       ),
       "contact" -> Map(
-        "url" -> url,
+        "indeed" -> indeed,
+        "linkedin" -> linkedin,
+        "github" -> github,
         "email" -> email,
         "phone" -> phone
       ),
@@ -93,7 +106,8 @@ object EntityRecord {
         "pastPositions" -> Map(
           "title" -> otherTitleList,
           "location" -> otherLocationList,
-          "organization" -> otherOrganizationList
+          "organization" -> otherOrganizationList,
+          "url" -> urlList
         ),
         "resume" -> fullText
       )

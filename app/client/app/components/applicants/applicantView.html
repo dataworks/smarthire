@@ -13,55 +13,58 @@
     </div>
 
 
-	<div class="row-applicant-row">
-		<table class="table table-condensed">
+	<div class="row-applicant-row" >
+		<table class="table table-condensed" >
 			<thead id="head">
 				<tr><th id="e">Profile</th>
 					<th id="s">Score</th>
 					<th id="n">Name</th>
-					<th>Current Info</th>
-					<th>Degree</th>
-					<th>Contact</th>
+					<th  class="hidden-xs hidden-s">Current Info</th>
+					<th  class="hidden-xs hidden-s">Degree</th>
+					<th  class="hidden-xs hidden-s">Contact</th>
 					<th id="o">Options</th>
 				</tr>
 			</thead>
-
-			<tbody ng-repeat="applicant in applicants">
-				<tr class="accordion-toggle">
-					<td id="e"><img id = "profile" src="images/profile.png"></td>
-					<td id="s">{{applicant.score}}</td>
-					<td id="n">{{applicant.name}}</td>
-					<td>{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
-					<td>{{applicant.education.degree}}</td>
-					<td><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <br> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> <a ng-href="{{applicant.contact.url}}">{{applicant.contact.url}}</a></td>
-					<td id="o"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite')"> 
-						<span title="Add to Favorites" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-					</button>
-					<button id="down" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'archive')">
-						<span title="Add to Archive" class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
-						<a href="/archive"></a>
-					</button>			
-					<button id="eye" class="btn btn-default btn-xs" data-toggle="collapse" data-target="#demo1-{{$index}}">
-						<span title="View more" class="glyphicon glyphicon-eye-open">
-						</span>
-					</button>
-				</td>
-			</tr>
-			<tr>
-				<td  id="hide" colspan="12" class="hiddenRow"><div class="accordian-body collapse" id="demo1-{{$index}}"> 
-					<table class="table table-striped">
-						<thead>
-							<tr><th>Skills</th><th>Education</th> <th>Profile Image </th></tr>
-						</thead>
-						<tbody>
-							<tr><td id='body'><b>ETL:</b> {{applicant.skills.etl.join(', ')}} <br> <b>Web App:</b> {{applicant.skills.webapp.join(', ')}} <br> <b>Languages:</b> {{applicant.skills.language.join(', ')}} <br> <b>Mobile:</b> {{applicant.skills.mobile.join(', ')}} <br> <b>Databases:</b> {{applicant.skills.database.join(', ')}}<br> <b> Big Data:</b> {{applicant.skills.bigdata.join(',')}}</td><td><b>School:</b> {{applicant.education.school}} <br> <b>GPA:</b> {{applicant.education.gpa}} <br> </td><td><a href="WorkloadURL">View Resume</a></td></tr>
-						</tbody>
-					</table>
-
-				</div> </td>
-			</tr> 
-			</div>
+		<div infinite-scroll="increaseLimit()" infinite-scroll-distance="0">
+			<tbody ng-repeat="applicant in applicants | limitTo:barLimit">
+					<tr class="accordion-toggle">
+						<td id="p"><img id = "profile" src="images/profile.png"></td>
+						<td id="s">{{applicant.score}}</td>
+						<td id="n">{{applicant.name}}</td>
+						<td class="hidden-xs hidden-s">{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
+						<td class="hidden-xs hidden-s">{{applicant.education.degree}}</td>
+						<td class="hidden-xs hidden-s"><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <br> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> </td>
+						<td id="o"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite')"> 
+							<span title="Add to Favorites" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+						</button>
+						<button id="down" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'archive')">
+							<span title="Add to Archive" class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+							<a href="/archive"></a>
+						</button>			
+						<button id="eye" class="btn btn-default btn-xs" data-toggle="collapse" data-target="#demo1-{{$index}}">
+							<span title="View more" class="glyphicon glyphicon-eye-open">
+							</span>
+						</button>
+						<button id="file" type="button" class="btn btn-default" aria-label="Left Align" ng-click="">
+							<span title="View resume" class="glyphicon glyphicon-file">
+							</span>
+						</button>
+					</td>
+				</tr>
+				<tr>
+					<td  id="hide" colspan="12" class="hiddenRow"><div class="accordian-body collapse" id="demo1-{{$index}}"> 
+						<table class="table table-striped">
+							<thead>
+								<tr><th>Skills</th><th  class="hidden-xs hidden-s">Education</th><th  class="hidden-xs hidden-s">Web Links</th></tr>
+							</thead>
+							<tbody>
+								<tr><td id='body'><b>ETL:</b> {{applicant.skills.etl.join(', ')}} <br> <b>Web App:</b> {{applicant.skills.webapp.join(', ')}} <br> <b>Languages:</b> {{applicant.skills.language.join(', ')}} <br> <b>Mobile:</b> {{applicant.skills.mobile.join(', ')}} <br> <b>Databases:</b> {{applicant.skills.database.join(', ')}}<br> <b> Big Data:</b> {{applicant.skills.bigdata.join(',')}}</td><td class="hidden-xs hidden-s"><b>School:</b> {{applicant.education.school}} <br> <b>GPA:</b> {{applicant.education.gpa}} <br> </td><td id='body'  class="hidden-xs hidden-s"> <b>Linked-in: </b><a ng-href="{{applicant.contact.linkedin}}" target="_blank">{{applicant.contact.linkedin}} </a> <br> <b> GitHub: </b><a ng-href="{{applicant.contact.github}}" target="_blank"> {{applicant.contact.github}} </a> <br> <b>Indeed: </b><a ng-href="{{applicant.contact.indeed}}" target="_blank"> {{applicant.contact.indeed}} </a></td>
+							</tbody>
+						</table>
+					</div> </td>
+				</tr>
 		</tbody>
+		</div>
 	</table>
 </div>
 </body>
