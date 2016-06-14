@@ -2,25 +2,25 @@ package applicant.etl
 
 import org.scalatest.FlatSpec
 import org.scalatest.MustMatchers._
-import scala.collection.mutable.{LinkedHashSet, ListBuffer, HashMap}
+import scala.collection.mutable.{LinkedHashMap, ListBuffer, HashMap}
 
 /**
  * Scala Test Spec to test the EntityMapper
  *
  */
  class EntityRecordSpec extends FlatSpec {
-   val input: LinkedHashSet[(String, String)] = LinkedHashSet[(String, String)]()
+   val input: LinkedHashMap[(String, String),(String, String)] = LinkedHashMap[(String, String),(String, String)]()
 
-   input += ("person" -> "Jason Frederick")
-   input += ("title" -> "Web Developer")
-   input += ("organization" -> "American Financial Group, Inc.")
-   input += ("location" -> "Thousand Oaks, CA")
-   input += ("title" -> "ETL Developer")
-   input += ("organization" -> "Alaska Air Group, Inc.")
-   input += ("location" -> "Columbus, GA")
-   input += ("webapp" -> "JavaScript")
-   input += ("degree" -> "BS Biology")
-   input += ("school" -> "Harvard University")
+   input += (("person" -> "jason frederick") -> ("person" -> "Jason Frederick"))
+   input += (("title" -> "web develoer") -> ("title" -> "Web Developer"))
+   input += (("organization" -> "american financial group, inc.") -> ("organization" -> "American Financial Group, Inc."))
+   input += (("location" -> "thousand oaks, ca") -> ("location" -> "Thousand Oaks, CA"))
+   input += (("title" -> "etl developer") ->("title" -> "ETL Developer"))
+   input += (("organization" -> "alaska air group, inc.") -> ("organization" -> "Alaska Air Group, Inc."))
+   input += (("location" -> "columbus, ga") -> ("location" -> "Columbus, GA"))
+   input += (("webapp" -> "javascript") -> ("webapp" -> "JavaScript"))
+   input += (("degree" -> "bs biology") -> ("degree" -> "BS Biology"))
+   input += (("school" -> "harvard university") -> ("school" -> "Harvard University"))
 
    val map = EntityRecord.create(input, "Wow what a good resume name", "This is totally the text that gave us these entities :D")
 
