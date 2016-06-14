@@ -8,6 +8,9 @@ import scopt.OptionParser
 
 import scala.collection.mutable.LinkedHashMap
 
+import java.net.{URL, HttpURLConnection}
+import java.io._
+
 /**
  * PictureExtractor queries Elasticsearch in order to find github links and then will scrape them
  *  and save them back to Elasticsearch as base 64 encoded strings
@@ -23,18 +26,21 @@ object PictureExtractor {
    */
   def cleanGithubUrl(rawUrl: String): Option[String] = {
     rawUrl match {
-      case url if url.startsWith("https://github.com") =>
+      case url if url.startsWith("https://github.com/") =>
         var slashCount = 0
         val urlBuilder = new StringBuilder()
 
-        var slashedUrl = url
+        var slashedUrl = url.substring(19)
 
         if (!slashedUrl.endsWith("/")) {
           slashedUrl += "/"
         }
 
-        //Grab each character up to the 4th '/'
-        for (c <- slashedUrl; if slashCount < 4) {
+        //Add the github content url
+        urlBuilder.append("https://avatars.githubusercontent.com/")
+
+        //Grab each character up to the slash
+        for (c <- slashedUrl; if slashCount < 1) {
           urlBuilder.append(c)
 
           if (c.equals('/')) {
@@ -44,8 +50,7 @@ object PictureExtractor {
 
         //remove the trailing '/'
         urlBuilder.setLength(urlBuilder.length - 1)
-        //add .png extension
-        urlBuilder.append(".png")
+
         return Some(urlBuilder.toString())
       case _ =>
         return None
@@ -59,8 +64,22 @@ object PictureExtractor {
    * @param url The url for a github profile. Formating is checked to ensure that the link is not a project link
    * @return A base64 string encoded version of the profile picture
    */
-  def downloadPicture(applicantId: String, url: String): Map[String, Object] = {
-    return Map(("Cake is pretty good" -> "Oui"), ("Anybody want a peanut?" -> "Fezzik"))
+  def downloadPicture(applicantId: String, githubUrl: String): Map[String, Object] = {
+      val url = new URL(githubUrl)
+
+      val connection = url.openConnection().asInstanceOf[HttpURLConnection]
+      connection.setRequestMethod("GET")
+      var in: InputStream = connection.getInputStream //< ------------------- Use TextExtractor to pull meta data and other info
+      /*
+      val byteArray = Stream.continually(in.read).takeWhile(-1 !=).map(_.toByte).toArray
+      in.close()
+
+      var out: BufferedOutputStream = new BufferedOutputStream(new FileOutputStream(applicantId + ".png"))
+      out.write(byteArray)
+      out.close()
+
+      return Map(("Cake is pretty good" -> "Oui"), ("Anybody want a peanut?" -> "Fezzik"))
+      */
   }
 
   /**
