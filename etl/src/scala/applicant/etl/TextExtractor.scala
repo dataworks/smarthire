@@ -62,6 +62,7 @@ object TextExtractor {
     finally {
       stream.close
     }
+    
     var metaDataMap = Map[String,String]()
     val metaDataNames = metadata.names()
     for (name <- metaDataNames) {
