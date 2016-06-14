@@ -21,8 +21,8 @@ object PictureExtractor {
    * @param url The url for a github profile. Formating is checked to ensure that the link is not a project link
    * @return A base64 string encoded version of the profile picture
    */
-  def downloadPicture(url: String): String = {
-    return "cake is pretty good"
+  def downloadPicture(applicantId: String, url: String): Map[String, Object] = {
+    return Map(("Cake is pretty good" -> "Oui"), ("Anybody want a peanut?" -> "Fezzik"))
   }
 
   /**
@@ -44,20 +44,23 @@ object PictureExtractor {
     val sc = new SparkContext(conf)
 
     //query Elasticsearch for github
-    val githubApplicants = sc.esRDD("applicants/applicant", "?q=*github.com*")
+    val githubApplicants = sc.esRDD("applicants/applicant", "?q=contact.github:http*")
+
     githubApplicants.map { applicant =>
+      val applicantId = applicant._1
       val contactOption = applicant._2.get("contact")
       contactOption match {
         case Some(contact) =>
-          val githubOption = contact.asInstanceOf[Map[String, String]].get("github")
+          val githubOption = contact.asInstanceOf[LinkedHashMap[String, String]].get("github")
           githubOption match {
             case Some(githubUrl) =>
-              downloadPicture(githubUrl)
-            case None => ""
+              downloadPicture(applicantId, githubUrl)
+            case None =>
           }
-        case None => ""
+        case None =>
       }
-    }.saveToEs("")
+    }.collect()//.saveToEs(options.esAttIndex + "/githubPic")
+
   }
 
   def main(args: Array[String]) {
