@@ -51,17 +51,21 @@ exports.defaultHandler = function(res, hits) {
     res.json(hits);
 }
 
-exports.index = function(req, res) {
+/**
+* Creates a new index
+*
+*/
+exports.index = function(req, res, config) {
   var client = new elasticsearch.Client({
-    host: 'interns.dataworks-inc.com/elasticsearch'
+    host: config.url
   });
 
   var id = req.body.id;
   var type = req.body.type;
 
   client.index({
-    index: 'labels',
-    type: 'label',
+    index: config.index,
+    type: config.type,
     id: id,
     body: {
       id: id,
@@ -72,4 +76,19 @@ exports.index = function(req, res) {
     console.log(error);
     res.end();
   });
+}
+
+exports.map = function(res, hits, type) {
+    if (hits && hits.length > 0) {
+      var ids = hits.map(function(hit) { return hit.id; })
+      //same query logic * or NOT id ()
+      if (ids && ids.length > 0) { 
+        if(type === 'applicant')
+          return "NOT id:(" + ids.join(" ") + ")";
+        else
+          return "id:(" + ids.join(" ") + ")";
+      }
+    }
+    else
+      return '*'; 
 }
