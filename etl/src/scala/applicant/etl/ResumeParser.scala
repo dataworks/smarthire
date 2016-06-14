@@ -13,6 +13,7 @@ import org.elasticsearch.spark._
 import org.apache.commons.io.FilenameUtils
 import org.apache.commons.codec.binary.Base64
 import applicant.nlp._
+import java.security.MessageDigest
 
 import scala.collection.mutable.{ListBuffer, Map, LinkedHashMap}
 
@@ -48,7 +49,6 @@ object ResumeParser {
     // Object to pass context information to Tika parser, use to modify parser
     val context : ParseContext = new ParseContext()
 
-
     try {
       // Parse text from file and store in hander object
       myparser.parse(stream, handler, metadata, context)
@@ -59,6 +59,28 @@ object ResumeParser {
     }
 
     return handler.toString()
+  }
+
+  def extractMetadata (data: PortableDataStream) : Map[String,String] = {
+    val myparser : AutoDetectParser = new AutoDetectParser()
+    val stream : InputStream = data.open()
+    val handler : WriteOutContentHandler = new WriteOutContentHandler(-1)
+    val metadata : Metadata = new Metadata()
+    val context : ParseContext = new ParseContext()
+
+    try {
+      myparser.parse(stream, handler, metadata, context)
+    }
+    finally {
+      stream.close
+    }
+    var metaDataMap = Map[String,String]()
+    val metaDataNames = metadata.names()
+    for (name <- metaDataNames) {
+      metaDataMap += (name -> metadata.get(name))
+    }
+
+    return metaDataMap
   }
 
   /**
@@ -93,7 +115,6 @@ object ResumeParser {
     var fileCount: Int = 0
 
     fileData.values.map { currentFile =>
-      //var entitySet: LinkedHashMap[(String, String),(String,String)] = null
       val text = extractText(currentFile)
       fileCount += 1
       println(fileCount + " files parsed")
@@ -107,13 +128,14 @@ object ResumeParser {
 
     fileData.values.map{ currentFile =>
       Map(
-        "hash" -> "",
+        "hash" -> MessageDigest.getInstance("MD5").digest(currentFile.toArray),
         "applicantid" -> FilenameUtils.getBaseName(currentFile.getPath()),
         "base64string" -> currentFile.toArray,
         "filename" -> FilenameUtils.getName(currentFile.getPath()),
-        "type" -> FilenameUtils.getExtension(currentFile.getPath())
-      )
-    }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash", "es.mapping.exclude" -> "hash"))
+        "extension" -> FilenameUtils.getExtension(currentFile.getPath()),
+        "metadata" -> extractMetadata(currentFile)
+        )
+    }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
 
     sc.stop()
 
