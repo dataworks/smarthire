@@ -39,7 +39,7 @@ class ResumeParserSpec extends FlatSpec {
     val sc = new SparkContext(conf)
     val fileData = sc.binaryFiles("data/test/resume.pdf")
 
-    var text: String = ResumeParser.extractText(fileData.values.first())
+    var text: String = TextExtractor.extractText(fileData.values.first().open())
 
     text = text.replace(" ", "").replace("\n", "").replace("-", "")
 
