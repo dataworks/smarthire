@@ -4,11 +4,11 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
 
     $scope.selection = "Applicant";
 
-    $scope.myPagingFunction = function(){
-        var last = $scope.applicants[$scope.applicants.length-25];
-        for(var i = 25; i <= $scope.applicants.length; i++){
-            $scope.applicants.push(last + i);
-        }
+    $scope.barLimit = 25;
+
+    $scope.increaseLimit = function(){
+        $scope.barLimit += 15;
+        console.log('Increase Bar Limit', $scope.barLimit)
     };
 
     $scope.showSelectValue = function(type) {

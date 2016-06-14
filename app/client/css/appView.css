@@ -3,6 +3,10 @@
   width: auto;
 }
 
+body{
+  height: 100%;
+}
+
 table{
 	width:100%;
 }
