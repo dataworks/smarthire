@@ -51,7 +51,7 @@ object TextExtractor {
     return handler.toString()
   }
 
-  def extractMetadata (data: DataInputStream) : Map[String,String] = {
+  def extractMetadata (data: InputStream) : Map[String,String] = {
     val myparser : AutoDetectParser = new AutoDetectParser()
     val stream : InputStream = data
 
@@ -62,7 +62,7 @@ object TextExtractor {
     finally {
       stream.close
     }
-    
+
     var metaDataMap = Map[String,String]()
     val metaDataNames = metadata.names()
     for (name <- metaDataNames) {
