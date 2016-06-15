@@ -12,7 +12,7 @@
             </select>
     </div>
 
-<div infinite-scroll="nextPage()" infinite-scroll-disabled="loadingData" infinite-scroll-check="false" >
+<div infinite-scroll="nextPage()" infinite-scroll-disabled="loadingData" infinite-scroll-check="false" infinite-scroll-distance="0.5">
 	<div class="row-applicant-row" >
 		<table class="table table-condensed" >
 			<thead id="head">
@@ -26,7 +26,7 @@
 				</tr>
 			</thead>
 		
-			<tbody ng-repeat="applicant in applicants | limitTo:barLimit">
+			<tbody ng-repeat="applicant in applicants">
 					<tr class="accordion-toggle">
 						<td id="p"><img id = "profile" src="images/profile.png"></td>
 						<td id="s">{{applicant.score}}</td>

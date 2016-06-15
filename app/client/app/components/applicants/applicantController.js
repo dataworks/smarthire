@@ -12,7 +12,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
    $scope.applicants = Applicant.query({from: $scope.index, size: $scope.pageSize});
 
     $scope.showSelectValue = function(type) {
-        //console.log(type);
+        //console.log($window.scrollY);
         if (type == 'Favorite') {
             // $scope.index = 0;
             $scope.hasData = true;
@@ -37,12 +37,12 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
     $scope.dataLoaded = function(result) {
        if (result.length > 0) {
            $scope.applicants = $scope.applicants.concat(result);
-           angular.element("#footer").hide();
+          // angular.element("#footer").hide();
        }
        else {
            $scope.hasData = false;
            $scope.index = 0;
-           angular.element("#footer").show();
+           //angular.element("#footer").show();
        }
 
        $scope.loadingData = false;
@@ -110,3 +110,30 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
   }]);
 
 
+//scroll code
+$(function(){
+    var lastScrollTop = 0, delta = 5;
+    $(window).scroll(function(event){
+       var st = $(this).scrollTop();
+       
+       if(Math.abs(lastScrollTop - st) <= delta)
+          return;
+       
+       if (st > lastScrollTop){
+           // downscroll code
+           console.log('scroll down');
+       } else {
+          // upscroll code
+          console.log('scroll up');
+          angular.element("#footer").hide();
+       }
+       lastScrollTop = st;
+    });
+});
+
+ $(window).scroll(function() {   
+   if($(window).scrollTop() + $(window).height() == $(document).height()) {
+       //alert("bottom!");
+       angular.element("#footer").show();
+   }
+});
