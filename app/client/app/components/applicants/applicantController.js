@@ -99,6 +99,10 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
         });
     };
 
+    $scope.button = function(text){
+        alert(text);
+    }
+
     // $scope.ret = function (id, type) {
     // 	var retObject = new RetObject({'id': id, 'type' : type});
     // 	retObject.$save();
