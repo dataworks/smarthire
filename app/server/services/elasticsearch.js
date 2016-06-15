@@ -16,7 +16,7 @@ exports.query = function(config, req, res, query, handler) {
                    query: query
                }
            }
-       }
+       },
        // sort: sort 
    }).then(function(resp) {
        // Parse ES response and send result back
@@ -55,7 +55,7 @@ exports.defaultHandler = function(res, hits) {
 * Creates a new index
 *
 */
-exports.index = function(req, res, config) {
+exports.index = function(config, req, res) {
   var client = new elasticsearch.Client({
     host: config.url
   });
@@ -78,6 +78,9 @@ exports.index = function(req, res, config) {
   });
 }
 
+/**
+/* returns a query string for ES
+*/
 exports.map = function(res, hits, type) {
     if (hits && hits.length > 0) {
       var ids = hits.map(function(hit) { return hit.id; })
@@ -85,7 +88,7 @@ exports.map = function(res, hits, type) {
       if (ids && ids.length > 0) { 
         if(type === 'applicant')
           return "NOT id:(" + ids.join(" ") + ")";
-        else
+        else if(type === 'favorite' || type === 'archive')
           return "id:(" + ids.join(" ") + ")";
       }
     }
