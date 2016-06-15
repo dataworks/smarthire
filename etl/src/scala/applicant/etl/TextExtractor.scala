@@ -26,7 +26,7 @@ object TextExtractor {
   val metadata : Metadata = new Metadata()
   val context : ParseContext = new ParseContext()
 
-  def extractText (data: DataInputStream) : String = {
+  def extractText (data: InputStream) : String = {
 
     // Apache Tika parser object, auto detects file type
     val myparser : AutoDetectParser = new AutoDetectParser()

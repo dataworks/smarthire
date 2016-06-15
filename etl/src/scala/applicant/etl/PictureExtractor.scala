@@ -74,7 +74,6 @@ object PictureExtractor {
       var in: InputStream = connection.getInputStream //< ------------------- Use TextExtractor to pull meta data and other info
 
       val byteArray = Stream.continually(in.read).takeWhile(-1 !=).map(_.toByte).toArray
-      val indata: DataInputStream = new DataInputStream(new ByteArrayInputStream(byteArray))
 
       var out: BufferedOutputStream = new BufferedOutputStream(new FileOutputStream(applicantId + ".png"))
       out.write(byteArray)
@@ -87,7 +86,7 @@ object PictureExtractor {
         "base64string" -> byteArray,
         "filename" -> FilenameUtils.getName(githubUrl),
         "extension" -> FilenameUtils.getExtension(githubUrl),
-        "metadata" -> TextExtractor.extractMetadata(indata)
+        "metadata" -> TextExtractor.extractMetadata(in)
         )
 
   }
@@ -130,7 +129,7 @@ object PictureExtractor {
           }
         case None =>
       }
-    }.collect()//.saveToEs(options.esAttIndex + "/githubPic")
+    }.saveToEs(options.esAttIndex + "/githubPic")
 
   }
 
