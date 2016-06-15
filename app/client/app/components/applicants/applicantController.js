@@ -76,12 +76,12 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
 
 // Only enable if the document has a long scroll bar
 // Note the window height + offset
-if ( $(window).scrollY > 13) {
+//if ( $(window).height() > $(document).height()) {
     $('#top-link-block').removeClass('hidden').affix({
         // how far to scroll down before link "slides" into view
         offset: {top:100}
     });
-}
+//}
 
 
     $scope.mark = function (id, type) {
