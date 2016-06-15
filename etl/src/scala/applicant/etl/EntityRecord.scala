@@ -147,9 +147,12 @@ object EntityRecord {
       }
     }
 
-    val jsonString = "\"\"\"" + scala.io.Source.fromURL(giturlBuilder.toString()).mkString + "\"\"\""
+    val jsonString = scala.io.Source.fromURL(giturlBuilder.toString()).mkString
+    val parsedJson = parse(jsonString)
+    implicit val formats = DefaultFormats
 
-    println(parse(jsonString))
+    val gitJsonMap = parsedJson.extract[Map[String, String]]
+    println(gitJsonMap)
     return ""
   }
 }
