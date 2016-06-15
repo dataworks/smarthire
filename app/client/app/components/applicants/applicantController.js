@@ -14,17 +14,20 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
     $scope.showSelectValue = function(type) {
         //console.log(type);
         if (type == 'Favorite') {
-            $scope.index = 0;
+            // $scope.index = 0;
+            $scope.hasData = true;
             $scope.selection = "Favorite";
             $scope.applicants = Favorite.query({from: $scope.index, size: $scope.pageSize});;
         }
         if (type == 'Archive') {
-            $scope.index = 0;
+            // $scope.index = 0;
+            $scope.hasData = true;
             $scope.selection = "Archive";
             $scope.applicants = Archive.query({from: $scope.index, size: $scope.pageSize});
         }
         if (type == 'Applicant') {
-            $scope.index = 0;
+           // $scope.index = 0;
+           $scope.hasData = true;
             $scope.selection = "Applicant";
             $scope.applicants = Applicant.query({from: $scope.index, size: $scope.pageSize});
         }
@@ -34,9 +37,11 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
     $scope.dataLoaded = function(result) {
        if (result.length > 0) {
            $scope.applicants = $scope.applicants.concat(result);
+           angular.element("#footer").hide();
        }
        else {
            $scope.hasData = false;
+           $scope.index = 0;
            angular.element("#footer").show();
        }
 
