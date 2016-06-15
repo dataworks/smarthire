@@ -4,28 +4,28 @@
 }
 
 #top-link-block.affix-top {
-    position: fixed; /* allows it to "slide" up into view, change to absolute to get it to slide */
-    bottom: 25px; /* negative of the offset - height of link element */
-    left: 10px; /* padding from the left side of the window */
-    z-index: 2;
+  position: fixed; /* allows it to "slide" up into view, change to absolute to get it to slide */
+  bottom: 25px; /* negative of the offset - height of link element */
+  left: 10px; /* padding from the left side of the window */
+  z-index: 2;
 }
 
 #top-link-block.affix {
-    position: fixed; /* keeps it on the bottom once in view */
-    bottom: 25px; /* height of link element */
-    left: 10px; /* padding from the left side of the window */
-    z-index: 2;
+  position: fixed; /* keeps it on the bottom once in view */
+  bottom: 25px; /* height of link element */
+  left: 10px; /* padding from the left side of the window */
+  z-index: 2;
 
 }
 
 .well{
-    background-color: #00A6F6;
-    color: white;
-    border-radius: 5px 20px 5px;
-    /*font-weight: bold;*/
-    font-family: 'Gurajada', serif;
-    font-size: 160%;
-    padding: 0 8% 0 8%;
+  background-color: #00A6F6;
+  color: white;
+  border-radius: 5px 20px 5px;
+  /*font-weight: bold;*/
+  font-family: 'Gurajada', serif;
+  font-size: 160%;
+  padding: 0 8% 0 8%;
 }
 
 table{
@@ -92,7 +92,7 @@ td{
   color: #007ead; 
   background: none; 
   padding: 5%;
- }
+}
 
 #eye:hover{
   text-decoration: none;
@@ -107,7 +107,7 @@ td{
   color: #007ead;
   background: none; 
   padding: 5%;
- }
+}
 
 #up:hover{
 	text-decoration: none;
@@ -124,8 +124,8 @@ td{
   padding: 5%;
 }
 
- #down:hover {
-    text-decoration: none;
-    background: none;
-    color: #D50000;
-  }
+#down:hover {
+  text-decoration: none;
+  background: none;
+  color: #D50000;
+}

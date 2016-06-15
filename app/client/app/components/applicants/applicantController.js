@@ -1,17 +1,17 @@
 applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favorite', '$location', '$anchorScroll', 'Archive', '$window',
   function ($scope, Applicant, Favorite, $location, $anchorScroll, Archive, $window) {
 
-   $scope.selection = "Applicant";
-   $scope.index = 0;
-   $scope.pageSize = 25;
-   $scope.loadingData = false;
-   $scope.hasData = true;
+     $scope.selection = "Applicant";
+     $scope.index = 0;
+     $scope.pageSize = 25;
+     $scope.loadingData = false;
+     $scope.hasData = true;
 
-   $scope.queryType="";
-   
-   $scope.applicants = Applicant.query({from: $scope.index, size: $scope.pageSize});
+     $scope.queryType="";
+     
+     $scope.applicants = Applicant.query({from: $scope.index, size: $scope.pageSize});
 
-    $scope.showSelectValue = function(type) {
+     $scope.showSelectValue = function(type) {
         if (type == 'Favorite') {
             // $scope.index = 0;
             $scope.hasData = true;
@@ -27,48 +27,48 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
         if (type == 'Applicant') {
            // $scope.index = 0;
            $scope.hasData = true;
-            $scope.selection = "Applicant";
-            $scope.applicants = Applicant.query({from: $scope.index, size: $scope.pageSize});
-        }
-    };
-    
-
-    $scope.dataLoaded = function(result) {
-       if (result.length > 0) {
-           $scope.applicants = $scope.applicants.concat(result);
+           $scope.selection = "Applicant";
+           $scope.applicants = Applicant.query({from: $scope.index, size: $scope.pageSize});
        }
-       else {
-           $scope.hasData = false;
-           $scope.index = 0;
-       }
-
-       $scope.loadingData = false;
    };
+   
 
-   $scope.nextPage = function(){
-       if ($scope.hasData) {
-           $scope.loadingData = true;
-           $scope.index += $scope.pageSize;
+   $scope.dataLoaded = function(result) {
+     if (result.length > 0) {
+         $scope.applicants = $scope.applicants.concat(result);
+     }
+     else {
+         $scope.hasData = false;
+         $scope.index = 0;
+     }
 
-           if ($scope.selection == "Applicant") {
-                Applicant.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
+     $scope.loadingData = false;
+ };
 
-           }
-            
-            if ($scope.selection == "Favorite") {
-                Favorite.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
+ $scope.nextPage = function(){
+     if ($scope.hasData) {
+         $scope.loadingData = true;
+         $scope.index += $scope.pageSize;
 
-           }
-            
-            else {
-                Archive.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
+         if ($scope.selection == "Applicant") {
+            Applicant.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
 
-           }
+        }
+        
+        if ($scope.selection == "Favorite") {
+            Favorite.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
+
+        }
+        
+        else {
+            Archive.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
+
+        }
 
         
-       }
-   };
-    
+    }
+};
+
 
 // Only enable if the document has a long scroll bar
 // Note the window height + offset
@@ -80,32 +80,32 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
 //}
 
 
-    $scope.mark = function (id, type) {
-    	var favorite = new Favorite({'id': id, 'type' : type});
-        var y = $window.scrollY;
-        console.log(y);
-        favorite.$save().then(function(){
-            $scope.applicants = Applicant.query();
-        });
-    };
+$scope.mark = function (id, type) {
+   var favorite = new Favorite({'id': id, 'type' : type});
+   var y = $window.scrollY;
+   console.log(y);
+   favorite.$save().then(function(){
+    $scope.applicants = Applicant.query();
+});
+};
 
-    $scope.button = function(text){
-        alert(text);
-    }
+$scope.button = function(text){
+    alert(text);
+}
 
-  }]);
+}]);
 
 
 //scroll code
 $(function(){
     var lastScrollTop = 0, delta = 5;
     $(window).scroll(function(event){
-       var st = $(this).scrollTop();
-       
-       if(Math.abs(lastScrollTop - st) <= delta)
-          return;
-       
-       if (st > lastScrollTop){
+     var st = $(this).scrollTop();
+     
+     if(Math.abs(lastScrollTop - st) <= delta)
+      return;
+  
+  if (st > lastScrollTop){
            // downscroll code
            console.log('scroll down');
            console.log($(window).scrollTop());
@@ -114,13 +114,13 @@ $(function(){
           console.log('scroll up');
           console.log($(window).scrollTop());
           angular.element("#footer").hide();
-       }
-       lastScrollTop = st;
-    });
+      }
+      lastScrollTop = st;
+  });
 });
 
- $(window).scroll(function() {   
-   if($(window).scrollTop() + $(window).height() == $(document).height()) {
-       angular.element("#footer").show();
-   }
+$(window).scroll(function() {   
+ if($(window).scrollTop() + $(window).height() == $(document).height()) {
+     angular.element("#footer").show();
+ }
 });
