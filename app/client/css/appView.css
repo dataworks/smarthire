@@ -18,6 +18,18 @@
 
 }
 
+@-moz-document url-prefix() {
+    .well{
+      padding: 5px !important;
+    }
+    td{
+      height: 10px !important;
+    }
+    #profile{
+      height: 75px !important;
+    }
+}
+
 .well{
     background-color: #00A6F6;
     color: white;
@@ -26,6 +38,7 @@
     font-family: 'Gurajada', serif;
     font-size: 160%;
     padding: 0 8% 0 8%;
+
 }
 
 table{
