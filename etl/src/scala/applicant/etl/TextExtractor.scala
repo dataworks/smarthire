@@ -53,14 +53,12 @@ object TextExtractor {
 
   def extractMetadata (data: InputStream) : Map[String,String] = {
     val myparser : AutoDetectParser = new AutoDetectParser()
-    val stream : InputStream = data
-
 
     try {
-      myparser.parse(stream, handler, metadata, context)
+      myparser.parse(data, handler, metadata, context)
     }
     finally {
-      stream.close
+      data.close
     }
 
     var metaDataMap = Map[String,String]()
