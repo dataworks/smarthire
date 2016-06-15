@@ -34,12 +34,14 @@
 						<td class="hidden-xs hidden-s">{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
 						<td class="hidden-xs hidden-s">{{applicant.education.degree}}</td>
 						<td class="hidden-xs hidden-s"><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <br> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> </td>
+
 						<td id="o"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite')"> 
 							<span title="Add to Favorites" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+
 						</button>
 						<button id="down" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'archive')">
 							<span title="Add to Archive" class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
-							<a href="/archive"></a>
+							<a href="/archive"></a> 
 						</button>			
 						<button id="eye" class="btn btn-default btn-xs" data-toggle="collapse" data-target="#demo1-{{$index}}">
 							<span title="View more" class="glyphicon glyphicon-eye-open">

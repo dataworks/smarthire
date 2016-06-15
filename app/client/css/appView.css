@@ -3,6 +3,18 @@
   width: auto;
 }
 
+#top-link-block.affix-top {
+    position: absolute; /* allows it to "slide" up into view */
+    bottom: 25px; /* negative of the offset - height of link element */
+    left: 10px; /* padding from the left side of the window */
+    z-index: 2;
+}
+#top-link-block.affix {
+    position: fixed; /* keeps it on the bottom once in view */
+    bottom: 25px; /* height of link element */
+    left: 10px; /* padding from the left side of the window */
+    z-index: 2;
+}
 
 table{
 	width:100%;
