@@ -12,6 +12,9 @@ scalaSource in Compile := baseDirectory.value / "src"
 // Use test/scala
 scalaSource in Test := baseDirectory.value / "test"
 
+//run with the features and deprecation options
+scalacOptions ++= Seq("-feature", "-deprecation")
+
 // Needed for JavaCPP
 classpathTypes += "maven-plugin"
 
@@ -32,4 +35,5 @@ libraryDependencies ++= Seq(
     "org.elasticsearch" % "elasticsearch-hadoop" % "2.3.2",
     "commons-io" % "commons-io" % "2.5",
     "org.json4s" %% "json4s-native" % "3.3.0"
+    "com.twelvemonkeys.imageio" % "imageio-core" % "3.2.1"
 )

@@ -239,9 +239,6 @@ font-style: italic;
 
 
 
-
-
-
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -260,4 +257,5 @@ body {
   height: 70px;
   background-color: #f5f5f5;
   display:none;
+  z-index: 1;
 }
