@@ -12,7 +12,6 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
    $scope.applicants = Applicant.query({from: $scope.index, size: $scope.pageSize});
 
     $scope.showSelectValue = function(type) {
-        //console.log($window.scrollY);
         if (type == 'Favorite') {
             // $scope.index = 0;
             $scope.hasData = true;
@@ -37,12 +36,10 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
     $scope.dataLoaded = function(result) {
        if (result.length > 0) {
            $scope.applicants = $scope.applicants.concat(result);
-          // angular.element("#footer").hide();
        }
        else {
            $scope.hasData = false;
            $scope.index = 0;
-           //angular.element("#footer").show();
        }
 
        $scope.loadingData = false;
@@ -72,7 +69,6 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
        }
    };
     
-    //change for the others
 
 // Only enable if the document has a long scroll bar
 // Note the window height + offset
@@ -90,12 +86,6 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
         console.log(y);
         favorite.$save().then(function(){
             $scope.applicants = Applicant.query();
-            // $location.hash(' ');
-            // $anchorScroll();
-
-            // $window.scrollTo(500,500);
-            // // $anchorScroll.yOffset = y;
-            // // $anchorScroll();
         });
     };
 
@@ -103,10 +93,6 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
         alert(text);
     }
 
-    // $scope.ret = function (id, type) {
-    // 	var retObject = new RetObject({'id': id, 'type' : type});
-    // 	retObject.$save();
-    // }
   }]);
 
 
@@ -122,9 +108,11 @@ $(function(){
        if (st > lastScrollTop){
            // downscroll code
            console.log('scroll down');
+           console.log($(window).scrollTop());
        } else {
           // upscroll code
           console.log('scroll up');
+          console.log($(window).scrollTop());
           angular.element("#footer").hide();
        }
        lastScrollTop = st;
@@ -133,7 +121,6 @@ $(function(){
 
  $(window).scroll(function() {   
    if($(window).scrollTop() + $(window).height() == $(document).height()) {
-       //alert("bottom!");
        angular.element("#footer").show();
    }
 });
