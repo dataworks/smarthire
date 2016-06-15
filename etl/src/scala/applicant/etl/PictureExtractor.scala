@@ -5,8 +5,13 @@ import org.apache.spark.SparkConf
 import org.apache.spark.input.PortableDataStream
 import org.elasticsearch.spark._
 import scopt.OptionParser
+import java.security.MessageDigest
+import org.apache.commons.io.FilenameUtils
 
 import scala.collection.mutable.LinkedHashMap
+
+import java.net.{URL, HttpURLConnection}
+import java.io._
 
 /**
  * PictureExtractor queries Elasticsearch in order to find github links and then will scrape them
@@ -15,14 +20,75 @@ import scala.collection.mutable.LinkedHashMap
 object PictureExtractor {
   case class Command(sparkMaster: String = "", esNodes: String = "", esPort: String = "", esAttIndex: String = "")
 
+
+  /**
+   * Will clean up a raw url in order to get a link to the user's profile picture
+   *
+   * @param rawUrl The url pulled straight from the user's resume
+   */
+  def cleanGithubUrl(rawUrl: String): Option[String] = {
+    rawUrl match {
+      case url if url.startsWith("https://github.com/") =>
+        var slashCount = 0
+        val urlBuilder = new StringBuilder()
+
+        var slashedUrl = url.substring(19)
+
+        if (!slashedUrl.endsWith("/")) {
+          slashedUrl += "/"
+        }
+
+        //Add the github content url
+        urlBuilder.append("https://avatars.githubusercontent.com/")
+
+        //Grab each character up to the slash
+        for (c <- slashedUrl; if slashCount < 1) {
+          urlBuilder.append(c)
+
+          if (c.equals('/')) {
+            slashCount += 1
+          }
+        }
+
+        //remove the trailing '/'
+        urlBuilder.setLength(urlBuilder.length - 1)
+
+        return Some(urlBuilder.toString())
+      case _ =>
+        return None
+    }
+  }
+
+
   /**
    * Will download the profile picture
    *
    * @param url The url for a github profile. Formating is checked to ensure that the link is not a project link
    * @return A base64 string encoded version of the profile picture
    */
-  def downloadPicture(url: String): String = {
-    return "cake is pretty good"
+  def downloadPicture(applicantId: String, githubUrl: String): Map[String, Object] = {
+      val url = new URL(githubUrl)
+
+      val connection = url.openConnection().asInstanceOf[HttpURLConnection]
+      connection.setRequestMethod("GET")
+      var in: InputStream = connection.getInputStream //< ------------------- Use TextExtractor to pull meta data and other info
+
+      val byteArray = Stream.continually(in.read).takeWhile(-1 !=).map(_.toByte).toArray
+
+      var out: BufferedOutputStream = new BufferedOutputStream(new FileOutputStream(applicantId + ".png"))
+      out.write(byteArray)
+      out.close()
+      in.close()
+
+      return Map(
+        "hash" -> MessageDigest.getInstance("MD5").digest(byteArray),
+        "applicantid" -> applicantId,
+        "base64string" -> byteArray,
+        "filename" -> FilenameUtils.getName(githubUrl),
+        "extension" -> FilenameUtils.getExtension(githubUrl),
+        "metadata" -> TextExtractor.extractMetadata(in)
+        )
+
   }
 
   /**
@@ -44,20 +110,27 @@ object PictureExtractor {
     val sc = new SparkContext(conf)
 
     //query Elasticsearch for github
-    val githubApplicants = sc.esRDD("applicants/applicant", "?q=*github.com*")
+    val githubApplicants = sc.esRDD("applicants/applicant", "?q=contact.github:http*")
+
     githubApplicants.map { applicant =>
+      val applicantId = applicant._1
       val contactOption = applicant._2.get("contact")
       contactOption match {
         case Some(contact) =>
-          val githubOption = contact.asInstanceOf[Map[String, String]].get("github")
+          val githubOption = contact.asInstanceOf[LinkedHashMap[String, String]].get("github")
           githubOption match {
             case Some(githubUrl) =>
-              downloadPicture(githubUrl)
-            case None => ""
+               cleanGithubUrl(githubUrl) match {
+                case Some(properUrl) =>
+                  println(downloadPicture(applicantId, properUrl))
+                case None =>
+              }
+            case None =>
           }
-        case None => ""
+        case None =>
       }
-    }.saveToEs("")
+    }.saveToEs(options.esAttIndex + "/githubPic")
+
   }
 
   def main(args: Array[String]) {

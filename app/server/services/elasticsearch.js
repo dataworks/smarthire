@@ -4,19 +4,33 @@ exports.query = function(config, req, res, query, handler) {
    var client = new elasticsearch.Client({
        host: config.url
    });
-
-   // Execute ES Query
-   client.search({
-       index: config.index,
-       type: config.type,
-       body: {
-          from: 0, size: 150,
-           query: {
-               query_string: {
-                   query: query
-               }
-           }
-       },
+console.log(req.query)
+// Execute ES Query
+  client.search({
+      index: config.index,
+      type: config.type,
+      from: req.query.from,
+      size: req.query.size,
+      body: {
+          query: {
+              query_string: {
+                  query: query
+              }
+          }
+      }
+   // // Execute ES Query
+   // client.search({
+   //     index: config.index,
+   //     type: config.type,
+   //     from: req.query.from,
+   //     size: req.query.size,
+   //     body: {
+   //         query: {
+   //             query_string: {
+   //                 query: query
+   //             }
+   //         }
+   //     }
        // sort: sort 
    }).then(function(resp) {
        // Parse ES response and send result back
