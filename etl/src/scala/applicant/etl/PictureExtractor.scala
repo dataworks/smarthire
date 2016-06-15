@@ -1,5 +1,6 @@
 package applicant.etl
 
+import scala.language.postfixOps
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkConf
 import org.apache.spark.input.PortableDataStream
@@ -75,18 +76,26 @@ object PictureExtractor {
 
       val byteArray = Stream.continually(in.read).takeWhile(-1 !=).map(_.toByte).toArray
 
-      var out: BufferedOutputStream = new BufferedOutputStream(new FileOutputStream(applicantId + ".png"))
-      out.write(byteArray)
-      out.close()
       in.close()
+
+      val metadataMap = TextExtractor.extractMetadata(new ByteArrayInputStream(byteArray))
+      var fileExtension: String = ""
+      metadataMap.get("Content-Type") match {
+        case Some(jpg) if jpg.endsWith("jpeg") =>
+          fileExtension = "jpg"
+        case Some(png) if png.endsWith("png") =>
+          fileExtension = "png"
+        case _ =>
+          return Map()
+      }
 
       return Map(
         "hash" -> MessageDigest.getInstance("MD5").digest(byteArray),
         "applicantid" -> applicantId,
         "base64string" -> byteArray,
-        "filename" -> FilenameUtils.getName(githubUrl),
-        "extension" -> FilenameUtils.getExtension(githubUrl),
-        "metadata" -> TextExtractor.extractMetadata(in)
+        "filename" -> (FilenameUtils.getName(githubUrl) + "." + fileExtension),
+        "extension" -> fileExtension,
+        "metadata" -> metadataMap
         )
 
   }
@@ -122,14 +131,14 @@ object PictureExtractor {
             case Some(githubUrl) =>
                cleanGithubUrl(githubUrl) match {
                 case Some(properUrl) =>
-                  println(downloadPicture(applicantId, properUrl))
+                  downloadPicture(applicantId, properUrl)
                 case None =>
               }
             case None =>
           }
         case None =>
       }
-    }.saveToEs(options.esAttIndex + "/githubPic")
+    }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
 
   }
 
