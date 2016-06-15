@@ -97,7 +97,7 @@ exports.index = function(config, req, res) {
 */
 exports.map = function(res, hits, type) {
     if (hits && hits.length > 0) {
-      var ids = hits.map(function(hit) { return hit.id; })
+      var ids = hits.map(function(hit) { return hit.id; });
       //same query logic * or NOT id ()
       if (ids && ids.length > 0) { 
         if(type === 'applicant')

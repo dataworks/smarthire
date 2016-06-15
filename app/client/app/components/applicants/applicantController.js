@@ -84,12 +84,13 @@ if ( $(window).scrollY > 13) {
 }
 
 
-    $scope.mark = function (id, type) {
+    $scope.mark = function (id, type, index) {
     	var favorite = new Favorite({'id': id, 'type' : type});
         var y = $window.scrollY;
         console.log(y);
         favorite.$save().then(function(){
-            $scope.applicants = Applicant.query();
+            // $scope.applicants = Applicant.query();
+            $scope.applicants.splice(index, 1);
             // $location.hash(' ');
             // $anchorScroll();
 

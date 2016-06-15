@@ -18,14 +18,13 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.get("/service/applicants", function(req, res) {
-    applicantService.listApplicants(req, res, 'applicant');
+  applicantService.listApplicants(req, res, 'applicant');
 });
 
 
 //code for favorites, changes between favorite and archive--REQUIRED
 app.post("/service/favorites", function(req, res) {
   labelService.index(req,res);
-
 });
 
 //get code for favorites
