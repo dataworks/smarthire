@@ -54,7 +54,7 @@ object ResumeParser {
     val fileData = sc.binaryFiles(filesPath)
 
     // Create EntityExtractor object
-    val models = options.nlpModels.split(",").map(_.trim) //Trimmed in case someone puts spaces in the model paths
+    val models = options.nlpModels.split(",")
     val patterns = options.nlpRegex
     val extractor = new EntityExtractor(models, patterns)
 
@@ -72,7 +72,7 @@ object ResumeParser {
         EntityRecord.create(entitySet, FilenameUtils.getBaseName(currentFile.getPath()), text)
       }
 
-    }.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
+    }.collect()//.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
 
     fileData.values.map{ currentFile =>
       Map(
@@ -83,7 +83,7 @@ object ResumeParser {
         "extension" -> FilenameUtils.getExtension(currentFile.getPath()),
         "metadata" -> TextExtractor.extractMetadata(currentFile.open())
         )
-    }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
+    }//.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
 
     sc.stop()
 
