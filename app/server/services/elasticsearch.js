@@ -109,6 +109,5 @@ exports.map = function(res, hits, type) {
         }
       }
     }
-    console.log("query: " + query);
     return query; 
 }
