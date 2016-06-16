@@ -7,8 +7,6 @@ import scala.io._
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
-import scala.collection.mutable.{ListBuffer, Map, LinkedHashMap}
-
 /**
  * Class to retrieve JSON data from URLs and convert them
  * to Scala maps for saving to Elasticsearch
@@ -27,8 +25,8 @@ object ApiMapper {
         val parsedJson = parse(jsonString)
         object VarToString extends CustomSerializer[String](format => (
           {
-            case JBool(false) => format.toString
-            case JBool(true) => format.toString
+            case JBool(false) => "false"
+            case JBool(true) => "true"
           },
           {
             case format: String => JString(format)

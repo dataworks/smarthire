@@ -15,7 +15,7 @@ object EntityRecord {
    * @param fullText A String of the full parsed resume from extractText
    * @return A map formatted to save to ES as JSON
    */
-  def create(taggedEntities: LinkedHashMap[(String, String),(String,String)], applicantID: String, fullText: String): Map[String, Object] = {
+  def create(taggedEntities: LinkedHashMap[(String, String),(String,String)], applicantID: String, fullText: String): Map[String, Any] = {
     var name, recentTitle, recentLocation, recentOrganization, degree, school, gpa, email, phone, notFound, linkedin, indeed, github: String = ""
 
     val languageList: ListBuffer[String] = new ListBuffer[String]()
@@ -77,12 +77,12 @@ object EntityRecord {
     if (score > 1)
       score = 1
 
-    val strScore: String = String.valueOf(df.format(score))
+    //val strScore: String = String.valueOf(df.format(score))
 
-    val map: Map[String, Object] = Map(
+    val map: Map[String, Any] = Map(
       "id" -> applicantID,
       "name" -> name,
-      "score" -> strScore,
+      "score" -> score,
       "currentLocation" -> Map(
         "title" -> recentTitle,
         "location" -> recentLocation,

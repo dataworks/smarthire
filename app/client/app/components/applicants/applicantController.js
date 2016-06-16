@@ -16,7 +16,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
             $scope.index = 0;
             $scope.hasData = true;
             $scope.selection = "Favorite";
-            $scope.applicants = Favorite.query({from: $scope.index, size: $scope.pageSize});;
+            $scope.applicants = Favorite.query({from: $scope.index, size: $scope.pageSize});
         }
         if (type == 'Archive') {
             $scope.index = 0;
@@ -54,12 +54,11 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
             Applicant.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
 
         }
-        
-        if ($scope.selection == "Favorite") {
+    
+        else if ($scope.selection == "Favorite") {
             Favorite.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
 
-        }
-        
+        }  
         else {
             Archive.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
 
