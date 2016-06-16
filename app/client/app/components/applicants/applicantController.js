@@ -7,7 +7,14 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
      $scope.loadingData = false;
      $scope.hasData = true;
 
-     $scope.queryType="";
+     //sorting table by column code
+     $scope.propertyName = null;
+     $scope.reverse = false;
+     $scope.sortBy = function(propertyName) {
+
+     $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
+        $scope.propertyName = propertyName;
+    };
      
      $scope.applicants = Applicant.query({from: $scope.index, size: $scope.pageSize});
 
@@ -52,7 +59,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
  };
 
  $scope.nextPage = function(){
-    console.log($scope.selection, $scope.index);
+    //console.log($scope.selection, $scope.index);
      if ($scope.hasData) {
          $scope.loadingData = true;
          $scope.index += $scope.pageSize;

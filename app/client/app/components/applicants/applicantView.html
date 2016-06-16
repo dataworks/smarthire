@@ -13,12 +13,14 @@
 		</select>
 	</div>
 
+
+
 	<div infinite-scroll="nextPage()" infinite-scroll-disabled="loadingData" infinite-scroll-check="false" infinite-scroll-distance="1">
 		<div class="row-applicant-row" >
 			<table class="table table-condensed">
 				<thead id="head">
 					<tr><th id="e">Profile</th>
-						<th id="s">Score</th>
+						<th id="s"><button ng-click="sortBy('-score')">Score</button><span class="sortorder"></span></th>
 						<th id="n">Name</th>
 						<th  class="hidden-xs hidden-s">Current Info</th>
 						<th  class="hidden-xs hidden-s">Degree</th>
@@ -27,7 +29,7 @@
 					</tr>
 				</thead>
 				
-				<tbody ng-repeat="applicant in applicants">
+				<tbody ng-repeat="applicant in applicants | orderBy:propertyName:reverse">
 					<tr class="accordion-toggle">
 						<td id="p"><img id = "profile" src="images/profile.png"></td>
 						<td id="s">{{applicant.score}}</td>
