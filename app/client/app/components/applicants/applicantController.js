@@ -13,13 +13,13 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
 
      $scope.showSelectValue = function(type) {
         if (type == 'Favorite') {
-            // $scope.index = 0;
+            $scope.index = 0;
             $scope.hasData = true;
             $scope.selection = "Favorite";
             $scope.applicants = Favorite.query({from: $scope.index, size: $scope.pageSize});;
         }
         if (type == 'Archive') {
-            // $scope.index = 0;
+            $scope.index = 0;
             $scope.hasData = true;
             $scope.selection = "Archive";
             $scope.applicants = Archive.query({from: $scope.index, size: $scope.pageSize});
