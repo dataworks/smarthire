@@ -16,7 +16,8 @@ exports.listApplicants = function(req, res, type) {
 	   	esservice.query(config.config.applicants, req, res, labelQuery, null);
 	}, function (error, response) {
         console.log(error);
-	});
+	});'*';
+
 }
 
 /*
