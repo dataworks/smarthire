@@ -107,12 +107,12 @@ $(function(){
   
   if (st > lastScrollTop){
            // downscroll code
-           console.log('scroll down');
-           console.log($(window).scrollTop());
+           //console.log('scroll down');
+           //console.log($(window).scrollTop());
        } else {
           // upscroll code
-          console.log('scroll up');
-          console.log($(window).scrollTop());
+         // console.log('scroll up');
+         // console.log($(window).scrollTop());
           angular.element("#footer").hide();
       }
       lastScrollTop = st;
