@@ -240,6 +240,10 @@ font-style: italic;
   background: -moz-linear-gradient(top,  #FFD600,  #388E3C);
 }
 
+.form-wrapper-2 button, input{
+  position: relative;
+}
+
 
 
 /* Sticky footer styles

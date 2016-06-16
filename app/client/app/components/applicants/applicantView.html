@@ -5,11 +5,11 @@
 <body>
 
 	<div class="block">
-		<select ng-model="selection" ng-change="showSelectValue(selection)"> 
-			<option value="Applicant" selected>Applicant</option>  
-			<option value="Favorite" >Favorite</option> 
-			<option value="Review">Review</option> 
-			<option  value="Archive" >Archive</option> 
+		<select id="select" ng-model="selection" ng-change="showSelectValue(selection)"> 
+			<option id="u" value="Applicant" selected>Applicant</option>  
+			<option id="u" value="Favorite" >Favorite</option> 
+			<option id="u" value="Review">Review</option> 
+			<option id="u"  value="Archive" >Archive</option> 
 		</select>
 	</div>
 
@@ -22,7 +22,7 @@
 						<th id="n">Name</th>
 						<th  class="hidden-xs hidden-s">Current Info</th>
 						<th  class="hidden-xs hidden-s">Degree</th>
-						<th  class="hidden-xs hidden-s">Contact</th>
+						<th id="c" class="hidden-xs hidden-s">Contact</th>
 						<th id="o">Options</th>
 					</tr>
 				</thead>
@@ -34,7 +34,7 @@
 						<td id="n">{{applicant.name}}</td>
 						<td class="hidden-xs hidden-s">{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
 						<td class="hidden-xs hidden-s">{{applicant.education.degree}}</td>
-						<td class="hidden-xs hidden-s"><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <br> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> </td>
+						<td id="c" class="hidden-xs hidden-s"><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <br> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> </td>
 						<td id="o"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite', $index); button('Applicant was favorited.')"> 
 							<span title="Add to Favorites" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
 						</button>
