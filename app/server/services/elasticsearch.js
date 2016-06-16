@@ -96,16 +96,19 @@ exports.index = function(config, req, res) {
 /* returns a query string for ES
 */
 exports.map = function(res, hits, type) {
+    var query = '*';
     if (hits && hits.length > 0) {
-      var ids = hits.map(function(hit) { return hit.id; })
+      var ids = hits.map(function(hit) { return hit.id; });
       //same query logic * or NOT id ()
       if (ids && ids.length > 0) { 
-        if(type === 'applicant')
-          return "NOT id:(" + ids.join(" ") + ")";
-        else if(type === 'favorite' || type === 'archive')
-          return "id:(" + ids.join(" ") + ")";
+        if(type === 'applicant') {
+          query = "NOT id:(" + ids.join(" ") + ")";
+        }
+        else if(type === 'favorite' || type === 'archive') {
+          query = "id:(" + ids.join(" ") + ")";
+        }
       }
     }
-    else
-      return '*'; 
+    console.log("query: " + query);
+    return query; 
 }

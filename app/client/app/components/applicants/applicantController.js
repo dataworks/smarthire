@@ -79,22 +79,31 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
     });
 //}
 
+    $scope.mark = function (id, type, index) {
+    	var favorite = new Favorite({'id': id, 'type' : type});
+        var y = $window.scrollY;
+        console.log(y);
+        favorite.$save().then(function(){
+            $scope.applicants = Applicant.query();
+            // $scope.applicants.splice(index, 1);
+            
+            // $location.hash(' ');
+            // $anchorScroll();
 
-$scope.mark = function (id, type) {
-   var favorite = new Favorite({'id': id, 'type' : type});
-   var y = $window.scrollY;
-   console.log(y);
-   favorite.$save().then(function(){
-    $scope.applicants = Applicant.query();
-});
-};
+            // $window.scrollTo(500,500);
+            // // $anchorScroll.yOffset = y;
+            // // $anchorScroll();
+        });
+    };
 
-$scope.button = function(text){
-    alert(text);
-}
+    $scope.button = function(text){
+        alert(text);
+    }
 
-}]);
-
+    // $scope.ret = function (id, type) {
+    // 	var retObject = new RetObject({'id': id, 'type' : type});
+    // 	retObject.$save();
+    // }
 
 //scroll code
 $(function(){
@@ -124,3 +133,4 @@ $(window).scroll(function() {
      angular.element("#footer").show();
  }
 });
+}]);
