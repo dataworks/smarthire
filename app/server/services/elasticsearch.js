@@ -4,39 +4,24 @@ exports.query = function(config, req, res, query, handler) {
    var client = new elasticsearch.Client({
        host: config.url
    });
-console.log(req.query)
 // Execute ES Query
   client.search({
       index: config.index,
       type: config.type,
-      from: req.query.from,
-      size: req.query.size,
+      from: req ? req.query.from : null,
+      size: req ? req.query.size : null,
       body: {
-        sort : [
-          { 
-            score :{"order" : "desc" , "ignore_unmapped" : true}
-          }
-        ],
           query: {
               query_string: {
                   query: query,
               }
+          },
+          sort : [
+          { 
+            score :{"order" : "desc" , "ignore_unmapped" : true}
           }
+        ]
       }
-   // // Execute ES Query
-   // client.search({
-   //     index: config.index,
-   //     type: config.type,
-   //     from: req.query.from,
-   //     size: req.query.size,
-   //     body: {
-   //         query: {
-   //             query_string: {
-   //                 query: query
-   //             }
-   //         }
-   //     }
-       // sort: sort 
    }).then(function(resp) {
        // Parse ES response and send result back
        var hits = module.exports.parseResponse(resp, res);
@@ -102,6 +87,7 @@ exports.index = function(config, req, res) {
 */
 exports.map = function(res, hits, type) {
     var query = '*';
+    console.log(hits);
     if (hits && hits.length > 0) {
       var ids = hits.map(function(hit) { return hit.id; });
       //same query logic * or NOT id ()
@@ -114,5 +100,7 @@ exports.map = function(res, hits, type) {
         }
       }
     }
+
+    console.log(query);
     return query; 
 }
