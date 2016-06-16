@@ -1,5 +1,5 @@
-applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favorite', '$location', '$anchorScroll', 'Archive', '$window',
-  function ($scope, Applicant, Favorite, $location, $anchorScroll, Archive, $window) {
+applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favorite', '$location', 'Archive', '$window',
+  function ($scope, Applicant, Favorite, $location, Archive, $window) {
 
      $scope.selection = "Applicant";
      $scope.index = 0;
@@ -81,18 +81,9 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
 
     $scope.mark = function (id, type, index) {
     	var favorite = new Favorite({'id': id, 'type' : type});
-        var y = $window.scrollY;
-        console.log(y);
         favorite.$save().then(function(){
-            $scope.applicants = Applicant.query();
-            // $scope.applicants.splice(index, 1);
-            
-            // $location.hash(' ');
-            // $anchorScroll();
-
-            // $window.scrollTo(500,500);
-            // // $anchorScroll.yOffset = y;
-            // // $anchorScroll();
+            // $scope.applicants = Applicant.query();
+            $scope.applicants.splice(index, 1);
         });
     };
 
