@@ -18,6 +18,27 @@
 
 }
 
+.block{
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: bold;
+  font-size: 115%;
+  margin-bottom: 1%;
+}
+
+#select{
+  background: #00A6F6;
+  color: white;
+  border: 0;
+  border-radius: 20px;
+  padding: .5%;
+}
+
+#u{
+  background: white;
+  font-weight: bold;
+  color: black;
+}
+
 @-moz-document url-prefix() {
     .well{
       padding: 5px !important;
@@ -31,8 +52,8 @@
 }
 
 .well{
-  background-color: #00A6F6;
-  color: white;
+  background-color: #CCFF90;
+  color: black;
   border-radius: 5px 20px 5px;
   /*font-weight: bold;*/
   font-family: 'Gurajada', serif;
@@ -62,6 +83,10 @@ th{
 }
 
 #n{
+  width: 10% !important;
+}
+
+#c{
   width: 10% !important;
 }
 

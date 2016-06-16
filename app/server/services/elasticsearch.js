@@ -57,7 +57,6 @@ exports.defaultHandler = function(res, hits) {
 
 /**
 * Creates a new index
-*
 */
 exports.index = function(config, req, res) {
   var client = new elasticsearch.Client({
@@ -80,27 +79,4 @@ exports.index = function(config, req, res) {
     console.log(error);
     res.end();
   });
-}
-
-/**
-/* returns a query string for ES
-*/
-exports.map = function(res, hits, type) {
-    var query = '*';
-    console.log(hits);
-    if (hits && hits.length > 0) {
-      var ids = hits.map(function(hit) { return hit.id; });
-      //same query logic * or NOT id ()
-      if (ids && ids.length > 0) { 
-        if(type === 'applicant') {
-          query = "NOT id:(" + ids.join(" ") + ")";
-        }
-        else if(type === 'favorite' || type === 'archive') {
-          query = "id:(" + ids.join(" ") + ")";
-        }
-      }
-    }
-
-    console.log(query);
-    return query; 
 }
