@@ -16,11 +16,11 @@ exports.query = function(config, req, res, query, handler) {
                   query: query,
               }
           },
-          sort : [
-          { 
-            score :{"order" : "desc" , "ignore_unmapped" : true}
-          }
-        ]
+          // sort : [
+          // { 
+          //   score :{"order" : "asc" , "ignore_unmapped" : true}
+          // }
+        //]
       }
    }).then(function(resp) {
        // Parse ES response and send result back
