@@ -34,5 +34,6 @@ libraryDependencies ++= Seq(
     "org.apache.tika" % "tika-parsers" % "1.13",
     "org.elasticsearch" % "elasticsearch-hadoop" % "2.3.2",
     "commons-io" % "commons-io" % "2.5",
+    "org.json4s" %% "json4s-native" % "3.3.0"
     "com.twelvemonkeys.imageio" % "imageio-core" % "3.2.1"
 )
