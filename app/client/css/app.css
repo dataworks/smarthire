@@ -35,6 +35,7 @@
   }
   .jumbotron{
     width: 100%;
+    margin-top: 2.5%;
   }
   .form-wrapper-2 button{
     padding: 1%;
@@ -57,9 +58,10 @@
 }
 
 .jumbotron {
-  margin-top: 10%;
+  margin-top: 7%;
   background-color: #CCFF90;
   width: 100%;
+  padding: 0%;
 }
 
 .navbar-default {
@@ -180,6 +182,7 @@ h1 {
 	position: relative;
 	top: 105%;
 	font-color: #B71C1C;
+  padding-top: 5%;
 }
 
 .copy {

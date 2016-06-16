@@ -55,15 +55,15 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
 
         }
         
-        // if ($scope.selection == "Favorite") {
-        //     Favorite.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
+        if ($scope.selection == "Favorite") {
+            Favorite.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
 
-        // }
+        }
         
-        // else {
-        //     Archive.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
+        else {
+            Archive.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
 
-        // }
+        }
 
         
     }
