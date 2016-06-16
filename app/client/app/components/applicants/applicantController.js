@@ -1,5 +1,5 @@
-applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favorite', '$location', '$anchorScroll', 'Archive', '$window',
-  function ($scope, Applicant, Favorite, $location, $anchorScroll, Archive, $window) {
+applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favorite', '$location', 'Archive', '$window',
+  function ($scope, Applicant, Favorite, $location, Archive, $window) {
 
      $scope.selection = "Applicant";
      $scope.index = 0;
@@ -13,19 +13,19 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
 
      $scope.showSelectValue = function(type) {
         if (type == 'Favorite') {
-            // $scope.index = 0;
+            $scope.index = 0;
             $scope.hasData = true;
             $scope.selection = "Favorite";
             $scope.applicants = Favorite.query({from: $scope.index, size: $scope.pageSize});;
         }
         if (type == 'Archive') {
-            // $scope.index = 0;
+            $scope.index = 0;
             $scope.hasData = true;
             $scope.selection = "Archive";
             $scope.applicants = Archive.query({from: $scope.index, size: $scope.pageSize});
         }
         if (type == 'Applicant') {
-           // $scope.index = 0;
+           $scope.index = 0;
            $scope.hasData = true;
            $scope.selection = "Applicant";
            $scope.applicants = Applicant.query({from: $scope.index, size: $scope.pageSize});
@@ -55,15 +55,15 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
 
         }
         
-        if ($scope.selection == "Favorite") {
-            Favorite.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
+        // if ($scope.selection == "Favorite") {
+        //     Favorite.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
 
-        }
+        // }
         
-        else {
-            Archive.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
+        // else {
+        //     Archive.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
 
-        }
+        // }
 
         
     }
@@ -81,18 +81,9 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
 
     $scope.mark = function (id, type, index) {
     	var favorite = new Favorite({'id': id, 'type' : type});
-        var y = $window.scrollY;
-        console.log(y);
         favorite.$save().then(function(){
-            $scope.applicants = Applicant.query();
-            // $scope.applicants.splice(index, 1);
-            
-            // $location.hash(' ');
-            // $anchorScroll();
-
-            // $window.scrollTo(500,500);
-            // // $anchorScroll.yOffset = y;
-            // // $anchorScroll();
+            // $scope.applicants = Applicant.query();
+            $scope.applicants.splice(index, 1);
         });
     };
 
@@ -116,12 +107,12 @@ $(function(){
   
   if (st > lastScrollTop){
            // downscroll code
-           console.log('scroll down');
-           console.log($(window).scrollTop());
+           //console.log('scroll down');
+           //console.log($(window).scrollTop());
        } else {
           // upscroll code
-          console.log('scroll up');
-          console.log($(window).scrollTop());
+         // console.log('scroll up');
+         // console.log($(window).scrollTop());
           angular.element("#footer").hide();
       }
       lastScrollTop = st;
