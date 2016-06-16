@@ -42,6 +42,16 @@ app.post("/service/archive", function(req, res) {
    labelService.index(req, res);
 });
 
+//get code for review
+app.get("/service/review", function(req, res) {
+   applicantService.listApplicants(req, res, 'review');
+});
+
+//code for review, changes between favorite and archive--REQUIRED
+app.post("/service/review", function(req, res) {
+   labelService.index(req, res);
+});
+
 
 root.get("/", function(req, res) {
   res.redirect("/app");

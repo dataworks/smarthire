@@ -1,4 +1,4 @@
-applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favorite', '$location', 'Archive', '$window', 'Review'
+applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favorite', '$location', 'Archive', '$window', 'Review',
   function ($scope, Applicant, Favorite, $location, Archive, $window, Review) {
 
      $scope.selection = "Applicant";

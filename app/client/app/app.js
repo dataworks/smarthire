@@ -39,6 +39,10 @@ applicantApp.config(['$routeProvider', '$locationProvider',
         templateUrl: 'app/components/applicants/applicantView.html',
         controller: 'ApplicantCtrl'
       }).
+      when('/review', {
+        templateUrl: 'app/components/applicants/applicantView.html',
+        controller: 'ApplicantCtrl'
+      }).
       otherwise({
         redirectTo: '/applicants'
       });
