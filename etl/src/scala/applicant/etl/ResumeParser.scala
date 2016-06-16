@@ -72,7 +72,7 @@ object ResumeParser {
         EntityRecord.create(entitySet, FilenameUtils.getBaseName(currentFile.getPath()), text)
       }
 
-    }.collect()//.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
+    }.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
 
     fileData.values.map{ currentFile =>
       Map(
@@ -83,7 +83,7 @@ object ResumeParser {
         "extension" -> FilenameUtils.getExtension(currentFile.getPath()),
         "metadata" -> TextExtractor.extractMetadata(currentFile.open())
         )
-    }//.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
+    }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
 
     sc.stop()
 

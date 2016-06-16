@@ -5,7 +5,7 @@ import java.text.DecimalFormat
 import java.net.{URL, HttpURLConnection}
 import scala.io._
 import org.json4s._
-import org.json4s.native.JsonMethods._
+import org.json4s.jackson.JsonMethods._
 
 import scala.collection.mutable.{ListBuffer, Map, LinkedHashMap}
 
@@ -147,9 +147,12 @@ object EntityRecord {
       }
     }
 
-    val jsonString = "\"\"\"" + scala.io.Source.fromURL(giturlBuilder.toString()).mkString + "\"\"\""
+    val jsonString = scala.io.Source.fromURL(giturlBuilder.toString()).mkString
+    val parsedJson = parse(jsonString)
+    implicit val formats = DefaultFormats
 
-    println(parse(jsonString))
+    val gitJsonMap = parsedJson.extract[Map[String, String]]
+    println(gitJsonMap)
     return ""
   }
 }
