@@ -19,60 +19,20 @@ import java.io._
  *  and save them back to Elasticsearch as base 64 encoded strings
  */
 object PictureExtractor {
-  case class Command(sparkMaster: String = "", esNodes: String = "", esPort: String = "", esAttIndex: String = "")
-
-
-  /**
-   * Will clean up a raw url in order to get a link to the user's profile picture
-   *
-   * @param rawUrl The url pulled straight from the user's resume
-   */
-  def cleanGithubUrl(rawUrl: String): Option[String] = {
-    rawUrl match {
-      case url if url.startsWith("https://github.com/") =>
-        var slashCount = 0
-        val urlBuilder = new StringBuilder()
-
-        var slashedUrl = url.substring(19)
-
-        if (!slashedUrl.endsWith("/")) {
-          slashedUrl += "/"
-        }
-
-        //Add the github content url
-        urlBuilder.append("https://avatars.githubusercontent.com/")
-
-        //Grab each character up to the slash
-        for (c <- slashedUrl; if slashCount < 1) {
-          urlBuilder.append(c)
-
-          if (c.equals('/')) {
-            slashCount += 1
-          }
-        }
-
-        //remove the trailing '/'
-        urlBuilder.setLength(urlBuilder.length - 1)
-
-        return Some(urlBuilder.toString())
-      case _ =>
-        return None
-    }
-  }
-
+  case class Command(sparkMaster: String = "", esNodes: String = "", esPort: String = "", esAttIndex: String = "", picDirectories: String = "", githubPics: Boolean = false)
 
   /**
-   * Will download the profile picture
+   * Will download the profile picture from github
    *
    * @param url The url for a github profile. Formating is checked to ensure that the link is not a project link
    * @return A base64 string encoded version of the profile picture
    */
-  def downloadPicture(applicantId: String, githubUrl: String): Map[String, Object] = {
-      val url = new URL(githubUrl)
+  def downloadGithubPicture(applicantId: String, urlStr: String): Map[String, Object] = {
+      val url = new URL(urlStr)
 
       val connection = url.openConnection().asInstanceOf[HttpURLConnection]
       connection.setRequestMethod("GET")
-      var in: InputStream = connection.getInputStream //< ------------------- Use TextExtractor to pull meta data and other info
+      var in: InputStream = connection.getInputStream
 
       val byteArray = Stream.continually(in.read).takeWhile(-1 !=).map(_.toByte).toArray
 
@@ -93,7 +53,7 @@ object PictureExtractor {
         "hash" -> MessageDigest.getInstance("MD5").digest(byteArray),
         "applicantid" -> applicantId,
         "base64string" -> byteArray,
-        "filename" -> (FilenameUtils.getName(githubUrl) + "." + fileExtension),
+        "filename" -> (FilenameUtils.getName(urlStr) + "." + fileExtension),
         "extension" -> fileExtension,
         "metadata" -> metadataMap
         )
@@ -101,22 +61,11 @@ object PictureExtractor {
   }
 
   /**
-   * Will query Elasticsearch for github pictures, nab them, and push them back to elasticsearch
+   * Will query Elasticsearch for github pictures, nab them, and push them back to elasticsearch in the attachments index
    *
    * @param options The command line options
    */
-  def getPictures(options: Command) {
-    val conf = new SparkConf().setMaster(options.sparkMaster)
-      .setAppName("ResumeParser").set("es.nodes", options.esNodes)
-      .set("es.port", options.esPort)
-      .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-
-    /*
-      The internal hostname is ip-172-31-61-189.ec2.internal (172.31.61.189).  Internally the REST API is available on port 9200 and the native transport runs on port 9300.
-    */
-
-    //Create Spark RDD using conf
-    val sc = new SparkContext(conf)
+  def getGithubPictures(sc: SparkContext, options: Command) {
 
     //query Elasticsearch for github
     val githubApplicants = sc.esRDD("applicants/applicant", "?q=contact.github:http*")
@@ -131,7 +80,7 @@ object PictureExtractor {
             case Some(githubUrl) =>
                LinkParser.parseGithubProfile("https://avatars.githubusercontent.com/", githubUrl) match {
                 case Some(properUrl) =>
-                  downloadPicture(applicantId, properUrl)
+                  downloadGithubPicture(applicantId, properUrl)
                 case None =>
               }
             case None =>
@@ -140,6 +89,66 @@ object PictureExtractor {
       }
     }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
 
+  }
+
+  /**
+   * Will upload pictures to elasticsearch with their metadata
+   *
+   * @param options The command line options
+   * @param sc The spark context
+   */
+  def loadFromDirectory(sc: SparkContext, options: Command, directory: String) {
+    //Create a key-value pair RDD of files within resume directory
+    //RDD is an array of tuples (String, PortableDataStream)
+    val fileData = sc.binaryFiles(directory)
+
+    fileData.values.map { currentFile =>
+      Map(
+        "hash" -> MessageDigest.getInstance("MD5").digest(currentFile.toArray),
+        "applicantid" -> FilenameUtils.getBaseName(currentFile.getPath()),
+        "base64string" -> currentFile.toArray,
+        "filename" -> FilenameUtils.getName(currentFile.getPath()),
+        "extension" -> FilenameUtils.getExtension(currentFile.getPath()),
+        "metadata" -> TextExtractor.extractMetadata(currentFile.open())
+        )
+    }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
+  }
+
+  /**
+   *  Starts spark and checks options for what types of pictures to load
+   *
+   */
+  def getPictures(options: Command) {
+    val conf = new SparkConf().setMaster(options.sparkMaster)
+      .setAppName("ResumeParser").set("es.nodes", options.esNodes)
+      .set("es.port", options.esPort)
+      .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+
+    /*
+      The internal hostname is ip-172-31-61-189.ec2.internal (172.31.61.189).  Internally the REST API is available on port 9200 and the native transport runs on port 9300.
+    */
+
+    //Create Spark RDD using conf
+    val sc = new SparkContext(conf)
+
+    //Check to see if we need to load github pictures
+    if (options.githubPics == true) {
+      println("Loading pictures from GitHub...")
+      getGithubPictures(sc, options)
+      println("Github pictures loaded")
+    }
+
+    //Check to see if we need to load pictures from a directory
+    if (options.picDirectories != "") {
+      val directories = options.picDirectories.split(",")
+      for (directory <- directories) {
+        println("Loading pictures from " + directory + "...")
+        loadFromDirectory(sc, options, directory)
+        println("Directory pictures have finished loading")
+      }
+    }
+
+    sc.stop()
   }
 
   def main(args: Array[String]) {
@@ -157,6 +166,12 @@ object PictureExtractor {
         opt[String]('a', "attachmentindex") required() valueName("<attachmentindex>") action { (x, c) =>
             c.copy(esAttIndex = x)
         } text ("Name of the Elasticsearch index to save attachment data to.")
+        opt[String]('d', "picturedirectories") valueName("<picturedirectories>") action { (x, c) =>
+            c.copy(picDirectories = x)
+        } text ("A sequence of comma separated directories with uploadable pictures inside")
+        opt[Unit]('g', "github") action { (_, c) =>
+            c.copy(githubPics = true)
+        } text("A flag used to specify loading github pictures from elasticsearch applicants")
 
         note ("Queries github links from Elasticsearch and scrapes profile pictures")
         help("help") text("Prints this usage text")
