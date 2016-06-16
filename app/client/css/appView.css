@@ -188,3 +188,18 @@ td{
   background: none;
   color: #FF5722;
 }
+
+#back{
+  font-size: 100%;
+  margin: 0;
+  border: none;
+  color: #007ead; 
+  background: none;
+  padding: 5%;
+}
+
+#back:hover {
+  text-decoration: none;
+  background: none;
+  color: #E91E63;
+}

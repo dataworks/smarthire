@@ -47,7 +47,11 @@
 						<button id="down" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'archive', $index); button('Applicant was archived.')">
 							<span title="Add to Archive" class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
 							<a href="/archive"></a> 
-						</button>			
+						</button>	
+						<button id="back" type="button" class="btn btn-default" aria-label="Left Align" ng-click="remove(applicant.id, $index);button('Applicant has been moved back to homepage.')">
+							<span title="Send to Applicant" class="glyphicon glyphicon-share-alt">
+							</span>
+						</button>		
 						<button id="eye" class="btn btn-default btn-xs" data-toggle="collapse" data-target="#demo1-{{$index}}">
 							<span title="View more" class="glyphicon glyphicon-eye-open">
 							</span>
