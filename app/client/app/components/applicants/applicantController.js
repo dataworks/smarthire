@@ -92,10 +92,17 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
 //}
 
     $scope.mark = function (id, type, index) {
-    	var favorite = new Favorite({'id': id, 'type' : type});
+    	var favorite = new Favorite({'id': id, 'type' : type, 'index' : index});
         favorite.$save().then(function(){
             // $scope.applicants = Applicant.query();
             $scope.applicants.splice(index, 1);
+        });
+    };
+
+    $scope.remove = function(id, index){
+        var place = new Applicant({'id' : id, 'index' : index});
+        place.$save().then(function(){
+            $scope.applicants.add(index);
         });
     };
 
