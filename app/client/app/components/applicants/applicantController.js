@@ -1,5 +1,5 @@
-applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favorite', '$location', 'Archive', '$window',
-  function ($scope, Applicant, Favorite, $location, Archive, $window) {
+applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favorite', '$location', 'Archive', '$window', 'Review'
+  function ($scope, Applicant, Favorite, $location, Archive, $window, Review) {
 
      $scope.selection = "Applicant";
      $scope.index = 0;
@@ -30,6 +30,12 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
            $scope.selection = "Applicant";
            $scope.applicants = Applicant.query({from: $scope.index, size: $scope.pageSize});
        }
+       if (type == 'Review'){
+           $scope.index = 0;
+           $scope.hasData = true;
+           $scope.selection = "Review";
+           $scope.applicants = Review.query({from: $scope.index, size: $scope.pageSize});
+       }
    };
    
 
@@ -59,6 +65,11 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
             Favorite.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
 
         }  
+
+        else if ($scope.selection == 'Review'){
+            Review.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
+        }
+
         else {
             Archive.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
 
