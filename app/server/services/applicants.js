@@ -23,7 +23,6 @@ exports.listApplicants = function(req, res, type) {
 * Builds the query string for ES
 */
 function buildQuery(res, hits, type) {
-	console.log(hits);
     if (hits && hits.length > 0) {
       var ids = hits.map(function(hit) { return hit.id; });
       //same query logic * or NOT id ()
