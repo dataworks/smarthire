@@ -129,7 +129,7 @@ object PictureExtractor {
           val githubOption = contact.asInstanceOf[LinkedHashMap[String, String]].get("github")
           githubOption match {
             case Some(githubUrl) =>
-               cleanGithubUrl(githubUrl) match {
+               LinkParser.parseGithubProfile("https://avatars.githubusercontent.com/", githubUrl) match {
                 case Some(properUrl) =>
                   downloadPicture(applicantId, properUrl)
                 case None =>

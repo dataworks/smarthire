@@ -29,7 +29,7 @@ object EntityRecord {
     val otherTitleList: ListBuffer[String] = new ListBuffer[String]()
     val otherLocationList: ListBuffer[String] = new ListBuffer[String]()
     val otherOrganizationList: ListBuffer[String] = new ListBuffer[String]()
-    var githubData = scala.collection.mutable.Map[String,String]()
+    //var githubData = scala.collection.mutable.Map[String,String]()
     val df: DecimalFormat = new DecimalFormat("#.##")
 
     //degree, location, organization, person, school, title, bigdata, database, etl, webapp, mobile, language, gpa, email, phone, url
@@ -70,9 +70,7 @@ object EntityRecord {
     }
 
     //get Github info if github URL found
-    if (github != notFound && github.startsWith("https://github.com/")){
-      githubData = ApiMapper.githubAPI(github)
-    }
+    val githubData = ApiMapper.githubAPI(github)
 
     score = score/10
 

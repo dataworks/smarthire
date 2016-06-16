@@ -54,12 +54,11 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
             Applicant.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
 
         }
-        
+    
         else if ($scope.selection == "Favorite") {
             Favorite.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
 
-        }
-        
+        }  
         else {
             Archive.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
 
