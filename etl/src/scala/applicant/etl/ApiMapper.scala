@@ -7,8 +7,6 @@ import scala.io._
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
-//import scala.collection.mutable.{ListBuffer, Map, LinkedHashMap}
-
 /**
  * Class to retrieve JSON data from URLs and convert them
  * to Scala maps for saving to Elasticsearch
