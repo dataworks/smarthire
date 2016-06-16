@@ -4,9 +4,6 @@ import applicant.nlp._
 import java.text.DecimalFormat
 import java.net.{URL, HttpURLConnection}
 import scala.io._
-import org.json4s._
-import org.json4s.jackson.JsonMethods._
-
 import scala.collection.mutable.{ListBuffer, Map, LinkedHashMap}
 
 object EntityRecord {
@@ -32,6 +29,7 @@ object EntityRecord {
     val otherTitleList: ListBuffer[String] = new ListBuffer[String]()
     val otherLocationList: ListBuffer[String] = new ListBuffer[String]()
     val otherOrganizationList: ListBuffer[String] = new ListBuffer[String]()
+    var githubData = scala.collection.mutable.Map[String,String]()
     val df: DecimalFormat = new DecimalFormat("#.##")
 
     //degree, location, organization, person, school, title, bigdata, database, etl, webapp, mobile, language, gpa, email, phone, url
@@ -73,7 +71,7 @@ object EntityRecord {
 
     //get Github info if github URL found
     if (github != notFound && github.startsWith("https://github.com/")){
-      github = githubAPI(github)
+      githubData = ApiMapper.githubAPI(github)
     }
 
     score = score/10
@@ -117,42 +115,12 @@ object EntityRecord {
           "title" -> otherTitleList,
           "location" -> otherLocationList,
           "organization" -> otherOrganizationList,
-          "url" -> urlList
+          "url" -> urlList,
+          "githubData" -> githubData
         ),
         "resume" -> fullText
       )
     )
-
     return map
-  }
-
-  def githubAPI(github : String) : String = {
-    var slashCount = 0
-    val giturlBuilder = new StringBuilder()
-    var slashedUrl = github.substring(19)
-    if (!slashedUrl.endsWith("/")) {
-      slashedUrl += "/"
-    }
-
-    //Add the github api url
-    giturlBuilder.append("https://api.github.com/users/")
-
-    //Grab each character up to the slash
-    for (c <- slashedUrl; if slashCount < 1) {
-      if (c.equals('/')) {
-        slashCount += 1
-      }
-      else{
-        giturlBuilder.append(c)
-      }
-    }
-
-    val jsonString = scala.io.Source.fromURL(giturlBuilder.toString()).mkString
-    val parsedJson = parse(jsonString)
-    implicit val formats = DefaultFormats
-
-    val gitJsonMap = parsedJson.extract[Map[String, String]]
-    println(gitJsonMap)
-    return ""
   }
 }
