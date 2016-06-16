@@ -12,9 +12,14 @@ console.log(req.query)
       from: req.query.from,
       size: req.query.size,
       body: {
+        sort : [
+          { 
+            score :{"order" : "desc" , "ignore_unmapped" : true}
+          }
+        ],
           query: {
               query_string: {
-                  query: query
+                  query: query,
               }
           }
       }
