@@ -38,6 +38,10 @@
 						<td id="o"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite', $index); button('Applicant was favorited.')"> 
 							<span title="Add to Favorites" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
 						</button>
+						<button id="question" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'review', $index); button('Applicant set to review later.')">
+							<span title="Add to Review" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+							<a href="/archive"></a> 
+						</button>
 						<button id="down" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'archive', $index); button('Applicant was archived.')">
 							<span title="Add to Archive" class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
 							<a href="/archive"></a> 
