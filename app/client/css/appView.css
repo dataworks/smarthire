@@ -58,7 +58,7 @@ th{
 }
 
 #o{
-  width: 3% !important;
+  width: 6% !important;
 }
 
 #n{
@@ -140,4 +140,19 @@ td{
   text-decoration: none;
   background: none;
   color: #D50000;
+}
+
+#question{
+  font-size: 100%;
+  margin: 0;
+  border: none;
+  color: #007ead; 
+  background: none;
+  padding: 5%;
+}
+
+#question:hover {
+  text-decoration: none;
+  background: none;
+  color: #FF5722;
 }
