@@ -59,19 +59,19 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
  };
 
  $scope.nextPage = function(){
-    //console.log($scope.selection, $scope.index);
+    console.log($scope.selection, $scope.index);
      if ($scope.hasData) {
          $scope.loadingData = true;
          $scope.index += $scope.pageSize;
 
          if ($scope.selection == "Applicant") {
-            console.log("1");
+            // console.log("1");
             Applicant.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
 
         }
     
         else if ($scope.selection == "Favorite") {
-            console.log(2);
+            // console.log(2);
             Favorite.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
 
         }  

@@ -36,5 +36,5 @@ function buildQuery(res, hits, type) {
         }
       }
     }
-    return ' ';
+    return type ==='applicant' ? '*' : ' ';;
 }
