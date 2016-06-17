@@ -52,28 +52,31 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label'
       offset: {top:100}
     });
 
-    $scope.mark = function (id, type, index) {
+    $scope.mark = function (id, type, applicant) {
     	var label = new Label({'id': id, 'type' : type});
         label.$save().then(function() {
-          $scope.applicants.splice(index, 1);
+          $scope.applicants.splice($scope.applicants.indexOf(applicant), 1);
       });
     }
 
-    $scope.remove = function(id, index) {
+    $scope.remove = function(id, applicant) {
         var label = new Label({'id' : id});
         label.$save().then(function() {
-          $scope.applicants.splice(index, 1);
+          Applicant.remove({type: $scope.selection, from: $scope.index, size: $scope.pageSize, id: $scope.id});
+          $scope.applicants.splice($scope.applicants.indexOf(applicant), 1);
         });
     }
 
     //code for toast messages
     $scope.showToast = function(id) {
       document.getElementById(id).style.display = "block";
+      console.log("i am here");
       setTimeout($scope.hideToast, 3000, id);
     }
 
     $scope.hideToast = function(id) {
       document.getElementById(id).style.display = "none";
+      console.log("now i am here");
     }
 
     //scroll code
