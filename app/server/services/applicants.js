@@ -6,7 +6,7 @@ var config = require("./config.js");
 */
 exports.listApplicants = function(req, res, type) {
 	var query = '*';
-	if (type !== 'applicant') {
+	if (type !== 'new') {
 		query = 'type: ' + type;
 	}
 
@@ -28,7 +28,7 @@ function buildQuery(res, hits, type) {
       var ids = hits.map(function(hit) { return hit.id; });
       //same query logic * or NOT id ()
       if (ids && ids.length > 0) { 
-        if(type === 'applicant') {
+        if(type === 'new') {
           return "NOT id:(" + ids.join(" ") + ")";
         }
         else if(type === 'favorite' || type === 'archive' || type === 'review') {
@@ -36,5 +36,5 @@ function buildQuery(res, hits, type) {
         }
       }
     }
-    return type ==='applicant' ? '*' : ' ';;
+    return type ==='new' ? '*' : ' ';;
 }

@@ -1,7 +1,7 @@
 applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favorite', '$location', 'Archive', '$window', 'Review',
   function ($scope, Applicant, Favorite, $location, Archive, $window, Review) {
 
-     $scope.selection = "Applicant";
+     $scope.selection = "New";
      $scope.index = 0;
      $scope.pageSize = 25;
      $scope.loadingData = false;
@@ -31,10 +31,10 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
             $scope.selection = "Archive";
             $scope.applicants = Archive.query({from: $scope.index, size: $scope.pageSize});
         }
-        if (type == 'Applicant') {
+        if (type == 'New') {
            $scope.index = 0;
            $scope.hasData = true;
-           $scope.selection = "Applicant";
+           $scope.selection = "New";
            $scope.applicants = Applicant.query({from: $scope.index, size: $scope.pageSize});
        }
        if (type == 'Review'){
@@ -64,7 +64,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
          $scope.loadingData = true;
          $scope.index += $scope.pageSize;
 
-         if ($scope.selection == "Applicant") {
+         if ($scope.selection == "New") {
             // console.log("1");
             Applicant.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
 
@@ -100,6 +100,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
 
     $scope.mark = function (id, type, index) {
     	var favorite = new Favorite({'id': id, 'type' : type, 'index' : index});
+        console.log(favorite)
         favorite.$save().then(function(){
             // $scope.applicants = Applicant.query();
             $scope.applicants.splice(index, 1);
@@ -107,9 +108,11 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
     };
 
     $scope.remove = function(id, index){
-        var place = new Applicant({'id' : id, 'index' : index});
+        var place = new Applicant({'id' : id});
+        console.log(place);
         place.$save().then(function(){
-            $scope.applicants.add(index);
+            $scope.applicants.splice(0, 0, place);
+            // $scope.applicants.splice(index, 1);
         });
     };
 
