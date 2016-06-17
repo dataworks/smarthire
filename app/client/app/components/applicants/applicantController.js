@@ -69,11 +69,13 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label'
     //code for toast messages
     $scope.showToast = function(id) {
       document.getElementById(id).style.display = "block";
+      console.log("i am here");
       setTimeout($scope.hideToast, 3000, id);
     }
 
     $scope.hideToast = function(id) {
       document.getElementById(id).style.display = "none";
+      console.log("now i am here");
     }
 
     //scroll code
