@@ -13,4 +13,4 @@ config.applicants = {
 	type: "applicant"
 }
 
-exports.config = config;
+module.exports = config;
