@@ -34,9 +34,9 @@
     height: 80px;
     width: 100%;
   }
-  h1{
+  .page-header{
     width: 100%;
-    margin-top: 2.5%;
+    margin-top: 25%;
   }
   .form-wrapper-2 button{
     padding: 1.28% !important;
