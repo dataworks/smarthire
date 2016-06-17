@@ -22,7 +22,6 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label'
       $scope.hasData = true;
       $scope.selection = type;
       $scope.applicants = Applicant.query({type: type, from: $scope.index, size: $scope.pageSize});
-      console.log(type);
     };
 
     $scope.dataLoaded = function(result) {
@@ -46,7 +45,6 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label'
       }
     };
 
-
     // Only enable if the document has a long scroll bar
     // Note the window height + offset
     //if ( $(window).height() > $(document).height()) {
@@ -69,7 +67,6 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label'
         });
     }
 
-
     //code for toast messages
     $scope.showToast = function(id) {
       document.getElementById(id).style.display = "block";
@@ -80,7 +77,6 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label'
       console.log(id);
       document.getElementById(id).style.display = "none";
     }
-
 
     //scroll code
     $(function(){

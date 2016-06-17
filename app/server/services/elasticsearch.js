@@ -71,14 +71,14 @@ exports.index = function(config, req, res) {
     },
     refresh: true
   }).then(function (response) {
-     client.close();
-     res.end();
-   }, function(err) {
-       console.log(err.message);
-       res.status(400).send(err.message);
-
-       // Release client resources
-       client.close();
-       res.end();
-   });
+      client.close();
+      res.end();
+    },  function(err) {
+          console.log(err.message);
+          res.status(400).send(err.message);
+          
+          // Release client resources
+          client.close();
+          res.end();
+        });
 }

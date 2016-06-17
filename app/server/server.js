@@ -12,7 +12,7 @@ app.use(express.static("client"));
 app.use(express.static("node_modules"));
 
 app.use(bodyParser.urlencoded({
-    extended: true
+  extended: true
 }));
 
 app.use(bodyParser.json());
