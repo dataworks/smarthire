@@ -62,6 +62,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label'
     $scope.remove = function(id, index) {
         var label = new Label({'id' : id});
         label.$save().then(function() {
+          Applicant.remove({type: $scope.selection, from: $scope.index, size: $scope.pageSize, id: $scope.id});
           $scope.applicants.splice(index, 1);
         });
     }

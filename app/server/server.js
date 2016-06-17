@@ -32,6 +32,10 @@ app.post("/service/labels", function(req, res) {
   labelService.index(req,res);
 });
 
+app.delete("service/labels", function(req, res) {
+  labelService.delete(req,res);
+});
+
 root.get("/", function(req, res) {
   res.redirect("/app");
 });
