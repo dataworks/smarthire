@@ -19,4 +19,4 @@ config.attachments = {
 	type: "attachment"
 }
 
-exports.config = config;
+module.exports = config;
