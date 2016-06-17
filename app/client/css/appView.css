@@ -135,6 +135,21 @@ td > #high{
   width: 10% !important;
 }
 
+@media (max-width: 767px) {
+  #o{
+    width: 10% !important;
+  }
+  #p{
+    width: 6% !important;
+  }
+  #n{
+    width: 10% !important;
+  }
+  #s{
+    width: 5% !important;
+  }
+}
+
 td{
   text-align: center;
   width: 15%;
