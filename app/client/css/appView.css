@@ -81,6 +81,15 @@ th{
   width: 8% !important;
 }
 
+a:focus, a:hover{
+  text-decoration: none;
+  color: #1976d2;
+}
+
+a{
+  color: #6A1B9A;
+}
+
 #p{
   width: 5% !important;
 }
