@@ -1,7 +1,7 @@
-.sortorder:after {
+.sortorder.reverse:after {
   content: '\25b2';   /*// BLACK UP-POINTING TRIANGLE*/
 }
-.sortorder.reverse:after {
+.sortorder:after {
   content: '\25bc';  /* // BLACK DOWN-POINTING TRIANGLE*/
 }
 
@@ -78,7 +78,7 @@ th{
 }
 
 #s{
-  width: 4% !important;
+  width: 8% !important;
 }
 
 #p{
