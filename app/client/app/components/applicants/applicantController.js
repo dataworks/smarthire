@@ -1,7 +1,7 @@
 applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label', '$window',
   function ($scope, Applicant, Label, $window) {
 
-     $scope.selection = "New";
+     $scope.selection = "new";
      $scope.index = 0;
      $scope.pageSize = 25;
      $scope.loadingData = false;
