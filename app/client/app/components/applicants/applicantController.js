@@ -22,6 +22,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label'
       $scope.hasData = true;
       $scope.selection = type;
       $scope.applicants = Applicant.query({type: type, from: $scope.index, size: $scope.pageSize});
+      console.log(type);
     };
 
     $scope.dataLoaded = function(result) {
