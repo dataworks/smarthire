@@ -37,7 +37,13 @@
   color: white;
   border: 0;
   border-radius: 20px;
-  padding: .5%;
+  padding: .5% 1%;
+  -moz-appearance: none;
+  padding-right: 25px;
+  background: #00A6F6 url(http://www.phytecs.com/wp-content/themes/phytec/images/drop-down-arrow-wh.png);
+  -webkit-appearance: none;
+  background-repeat: no-repeat;
+  background-position: 90% 45%;
 }
 
 #u{
@@ -55,6 +61,9 @@
     }
     #profile{
       height: 75px !important;
+    }
+    #select{
+      padding: 5px !important;
     }
 }
 
