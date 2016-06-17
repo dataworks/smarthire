@@ -99,12 +99,20 @@ a{
   color: #6A1B9A;
 }
 
+#ci{
+  width: 12% !important;
+}
+
+#d{
+  width: 8% !important;
+}
+
 #p{
   width: 5% !important;
 }
 
 #o{
-  width: 6% !important;
+  width: 7% !important;
 }
 
 #n{
