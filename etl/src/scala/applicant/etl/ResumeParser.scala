@@ -63,10 +63,10 @@ object ResumeParser {
     var fileCount: Int = 0
 
     fileData.values.map { currentFile =>
+      println("Parsing applicant " + FilenameUtils.getBaseName(currentFile.getPath()) + ", " + fileCount + " files parsed")
       val text = TextExtractor.extractText(currentFile.open())
-      fileCount += 1
-      println(fileCount + " files parsed")
 
+      fileCount += 1
       broadcastExtractor.synchronized {
         val entitySet = broadcastExtractor.value.extractEntities(text)
         EntityRecord.create(entitySet, FilenameUtils.getBaseName(currentFile.getPath()), text)
