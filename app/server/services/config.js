@@ -13,4 +13,10 @@ config.applicants = {
 	type: "applicant"
 }
 
+config.attachments = {
+	url: host, 
+	index: "attachments",
+	type: "attachment"
+}
+
 exports.config = config;
