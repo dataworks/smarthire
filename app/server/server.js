@@ -24,7 +24,7 @@ app.get("/service/applicants", function(req, res) {
   } else {
     type = req.query.type.toLowerCase();
   }
-  applicantService.listApplicants(req, res, 'new');
+  applicantService.listApplicants(req, res, type);
 });
 
 //code for favorites, changes between favorite and archive--REQUIRED

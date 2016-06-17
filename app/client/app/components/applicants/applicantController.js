@@ -8,11 +8,10 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label'
      $scope.hasData = true;
 
      //sorting table by column code
-     $scope.propertyName = null;
-     $scope.reverse = false;
-     $scope.sortBy = function(propertyName) {
-
-     $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
+    $scope.propertyName = null;
+    $scope.reverse = false;
+    $scope.sortBy = function(propertyName) {
+        $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
         $scope.propertyName = propertyName;
     };
      
@@ -38,14 +37,11 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label'
  };
 
  $scope.nextPage = function(){
-    console.log($scope.selection, $scope.index);
      if ($scope.hasData) {
          $scope.loadingData = true;
          $scope.index += $scope.pageSize;
-
          Applicant.query({type: $scope.selection, from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
-      }
-};
+    };
 
 
 // Only enable if the document has a long scroll bar
