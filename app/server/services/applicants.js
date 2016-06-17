@@ -13,6 +13,7 @@ exports.listApplicants = function(req, res, type) {
 	esservice.query(config.config.labels, null, res, query, function(res, hits){
     	//var ids = map source -> _id
 	    var labelQuery = buildQuery(res, hits, type);
+	    console.log(labelQuery);
 	   	esservice.query(config.config.applicants, req, res, labelQuery, null);
 	}, function (error, response) {
         console.log(error);
@@ -36,5 +37,5 @@ function buildQuery(res, hits, type) {
         }
       }
     }
-    return type ==='new' ? '*' : ' ';;
+    return type ==='new' ? '*' : ' ';
 }
