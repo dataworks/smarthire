@@ -11,9 +11,8 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label'
     $scope.propertyName = null;
     $scope.reverse = false;
     $scope.sortBy = function(propertyName) {
-
-    $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
-      $scope.propertyName = propertyName;
+      $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
+        $scope.propertyName = propertyName;
     };
      
     $scope.applicants = Applicant.query({from: $scope.index, size: $scope.pageSize});
