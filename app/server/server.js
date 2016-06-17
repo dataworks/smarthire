@@ -33,7 +33,6 @@ app.post("/service/labels", function(req, res) {
 });
 
 app.delete("/service/labels", function(req, res) {
-  console.log(req);
   labelService.delete(req,res);
 });
 
