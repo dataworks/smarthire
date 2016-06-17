@@ -35,7 +35,6 @@ object ApiMapper {
         implicit val formats = DefaultFormats + VarToString
 
         val gitJsonMap = parsedJson.extract[Map[String, String]]
-        println(gitJsonMap)
         return gitJsonMap
       case None =>
         return Map()
