@@ -18,40 +18,19 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.get("/service/applicants", function(req, res) {
-  applicantService.listApplicants(req, res, 'applicant');
+  var type = null;
+  if (!req.query || !req.query.type) {
+    type = "new";
+  } else {
+    type = req.query.type.toLowerCase();
+  }
+  applicantService.listApplicants(req, res, type);
 });
-
 
 //code for favorites, changes between favorite and archive--REQUIRED
-app.post("/service/favorites", function(req, res) {
+app.post("/service/labels", function(req, res) {
   labelService.index(req,res);
 });
-
-//get code for favorites
-app.get("/service/favorites", function(req, res) {
-    applicantService.listApplicants(req, res, 'favorite');
-});
-
-//get code for archive
-app.get("/service/archive", function(req, res) {
-   applicantService.listApplicants(req, res, 'archive');
-});
-
-//code for archive, changes between favorite and archive--REQUIRED
-app.post("/service/archive", function(req, res) {
-   labelService.index(req, res);
-});
-
-//get code for review
-app.get("/service/review", function(req, res) {
-   applicantService.listApplicants(req, res, 'review');
-});
-
-//code for review, changes between favorite and archive--REQUIRED
-app.post("/service/review", function(req, res) {
-   labelService.index(req, res);
-});
-
 
 root.get("/", function(req, res) {
   res.redirect("/app");
@@ -69,5 +48,4 @@ var server = root.listen(8082, function () {
   var port = server.address().port
 
   console.log("ResCheck listening at http://%s:%s", host, port)
-
 });

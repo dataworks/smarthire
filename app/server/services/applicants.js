@@ -6,13 +6,14 @@ var config = require("./config.js");
 */
 exports.listApplicants = function(req, res, type) {
 	var query = '*';
-	if (type !== 'applicant') {
+	if (type !== 'new') {
 		query = 'type: ' + type;
 	}
 
 	esservice.query(config.config.labels, null, res, query, function(res, hits){
     	//var ids = map source -> _id
 	    var labelQuery = buildQuery(res, hits, type);
+	    console.log(labelQuery);
 	   	esservice.query(config.config.applicants, req, res, labelQuery, null);
 	}, function (error, response) {
         console.log(error);
@@ -28,7 +29,7 @@ function buildQuery(res, hits, type) {
       var ids = hits.map(function(hit) { return hit.id; });
       //same query logic * or NOT id ()
       if (ids && ids.length > 0) { 
-        if(type === 'applicant') {
+        if(type === 'new') {
           return "NOT id:(" + ids.join(" ") + ")";
         }
         else if(type === 'favorite' || type === 'archive' || type === 'review') {
@@ -36,5 +37,5 @@ function buildQuery(res, hits, type) {
         }
       }
     }
-    return type ==='applicant' ? '*' : ' ';;
+    return type ==='new' ? '*' : ' ';;
 }

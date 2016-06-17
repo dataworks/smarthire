@@ -1,7 +1,7 @@
-applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favorite', '$location', 'Archive', '$window', 'Review',
-  function ($scope, Applicant, Favorite, $location, Archive, $window, Review) {
+applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label', '$window',
+  function ($scope, Applicant, Label, $window) {
 
-     $scope.selection = "Applicant";
+     $scope.selection = "New";
      $scope.index = 0;
      $scope.pageSize = 25;
      $scope.loadingData = false;
@@ -18,33 +18,12 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
      
      $scope.applicants = Applicant.query({from: $scope.index, size: $scope.pageSize});
 
-     $scope.showSelectValue = function(type) {
-        if (type == 'Favorite') {
-            $scope.index = 0;
-            $scope.hasData = true;
-            $scope.selection = "Favorite";
-            $scope.applicants = Favorite.query({from: $scope.index, size: $scope.pageSize});
-        }
-        if (type == 'Archive') {
-            $scope.index = 0;
-            $scope.hasData = true;
-            $scope.selection = "Archive";
-            $scope.applicants = Archive.query({from: $scope.index, size: $scope.pageSize});
-        }
-        if (type == 'Applicant') {
-           $scope.index = 0;
-           $scope.hasData = true;
-           $scope.selection = "Applicant";
-           $scope.applicants = Applicant.query({from: $scope.index, size: $scope.pageSize});
-       }
-       if (type == 'Review'){
-           $scope.index = 0;
-           $scope.hasData = true;
-           $scope.selection = "Review";
-           $scope.applicants = Review.query({from: $scope.index, size: $scope.pageSize});
-       }
-   };
-   
+    $scope.showSelectValue = function(type) {
+      $scope.index = 0;
+      $scope.hasData = true;
+      $scope.selection = type;
+      $scope.applicants = Applicant.query({type: type, from: $scope.index, size: $scope.pageSize});
+  };
 
    $scope.dataLoaded = function(result) {
      if (result.length > 0) {
@@ -64,28 +43,8 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
          $scope.loadingData = true;
          $scope.index += $scope.pageSize;
 
-         if ($scope.selection == "Applicant") {
-            // console.log("1");
-            Applicant.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
-
-        }
-    
-        else if ($scope.selection == "Favorite") {
-            // console.log(2);
-            Favorite.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
-
-        }  
-
-        else if ($scope.selection == 'Review'){
-            Review.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
-        }
-
-        else {
-            Archive.query({from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
-
-        }
-
-    }
+         Applicant.query({type: $scope.selection, from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
+      }
 };
 
 
@@ -99,28 +58,22 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Favori
 //}
 
     $scope.mark = function (id, type, index) {
-    	var favorite = new Favorite({'id': id, 'type' : type, 'index' : index});
-        favorite.$save().then(function(){
-            // $scope.applicants = Applicant.query();
+    	var label = new Label({'id': id, 'type' : type});
+        label.$save().then(function(){
             $scope.applicants.splice(index, 1);
         });
     };
 
     $scope.remove = function(id, index){
-        var place = new Applicant({'id' : id, 'index' : index});
-        place.$save().then(function(){
-            $scope.applicants.add(index);
+        var label = new Label({'id' : id});
+        label.$save().then(function(){
+          $scope.applicants.splice(index, 1);
         });
     };
 
     $scope.button = function(text){
         alert(text);
     }
-
-    // $scope.ret = function (id, type) {
-    // 	var retObject = new RetObject({'id': id, 'type' : type});
-    // 	retObject.$save();
-    // }
 
 //scroll code
 $(function(){

@@ -15,12 +15,7 @@ exports.query = function(config, req, res, query, handler) {
               query_string: {
                   query: query,
               }
-          },
-          // sort : [
-          // { 
-          //   score :{"order" : "asc" , "ignore_unmapped" : true}
-          // }
-        //]
+          }
       }
    }).then(function(resp) {
        // Parse ES response and send result back
@@ -75,8 +70,15 @@ exports.index = function(config, req, res) {
       type: type,
     },
     refresh: true
-  }).then(function (error, response) {
-    console.log(error);
-    res.end();
-  });
+  }).then(function (response) {
+     client.close();
+     res.end();
+   }, function(err) {
+       console.log(err.message);
+       res.status(400).send(err.message);
+
+       // Release client resources
+       client.close();
+       res.end();
+   });
 }
