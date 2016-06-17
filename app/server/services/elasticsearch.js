@@ -87,19 +87,13 @@ exports.delete = function(config, req, res) {
   var client = new elasticsearch.Client({
     host: config.url
   });
-
+  console.log(req);
   var id = req.body.id;
-  var type = req.body.type;
-
+  
   client.delete({
     index: config.index,
     type: config.type,
-    id: id,
-    body: {
-      id: id,
-      type: type,
-    },
-    refresh: true
+    id: id
   }).then(function (response) {
       client.close();
       res.end();
