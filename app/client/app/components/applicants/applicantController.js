@@ -60,11 +60,10 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label'
     }
 
     $scope.remove = function(id, applicant) {
-        var label = new Label({'id' : id});
-        label.$delete().then(function() {
-          $scope.applicants.splice($scope.applicants.indexOf(applicant), 1);
-        });
-    }
+      Label.delete({'id': id}).$promise.then(function() {
+        $scope.applicants.splice($scope.applicants.indexOf(applicant), 1);
+      });
+   }
 
     //code for toast messages
     $scope.showToast = function(id) {

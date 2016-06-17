@@ -87,13 +87,11 @@ exports.delete = function(config, req, res) {
   var client = new elasticsearch.Client({
     host: config.url
   });
-  console.log(req);
-  var id = req.body.id;
   
   client.delete({
-    index: config.index,
-    type: config.type,
-    id: id
+   index: config.index,
+   type: config.type,
+   id: req.params.id
   }).then(function (response) {
       client.close();
       res.end();
@@ -105,4 +103,33 @@ exports.delete = function(config, req, res) {
           client.close();
           res.end();
     });
+}
+
+//indexing method for attachments 
+exports.attachmentIndex = function(config, req, res) {
+  var client = new elasticsearch.Client({ 
+    host: config.url
+  });
+
+  var id = req.body.id;
+  var type = req.body.type;
+
+  client.index({ 
+    index: config.index,
+    type: config.type,
+    id: id,
+    body: {
+      id: id,
+      type: type,
+    }, 
+
+  }).then(function (response) {
+      client.close();
+      res.end();
+  },    function(err) {
+          console.log(err.message);
+          res.status(400).send(err.message);
+          client.close();
+          res.end();
+  });
 }
