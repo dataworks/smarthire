@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.get("/service/applicants", function(req, res) {
-  applicantService.listApplicants(req, res, 'applicant');
+  applicantService.listApplicants(req, res, 'new');
 });
 
 
