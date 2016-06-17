@@ -72,6 +72,18 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label'
     }
 
 
+    //code for toast messages
+    $scope.showToast = function(id) {
+        document.getElementById(id).style.display = "block";
+        setTimeout($scope.hideToast, 3000, id);
+    }
+
+    $scope.hideToast = function(id) {
+        console.log(id);
+        document.getElementById(id).style.display = "none";
+    }
+
+
 //scroll code
 $(function(){
     var lastScrollTop = 0, delta = 5;
