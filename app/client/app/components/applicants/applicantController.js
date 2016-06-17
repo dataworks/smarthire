@@ -7,15 +7,15 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label'
     $scope.loadingData = false;
     $scope.hasData = true;
 
-     //sorting table by column code
+    //sorting table by column code
     $scope.propertyName = null;
     $scope.reverse = false;
     $scope.sortBy = function(propertyName) {
       $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
-        $scope.propertyName = propertyName;
+      $scope.propertyName = propertyName;
     };
      
-    $scope.applicants = Applicant.query({from: $scope.index, size: $scope.pageSize});
+     $scope.applicants = Applicant.query({from: $scope.index, size: $scope.pageSize});
 
     $scope.showSelectValue = function(type) {
       $scope.index = 0;
@@ -32,18 +32,17 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label'
         $scope.hasData = false;
         $scope.index = 0;
       }
+
       $scope.loadingData = false;
     };
 
     $scope.nextPage = function() {
-      console.log($scope.selection, $scope.index);
       if ($scope.hasData) {
         $scope.loadingData = true;
         $scope.index += $scope.pageSize;
-
         Applicant.query({type: $scope.selection, from: $scope.index, size: $scope.pageSize}, $scope.dataLoaded);
-      }
-    };
+      };
+    }
 
     // Only enable if the document has a long scroll bar
     // Note the window height + offset
@@ -61,7 +60,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label'
     }
 
     $scope.remove = function(id, index) {
-      var label = new Label({'id' : id});
+        var label = new Label({'id' : id});
         label.$save().then(function() {
           $scope.applicants.splice(index, 1);
         });
@@ -74,7 +73,6 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label'
     }
 
     $scope.hideToast = function(id) {
-      console.log(id);
       document.getElementById(id).style.display = "none";
     }
 
@@ -84,19 +82,20 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label'
       $(window).scroll(function(event){
         var st = $(this).scrollTop();
      
-        if(Math.abs(lastScrollTop - st) <= delta)
-          return;
+      if(Math.abs(lastScrollTop - st) <= delta)
+        return;
   
-        if (st > lastScrollTop){
-           // downscroll code
-           //console.log('scroll down');
-           //console.log($(window).scrollTop());
-        } else {
+      if (st > lastScrollTop){
+        // downscroll code
+        //console.log('scroll down');
+        //console.log($(window).scrollTop());
+       } else {
           // upscroll code
-         // console.log('scroll up');
-         // console.log($(window).scrollTop());
+          // console.log('scroll up');
+          // console.log($(window).scrollTop());
           angular.element("#footer").hide();
         }
+        
         lastScrollTop = st;
       });
     });
@@ -106,5 +105,4 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label'
         angular.element("#footer").show();
       }
     });
-
 }]);

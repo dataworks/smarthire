@@ -22,8 +22,8 @@
 					<tr><th id="e">Profile</th>
 						<th id="s"><a title="Click to Sort Score." ng-click="sortBy('-score')">Score</a><span class="sortorder" ng-show="propertyName==='-score'" ng-class="{reverse: reverse}"> </span></th>
 						<th id="n">Name</th>
-						<th  class="hidden-xs hidden-s">Current Info</th>
-						<th  class="hidden-xs hidden-s">Degree</th>
+						<th id="ci" class="hidden-xs hidden-s">Current Info</th>
+						<th id="d" class="hidden-xs hidden-s">Degree</th>
 						<th id="c" class="hidden-xs hidden-s">Contact</th>
 						<th id="o">Options</th>
 					</tr>
@@ -34,8 +34,8 @@
 						<td id="p"><img id = "profile" src="images/profile.png"></td>
 						<td id="s">{{applicant.score}} <br> <span id="star" class="glyphicon glyphicon-star" ng-if="applicant.score >= 0.7"></span></td>
 						<td id="n">{{applicant.name}}</td>
-						<td class="hidden-xs hidden-s">{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
-						<td class="hidden-xs hidden-s">{{applicant.education.degree}}</td>
+						<td id="ci" class="hidden-xs hidden-s">{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
+						<td id="d" class="hidden-xs hidden-s">{{applicant.education.degree}}</td>
 						<td id="c" class="hidden-xs hidden-s"><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <br> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> </td>
 						<td id="o"><div id="favToast" class='toast' style="display:none">Applicant added to Favorites</div><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite', $index); showToast('favToast')"> 
 							<span title="Add to Favorites" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
