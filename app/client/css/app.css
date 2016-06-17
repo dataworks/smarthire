@@ -18,8 +18,9 @@
 }
 
 .page-header > h1{
-  font-size: 700%; 
+  font-size: 550%; 
   color : #1976D2;
+  padding-top: 2.5%;
 }
 
 @media (max-width: 767px) {
@@ -33,7 +34,7 @@
     height: 80px;
     width: 100%;
   }
-  .jumbotron{
+  h1{
     width: 100%;
     margin-top: 2.5%;
   }
@@ -63,11 +64,14 @@
   }
 }
 
-.jumbotron {
+h1 { 
+  font-family: 'Original Surfer', cursive;
+  /*font-weight: 400%; */
+  position: relative;
+  padding-top: 5%;
   margin-top: 7%;
   background-color: #CCFF90;
   width: 100%;
-  padding: 0%;
 }
 
 .nav{
@@ -195,25 +199,10 @@ body {
 
 #ch{
   height: auto;
-  width: 15%;
+  width: 10%;
   padding-left: 1.5%;
   padding-bottom: 2.5%;
 }
-
-h1 { 
-	font-family: 'Original Surfer', cursive;
-	/*font-weight: 400%; */
-	position: relative;
-	top: 105%;
-	font-color: #B71C1C;
-  padding-top: 5%;
-}
-
-.copy {
-  padding-top: .40%;
-}
-
-
 
 /*search bar*/
 .button_box2{
