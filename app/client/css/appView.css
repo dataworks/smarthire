@@ -90,14 +90,29 @@ th{
   width: 8% !important;
 }
 
-a:focus, a:hover{
+#s > a:hover{
   text-decoration: none;
   color: #1976d2;
 }
 
-a{
+#s > a{
   color: #6A1B9A;
 }
+
+td > #high{
+  color: #558B2F;
+  font-weight: bold;
+}
+
+#mid{
+  color: #FFC107;
+  font-weight: bold;
+}
+
+#low{
+  color: #d50000;
+  font-weight: bold;
+} 
 
 #ci{
   width: 12% !important;
