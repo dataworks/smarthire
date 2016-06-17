@@ -37,5 +37,5 @@ function buildQuery(res, hits, type) {
         }
       }
     }
-    return type ==='new' ? '*' : ' ';;
+    return type ==='new' ? '*' : ' ';
 }

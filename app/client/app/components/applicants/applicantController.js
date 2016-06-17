@@ -59,21 +59,18 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label'
 
     $scope.mark = function (id, type, index) {
     	var label = new Label({'id': id, 'type' : type});
-        label.$save().then(function(){
+        label.$save().then(function() {
             $scope.applicants.splice(index, 1);
-        });
-    };
+      });
+    }
 
-    $scope.remove = function(id, index){
+    $scope.remove = function(id, index) {
         var label = new Label({'id' : id});
-        label.$save().then(function(){
+        label.$save().then(function() {
           $scope.applicants.splice(index, 1);
         });
-    };
-
-    $scope.button = function(text){
-        alert(text);
     }
+
 
 //scroll code
 $(function(){
@@ -103,4 +100,5 @@ $(window).scroll(function() {
      angular.element("#footer").show();
  }
 });
+
 }]);

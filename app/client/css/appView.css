@@ -1,7 +1,7 @@
-.sortorder:after {
+.sortorder.reverse:after {
   content: '\25b2';   /*// BLACK UP-POINTING TRIANGLE*/
 }
-.sortorder.reverse:after {
+.sortorder:after {
   content: '\25bc';  /* // BLACK DOWN-POINTING TRIANGLE*/
 }
 
@@ -37,7 +37,13 @@
   color: white;
   border: 0;
   border-radius: 20px;
-  padding: .5%;
+  padding: .5% 1%;
+  -moz-appearance: none;
+  padding-right: 25px;
+  background: #00A6F6 url(http://www.phytecs.com/wp-content/themes/phytec/images/drop-down-arrow-wh.png);
+  -webkit-appearance: none;
+  background-repeat: no-repeat;
+  background-position: 90% 45%;
 }
 
 #u{
@@ -55,6 +61,9 @@
     }
     #profile{
       height: 75px !important;
+    }
+    #select{
+      padding: 5px !important;
     }
 }
 
@@ -78,7 +87,16 @@ th{
 }
 
 #s{
-  width: 4% !important;
+  width: 8% !important;
+}
+
+a:focus, a:hover{
+  text-decoration: none;
+  color: #1976d2;
+}
+
+a{
+  color: #6A1B9A;
 }
 
 #p{
@@ -202,4 +220,30 @@ td{
   text-decoration: none;
   background: none;
   color: #E91E63;
+}
+
+#star{
+  color: #ffd700; 
+  font-size: 150%;
+}
+
+.toast {
+    width:200px;
+    height:20px;
+    height:auto;
+    position:fixed;
+    left:50%;
+    margin-left:-120px;
+    bottom:10px;
+    background-color: #383838;
+    color: #F0F0F0;
+    font-family: Calibri;
+    font-size: 20px;
+    padding:10px;
+    text-align:center;
+    border-radius: 2px;
+    -webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+    -moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+    box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+    z-index: 2;
 }
