@@ -32,7 +32,7 @@
 				<tbody ng-repeat="applicant in applicants | orderBy:propertyName:reverse">
 					<tr class="accordion-toggle">
 						<td id="p"><img id = "profile" src="images/profile.png"></td>
-						<td id="s">{{applicant.score}}</td>
+						<td id="s">{{applicant.score}} <br> <span id="star" class="glyphicon glyphicon-star" ng-if="applicant.score >= 0.7"></span></td>
 						<td id="n">{{applicant.name}}</td>
 						<td class="hidden-xs hidden-s">{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
 						<td class="hidden-xs hidden-s">{{applicant.education.degree}}</td>
