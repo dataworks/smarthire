@@ -22,7 +22,7 @@
   color : #1976D2;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .page-header > h1{
     font-size: 500%;
   }
@@ -38,10 +38,16 @@
     margin-top: 2.5%;
   }
   .form-wrapper-2 button{
-    padding: 1%;
+    padding: 1.28% !important;
+    font-size: 60% !important;
+    margin-top: 2.5% !important;
   }
   .form-wrapper-2 input{
-    padding: 2.5%;
+    padding: .9% !important;
+    margin-top: 2.5% !important;
+  }
+  .navbar-right{
+    padding-left: 0% !important;
   }
   #fb{
     padding-top: 1.5%
@@ -65,7 +71,7 @@
 }
 
 .nav{
-  padding-left: 1.5%;
+  padding-left: 2.5%;
   padding-top: .13%;
 }
 
@@ -258,6 +264,21 @@ font-style: italic;
   border-color: #CCFF90;
   background: -webkit-gradient(linear, left top, left bottom, from(#FFD600), to(#388E3C));
   background: -moz-linear-gradient(top,  #FFD600,  #388E3C);
+}
+
+@media(width: ){
+
+}
+
+@-moz-document url-prefix() {
+    .form-wrapper-2 button{
+      margin-top: 20px !important;
+      padding: 5.6px !important;
+    }
+    .form-wrapper-2 input{
+      margin-top: 20px !important;
+    }
+    
 }
 
 
