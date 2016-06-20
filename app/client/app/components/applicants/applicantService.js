@@ -50,3 +50,4 @@ applicantServices.factory('Applicant', ['$resource', function($resource) {
 //     search: search
 //   };
 // }]);
+
