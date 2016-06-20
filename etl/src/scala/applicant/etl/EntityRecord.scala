@@ -76,7 +76,8 @@ object EntityRecord {
     val githubData = ApiMapper.githubAPI(github)
 
     // WILL CHANGE TO CALCSCORE WHEN SCORE CALCULATOR IS FINISHED
-    score = CalcScore.firstFeature(w2vMap,fullText)
+    val calculator: ScoreCalculator = new ScoreCalculator()
+    score = calculator.firstFeature(w2vMap,fullText)
     if (recentLocation != notFound) {
       println(ApiMapper.googlemapsAPI(recentLocation,"Reston, VA"))
     }
