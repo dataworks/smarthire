@@ -56,7 +56,7 @@ object LogisticRegressionHelper {
     val pointRdd = sc.parallelize(dataPoints)
 
     //create the LogicticRegressionModel from a LogisticRegressionWithLBFGS instance
-    val result = new LogisticRegressionWithLBFGS().run(pointRdd)
+    val result = new LogisticRegressionWithLBFGS().setIntercept(true).run(pointRdd)
     return result
   }
 

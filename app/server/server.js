@@ -30,11 +30,11 @@ app.get("/service/applicants", function(req, res) {
 
 //code for favorites, changes between favorite and archive--REQUIRED
 app.post("/service/labels", function(req, res) {
-  labelService.index(req,res);
+  labelService.index(req, res);
 });
 
 app.delete("/service/labels/:id", function(req, res) {
-  labelService.delete(req,res);
+  labelService.delete(req, res);
 });
 
 app.get("/service/attachments", function(req, res) {
@@ -49,10 +49,12 @@ root.use('/app', app);
 
 //HTML5 mode, gets rid of the '#' in URLs
 app.all('/*', function(req, res) {
-  res.sendFile('index.html', {root: __dirname + "/../client/"});
+  res.sendFile('index.html', {
+    root: __dirname + "/../client/"
+  });
 });
 
-var server = root.listen(8082, function () {
+var server = root.listen(8082, function() {
   var host = server.address().address
   var port = server.address().port
 
