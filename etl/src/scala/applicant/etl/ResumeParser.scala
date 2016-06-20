@@ -75,7 +75,7 @@ object ResumeParser {
       fileCount += 1
       broadcastExtractor.synchronized {
         val entitySet = broadcastExtractor.value.extractEntities(text)
-        EntityRecord.create(entitySet, FilenameUtils.getBaseName(currentFile.getPath()), text)
+        EntityRecord.create(entitySet, FilenameUtils.getBaseName(currentFile.getPath()), text, w2vMap)
       }
 
     }.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
