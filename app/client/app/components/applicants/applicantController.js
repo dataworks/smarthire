@@ -136,7 +136,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       });
     });
 
-    //if at bottom of window, show footer
+    //if at bottom of window, show footer 
     $(window).scroll(function() {   
       if($(window).scrollTop() + $(window).height() == $(document).height()) {
         angular.element("#footer").show();
