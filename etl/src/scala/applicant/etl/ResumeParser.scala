@@ -54,7 +54,7 @@ object ResumeParser {
 
     //Create Word2Vec model and synonym hash map
     val w2vModel = Word2VecModel.load(sc, "model/w2v")
-    val w2vMap = w2vSynonymMapper(w2vModel, List("Java","Hadoop", "Spark"), 50)
+    val w2vMap = w2vSynonymMapper(w2vModel, List("Java","Hadoop","Spark","Scala","Elasticsearch","JavaScript"), 20)
 
     //Create a key-value pair RDD of files within resume directory
     //RDD is an array of tuples (String, PortableDataStream)
@@ -162,8 +162,11 @@ object ResumeParser {
   def w2vSynonymMapper(model: Word2VecModel, terms: List[String], synonymCount: Int) : HashMap[String,Boolean] = {
     val map = HashMap.empty[String,Boolean]
     terms.foreach{ term =>
+      map += (term -> false)
       val synonyms = model.findSynonyms(term.toLowerCase(), synonymCount)
+      println("Synonym for " + term + ": ")
       for((synonym, cosineSimilarity) <- synonyms) {
+        println(s"$synonym $cosineSimilarity")
         map += (synonym -> false)
       }
     }

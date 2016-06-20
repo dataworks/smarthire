@@ -21,18 +21,22 @@ object CalcScore {
   def firstFeature (w2vmap: HashMap[String,Boolean], resume: String): Double = {
     val tokenizer = new LuceneTokenizer()
     val resumeArray = tokenizer.tokenize(resume)
-    var matches = 0
+    var matches : Double = 0.0
+
     resumeArray.foreach { word =>
       if (w2vmap.contains(word)){
         w2vmap += (word -> true)
       }
     }
+
     w2vmap.foreach{ case (k,v) =>
       if (v == true){
         matches += 1
+        w2vmap += (k -> false)
       }
     }
-    val featuresScore = matches / w2vmap.size
+
+    val featuresScore = matches / 20
     return featuresScore
   }
 }
