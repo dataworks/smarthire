@@ -1,3 +1,3 @@
 applicantServices.factory('Applicant', ['$resource', function($resource) {
- return $resource('service/applicants/:id');
+	return $resource('service/applicants/:id');
 }]);
