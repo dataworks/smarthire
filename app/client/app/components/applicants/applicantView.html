@@ -31,7 +31,7 @@
 				
 				<tbody ng-repeat="applicant in applicants | orderBy:propertyName:reverse">
 					<tr class="accordion-toggle">
-						<td id="p"><img id = "profile" src="images/profile.png"></td>
+						<td id="p"><img id = "profile" ng-src="{{getLink(applicant.id, 'image')}}" err-src="images/profile.png"></td>
 						<td id="s"><span id="high" ng-if="applicant.score >= 0.7">{{applicant.score}}</span>
 						<span id="mid" ng-if="applicant.score == 0.6 || applicant.score == 0.4 || applicant.score == 0.5">{{applicant.score}}</span>
 						<span id="low" ng-if="applicant.score <= 0.3">{{applicant.score}}</span> <br> <span id="star" class="glyphicon glyphicon-star" ng-if="applicant.score >= 0.9"></span>
@@ -62,10 +62,12 @@
 							<span title="View more" class="glyphicon glyphicon-eye-open">
 							</span>
 						</button>
-						<button id="file" type="button" class="btn btn-default" aria-label="Left Align" ng-click="">
-							<span title="View resume" class="glyphicon glyphicon-file">
-							</span>
-						</button>
+						<a target="_blank" href="{{getLink(applicant.id, 'pdf')}}">
+							<button id="file" type="button" class="btn btn-default" aria-label="Left Align" ng-click="">
+								<span title="View resume" class="glyphicon glyphicon-file">
+								</span>
+							</button>
+						</a>
 					</td>
 				</tr>
 				<tr>
