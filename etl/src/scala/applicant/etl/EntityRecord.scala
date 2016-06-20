@@ -1,10 +1,12 @@
 package applicant.etl
 
 import applicant.nlp._
+import applicant.ml.score._
 import java.text.DecimalFormat
 import java.net.{URL, HttpURLConnection}
 import scala.io._
-import scala.collection.mutable.{ListBuffer, Map, LinkedHashMap}
+import scala.collection.mutable.{ListBuffer, Map, LinkedHashMap, HashMap}
+import org.apache.spark.mllib.feature.{Word2Vec, Word2VecModel}
 
 object EntityRecord {
   /**
@@ -13,9 +15,10 @@ object EntityRecord {
    * @param taggedEntities A LinkedHashSet object from the EntityGrabber class
    * @param applicantID A String to be used as the applicant's unique ID
    * @param fullText A String of the full parsed resume from extractText
+   * @param w2vMap A hashmap of the top w2v synonyms
    * @return A map formatted to save to ES as JSON
    */
-  def create(taggedEntities: LinkedHashMap[(String, String),(String,String)], applicantID: String, fullText: String): Map[String, Any] = {
+  def create(taggedEntities: LinkedHashMap[(String, String),(String,String)], applicantID: String, fullText: String, w2vMap: HashMap[String, Boolean]): Map[String, Any] = {
     var name, recentTitle, recentLocation, recentOrganization, degree, school, gpa, email, phone, notFound, linkedin, indeed, github: String = ""
 
     val languageList: ListBuffer[String] = new ListBuffer[String]()
@@ -72,7 +75,8 @@ object EntityRecord {
     //get Github info if github URL found
     val githubData = ApiMapper.githubAPI(github)
 
-    score = score/10
+    // WILL CHANGE TO CALCSCORE WHEN SCORE CALCULATOR IS FINISHED
+    score = CalcScore.firstFeature(w2vMap,fullText)
 
     if (score > 1)
       score = 1
