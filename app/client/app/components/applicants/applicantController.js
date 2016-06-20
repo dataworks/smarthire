@@ -141,8 +141,5 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       if($(window).scrollTop() + $(window).height() == $(document).height()) {
         angular.element("#footer").show();
       }
-      else{
-        angular.element("#footer").hide();
-      }
     });
 }]);
