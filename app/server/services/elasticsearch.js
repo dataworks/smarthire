@@ -1,9 +1,9 @@
 var elasticsearch = require('elasticsearch');
 
 exports.query = function(config, req, res, query, handler) {
- var client = new elasticsearch.Client({
-   host: config.url
- });
+  var client = new elasticsearch.Client({
+    host: config.url
+  });
 // Execute ES Query
 client.search({
   index: config.index,
@@ -105,3 +105,4 @@ exports.delete = function(config, req, res) {
           res.end();
         });
 }
+

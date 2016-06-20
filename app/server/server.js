@@ -37,6 +37,10 @@ app.delete("/service/labels/:id", function(req, res) {
   labelService.delete(req,res);
 });
 
+app.get("/service/attachments", function(req, res) {
+  attachmentService.queryAttachments(req, res);
+});
+
 root.get("/", function(req, res) {
   res.redirect("/app");
 });

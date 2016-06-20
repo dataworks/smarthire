@@ -51,6 +51,8 @@ object ResumeParser {
     //Create Spark RDD using conf
     val sc = new SparkContext(conf)
     val input = sc.textFile("data/txt").map(line => new LuceneTokenizer().tokenize(line))
+
+    //Create Word2Vec model and synonym hash map
     val w2vModel = Word2VecModel.load(sc, "model/w2v")
     val w2vMap = w2vSynonymMapper(w2vModel, List("Java","Hadoop", "Spark"), 50)
 

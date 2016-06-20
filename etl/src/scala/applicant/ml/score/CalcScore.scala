@@ -4,7 +4,7 @@ import org.apache.spark.SparkConf
 import org.apache.spark.SparkContext
 import scopt.OptionParser
 import scala.collection.mutable.HashMap
-
+import applicant.nlp.LuceneTokenizer
 import java.io.File
 
 /**
@@ -12,11 +12,27 @@ import java.io.File
  */
 object CalcScore {
   /**
-   * Calculates score
+   * Calculates first feature
    *
-   * @param options command line options
+   * @param w2vmap Word2Vec synonym map
+   * @param resume Full string of parsed resume
+   * @return First feature score framed to 0-1
    */
-   def calcScore (map: HashMap[String,Boolean]): Double = {
-     return 0.0
-   }
+  def firstFeature (w2vmap: HashMap[String,Boolean], resume: String): Double = {
+    val tokenizer = new LuceneTokenizer()
+    val resumeArray = tokenizer.tokenize(resume)
+    var matches = 0
+    resumeArray.foreach { word =>
+      if (w2vmap.contains(word)){
+        w2vmap += (word -> true)
+      }
+    }
+    w2vmap.foreach{ case (k,v) =>
+      if (v == true){
+        matches += 1
+      }
+    }
+    val featuresScore = matches / w2vmap.size
+    return featuresScore
+  }
 }
