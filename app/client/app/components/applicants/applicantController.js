@@ -113,5 +113,8 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label'
       if($(window).scrollTop() + $(window).height() == $(document).height()) {
         angular.element("#footer").show();
       }
+      else{
+        angular.element("#footer").hide();
+      }
     });
 }]);
