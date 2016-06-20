@@ -255,6 +255,11 @@ font-style: italic;
   background: -moz-linear-gradient(top,  #FFD600,  #388E3C);
 }
 
+input[type='text'] {
+      padding-left: 5%;
+      max-width : calc(100% - 5%);
+}
+
 @media(width: ){
 
 }
