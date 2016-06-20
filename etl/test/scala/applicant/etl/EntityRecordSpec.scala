@@ -22,7 +22,7 @@ import scala.collection.mutable.{LinkedHashMap, ListBuffer, HashMap}
    input += (("degree" -> "bs biology") -> ("degree" -> "BS Biology"))
    input += (("school" -> "harvard university") -> ("school" -> "Harvard University"))
 
-   val map = EntityRecord.create(input, "Wow what a good resume name", "This is totally the text that gave us these entities :D")
+   val map = EntityRecord.create(input, "Wow what a good resume name", "This is totally the text that gave us these entities :D", HashMap.empty[String,Boolean])
 
    "EntityRecord" must "store the name" in {
      map.get("name").get mustBe ("Jason Frederick")

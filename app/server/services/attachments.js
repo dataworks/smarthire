@@ -1,7 +1,6 @@
 var esservice = require("./elasticsearch.js");
 var config = require("./config.js");
 
-
 exports.queryAttachments = function(req, res) {
 	console.log(req);
 	getAttachment(res, req.query.id, req.query.type);

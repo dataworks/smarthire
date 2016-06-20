@@ -83,6 +83,7 @@ exports.index = function(config, req, res) {
         });
 }
 
+//allows item to be deleted from index
 exports.delete = function(config, req, res) {
   var client = new elasticsearch.Client({
     host: config.url
@@ -104,3 +105,4 @@ exports.delete = function(config, req, res) {
           res.end();
         });
 }
+

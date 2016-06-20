@@ -15,7 +15,8 @@ import org.apache.commons.codec.binary.Base64
 import applicant.nlp._
 import java.security.MessageDigest
 
-import scala.collection.mutable.{ListBuffer, Map, LinkedHashMap}
+import scala.collection.mutable.{ListBuffer, Map, LinkedHashMap, HashMap}
+import org.apache.spark.mllib.feature.{Word2Vec, Word2VecModel}
 
 /**
  *@author Brantley Gilbert
@@ -49,6 +50,12 @@ object ResumeParser {
 
     //Create Spark RDD using conf
     val sc = new SparkContext(conf)
+    val input = sc.textFile("data/txt").map(line => new LuceneTokenizer().tokenize(line))
+
+    //Create Word2Vec model and synonym hash map
+    val w2vModel = Word2VecModel.load(sc, "model/w2v")
+    val w2vMap = w2vSynonymMapper(w2vModel, List("Java","Hadoop", "Spark"), 50)
+
     //Create a key-value pair RDD of files within resume directory
     //RDD is an array of tuples (String, PortableDataStream)
     val fileData = sc.binaryFiles(filesPath)
@@ -57,6 +64,7 @@ object ResumeParser {
     val models = options.nlpModels.split(",")
     val patterns = options.nlpRegex
     val extractor = new EntityExtractor(models, patterns)
+
 
     val broadcastExtractor = sc.broadcast(extractor)
 
@@ -69,7 +77,7 @@ object ResumeParser {
       fileCount += 1
       broadcastExtractor.synchronized {
         val entitySet = broadcastExtractor.value.extractEntities(text)
-        EntityRecord.create(entitySet, FilenameUtils.getBaseName(currentFile.getPath()), text)
+        EntityRecord.create(entitySet, FilenameUtils.getBaseName(currentFile.getPath()), text, w2vMap)
       }
 
     }.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
@@ -142,5 +150,23 @@ object ResumeParser {
         //Elsewise, just exit
         case None =>
     }
+  }
+
+  /**
+   * Creates a hash map of w2v synonyms and booleans
+   * @param model A w2v model generated from source data
+   * @param terms The search terms to find synonyms for
+   * @param synonymCount Number of synonyms to return per term
+   * @return A hash map of the synonyms as keys and booleans as values
+   */
+  def w2vSynonymMapper(model: Word2VecModel, terms: List[String], synonymCount: Int) : HashMap[String,Boolean] = {
+    val map = HashMap.empty[String,Boolean]
+    terms.foreach{ term =>
+      val synonyms = model.findSynonyms(term.toLowerCase(), synonymCount)
+      for((synonym, cosineSimilarity) <- synonyms) {
+        map += (synonym -> false)
+      }
+    }
+    return map
   }
 }

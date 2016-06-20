@@ -47,7 +47,7 @@ root.get("/", function(req, res) {
 
 root.use('/app', app);
 
-//HTML5 mode
+//HTML5 mode, gets rid of the '#' in URLs
 app.all('/*', function(req, res) {
   res.sendFile('index.html', {root: __dirname + "/../client/"});
 });
