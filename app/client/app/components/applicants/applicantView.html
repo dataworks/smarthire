@@ -29,7 +29,7 @@
 					</tr>
 				</thead>
 				
-				<tbody ng-repeat="applicant in applicants | orderBy:propertyName:reverse">
+				<tbody ng-repeat="applicant in applicants | orderBy:propertyName:reverse | filter:searchText track by applicant.id">
 					<tr class="accordion-toggle">
 						<td id="p"><img id = "profile" ng-src="{{getLink(applicant.id, 'image')}}" err-src="images/profile.png"></td>
 						<td id="s"><span id="high" ng-if="applicant.score >= 0.7">{{applicant.score}}</span>

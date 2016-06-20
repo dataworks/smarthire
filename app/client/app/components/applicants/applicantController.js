@@ -1,5 +1,5 @@
-applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label', '$window',
-  function ($scope, Applicant, Label, $window) {
+applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applicant', 'Label', '$window',
+  function ($scope, $location, Applicant, Label, $window) {
 
     //default dropdown menu to 'new' on page load
     $scope.selection = "new";
@@ -98,6 +98,33 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label'
       return "service/attachments?id=" + id + "&type=" + type;
     } 
     
+    //code for searching
+    $scope.foundPeople = [];
+    $scope.searchTracker = 0;
+    $scope.allResults = false;
+    $scope.searchTerm = $location.search().q
+
+    $scope.search = function() {
+      $scope.foundPeople = [];
+      $scope.searchTracker = 0;
+      $scope.allResults = false;
+      $location.search({'q': $scope.searchTerm});
+      $scope.loadMore();
+    }
+
+    $scope.loadMore = function() {
+      foundPeople.search($scope.searchTerm, $scope.searchTracker++).then(function(results) {
+        if (results.length !== 10) {
+          $scope.allResults = true;
+        }
+        var i = 0;
+
+        for (; i < results.length; i++) {
+          $scope.foundPeople.push(results[i]);
+        }
+      });
+    };
+
     //scroll code
     $(function(){
       var lastScrollTop = 0, delta = 5;
@@ -116,10 +143,13 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', 'Applicant', 'Label'
       });
     });
 
-    //if at bottom of window, show footer
+    //if at bottom of window, show footer 
     $(window).scroll(function() {   
       if($(window).scrollTop() + $(window).height() == $(document).height()) {
         angular.element("#footer").show();
+      }
+      else{
+        angular.element("#footer").hide();
       }
     });
 }]);
