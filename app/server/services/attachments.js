@@ -17,6 +17,7 @@ exports.getAttachment = function(req, res) {
 		else {
 			res.status(404);
 		}
+		res.end();
 	},function (error, response) {
     	console.log(error);
 		});
