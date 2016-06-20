@@ -1,4 +1,5 @@
 applicantControllers.controller('ContactCtrl', ['$scope',
-  function ($scope) {
-   
-  }]);
+  function($scope) {
+
+  }
+]);

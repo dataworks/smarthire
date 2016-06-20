@@ -1,6 +1,6 @@
 //calls Applicant from the backend
 applicantServices.factory('Applicant', ['$resource', function($resource) {
- return $resource('service/applicants/:id');
+  return $resource('service/applicants/:id');
 }]);
 
 // //code for searching
@@ -50,4 +50,3 @@ applicantServices.factory('Applicant', ['$resource', function($resource) {
 //     search: search
 //   };
 // }]);
-
