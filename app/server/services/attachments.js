@@ -10,7 +10,7 @@ exports.getAttachment = function(req, res) {
 			res.set({
 				"Content-Length": buffer.length,
 				"Content-Type": source.metadata['Content-Type'],
-				"Content-Disposition": "attachment; filename=" + source.filename
+				"Content-Disposition": "inline; filename=" + source.filename
 			});
 			res.send(buffer);
 		}
