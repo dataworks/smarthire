@@ -3,7 +3,7 @@ var applicantApp = angular.module('applicantApp', [
   'applicantControllers',
   'applicantServices',
   'infinite-scroll',
-  ]);
+]);
 
 var applicantControllers = angular.module('applicantControllers', []);
 var applicantServices = angular.module('applicantServices', ['ngResource']);
@@ -33,4 +33,5 @@ applicantApp.config(['$routeProvider', '$locationProvider',
 
     //sets html5Mode to avoid having '#' in URLs
     $locationProvider.html5Mode(true);
-  }]);
+  }
+]);

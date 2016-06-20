@@ -24,8 +24,8 @@ class LogisticRegressionHelperSpec extends FlatSpec with BeforeAndAfterAll {
   val sc = new SparkContext(conf)
   val simpleDataset: List[LabeledPoint] =
     List (
-      LabeledPoint(1.0, Vectors.dense(1.0)),
-      LabeledPoint(0.0, Vectors.dense(-1.0))
+      LabeledPoint(0.0, Vectors.dense(0.0)),
+      LabeledPoint(1.0, Vectors.dense(1.0))
     ) //data has never been as statistically significant as this
 
    override def afterAll() = {
@@ -67,11 +67,9 @@ class LogisticRegressionHelperSpec extends FlatSpec with BeforeAndAfterAll {
 
     model must not be null
 
-    var testFeature: Double = 0.0
-
     model.clearThreshold()
 
-    LogisticRegressionHelper.predictSingleScore(model, Vectors.dense(-1.0)) must be < 0.5
+    LogisticRegressionHelper.predictSingleScore(model, Vectors.dense(0.0)) must be < 0.5
     LogisticRegressionHelper.predictSingleScore(model, Vectors.dense(1.0)) must be > 0.5
   }
 }

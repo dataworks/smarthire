@@ -1,4 +1,5 @@
 applicantControllers.controller('AboutCtrl', ['$scope',
-  function ($scope) {
- 
-  }]);
+  function($scope) {
+
+  }
+]);

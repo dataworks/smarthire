@@ -9,12 +9,13 @@ import org.apache.spark.input.PortableDataStream
 import org.scalatest.FlatSpec
 import org.scalatest.MustMatchers._
 import org.scalatest.PrivateMethodTester._
+import org.scalatest.BeforeAndAfterAll
 
 /**
  * Test class for TextExtractor
  *
  */
-class TextExtractorSpec extends FlatSpec {
+class TextExtractorSpec extends FlatSpec with BeforeAndAfterAll {
   /**
    * Scala Test Spec to test the TextExtractor object.
    */
@@ -43,6 +44,5 @@ class TextExtractorSpec extends FlatSpec {
 
     text mustEqual lines
     sc.stop()
-
-    }
+  }
 }
