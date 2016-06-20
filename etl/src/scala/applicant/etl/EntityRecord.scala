@@ -77,9 +77,13 @@ object EntityRecord {
 
     // WILL CHANGE TO CALCSCORE WHEN SCORE CALCULATOR IS FINISHED
     score = CalcScore.firstFeature(w2vMap,fullText)
+    if (recentLocation != notFound) {
+      println(ApiMapper.googlemapsAPI(recentLocation,"Reston, VA"))
+    }
 
-    if (score > 1.0)
+    if (score > 1.0){
       score = 1.0
+    }
 
     //val strScore: String = String.valueOf(df.format(score))
 

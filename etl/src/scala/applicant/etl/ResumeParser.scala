@@ -164,9 +164,7 @@ object ResumeParser {
     terms.foreach{ term =>
       map += (term -> false)
       val synonyms = model.findSynonyms(term.toLowerCase(), synonymCount)
-      println("Synonym for " + term + ": ")
       for((synonym, cosineSimilarity) <- synonyms) {
-        println(s"$synonym $cosineSimilarity")
         map += (synonym -> false)
       }
     }
