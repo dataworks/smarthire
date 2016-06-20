@@ -40,4 +40,21 @@ object ApiMapper {
         return Map()
     }
   }
+  /**
+   * Given two locations, returns the distance between the two
+   * Note: uses the unauthorized Google Maps API internally, may be cut off
+   * after too many requests
+   * @param location1 First location
+   * @param location2 Second location
+   * @return Distance between the two locations in meters
+   */
+  def googlemapsAPI(location1 : String, location2 : String) : Double = {
+    val apiUrl = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + location1.trim().replaceAll("\\s", "+") + "&destinations=" + location2.trim().replaceAll("\\s", "+")
+    val jsonString = scala.io.Source.fromURL(apiUrl).mkString
+    println(jsonString)
+    val parsedJson = parse(jsonString)
+    implicit val formats = DefaultFormats
+    println((((((parsedJson \ "rows")(0) \ "elements")(0))\ "distance") \ "value").extract[Double])// \ "elements")(0) \ "value")
+    return 0.0
+  }
 }
