@@ -22,7 +22,11 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
      
      $scope.applicants = Applicant.query({from: $scope.index, size: $scope.pageSize});
 
-    //change queries when new type is selected from the dropdown menu
+    /**
+     * change queries when new type is selected from the dropdown menu
+     *
+     * @param type select box value
+     */
     $scope.showSelectValue = function(type) {
       $scope.index = 0;
       $scope.hasData = true;
@@ -90,7 +94,10 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       console.log("now i am here");
     }
 
-
+    $scope.getLink = function(id, type) {
+      return "service/attachments?id=" + id + "&type=" + type;
+    } 
+    
     //code for searching
     $scope.foundPeople = [];
     $scope.searchTracker = 0;
