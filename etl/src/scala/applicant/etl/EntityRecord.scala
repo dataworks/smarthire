@@ -78,8 +78,8 @@ object EntityRecord {
     // WILL CHANGE TO CALCSCORE WHEN SCORE CALCULATOR IS FINISHED
     score = CalcScore.firstFeature(w2vMap,fullText)
 
-    if (score > 1)
-      score = 1
+    if (score > 1.0)
+      score = 1.0
 
     //val strScore: String = String.valueOf(df.format(score))
 
