@@ -5,6 +5,7 @@ import java.text.DecimalFormat
 import java.net.{URL, HttpURLConnection}
 import scala.io._
 import scala.collection.mutable.{ListBuffer, Map, LinkedHashMap}
+import org.apache.spark.mllib.feature.{Word2Vec, Word2VecModel}
 
 object EntityRecord {
   /**
