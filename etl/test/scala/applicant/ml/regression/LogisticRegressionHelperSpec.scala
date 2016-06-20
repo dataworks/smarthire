@@ -67,8 +67,6 @@ class LogisticRegressionHelperSpec extends FlatSpec with BeforeAndAfterAll {
 
     model must not be null
 
-    var testFeature: Double = 0.0
-
     model.clearThreshold()
 
     LogisticRegressionHelper.predictSingleScore(model, Vectors.dense(-1.0)) must be < 0.5
