@@ -37,3 +37,6 @@ libraryDependencies ++= Seq(
     "org.json4s" %% "json4s-native" % "3.3.0",
     "com.twelvemonkeys.imageio" % "imageio-core" % "3.2.1"
 )
+
+//Do not run the tests in parallel so that there are no problems with the multiple tests that use spark
+parallelExecution in test := false

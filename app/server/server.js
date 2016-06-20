@@ -38,7 +38,7 @@ app.delete("/service/labels/:id", function(req, res) {
 });
 
 app.get("/service/attachments", function(req, res) {
-  attachmentService.queryAttachments(req, res);
+  attachmentService.getAttachment(req, res);
 });
 
 root.get("/", function(req, res) {
