@@ -75,7 +75,8 @@ object EntityRecord {
     //get Github info if github URL found
     val githubData = ApiMapper.githubAPI(github)
 
-    score = CalcScore.calcScore(w2vMap)
+    // WILL CHANGE TO CALCSCORE WHEN SCORE CALCULATOR IS FINISHED
+    score = CalcScore.firstFeature(w2vMap,fullText)
 
     if (score > 1)
       score = 1
