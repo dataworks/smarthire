@@ -64,13 +64,13 @@ object ResumeParser {
     var fileCount: Int = 0
 
     fileData.values.map { currentFile =>
-      println("Parsing applicant " + FilenameUtils.getBaseName(currentFile.getPath()) + ", " + fileCount + " files parsed")
+      println("Parsing applicant " + MessageDigest.getInstance("MD5").digest(currentFile.toArray) + ", " + fileCount + " files parsed")
       val text = TextExtractor.extractText(currentFile.open())
 
       fileCount += 1
       broadcastExtractor.synchronized {
         val entitySet = broadcastExtractor.value.extractEntities(text)
-        //EntityRecord.create(entitySet, FilenameUtils.getBaseName(currentFile.getPath()), text)
+        ApplicantData(entitySet, MessageDigest.getInstance("MD5").digest(currentFile.toArray).toString(), text)
       }
 
     }.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
@@ -78,7 +78,7 @@ object ResumeParser {
     fileData.values.map{ currentFile =>
       Map(
         "hash" -> MessageDigest.getInstance("MD5").digest(currentFile.toArray),
-        "applicantid" -> FilenameUtils.getBaseName(currentFile.getPath()),
+        "applicantid" -> MessageDigest.getInstance("MD5").digest(currentFile.toArray),
         "base64string" -> currentFile.toArray,
         "filename" -> FilenameUtils.getName(currentFile.getPath()),
         "extension" -> FilenameUtils.getExtension(currentFile.getPath()),
