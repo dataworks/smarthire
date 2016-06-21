@@ -170,6 +170,20 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       });
     }
 
+    $scope.upload = function() {
+      var file = document.querySelector('input[type=file]').files[0];
+      var reader = new FileReader();
+      console.log("sdfsd");
+
+      reader.addEventListener("load", function() {
+        var base64 = reader.result;
+        console.log(base64);
+      }, false);
+      
+      if(file) 
+        reader.readAsDataURL(file);
+    }
+
     //scroll code
     $(function() {
       var lastScrollTop = 0,
