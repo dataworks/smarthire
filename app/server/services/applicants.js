@@ -12,7 +12,6 @@ exports.listApplicants = function(req, res, type) {
 
   console.log(req.query);
   if (req.query.query) {// != null || req.query.query.length < 1) {
-    console.log("Querying");
     esservice.query(config.applicants, req, res, req.query.query, null);
   }
   else {

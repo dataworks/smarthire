@@ -3,6 +3,8 @@ var applicantApp = angular.module('applicantApp', [
   'applicantControllers',
   'applicantServices',
   'infinite-scroll',
+  'ngSanitize',
+  'ngToast',
 ]);
 
 var applicantControllers = angular.module('applicantControllers', []);
