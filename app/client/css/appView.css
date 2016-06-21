@@ -84,7 +84,7 @@ input:focus, input:active {
 
 /* style glyph */
 .inner-addon .glyphicon {
-  position: absolute;
+  position: relative;
   padding: 1.5%;
   cursor: pointer;
 }
@@ -291,8 +291,17 @@ td > #high{
   }
 
   .alert{
-    margin-right: 250px !important;
+    margin-right: 225px !important;
   }
+
+  .right-addon .glyphicon {
+    right: -30%;
+  }
+
+  .form-control{
+  margin-right: -30%;
+}
+
 }
 
 td{
