@@ -1,5 +1,5 @@
-applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applicant', 'Label', '$window',
-  function($scope, $location, Applicant, Label, $window) {
+applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applicant', 'Label', '$window', 'ngToast', '$timeout',
+  function($scope, $location, Applicant, Label, $window, ngToast, $timeout) {
 
     //default query
     $scope.applicants = Applicant.query({
@@ -123,27 +123,39 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
 
     /** 
      * change toast CSS to show the message
-     * after three seconds, hide the toast
+     * after about three seconds, hide the toast
      *
-     * @param id- id of toast to show
-     *
-     */
-    $scope.showToast = function(id) {
-      document.getElementById(id).style.display = "block";
-      console.log("i am here");
-      setTimeout($scope.hideToast, 3000, id);
-    }
-
-    /** 
-     * change toast CSS to hide the message
-     *
-     * @param id- id of toast to hide
+     * @param type- type of toast to show
      *
      */
+    $scope.showToast = function(type) {
+      if (type == 'Favorite') {
+        ngToast.create("Applicant added to Favorites");
+      }
 
-    $scope.hideToast = function(id) {
-      document.getElementById(id).style.display = "none";
-      console.log("now i am here");
+      else if (type == 'Review') {
+        ngToast.create({
+          className: 'warning',
+          content: 'Applicant added to Review'
+        })
+
+      }
+
+      else if (type == 'Archive') {
+        ngToast.create({
+          className: 'danger',
+          content: 'Applicant added to Archive'
+        })
+
+      }
+
+      else {
+        ngToast.create({
+          className: 'info',
+          content: 'Applicant sent back to home page'
+        })
+
+      }
     }
 
     /** 

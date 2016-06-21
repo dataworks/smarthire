@@ -38,6 +38,8 @@
 					</tr>
 				</thead>
 				
+				<toast></toast>
+
 				<tbody ng-repeat="applicant in applicants | orderBy:propertyName:reverse">
 					<tr class="accordion-toggle">
 						<td id="p"><img id = "profile" ng-src="{{getLink(applicant.id, 'image')}}" onerror="this.src='images/profile.png'"></td>
@@ -49,21 +51,18 @@
 						<td id="ci" class="hidden-xs hidden-s">{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
 						<td id="d" class="hidden-xs hidden-s">{{applicant.education.degree}}</td>
 						<td id="c" class="hidden-xs hidden-s"><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <br> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> </td>
-						<td id="o"><div id="favToast" class='toast' style="display:none">Applicant added to Favorites</div><span ng-if="selection != 'favorite'"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite', applicant); showToast('favToast')"> 
+						<td id="o"><span ng-if="selection != 'favorite'"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite', applicant); showToast('Favorite')"> 
 							<span title="Add to Favorites" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
 						</button></span>
-						<div id="revToast" class='toast' style="display:none">Applicant marked for Review</div>
-						<span ng-if="selection != 'review'"><button id="question" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'review', applicant); showToast('revToast')">
+						<span ng-if="selection != 'review'"><button id="question" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'review', applicant); showToast('Review')">
 							<span title="Add to Review" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
 							<a href="/archive"></a> 
 						</button></span>
-						<div id="arcToast" class='toast' style="display:none">Applicant added to Archive</div>
-						<span ng-if="selection != 'archive'"><button id="down" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'archive', applicant); showToast('arcToast')">
+						<span ng-if="selection != 'archive'"><button id="down" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'archive', applicant); showToast('Archive')">
 							<span title="Add to Archive" class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
 							<a href="/archive"></a> 
 						</button></span>
-						<div id="backToast" class='toast' style="display:none">Applicant moved back to homepage</div>	
-						<span ng-if="selection != 'new'"><button id="back" type="button" class="btn btn-default" aria-label="Left Align" ng-click="remove(applicant.id, applicant); showToast('backToast')">
+						<span ng-if="selection != 'new'"><button id="back" type="button" class="btn btn-default" aria-label="Left Align" ng-click="remove(applicant.id, applicant); showToast('Back')">
 							<span title="Send back to New" class="glyphicon glyphicon-share-alt">
 							</span>
 						</button></span>		
