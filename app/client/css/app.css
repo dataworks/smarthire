@@ -12,7 +12,7 @@
   /*outline: 1px solid black;*/
 }
 
-.page-header{
+/*.page-header{
   background-color: #CCFF90;
   border-bottom: 0;
 }
@@ -21,12 +21,12 @@
   font-size: 550%; 
   color : #1976D2;
   padding-top: 2.5%;
-}
+}*/
 
 @media (max-width: 767px) {
-  .page-header > h1{
+/*  .page-header > h1{
     font-size: 500%;
-  }
+  }*/
   .dwl{
     padding-top: 1.5%;
   }
@@ -38,7 +38,7 @@
     width: 100%;
     margin-top: 25%;
   }
-  .form-wrapper-2 button{
+/*  .form-wrapper-2 button{
     padding: 1.28% !important;
     font-size: 60% !important;
     margin-top: 2.5% !important;
@@ -49,7 +49,7 @@
   }
   .navbar-right{
     padding-left: 0% !important;
-  }
+  }*/
   #fb{
     padding-top: 1.5%
   }
@@ -64,31 +64,31 @@
   }
 }
 
-h1 { 
+/*h1 { 
   font-family: 'Original Surfer', cursive;
-  /*font-weight: 400%; */
   position: relative;
   padding-top: 5%;
   margin-top: 7%;
   background-color: #CCFF90;
   width: 100%;
 }
-
+*/
 .nav{
   padding-left: 2.5%;
   padding-top: .13%;
+  float: right;
 }
 
 
 .navbar-default {
-  background-color: #00A6F6;
+  background-color: #0072c6;
   font-family: 'Gurajada', serif;
   font-size: 175%;
 }
 
 .navbar-default .navbar-toggle{
-  background-color: #CCFF90;
-  border-color: #CCFF90;
+  background-color: #6eEFAD;
+  border: none;
   margin-top: 2.25%;
 }
 
@@ -104,21 +104,15 @@ h1 {
   font-weight: bold;
 }
 
+
 .nav.navbar-nav li a {
   font-weight: bold;
   color: white;
   font-size: 150%;
+  text-align: right;
 }
  
- #h{
-  margin-top: 2.5%;
- }
-
- #a{
-  margin-top: 2.5%;
- }
-
- #c2{
+ #h, #a, #c2{
   margin-top: 2.5%;
  }
 
