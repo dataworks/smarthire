@@ -78,6 +78,10 @@
   float: right;
 }
 
+.navbar-default .navbar-toggle .icon-bar{
+  background-color: white;
+}
+
 
 .navbar-default {
   background-color: #0072c6;
@@ -86,13 +90,14 @@
 }
 
 .navbar-default .navbar-toggle{
-  background-color: #6eEFAD;
+  background-color: #689F38;
   border: none;
-  margin-top: 2.25%;
+  margin-top: 5.5%;
 }
 
 .navbar-default .navbar-toggle:hover{
-  background-color: #8BC34A; 
+  background-color: #1B5E20; 
+  border: none;
 }
 
 .navbar-header > p{
