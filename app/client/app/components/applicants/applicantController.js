@@ -38,6 +38,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
      * @param type- select box value
      */
     $scope.showSelectValue = function(type) {
+      $scope.searchText = "";
       $scope.index = 0;
       $scope.hasData = true;
       $scope.selection = type;
