@@ -5,13 +5,14 @@ var applicantApp = angular.module('applicantApp', [
   'infinite-scroll',
   'ngSanitize',
   'ngToast',
+  'ngAnimate',
 ]);
 
 var applicantControllers = angular.module('applicantControllers', []);
 var applicantServices = angular.module('applicantServices', ['ngResource']);
 
-applicantApp.config(['$routeProvider', '$locationProvider',
-  function($routeProvider, $locationProvider) {
+applicantApp.config(['$routeProvider', '$locationProvider', 'ngToastProvider',
+  function($routeProvider, $locationProvider, ngToastProvider) {
     $routeProvider.
     when('/applicants', {
       templateUrl: 'app/components/applicants/applicantView.html',
@@ -35,5 +36,10 @@ applicantApp.config(['$routeProvider', '$locationProvider',
 
     //sets html5Mode to avoid having '#' in URLs
     $locationProvider.html5Mode(true);
+
+    //give toast animations
+    ngToastProvider.configure({
+      animation: 'fade'
+    });
   }
 ]);
