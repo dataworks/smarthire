@@ -23,7 +23,7 @@ class ApplicantData {
   val otherLocationList: ListBuffer[String] = new ListBuffer[String]()
   val otherOrganizationList: ListBuffer[String] = new ListBuffer[String]()
   val df: DecimalFormat = new DecimalFormat("#.##")
-  val githubData = ApiMapper.githubAPI(github)
+  var githubData = Map[String,String]()
   val r = scala.util.Random
   val score = r.nextDouble
 
@@ -63,9 +63,9 @@ class ApplicantData {
           "title" -> otherTitleList,
           "location" -> otherLocationList,
           "organization" -> otherOrganizationList,
-          "url" -> urlList,
-          "githubData" -> githubData
+          "url" -> urlList
         ),
+        "githubData" -> githubData,
         "resume" -> fullText
       )
     )
@@ -125,6 +125,6 @@ object ApplicantData {
       }
     }
 
-
+    app.githubData = ApiMapper.githubAPI(app.github)
   }
 }

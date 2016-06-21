@@ -9,8 +9,6 @@ exports.listApplicants = function(req, res, type) {
   if (type !== 'new') {
     query = 'type: ' + type;
   }
-
-  console.log(req.query);
   if (req.query.query) {// != null || req.query.query.length < 1) {
     esservice.query(config.applicants, req, res, req.query.query, null);
   }
