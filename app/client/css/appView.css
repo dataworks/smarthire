@@ -38,7 +38,7 @@
   border-radius: 20px;
   padding: .5% 1%;
   -moz-appearance: none;
-  padding-right: 25px;
+  padding-right: 1%;
   background: #689F38 url(http://www.phytecs.com/wp-content/themes/phytec/images/drop-down-arrow-wh.png);
   -webkit-appearance: none;
   background-repeat: no-repeat;
@@ -53,16 +53,11 @@
 
 /*search bar*/
 input {
-padding: .5% 0 .5% 0%;
 font: 115% 'Raleway', sans-serif;
 background: white;
 float: right;
 border-radius: 25px;
 outline: none;
-background: white url("\e003"); 
-content: "\e003";
-background-repeat: no-repeat;
-background-position: 90% 45%;
 }
 
 input::-webkit-input-placeholder {
@@ -77,8 +72,9 @@ input:focus, input:active {
 }
 
 .form-control{
-  margin-right: -32%;
+  margin-right: -33%;
   border-radius: 25px;
+  width: 100%;
 }
 
 /* enable absolute positioning */
@@ -89,21 +85,21 @@ input:focus, input:active {
 /* style glyph */
 .inner-addon .glyphicon {
   position: absolute;
-  padding: 10px;
+  padding: 1.5%;
   cursor: pointer;
 }
 
 /* align glyph */
-.left-addon .glyphicon  { left:  0px;}
+.left-addon .glyphicon  { left:  0;}
 .right-addon .glyphicon { right: -32%;}
 
 /* add padding  */
-.left-addon input  { padding-left:  30px; }
-.right-addon input { padding-right: 30px; }
+.left-addon input  { padding-left:  25%; }
+.right-addon input { padding-right: 25%; }
 
-.form-control > input[type='text'] {
-      padding-left: 1.5%;
-      max-width : calc(100% - 1.5%);
+input[type='text'] {
+      padding-left: 2.5%;
+      max-width : calc(100% - 2.5%);
 }
 
 
@@ -292,6 +288,10 @@ td > #high{
 
   td > #valE{
     padding: 12%;
+  }
+
+  .alert{
+    margin-right: 250px !important;
   }
 }
 
