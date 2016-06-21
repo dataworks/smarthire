@@ -5,19 +5,22 @@
 			<option id="u" value="review">Review</option> 
 			<option id="u"  value="archive" >Archive</option> 
 		</select>
-	</div>
+	
 
 
-	<div class="upload">
-        <label class="btn btn-primary">
-            Upload Resume&hellip; <input type="file" style="display: none;">
-        </label>
-    </div>
+		<!-- <div class="upload"> -->
+	        <label class="btn btn-primary">
+	            Upload Resume <input type="file" style="display: none;">
+	        </label>
+	    <!-- </div> -->
 
 
-	<div class="button_box2">
-		<input id="search" ng-model="searchText" type="text" placeholder="Search here..." required>
-		<button type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true" ng-click="search(searchText)"></span></button>
+		<!-- <div class="button_box2"> -->
+			<button id="sb" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true" ng-click="search(searchText)"></span></button>
+			<input id="search" ng-model="searchText" type="text" placeholder="Search here..." required>
+			
+		<!-- </div> -->
+
 	</div>
 
 
