@@ -30,11 +30,7 @@ exports.query = function(config, req, res, query, handler) {
     // Release client resources
     client.close();
   }, function(err) {
-    console.log(err.message);
-    res.status(400).send(err.message);
-
-    // Release client resources
-    client.close();
+      errorMessage(err, res)
   });
 };
 
@@ -54,33 +50,25 @@ exports.defaultHandler = function(res, hits) {
 /**
  * Creates a new index
  */
-exports.index = function(config, req, res) {
+exports.index = function(config, params, res) {
   var client = new elasticsearch.Client({
     host: config.url
   });
 
-  var id = req.body.id;
-  var type = req.body.type;
-
   client.index({
     index: config.index,
     type: config.type,
-    id: id,
+    id: params.id,
     body: {
-      id: id,
-      type: type,
+      id: params.id,
+      type: params.type,
     },
     refresh: true
   }).then(function(response) {
     client.close();
     res.end();
   }, function(err) {
-    console.log(err.message);
-    res.status(400).send(err.message);
-
-    // Release client resources
-    client.close();
-    res.end();
+      errorMessage(err, res);
   });
 }
 
@@ -98,11 +86,15 @@ exports.delete = function(config, req, res) {
     client.close();
     res.end();
   }, function(err) {
-    console.log(err.message);
-    res.status(400).send(err.message);
-
-    // Release client resources
-    client.close();
-    res.end();
+      errorMessage(err, res);
   });
+}
+
+function errorMessage(err, res) {
+  console.log(err.message);
+  res.status(400).send(err.message);
+
+  // Release client resources
+  client.close();
+  res.end();
 }
