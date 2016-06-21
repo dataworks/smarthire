@@ -76,37 +76,36 @@ input:focus, input:active {
     border-color: #00A6F6;
 }
 
-
-#sb {
-  float: right;
-  margin-right: 30%;
+.form-control{
+  margin-right: -32%;
   border-radius: 25px;
-  border: 0;
+}
+
+/* enable absolute positioning */
+.inner-addon {
+  position: relative;
+}
+
+/* style glyph */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
   cursor: pointer;
-  padding: .8%;
-  font-size: 115%;
-  color: black;
-  text-transform: uppercase;
-  text-align: center;
-  color: #007ead;
-  outline: none;
-
-/*  border-color: #CCFF90;
-  background: -webkit-gradient(linear, left top, left bottom, from(#FFEB3B), to(#64DD17));
-  background: -moz-linear-gradient(top,  #FFEB3B,  #64DD17);*/
 }
 
-#sb:hover{
-  color: #7eb900;
-/*  border-color: #CCFF90;
-  background: -webkit-gradient(linear, left top, left bottom, from(#FFD600), to(#388E3C));
-  background: -moz-linear-gradient(top,  #FFD600,  #388E3C);*/
-}
+/* align glyph */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: -32%;}
 
-input[type='text'] {
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+
+.form-control > input[type='text'] {
       padding-left: 1.5%;
       max-width : calc(100% - 1.5%);
 }
+
 
 /*@-moz-document url-prefix() {
     .form-wrapper-2 button{

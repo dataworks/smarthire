@@ -170,7 +170,12 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       return "service/attachments?id=" + id + "&type=" + type;
     }
 
-    //search code
+    /** 
+     * return query based on text that was input in search bar
+     *
+     * @param searchText- text that was input in search bar
+     *
+     */
     $scope.search = function(searchText) {
       $scope.index = 0;
       $scope.searchText = searchText;
