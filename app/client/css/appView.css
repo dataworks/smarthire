@@ -59,9 +59,6 @@
     td{
       height: 10px !important;
     }
-    #profile{
-      height: 70px !important;
-    }
 }
 
 .well{
@@ -138,26 +135,80 @@ td > #high{
   width: 33% !important;
 }
 
-td > #val{
-  padding: 8%;
-}
+/* valG, valLi, valI, valGPA, valS*/
 
-td > #valS, td > #valL{
-  padding: 4%;
-}
+  td > #valD{
+    padding-left: 5%;
+  }
+
+  td > #valL{
+    padding-left: 4%;
+  }
+
+  td > #valM{
+    padding-left: 13.5%;
+  }
+
+  td > #valW{
+    padding-left: 8.5%;
+  }
+
+  td > #valB{
+    padding-left: 9.25%;
+  }
+
+  td > #valE{
+    padding-left: 20%;
+  }
+
+  td > #valGPA{
+    padding-left: 10%;
+  }
+
+  td > #valS{
+    padding-left: 5%;
+  }
+
 
 @media (max-width: 767px) {
   #o{
-    width: 10% !important;
+    width: 5% !important;
   }
+
   #p{
     width: 6% !important;
   }
+
   #n{
-    width: 10% !important;
+    width: 15% !important;
   }
+
   #s{
     width: 5% !important;
+  }
+
+  td > #valD{
+  padding: 4.75%;
+  }
+
+  td > #valL{
+    padding: 4%;
+  }
+
+  td > #valM{
+    padding: 9.1%;
+  }
+
+  td > #valW{
+    padding: 6%;
+  }
+
+  td > #valB{
+    padding: 7%;
+  }
+
+  td > #valE{
+    padding: 12%;
   }
 }
 
