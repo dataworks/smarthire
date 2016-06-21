@@ -7,12 +7,18 @@
 		</select>
 	</div>
 
-	<div class="upload">
-            <label class="btn btn-primary">
-                Upload Resume&hellip; <input type="file" style="display: none;">
-            </label>
-        </div>
 
+	<div class="upload">
+        <label class="btn btn-primary">
+            Upload Resume&hellip; <input type="file" style="display: none;">
+        </label>
+    </div>
+
+
+	<div class="button_box2">
+		<input id="search" ng-model="searchText" type="text" placeholder="Search here..." required>
+		<button type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true" ng-click="search(searchText)"></span></button>
+	</div>
 
 
 	<div infinite-scroll="nextPage()" infinite-scroll-disabled="loadingData" infinite-scroll-check="false" infinite-scroll-distance="1">
@@ -29,7 +35,7 @@
 					</tr>
 				</thead>
 				
-				<tbody ng-repeat="applicant in applicants | orderBy:propertyName:reverse | filter:searchText track by applicant.id">
+				<tbody ng-repeat="applicant in applicants | orderBy:propertyName:reverse">
 					<tr class="accordion-toggle">
 						<td id="p"><img id = "profile" ng-src="{{getLink(applicant.id, 'image')}}" onerror="this.src='images/profile.png'"></td>
 						<td id="s"><span id="high" ng-if="applicant.score >= 0.7">{{applicant.score}}</span>
