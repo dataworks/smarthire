@@ -3,7 +3,7 @@ var config = require("./config.js");
 
 //creates index for labels
 exports.index = function(req, res) {
-  esservice.index(config.labels, req, res);
+  esservice.index(config.labels, req.body, res);
 }
 
 //calls delte method for labels
