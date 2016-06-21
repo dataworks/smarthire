@@ -32,14 +32,14 @@
   font-weight: bold;
   font-size: 115%;
   margin-bottom: 1%;
-  background: #00A6F6;
+  background: #689F38;
   color: white;
   border: 0;
   border-radius: 20px;
   padding: .5% 1%;
   -moz-appearance: none;
   padding-right: 25px;
-  background: #00A6F6 url(http://www.phytecs.com/wp-content/themes/phytec/images/drop-down-arrow-wh.png);
+  background: #689F38 url(http://www.phytecs.com/wp-content/themes/phytec/images/drop-down-arrow-wh.png);
   -webkit-appearance: none;
   background-repeat: no-repeat;
   background-position: 90% 45%;
@@ -59,6 +59,10 @@ background: white;
 float: right;
 border-radius: 25px;
 outline: none;
+background: white url("\e003"); 
+content: "\e003";
+background-repeat: no-repeat;
+background-position: 90% 45%;
 }
 
 input::-webkit-input-placeholder {
@@ -84,15 +88,19 @@ input:focus, input:active {
   color: black;
   text-transform: uppercase;
   text-align: center;
-  border-color: #CCFF90;
+  color: #007ead;
+  outline: none;
+
+/*  border-color: #CCFF90;
   background: -webkit-gradient(linear, left top, left bottom, from(#FFEB3B), to(#64DD17));
-  background: -moz-linear-gradient(top,  #FFEB3B,  #64DD17);
+  background: -moz-linear-gradient(top,  #FFEB3B,  #64DD17);*/
 }
 
 #sb:hover{
-  border-color: #CCFF90;
+  color: #7eb900;
+/*  border-color: #CCFF90;
   background: -webkit-gradient(linear, left top, left bottom, from(#FFD600), to(#388E3C));
-  background: -moz-linear-gradient(top,  #FFD600,  #388E3C);
+  background: -moz-linear-gradient(top,  #FFD600,  #388E3C);*/
 }
 
 input[type='text'] {
@@ -114,7 +122,7 @@ input[type='text'] {
 /*upload button*/
 .btn-primary {
     color: white;
-    background-color: #00A6F6;
+    background-color: #689F38;
     border: none;
     float: right;
     font-family: 'Ubuntu', sans-serif;
@@ -124,7 +132,7 @@ input[type='text'] {
 }
 
 .btn-primary:hover{
-  background: #1976D2;
+  background: #1B5E20;
   border: none;
 }
 
@@ -138,8 +146,8 @@ input[type='text'] {
 }
 
 .well{
-  background-color: #CCFF90;
-  color: black;
+  background-color: #689F38;
+  color: white;
   border-radius: 5px 20px 5px;
   /*font-weight: bold;*/
   font-family: 'Gurajada', serif;
