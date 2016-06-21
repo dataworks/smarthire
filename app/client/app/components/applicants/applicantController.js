@@ -20,6 +20,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
     //sorting table by column code
     $scope.propertyName = null;
     $scope.reverse = false;
+    $scope.searchText = "";
 
     /**
      * sort by property name. function is called when column is clicked
@@ -71,7 +72,9 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       if ($scope.hasData) {
         $scope.loadingData = true;
         $scope.index += $scope.pageSize;
+
         Applicant.query({
+          query: $scope.searchText,
           type: $scope.selection,
           from: $scope.index,
           size: $scope.pageSize
@@ -143,38 +146,29 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       console.log("now i am here");
     }
 
+    /** 
+     * return document (image or PDF) from a link
+     *
+     * @param id- id of applicant
+     * @param type- type of document either an image or a PDF
+     *
+     */
+
     $scope.getLink = function(id, type) {
       return "service/attachments?id=" + id + "&type=" + type;
     }
 
-    //code for searching
-    $scope.foundPeople = [];
-    $scope.searchTracker = 0;
-    $scope.allResults = false;
-    $scope.searchTerm = $location.search().q
+    //search code
+    $scope.search = function(searchText) {
+      $scope.index = 0;
+      $scope.searchText = searchText;
 
-    $scope.search = function() {
-      $scope.foundPeople = [];
-      $scope.searchTracker = 0;
-      $scope.allResults = false;
-      $location.search({
-        'q': $scope.searchTerm
+      $scope.applicants = Applicant.query({
+        query: $scope.searchText,
+        from: $scope.index,
+        size: $scope.pageSize
       });
-      $scope.loadMore();
     }
-
-    $scope.loadMore = function() {
-      foundPeople.search($scope.searchTerm, $scope.searchTracker++).then(function(results) {
-        if (results.length !== 10) {
-          $scope.allResults = true;
-        }
-        var i = 0;
-
-        for (; i < results.length; i++) {
-          $scope.foundPeople.push(results[i]);
-        }
-      });
-    };
 
     //scroll code
     $(function() {
