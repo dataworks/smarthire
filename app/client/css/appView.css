@@ -291,16 +291,16 @@ td > #high{
   }
 
   .alert{
-    margin-right: 225px !important;
+    margin-right: 200px !important;
   }
-
-  .right-addon .glyphicon {
-    right: -30%;
+  
+  .inner-addon .glyphicon {
+  position: absolute;
+  margin-top: 3.5%;
+  margin-right: 3.5%;
+  padding: 2%;
+  cursor: pointer;
   }
-
-  .form-control{
-  margin-right: -30%;
-}
 
 }
 

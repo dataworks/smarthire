@@ -12,11 +12,10 @@
   /*outline: 1px solid black;*/
 }
 
-/*.page-header{
-  background-color: #CCFF90;
+.page-header{
   border-bottom: 0;
 }
-
+/*
 .page-header > h1{
   font-size: 550%; 
   color : #1976D2;
