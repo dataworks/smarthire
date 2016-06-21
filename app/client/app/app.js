@@ -18,10 +18,6 @@ applicantApp.config(['$routeProvider', '$locationProvider', 'ngToastProvider',
       templateUrl: 'app/components/applicants/applicantView.html',
       controller: 'ApplicantCtrl'
     }).
-    when('/search', {
-      templateUrl: 'app/components/search/searchView.html',
-      controller: 'SearchCtrl'
-    }).
     when('/about', {
       templateUrl: 'app/components/about/aboutView.html',
       controller: 'AboutCtrl'
