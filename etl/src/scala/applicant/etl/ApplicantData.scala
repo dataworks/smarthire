@@ -6,7 +6,7 @@ import java.text.DecimalFormat
 import java.net.{URL, HttpURLConnection}
 import scala.io._
 import scala.util._
-import scala.collection.mutable.{ListBuffer, Map, LinkedHashMap, HashMap}
+import scala.collection.mutable.{ListBuffer, Map, LinkedHashMap}
 import org.apache.spark.mllib.feature.{Word2Vec, Word2VecModel}
 
 class ApplicantData {
@@ -25,7 +25,7 @@ class ApplicantData {
   var df: DecimalFormat = new DecimalFormat("#.##")
   var githubData = Map[String,String]()
   val r = scala.util.Random
-  var score = r.nextDouble
+  var score = Math.round(r.nextDouble*1e2)/1e2
 
   def toMap(): Map[String, Any] = {
 
@@ -125,7 +125,7 @@ object ApplicantData {
       }
     }
 
-    app.githubData = ApiMapper.githubAPI(app.github)
+    app.githubData = collection.mutable.Map(ApiMapper.githubAPI(app.github).toSeq: _*)
 
     return app
   }

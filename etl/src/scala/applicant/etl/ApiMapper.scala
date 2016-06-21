@@ -6,7 +6,6 @@ import java.net.{URL, HttpURLConnection}
 import scala.io._
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
-import scala.collection.mutable.Map
 
 /**
  * Class to retrieve JSON data from URLs and convert them

@@ -53,7 +53,7 @@ class ScoreCalculator {
       }
     }
 
-    val featuresScore = matches / 20
+    val featuresScore = matches
     return featuresScore
   }
 
