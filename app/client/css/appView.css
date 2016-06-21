@@ -84,7 +84,7 @@ input:focus, input:active {
 
 /* style glyph */
 .inner-addon .glyphicon {
-  position: relative;
+  position: absolute;
   padding: 1.5%;
   cursor: pointer;
 }
@@ -168,7 +168,7 @@ th{
 }
 
 #s > a, #n > a{
-  color: #6A1B9A;
+  color: #689F38;
 }
 
 td > #high{
@@ -293,13 +293,11 @@ td > #high{
   .alert{
     margin-right: 200px !important;
   }
-  
+
   .inner-addon .glyphicon {
-  position: absolute;
-  margin-top: 3.5%;
-  margin-right: 3.5%;
-  padding: 2%;
-  cursor: pointer;
+  margin-top: 3.5% !important;
+  margin-right: 3.5% !important;
+  padding: 2% !important;
   }
 
 }
