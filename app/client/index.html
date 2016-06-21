@@ -12,6 +12,9 @@
 	<!--Google font -->
 	<link href='https://fonts.googleapis.com/css?family=Jaldi:700|Alegreya|Original+Surfer|Gurajada|Ubuntu:500|Raleway' rel='stylesheet' type='text/css'>
 	<link href="sticky-footer.css" rel="stylesheet">
+
+	<!--ngToast dependencies -->
+	<link rel="stylesheet" href="ng-toast/dist/ngToast.min.css"/>
 	
 
 	<!-- header code needed for fixed nav bar -->
@@ -51,10 +54,6 @@
 						<li id="a" role="presentation" ng-class="{ active: isActive('about')}"><a href="about">About</a></li>
 						<li id="c2" role="presentation" ng-class="{ active: isActive('contact')}"><a href="contact">Contact</a></li>
 						
-					</ul>
-					<!-- SEARCH BAR DOES NOT WORK -->
-					<ul class="nav navbar-nav navbar-right">
-
 					</ul>
 				</div>
 			</div>
@@ -118,6 +117,9 @@
 <script src="app/components/about/aboutController.js"></script>
 <script src="app/components/contact/contactController.js"></script>
 <script src="ng-infinite-scroll/build/ng-infinite-scroll.min.js"></script>
+<script src="ng-toast/dist/ngToast.min.js"></script>
+<script src="angular-sanitize/angular-sanitize.min.js"></script>
+
 
 </body>
 </html>
