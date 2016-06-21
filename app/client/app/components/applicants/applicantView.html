@@ -26,7 +26,7 @@
 		    <div class="form-group col-xs-6">
 		        <div class="inner-addon right-addon">
 		          <i class="glyphicon glyphicon-search" ng-click="search(searchText)"></i>
-		          <input type="text" class="form-control" id="search" ng-model="searchText" placeholder="Search here..." required>
+		          <input type="text" ng-keyup="$event.keyCode == 13 && search(searchText)" class="form-control" id="search" ng-model="searchText" placeholder="Search here..." required>
 		        </div>
 		      </div>
 		    </div>
