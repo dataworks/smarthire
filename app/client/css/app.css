@@ -15,12 +15,6 @@
 .page-header{
   border-bottom: 0;
 }
-/*
-.page-header > h1{
-  font-size: 550%; 
-  color : #1976D2;
-  padding-top: 2.5%;
-}*/
 
 @media (max-width: 767px) {
 /*  .page-header > h1{
@@ -37,18 +31,7 @@
     width: 100%;
     margin-top: 25%;
   }
-/*  .form-wrapper-2 button{
-    padding: 1.28% !important;
-    font-size: 60% !important;
-    margin-top: 2.5% !important;
-  }
-  .form-wrapper-2 input{
-    padding: .9% !important;
-    margin-top: 2.5% !important;
-  }
-  .navbar-right{
-    padding-left: 0% !important;
-  }*/
+
   #fb{
     padding-top: 1.5%
   }
@@ -100,12 +83,9 @@
   border: none;
 }
 
-.navbar-header > p{
-  color: white;
-  font-size: 175%;
-  margin-top: 2%;
-  /*padding-right: 30%;*/
-  font-weight: bold;
+.navbar-header{
+  width: 50%;
+  padding-top: .5%;
 }
 
 
@@ -113,28 +93,23 @@
   font-weight: bold;
   color: white;
   font-size: 150%;
-  text-align: right;
 }
  
- #h, #a, #c2{
+ /*#h, #a, #c2,#drop{
   margin-top: 2.5%;
- }
+ }*/
 
-
-/*.dropdown-menu li a{
+ .dropdown-menu li a{
   color: black !important;
   font-size: 125% !important;
   font-family: 'Raleway', sans-serif !important;
   font-weight: normal;
 }
 
-.dropdown-header {
-  color: black !important;
-  font-size: 150% !important;
-  font-family: 'Raleway', sans-serif !important;
-  font-weight: normal;
+.dropdown-menu > #log{
+  vertical-align: center;
 }
-*/
+
 body {
   padding-top: 1.5%;
   padding-bottom: 0%;
@@ -198,7 +173,6 @@ body {
 #target{
   height: auto;
   width: 40%;
-  padding-top: 1%;
 }
 
 /* Sticky footer styles
