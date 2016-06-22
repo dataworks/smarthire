@@ -32,6 +32,19 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       $scope.propertyName = propertyName;
     };
 
+    $scope.sort = function() {
+      $scope.index = 0;
+
+      $scope.applicants = Applicant.query({
+        type: $scope.selection,
+        from: $scope.index,
+        size: $scope.pageSize,
+        sort: "score"
+      });
+
+      console.log("hello");
+    }
+
     /**
      * change queries when new type is selected from the dropdown menu
      *
@@ -138,7 +151,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
         ngToast.create({
           className: 'warning',
           content: 'Applicant added to Review'
-        })
+        });
 
       }
 
@@ -146,7 +159,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
         ngToast.create({
           className: 'danger',
           content: 'Applicant added to Archive'
-        })
+        });
 
       }
 
@@ -154,7 +167,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
         ngToast.create({
           className: 'info',
           content: 'Applicant sent back to home page'
-        })
+        });
 
       }
     }

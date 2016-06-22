@@ -11,6 +11,11 @@ exports.query = function(config, req, res, query, handler) {
     from: req ? req.query.from : null,
     size: req ? req.query.size : null,
     body: {
+      sort: [
+        {
+          "score" :{"order" : "asc", "ignore_unmapped" : true}
+        }
+      ], 
       query: {
         query_string: {
           query: query,
