@@ -249,7 +249,8 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
 
             if(file)
               reader.readAsDataURL(file);
-          }
+          } else
+              alert('only pdf or word doc files')
         })(files[i]);
       }
     }
@@ -283,3 +284,13 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
     });
   }
 ]);
+
+applicantControllers.directive('customOnChange', function() {
+  return {
+    restrict: 'A',
+    link: function (scope, element, attrs) {
+      var onChangeFunc = scope.$eval(attrs.customOnChange);
+      element.bind('change', onChangeFunc);
+    }
+  };
+});
