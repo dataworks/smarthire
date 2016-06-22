@@ -1,12 +1,8 @@
 package applicant.ml.score
 
-import org.apache.spark.SparkConf
-import org.apache.spark.SparkContext
-import scopt.OptionParser
 import scala.collection.mutable.HashMap
 import applicant.nlp.LuceneTokenizer
 import applicant.etl._
-import java.io.File
 import java.lang._
 import java.util.regex
 import org.apache.spark.mllib.feature.{Word2Vec, Word2VecModel}
@@ -15,21 +11,6 @@ import org.apache.spark.mllib.feature.{Word2Vec, Word2VecModel}
  *
  */
 class FeatureGenerator {
-
-  val conf = new SparkConf().setMaster("local[*]")
-    .setAppName("ResumeParser").set("es.nodes", "172.31.61.189")
-    .set("es.port", "9200")
-    .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-
-  /*
-   The internal hostname is ip-172-31-61-189.ec2.internal (172.31.61.189).  Internally the REST API is available on port 9200 and the native transport runs on port 9300.
-  */
-
-  //Create Spark RDD using conf
-  val sc = new SparkContext(conf)
-
-  //Create Word2Vec model and synonym hash map
-  val w2vModel = Word2VecModel.load(sc, "model/w2v")
 
   /**
    * Calculates first feature
