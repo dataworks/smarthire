@@ -70,7 +70,9 @@ object ResumeParser {
       fileCount += 1
       broadcastExtractor.synchronized {
         val entitySet = broadcastExtractor.value.extractEntities(text)
-        ApplicantData(entitySet, Base64.encodeBase64String(MessageDigest.getInstance("MD5").digest(currentFile.toArray)), text)
+        val applicantid = Base64.encodeBase64String(MessageDigest.getInstance("MD5").digest(currentFile.toArray))
+        val app = ApplicantData(entitySet, applicantid, text)
+        app.toMap()
       }
 
     }.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))

@@ -168,7 +168,7 @@ th{
 }
 
 #s > a, #n > a{
-  color: #6A1B9A;
+  color: #689F38;
 }
 
 td > #high{
@@ -291,8 +291,15 @@ td > #high{
   }
 
   .alert{
-    margin-right: 250px !important;
+    margin-right: 200px !important;
   }
+
+  .inner-addon .glyphicon {
+  margin-top: 3.5% !important;
+  margin-right: 3.5% !important;
+  padding: 2% !important;
+  }
+
 }
 
 td{
