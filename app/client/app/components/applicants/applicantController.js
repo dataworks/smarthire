@@ -1,14 +1,10 @@
 applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applicant', 'Label', 'Upload', '$window', 'ngToast', '$timeout',
   function($scope, $location, Applicant, Label, Upload, $window, ngToast, $timeout) {
 
-    //default query
-    $scope.applicants = Applicant.query({
-      from: $scope.index,
-      size: $scope.pageSize
-    });
-
     //default dropdown menu to 'new' on page load
     $scope.selection = "new";
+    $scope.sort = "score";
+    $scope.sortOrder = "desc";
 
     //query should start off at index 0, displaying first item
     $scope.index = 0;
@@ -22,15 +18,49 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
     $scope.reverse = false;
     $scope.searchText = "";
 
+    //default query
+    $scope.applicants = Applicant.query({
+      from: $scope.index,
+      size: $scope.pageSize,
+      sort: $scope.sort,
+      order: $scope.sortOrder
+    });
+
     /**
      * sort by property name. function is called when column is clicked
      *
-     * @param propertyName- type to sort by (i.e. Score)
+     * @param type- type to sort by (i.e. Score)
      */
-    $scope.sortBy = function(propertyName) {
-      $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
-      $scope.propertyName = propertyName;
-    };
+
+    $scope.sortColumn = function(type) {
+      $scope.index = 0;
+      $scope.hasData = true;
+      $scope.sort = type;
+
+      if (type == "score") {
+        $scope.sortBool = false;
+      } else {
+        $scope.sortBool = true;
+      }
+
+      if ($scope.sortOrder == "asc") {
+        $scope.sortOrder = "desc";
+        $scope.reverse = false;
+      } 
+
+      else if ($scope.sortOrder == "desc") {
+        $scope.sortOrder = "asc";
+        $scope.reverse = true;
+      }
+
+      $scope.applicants = Applicant.query({
+        type: $scope.selection,
+        from: $scope.index,
+        size: $scope.pageSize,
+        sort: $scope.sort,
+        order: $scope.sortOrder
+      });
+    }
 
     /**
      * change queries when new type is selected from the dropdown menu
@@ -45,7 +75,9 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       $scope.applicants = Applicant.query({
         type: type,
         from: $scope.index,
-        size: $scope.pageSize
+        size: $scope.pageSize,
+        sort: $scope.sort,
+        order: $scope.sortOrder
       });
     };
 
@@ -78,7 +110,9 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
           query: $scope.searchText,
           type: $scope.selection,
           from: $scope.index,
-          size: $scope.pageSize
+          size: $scope.pageSize,
+          order: $scope.sortOrder,
+          sort: $scope.sort
         }, $scope.dataLoaded);
       };
     }
@@ -138,7 +172,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
         ngToast.create({
           className: 'warning',
           content: 'Applicant added to Review'
-        })
+        });
 
       }
 
@@ -146,7 +180,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
         ngToast.create({
           className: 'danger',
           content: 'Applicant added to Archive'
-        })
+        });
 
       }
 
@@ -154,7 +188,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
         ngToast.create({
           className: 'info',
           content: 'Applicant sent back to home page'
-        })
+        });
 
       }
     }
