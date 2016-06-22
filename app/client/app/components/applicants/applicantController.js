@@ -230,7 +230,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       var files = document.querySelector('input[type=file]').files;
       for(var i = 0; i < files.length; i++) {
         (function(file) {
-          if(file.type === 'application/pdf') {
+          if(file.type === 'application/pdf' || file.type === 'application/doc') {
             var reader = new FileReader();
 
             reader.addEventListener("load", function () {
