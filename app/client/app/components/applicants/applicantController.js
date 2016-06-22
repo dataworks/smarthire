@@ -29,16 +29,19 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
     /**
      * sort by property name. function is called when column is clicked
      *
-     * @param propertyName- type to sort by (i.e. Score)
+     * @param type- type to sort by (i.e. Score)
      */
-    // $scope.sortBy = function(propertyName) {
-    //   $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
-    //   $scope.propertyName = propertyName;
-    // };
 
-    $scope.sortColumn = function() {
+    $scope.sortColumn = function(type) {
       $scope.index = 0;
       $scope.hasData = true;
+      $scope.sort = type;
+
+      if (type == "score") {
+        $scope.sortBool = false;
+      } else {
+        $scope.sortBool = true;
+      }
 
       if ($scope.sortOrder == "asc") {
         $scope.sortOrder = "desc";
