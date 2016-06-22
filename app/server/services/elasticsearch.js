@@ -1,6 +1,6 @@
 var elasticsearch = require('elasticsearch');
 
-exports.query = function(config, req, res, query, handler) {
+exports.query = function(config, params, res, query, handler) {
   var client = new elasticsearch.Client({
     host: config.url
   });
@@ -8,8 +8,8 @@ exports.query = function(config, req, res, query, handler) {
   client.search({
     index: config.index,
     type: config.type,
-    from: req ? req.query.from : null,
-    size: req ? req.query.size : null,
+    from: params ? params.from : null,
+    size: params ? params.size : null,
     body: {
       sort: [
         {
@@ -78,7 +78,7 @@ exports.index = function(config, params, res) {
 }
 
 //allows item to be deleted from index
-exports.delete = function(config, req, res) {
+exports.delete = function(config, params, res) {
   var client = new elasticsearch.Client({
     host: config.url
   });
@@ -86,7 +86,7 @@ exports.delete = function(config, req, res) {
   client.delete({
     index: config.index,
     type: config.type,
-    id: req.params.id
+    id: params.id
   }).then(function(response) {
     client.close();
     res.end();

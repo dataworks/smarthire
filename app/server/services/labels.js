@@ -8,5 +8,5 @@ exports.index = function(req, res) {
 
 //calls delte method for labels
 exports.delete = function(req, res) {
-  esservice.delete(config.labels, req, res);
+  esservice.delete(config.labels, req.params, res);
 }
