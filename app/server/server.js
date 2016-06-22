@@ -7,6 +7,7 @@ var app = express();
 var applicantService = require("./services/applicants.js");
 var labelService = require("./services/labels.js");
 var attachmentService = require("./services/attachments.js");
+var uploadService = require("./services/uploads.js");
 
 app.use(express.static("client"));
 
@@ -39,6 +40,10 @@ app.delete("/service/labels/:id", function(req, res) {
 
 app.get("/service/attachments", function(req, res) {
   attachmentService.getAttachment(req, res);
+});
+
+app.post("/service/uploads", function(req,res) {
+  uploadService.index(req,res);
 });
 
 root.get("/", function(req, res) {

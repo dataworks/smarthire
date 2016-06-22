@@ -1,14 +1,10 @@
-applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applicant', 'Label', '$window', 'ngToast', '$timeout',
-  function($scope, $location, Applicant, Label, $window, ngToast, $timeout) {
-
-    //default query
-    $scope.applicants = Applicant.query({
-      from: $scope.index,
-      size: $scope.pageSize
-    });
+applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applicant', 'Label', 'Upload', '$window', 'ngToast', '$timeout',
+  function($scope, $location, Applicant, Label, Upload, $window, ngToast, $timeout) {
 
     //default dropdown menu to 'new' on page load
     $scope.selection = "new";
+    $scope.sort = "score";
+    $scope.sortOrder = "desc";
 
     //query should start off at index 0, displaying first item
     $scope.index = 0;
@@ -22,15 +18,49 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
     $scope.reverse = false;
     $scope.searchText = "";
 
+    //default query
+    $scope.applicants = Applicant.query({
+      from: $scope.index,
+      size: $scope.pageSize,
+      sort: $scope.sort,
+      order: $scope.sortOrder
+    });
+
     /**
      * sort by property name. function is called when column is clicked
      *
-     * @param propertyName- type to sort by (i.e. Score)
+     * @param type- type to sort by (i.e. Score)
      */
-    $scope.sortBy = function(propertyName) {
-      $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
-      $scope.propertyName = propertyName;
-    };
+
+    $scope.sortColumn = function(type) {
+      $scope.index = 0;
+      $scope.hasData = true;
+      $scope.sort = type;
+
+      if (type == "score") {
+        $scope.sortBool = false;
+      } else {
+        $scope.sortBool = true;
+      }
+
+      if ($scope.sortOrder == "asc") {
+        $scope.sortOrder = "desc";
+        $scope.reverse = false;
+      } 
+
+      else if ($scope.sortOrder == "desc") {
+        $scope.sortOrder = "asc";
+        $scope.reverse = true;
+      }
+
+      $scope.applicants = Applicant.query({
+        type: $scope.selection,
+        from: $scope.index,
+        size: $scope.pageSize,
+        sort: $scope.sort,
+        order: $scope.sortOrder
+      });
+    }
 
     /**
      * change queries when new type is selected from the dropdown menu
@@ -45,7 +75,9 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       $scope.applicants = Applicant.query({
         type: type,
         from: $scope.index,
-        size: $scope.pageSize
+        size: $scope.pageSize,
+        sort: $scope.sort,
+        order: $scope.sortOrder
       });
     };
 
@@ -78,7 +110,9 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
           query: $scope.searchText,
           type: $scope.selection,
           from: $scope.index,
-          size: $scope.pageSize
+          size: $scope.pageSize,
+          order: $scope.sortOrder,
+          sort: $scope.sort
         }, $scope.dataLoaded);
       };
     }
@@ -138,7 +172,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
         ngToast.create({
           className: 'warning',
           content: 'Applicant added to Review'
-        })
+        });
 
       }
 
@@ -146,7 +180,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
         ngToast.create({
           className: 'danger',
           content: 'Applicant added to Archive'
-        })
+        });
 
       }
 
@@ -154,7 +188,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
         ngToast.create({
           className: 'info',
           content: 'Applicant sent back to home page'
-        })
+        });
 
       }
     }
@@ -188,18 +222,37 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       });
     }
 
+    /** 
+     * Converts user uploaded files to base64 strings and indexes them 
+     *
+     */
     $scope.upload = function() {
-      var file = document.querySelector('input[type=file]').files[0];
-      var reader = new FileReader();
+      var files = document.querySelector('input[type=file]').files;
+      for(var i = 0; i < files.length; i++) {
+        (function(file) {
+          if(file.type === 'application/pdf' || file.type === 'application/doc') {
+            var reader = new FileReader();
 
-      reader.addEventListener("load", function() {
-        var base64string = reader.result;
-        var id = "1" + (Math.floor((Math.random() * (1000000) + 0)));
-        console.log(base64string);
-      });
+            reader.addEventListener("load", function () {
+              var temp = reader.result;
+              var base64string = temp.substring(28);
+              console.log(base64string);
+              console.log(file.type);
+             
+              var upload = new Upload({
+                'type': 'upload',
+                'base64string': base64string
+              });
 
-      if(file) 
-        reader.readAsDataURL(file);
+              upload.$save();
+            }, false);
+
+            if(file)
+              reader.readAsDataURL(file);
+          } else
+              alert('only pdf or word doc files')
+        })(files[i]);
+      }
     }
 
     //scroll code
@@ -246,3 +299,15 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
     // }
 
   }]);
+
+
+applicantControllers.directive('customOnChange', function() {
+  return {
+    restrict: 'A',
+    link: function (scope, element, attrs) {
+      var onChangeFunc = scope.$eval(attrs.customOnChange);
+      element.bind('change', onChangeFunc);
+    }
+  };
+});
+
