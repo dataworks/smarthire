@@ -10,12 +10,12 @@ exports.listApplicants = function(req, res, type) {
     query = 'type: ' + type;
   }
   if (req.query.query) {// != null || req.query.query.length < 1) {
-    esservice.query(config.applicants, req, res, req.query.query, null);
+    esservice.query(config.applicants, req.query, res, req.query.query, null);
   }
   else {
-    esservice.query(config.labels, {query: {size: 5000}}, res, query, function(res, hits) {
+    esservice.query(config.labels, {size: 5000}, res, query, function(res, hits) {
       var labelQuery = buildQuery(res, hits, type);
-      esservice.query(config.applicants, req, res, labelQuery, null);
+      esservice.query(config.applicants, req.query, res, labelQuery, null);
     },function (error, response) {
       console.log(error);
     });  

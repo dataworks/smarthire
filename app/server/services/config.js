@@ -19,4 +19,10 @@ config.attachments = {
   type: "attachment"
 }
 
+config.uploads = {
+	url: host,
+	index: "uploads",
+	type: "upload"
+}
+
 module.exports = config;

@@ -191,13 +191,13 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
     $scope.upload = function() {
       var file = document.querySelector('input[type=file]').files[0];
       var reader = new FileReader();
-      console.log("sdfsd");
 
       reader.addEventListener("load", function() {
-        var base64 = reader.result;
-        console.log(base64);
-      }, false);
-      
+        var base64string = reader.result;
+        var id = "1" + (Math.floor((Math.random() * (1000000) + 0)));
+        console.log(base64string);
+      });
+
       if(file) 
         reader.readAsDataURL(file);
     }
