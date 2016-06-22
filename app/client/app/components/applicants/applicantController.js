@@ -285,6 +285,10 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
   }
 ]);
 
+/**
+*
+*
+*/
 applicantControllers.directive('customOnChange', function() {
   return {
     restrict: 'A',
