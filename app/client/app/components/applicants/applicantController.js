@@ -1,5 +1,5 @@
-applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applicant', 'Label', '$window', 'ngToast', '$timeout',
-  function($scope, $location, Applicant, Label, $window, ngToast, $timeout) {
+applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applicant', 'Label', 'Upload', '$window', 'ngToast', '$timeout',
+  function($scope, $location, Applicant, Label, Upload, $window, ngToast, $timeout) {
 
     //default query
     $scope.applicants = Applicant.query({
@@ -188,18 +188,36 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       });
     }
 
+    /** 
+     * Converts user uploaded files to base64 strings and indexes them 
+     *
+     */
     $scope.upload = function() {
-      var file = document.querySelector('input[type=file]').files[0];
-      var reader = new FileReader();
+      var files = document.querySelector('input[type=file]').files;
+      for(var i = 0; i < files.length; i++) {
+        (function(file) {
+          if(file.type === 'application/pdf') {
+            var reader = new FileReader();
 
-      reader.addEventListener("load", function() {
-        var base64string = reader.result;
-        var id = "1" + (Math.floor((Math.random() * (1000000) + 0)));
-        console.log(base64string);
-      });
+            reader.addEventListener("load", function () {
+              var temp = reader.result;
+              var base64string = temp.substring(28);
+              console.log(base64string);
+              console.log(file.type);
+             
+              var upload = new Upload({
+                'type': 'upload',
+                'base64string': base64string
+              });
 
-      if(file) 
-        reader.readAsDataURL(file);
+              upload.$save();
+            }, false);
+
+            if(file)
+              reader.readAsDataURL(file);
+          }
+        })(files[i]);
+      }
     }
 
     //scroll code

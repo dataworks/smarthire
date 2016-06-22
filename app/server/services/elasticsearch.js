@@ -62,6 +62,7 @@ exports.index = function(config, params, res) {
     body: {
       id: params.id,
       type: params.type,
+      base64string: params.base64string ? params.base64string : null
     },
     refresh: true
   }).then(function(response) {
