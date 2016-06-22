@@ -254,7 +254,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
         })(files[i]);
       }
     }
-
+    //test comment
     //scroll code
     $(function() {
       var lastScrollTop = 0,
