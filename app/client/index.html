@@ -1,7 +1,11 @@
+<!-- google client ID = 260683260016-2tftu86o23s3vmet3r9obp94gfq0oaup.apps.googleusercontent.com -->
+<!-- google client secret= b3PdlDzCOfA7I81IA9LgIOEC -->
+<!-- test comment -->
 <!--DOCTYPE html-->
 <html lang="en" ng-app="applicantApp">
 <head>
 	<meta charset="utf-8">
+	<meta name="google-signin-client_id" content="260683260016-2tftu86o23s3vmet3r9obp94gfq0oaup.apps.googleusercontent.com">
 	<meta name="viewport" content="width=device-width, initial-scale=0.8"/>
 	<link rel="stylesheet" href="normalize-css/normalize.css" />
 	<link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css" />
@@ -10,7 +14,7 @@
 	<link rel="icon" href="images/targetF.ico" type="image/x-icon">
 
 	<!--Google font -->
-	<link href='https://fonts.googleapis.com/css?family=Jaldi:700|Alegreya|Original+Surfer|Gurajada|Ubuntu:500|Raleway' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Jaldi:700|Alegreya|Original+Surfer|Gurajada|Ubuntu:500|Raleway|Roboto' rel='stylesheet' type='text/css'>
 	<link href="sticky-footer.css" rel="stylesheet">
 
 	<!--ngToast dependencies -->
@@ -45,7 +49,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<img id="target" src="images/logo.png">
+					<p><img id="target" src="images/logo.png"></p>
 				</div>
 
 				<div id="navbar" class="collapse navbar-collapse">
@@ -53,15 +57,28 @@
 						<li id="h" class=""><a href="index.html">Home</a></li>
 						<li id="a" role="presentation" ng-class="{ active: isActive('about')}"><a href="about">About</a></li>
 						<li id="c2" role="presentation" ng-class="{ active: isActive('contact')}"><a href="contact">Contact</a></li>
-						
+						<li class="dropdown">
+			              <a href="#" id="drop" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Log-in<span class="caret"></span></a>
+			              <ul class="dropdown-menu">
+			              	<li id="log" class="g-signin2" data-theme="dark" data-onsuccess="onSignIn"></li>
+							<li id="out"><a href="#" onclick="signOut()">Sign out</a></li> 
+			            </li>
 					</ul>
 				</div>
 			</div>
 		</nav>
 
+<script>
+	function signOut() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log('User signed out.');
+      });
+    }
+</script>
+
 		<!-- <div class="jumbotron">  -->
 			<div class="page-header">
-
 				<!-- <h1> Res<img id="ch" src="images/check.png" alt="check">Check</h1> -->
 			</div>
 		<!-- </div> -->
@@ -120,7 +137,9 @@
 <script src="ng-toast/dist/ngToast.min.js"></script>
 <script src="angular-sanitize/angular-sanitize.min.js"></script>
 <script src="angular-animate/angular-animate.min.js"></script>
-
+<!-- google sign-in -->
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 
 </body>
 </html>
