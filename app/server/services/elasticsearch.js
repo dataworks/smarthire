@@ -4,6 +4,7 @@ exports.query = function(config, params, res, query, handler) {
   var client = new elasticsearch.Client({
     host: config.url
   });
+
   // Execute ES Query
   client.search({
     index: config.index,
@@ -13,7 +14,7 @@ exports.query = function(config, params, res, query, handler) {
     body: {
       sort: [
         {
-          "score" :{"order" : "asc", "ignore_unmapped" : true}
+          "score" :{"order" : (params ? params.order : null), "ignore_unmapped" : true}
         }
       ], 
       query: {

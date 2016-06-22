@@ -4,11 +4,13 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
     //default query
     $scope.applicants = Applicant.query({
       from: $scope.index,
-      size: $scope.pageSize
+      size: $scope.pageSize,
+      order: $scope.sortOrder
     });
 
     //default dropdown menu to 'new' on page load
     $scope.selection = "new";
+    $scope.sortOrder = "asc";
 
     //query should start off at index 0, displaying first item
     $scope.index = 0;
@@ -34,15 +36,23 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
 
     $scope.sort = function() {
       $scope.index = 0;
+      $scope.hasData = true;
+
+      if ($scope.sortOrder == "asc") {
+        $scope.sortOrder = "desc";
+      } 
+
+      else if ($scope.sortOrder == "desc") {
+        $scope.sortOrder = "asc";
+      }
 
       $scope.applicants = Applicant.query({
         type: $scope.selection,
         from: $scope.index,
         size: $scope.pageSize,
-        sort: "score"
+        //sort: "score",
+        order: $scope.sortOrder
       });
-
-      console.log("hello");
     }
 
     /**
@@ -91,7 +101,8 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
           query: $scope.searchText,
           type: $scope.selection,
           from: $scope.index,
-          size: $scope.pageSize
+          size: $scope.pageSize,
+          order: $scope.sortOrder
         }, $scope.dataLoaded);
       };
     }
