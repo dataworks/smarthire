@@ -21,7 +21,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
 
     //sorting table by column code
     $scope.propertyName = null;
-    $scope.reverse = false;
+    $scope.reverse = true;
     $scope.searchText = "";
 
     /**
@@ -29,10 +29,10 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
      *
      * @param propertyName- type to sort by (i.e. Score)
      */
-    $scope.sortBy = function(propertyName) {
-      $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
-      $scope.propertyName = propertyName;
-    };
+    // $scope.sortBy = function(propertyName) {
+    //   $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
+    //   $scope.propertyName = propertyName;
+    // };
 
     $scope.sort = function() {
       $scope.index = 0;
@@ -40,10 +40,12 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
 
       if ($scope.sortOrder == "asc") {
         $scope.sortOrder = "desc";
+        $scope.reverse = false;
       } 
 
       else if ($scope.sortOrder == "desc") {
         $scope.sortOrder = "asc";
+        $scope.reverse = true;
       }
 
       $scope.applicants = Applicant.query({

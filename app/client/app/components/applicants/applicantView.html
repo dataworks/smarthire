@@ -24,15 +24,15 @@
       <thead id="head">
         <tr>
           <th id="p">Profile</th>
-          <th id="s"><a title="Click to Sort Score." ng-click="sort()">Score</a>
-          <th id="n"><a title="Click to sort Name." ng-click="sortBy('-name')">Name</a><span class="sortorder" ng-show="propertyName==='-name'" ng-class="{reverse: reverse}"></span></th>
+          <th id="s"><a title="Click to Sort Score." ng-click="sort()">Score</a><span class="sortorder" ng-class="{reverse: reverse}"></span></th>
+          <th id="n"><a title="Click to sort Name." ng-click="sortBy('-name')">Name</a></th>
           <th id="ci" class="hidden-xs hidden-s">Current Info</th>
           <th id="d" class="hidden-xs hidden-s">Degree</th>
           <th id="c" class="hidden-xs hidden-s">Contact</th>
           <th id="o">Options</th>
         </tr>
       </thead>
-      <tbody ng-repeat="applicant in applicants | orderBy:propertyName:reverse">
+      <tbody ng-repeat="applicant in applicants">
         <tr class="accordion-toggle">
           <td id="p"><img id = "profile" ng-src="{{getLink(applicant.id, 'image')}}" onerror="this.src='images/profile.png'"></td>
           <td id="s"><span id="high" ng-if="applicant.score >= 0.7">{{applicant.score}}</span>
