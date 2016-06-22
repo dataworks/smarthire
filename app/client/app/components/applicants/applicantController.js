@@ -1,16 +1,10 @@
 applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applicant', 'Label', '$window', 'ngToast', '$timeout',
   function($scope, $location, Applicant, Label, $window, ngToast, $timeout) {
 
-    //default query
-    $scope.applicants = Applicant.query({
-      from: $scope.index,
-      size: $scope.pageSize,
-      order: $scope.sortOrder
-    });
-
     //default dropdown menu to 'new' on page load
     $scope.selection = "new";
-    $scope.sortOrder = "asc";
+    $scope.sort = "score";
+    $scope.sortOrder = "desc";
 
     //query should start off at index 0, displaying first item
     $scope.index = 0;
@@ -21,8 +15,16 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
 
     //sorting table by column code
     $scope.propertyName = null;
-    $scope.reverse = true;
+    $scope.reverse = false;
     $scope.searchText = "";
+
+    //default query
+    $scope.applicants = Applicant.query({
+      from: $scope.index,
+      size: $scope.pageSize,
+      sort: $scope.sort,
+      order: $scope.sortOrder
+    });
 
     /**
      * sort by property name. function is called when column is clicked
@@ -34,7 +36,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
     //   $scope.propertyName = propertyName;
     // };
 
-    $scope.sort = function() {
+    $scope.sortColumn = function() {
       $scope.index = 0;
       $scope.hasData = true;
 
@@ -52,7 +54,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
         type: $scope.selection,
         from: $scope.index,
         size: $scope.pageSize,
-        //sort: "score",
+        sort: $scope.sort,
         order: $scope.sortOrder
       });
     }

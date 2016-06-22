@@ -5,6 +5,13 @@ exports.query = function(config, params, res, query, handler) {
     host: config.url
   });
 
+  var sort = {};
+  if (params && params.sort) {
+    sort[params.sort] = {"order" : (params ? params.order : null), "ignore_unmapped" : true}
+  }
+
+  console.log(sort);
+
   // Execute ES Query
   client.search({
     index: config.index,
@@ -12,14 +19,10 @@ exports.query = function(config, params, res, query, handler) {
     from: params ? params.from : null,
     size: params ? params.size : null,
     body: {
-      sort: [
-        {
-          "score" :{"order" : (params ? params.order : null), "ignore_unmapped" : true}
-        }
-      ], 
+      sort: sort ? [sort] : null,
       query: {
         query_string: {
-          query: query,
+          query: query
         }
       }
     }
