@@ -267,6 +267,14 @@ td > #high{
     width: 5% !important;
   }
 
+  #select{
+    margin-left: -1%;
+  }
+
+  #upload{
+    margin-right: -1%;
+  }
+
   td > #valD{
   padding: 4.75%;
   }
