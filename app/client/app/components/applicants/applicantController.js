@@ -288,7 +288,10 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
 
 /**
 *
-*
+* A custom directive to bind file upload
+* 
+* @param: The attributes name
+* @param: A callback function which binds the upload function to the attribute
 */
 applicantControllers.directive('customOnChange', function() {
   return {

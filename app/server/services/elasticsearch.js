@@ -56,6 +56,55 @@ exports.defaultHandler = function(res, hits) {
   res.json(hits);
 }
 
+exports.suggest = function(config, field, term, res) {
+  var client = new elasticsearch.Client({
+    host: config.url
+  });
+
+  client.search({
+    index: config.index,
+    type: config.type,
+    body: {
+      size: 0,
+      aggs: {
+        autocomplete: {
+          terms: {
+            size: 5,
+            field: field,
+            include: term + ".*",
+            order: {
+              _count: "desc"
+            }
+          }
+        }
+      },
+      query: {
+        query_string: {
+          query: term + "*"
+        }
+      }
+    }
+  }).then(function(response) {
+
+    var hits = module.exports.getSuggestions(resp);
+    module.exports.sendSuggestions(res, hits);
+    
+    client.close();
+  }, function(err) {
+      errorMessage(err, res);
+  });
+}
+
+exports.getSuggestions = function(resp) {
+  return resp.aggregations.autocomplete.buckets.map(function(hit){
+    return hit.key;
+  });
+}
+
+exports.sendSuggestions = function(res, hits) {
+  return 
+}
+
 /**
  * Creates a new index
  */

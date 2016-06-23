@@ -8,6 +8,7 @@ var applicantService = require("./services/applicants.js");
 var labelService = require("./services/labels.js");
 var attachmentService = require("./services/attachments.js");
 var uploadService = require("./services/uploads.js");
+var suggestService = require("./services/suggest.js")
 
 app.use(express.static("client"));
 
@@ -44,6 +45,10 @@ app.get("/service/attachments", function(req, res) {
 
 app.post("/service/uploads", function(req,res) {
   uploadService.index(req,res);
+});
+
+app.get("/service/applicants", function(req, res) {
+  suggestService.suggest(req, res);
 });
 
 root.get("/", function(req, res) {
