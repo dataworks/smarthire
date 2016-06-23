@@ -267,6 +267,14 @@ td > #high{
     width: 5% !important;
   }
 
+  #select{
+    margin-left: -1%;
+  }
+
+  #upload{
+    margin-right: -1%;
+  }
+
   td > #valD{
   padding: 4.75%;
   }
@@ -436,7 +444,8 @@ td{
 
 /*search dropdown*/
 .dropdown.dropdown-lg .dropdown-menu {
-    margin-top: -1px;
+    margin-top: 5%;
+    margin-left: 107%;
     padding: 6px 20px;
 }
 .input-group-btn .btn-group {
@@ -472,11 +481,12 @@ td{
   border-color: #689F38;
 }
 
-@media screen and (min-width: 768px) {
+@media (max-width: 768px) {
     .dropdown.dropdown-lg {
         position: static !important;
     }
     .dropdown.dropdown-lg .dropdown-menu {
-        min-width: 500px;
+      margin-left: -275%;
+      margin-top: 23%;
     }
 }
