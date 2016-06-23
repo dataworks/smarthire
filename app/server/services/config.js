@@ -20,9 +20,9 @@ config.attachments = {
 }
 
 config.uploads = {
-	url: host,
-	index: "uploads",
-	type: "upload"
+  url: host,
+  index: "uploads",
+  type: "upload"
 }
 
 module.exports = config;

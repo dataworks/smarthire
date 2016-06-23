@@ -1,5 +1,5 @@
-applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applicant', 'Label', 'Upload', '$window', 'ngToast', '$timeout',
-  function($scope, $location, Applicant, Label, Upload, $window, ngToast, $timeout) {
+applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applicant', 'Label', 'Suggest', 'Upload', '$window', 'ngToast', '$timeout',
+  function($scope, $location, Applicant, Label, Suggest, Upload, $window, ngToast, $timeout) {
 
     //default dropdown menu to 'new' on page load
     $scope.selection = "new";
@@ -381,7 +381,10 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
 
 /**
 *
-*
+* A custom directive to bind file upload
+* 
+* @param: The attributes name
+* @param: A callback function which binds the upload function to the attribute
 */
 applicantControllers.directive('customOnChange', function() {
   return {
