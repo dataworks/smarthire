@@ -11,35 +11,31 @@
     Upload Resume <input type="file" style="display: none;" custom-on-change="upload" multiple />
   </label>
    <!-- search bar -->
-  <div class="form-group col-xs-6">
+   <div class="form-group col-xs-6">
     <div class="inner-addon right-addon">
       <i class="glyphicon glyphicon-search" ng-click="search(searchText)"></i>
       <input type="text" ng-keyup="$event.keyCode == 13 && search(searchText)" class="form-control" id="search" ng-model="searchText" placeholder="Search here..." required>
       <div class="input-group-btn">
-                    <div class="btn-group" role="group">
-                        <div class="dropdown dropdown-lg">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
-                            <div class="dropdown-menu dropdown-menu-right" role="menu">
-                                <form class="form-horizontal" role="form">
-                                  <div class="form-group">
-                                    <label for="filter">Filter by</label>
-                                    <div class="checkbox">
-                                      <label> Education &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Location<br>
-                                        <input type="checkbox" id="csCheck"> Computer Science &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<input type="checkbox" id="vaCheck"> Virginia<br>
-                                        <input type="checkbox" id="cpeCheck"> Computer Engineering&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;<input type="checkbox" id="mdCheck"> Maryland<br>
-                                        <input type="checkbox" id="itCheck"> Information Technology&emsp;&emsp;&emsp;&emsp;&nbsp;<input type="checkbox" id="dcCheck"> Washington D.C.<br>
-                                      </label>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+          <div class="dropdown dropdown-lg">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+            <div class="dropdown-menu" role="menu">
+              <form class="form-horizontal" role="form">
+                <div class="form-group">
+                  <label for="filter">Filter by</label>
+                  <div class="checkbox">
+                    <label> Education &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Location<br>
+                      <input type="checkbox" id="csCheck"> Computer Science &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<input type="checkbox" id="vaCheck"> Virginia<br>
+                      <input type="checkbox" id="cpeCheck"> Computer Engineering&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;<input type="checkbox" id="mdCheck"> Maryland<br>
+                      <input type="checkbox" id="itCheck"> Information Technology&emsp;&emsp;&emsp;&emsp;&nbsp;<input type="checkbox" id="dcCheck"> Washington D.C.<br>
+                    </label>
+                  </div>
+                </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 <!-- needed in order to have toast -->
 <toast></toast>
