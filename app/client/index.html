@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="css/app.css" />
 	<link rel="stylesheet" href="css/appView.css" />
-	<link rel="icon" href="images/targetF.ico" type="image/x-icon">
+	<link rel="icon" href="images/favicon.ico" type="image/x-icon">
 
 	<!--Google font -->
 	<link href='https://fonts.googleapis.com/css?family=Jaldi:700|Alegreya|Original+Surfer|Gurajada|Ubuntu:500|Raleway|Roboto' rel='stylesheet' type='text/css'>
@@ -28,7 +28,7 @@
 	<meta name="author" content="">
 
 	<!-- search bar -->
-	<title>TargetPoint: Resume Search</title>
+	<title>ResCheck: Resume Search</title>
 	<meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
 	<base href='/app/'>
 
@@ -49,7 +49,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<p><img id="target" src="images/logo.png"></p>
+					<p>ResCheck</p>
 				</div>
 
 				<div id="navbar" class="collapse navbar-collapse">
@@ -57,25 +57,10 @@
 						<li id="h" class=""><a href="index.html">Home</a></li>
 						<li id="a" role="presentation" ng-class="{ active: isActive('about')}"><a href="about">About</a></li>
 						<li id="c2" role="presentation" ng-class="{ active: isActive('contact')}"><a href="contact">Contact</a></li>
-						<li class="dropdown">
-			              <a href="#" id="drop" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Log-in<span class="caret"></span></a>
-			              <ul class="dropdown-menu">
-			              	<li id="log" class="g-signin2" data-theme="dark" data-onsuccess="onSignIn"></li>
-							<li id="out"><a href="#" onclick="signOut()">Sign out</a></li> 
-			            </li>
 					</ul>
 				</div>
 			</div>
 		</nav>
-
-<script>
-	function signOut() {
-      var auth2 = gapi.auth2.getAuthInstance();
-      auth2.signOut().then(function () {
-        console.log('User signed out.');
-      });
-    }
-</script>
 
 		<!-- <div class="jumbotron">  -->
 			<div class="page-header">
