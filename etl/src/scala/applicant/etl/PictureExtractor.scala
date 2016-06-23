@@ -102,7 +102,16 @@ object PictureExtractor {
     //RDD is an array of tuples (String, PortableDataStream)
     val fileData = sc.binaryFiles(directory)
 
+    fileData.keys.map { test =>
+      println(test)
+    }
+
     fileData.values.map { currentFile =>
+      var path = currentFile.getPath()
+      path = path.substring(path.lastIndexOf("/") + 1).replace("_", "/")
+      path = path.substring(0, path.length() - 4)
+      println(FilenameUtils.getBaseName(currentFile.getPath()).replace("_","/"))
+      /*
       Map(
         "hash" -> MessageDigest.getInstance("MD5").digest(currentFile.toArray),
         "applicantid" -> FilenameUtils.getBaseName(currentFile.getPath().replace("_","/")),
@@ -111,7 +120,8 @@ object PictureExtractor {
         "extension" -> FilenameUtils.getExtension(currentFile.getPath()),
         "metadata" -> TextExtractor.extractMetadata(currentFile.open())
         )
-    }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
+        */
+    }.collect()//.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
 
   }
 
@@ -132,12 +142,14 @@ object PictureExtractor {
     //Create Spark RDD using conf
     val sc = new SparkContext(conf)
 
+    /*
     //Check to see if we need to load github pictures
     if (options.githubPics == true) {
       println("Loading pictures from GitHub...")
       getGithubPictures(sc, options)
       println("Github pictures loaded")
     }
+    */
 
     //Check to see if we need to load pictures from a directory
     if (options.picDirectories != "") {
