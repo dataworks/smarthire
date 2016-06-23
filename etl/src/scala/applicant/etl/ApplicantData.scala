@@ -134,10 +134,12 @@ object ApplicantData {
    */
   private def getSome(value: Option[String]): String = {
     value match {
-      case Some(yay) =>
-        return yay
+      case Some(None) =>
+        return ""
       case None =>
         return ""
+      case Some(yay) =>
+        return yay
     }
   }
 
@@ -146,10 +148,12 @@ object ApplicantData {
    */
   private def getSome(value: Option[Double]): Double = {
     value match {
-      case Some(yay) =>
-        return yay
+      case Some(None) =>
+        return 0.0
       case None =>
         return 0.0
+      case Some(yay) =>
+        return yay
     }
   }
 
