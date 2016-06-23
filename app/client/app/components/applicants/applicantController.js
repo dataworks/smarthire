@@ -216,26 +216,26 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       $scope.index = 0;
       $scope.searchText = searchText;
 
-      //education advanced search 
-      var eduString = "";
+      //major advanced search 
+      var majString = "";
       var csChecked = document.getElementById("csCheck").checked;
       var cpeChecked = document.getElementById("cpeCheck").checked;
       var itChecked = document.getElementById("itCheck").checked;
       if (csChecked) {
-        eduString = eduString + "'computer science'";
+        majString = majString + "'computer science'";
       }
 
       if (cpeChecked) {
-        eduString = eduString + "'computer engineering'";
+        majString = majString + "'computer engineering'";
       }
 
       if (itChecked) {
-        eduString = eduString + "'information technology'";
+        majString = majString + "'information technology'";
       }
 
-      if (eduString != "") {
+      if (majString != "") {
 
-        $scope.searchText = $scope.searchText + " AND education.degree: (" + eduString + ")";
+        $scope.searchText = $scope.searchText + " AND education.degree: (" + majString + ")";
       }
 
       //location advanced search
@@ -260,7 +260,49 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
         $scope.searchText = $scope.searchText + " AND currentLocation.location: (" + locString + ")";
       }
 
-      console.log($scope.searchText);
+      //education advanced search
+      var colString = "";
+      var uvaChecked = document.getElementById("uvaCheck").checked;
+      var jmuChecked = document.getElementById("jmuCheck").checked;
+      var rpiChecked = document.getElementById("rpiCheck").checked;
+
+      if (uvaChecked) {
+        colString = colString + "'Virginia'";
+      }
+
+      if (jmuChecked) {
+        colString = colString + "'James Madison'";
+      }
+
+      if (rpiChecked) {
+        colString = colString + "'Rensselaer'";
+      }
+
+      if (colString != "") {
+        $scope.searchText = $scope.searchText + " AND education.school: (" + colString + ")";
+      }
+
+      //job title advanced search
+      var jobString = "";
+      var devChecked = document.getElementById("devCheck").checked;
+      var arcChecked = document.getElementById("arcCheck").checked;
+      var manChecked = document.getElementById("manCheck").checked;
+
+      if (devChecked) {
+        jobString = jobString + "'developer'";
+      }
+
+      if (arcChecked) {
+        jobString = jobString + "'architect'";
+      }
+
+      if (manChecked) {
+        jobString = jobString + "'manager'";
+      }
+
+      if (jobString != "") {
+        $scope.searchText = $scope.searchText + " AND currentLocation.title: (" + jobString + ")";
+      }
 
       $scope.applicants = Applicant.query({
         query: $scope.searchText,
