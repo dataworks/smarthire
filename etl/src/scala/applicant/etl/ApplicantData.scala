@@ -8,6 +8,7 @@ import scala.io._
 import scala.util._
 import scala.collection.mutable.{ListBuffer, Map, LinkedHashMap}
 import org.apache.spark.mllib.feature.{Word2Vec, Word2VecModel}
+import scala.collection.JavaConversions._
 
 class ApplicantData {
   var name, recentTitle, recentLocation, recentOrganization, degree, school, gpa, email, phone, linkedin, indeed, github, fullText, applicantid: String = ""
@@ -152,12 +153,12 @@ object ApplicantData {
   /**
    * Will check if a list option is Some or None and set a list pointer accordingly
    */
-  private def getList(value: AnyRef): ListBuffer[String] = {
+  private def getList(value: JListWrapper[String]): ListBuffer[String] = {
     if (value == None) {
       return new ListBuffer[String]()
     }
     else {
-      return value.asInstanceOf[ListBuffer[String]]
+      return value.toList.to[ListBuffer]
     }
   }
 
@@ -172,7 +173,6 @@ object ApplicantData {
     app.applicantid = getString(elasticMap("id"))
     app.name = getString(elasticMap("name"))
     app.score = getDouble(elasticMap("score"))
-    println("Name = " + app.name)
     elasticMap.get("currentLocation") match {
       case Some(any) =>
         val locMap = any.asInstanceOf[Map[String, String]]
@@ -184,7 +184,7 @@ object ApplicantData {
 
     elasticMap.get("skills") match {
       case Some(any) =>
-        val skillMap = any.asInstanceOf[Map[String, ListBuffer[String]]]
+        val skillMap = any.asInstanceOf[Map[String, JListWrapper[String]]]
 
         app.languageList = getList(skillMap("language"))
         app.bigDataList = getList(skillMap("bigdata"))
@@ -220,7 +220,7 @@ object ApplicantData {
         val infoMap = any.asInstanceOf[Map[String, AnyRef]]
         infoMap.get("pastPositions") match {
           case Some(anyPos) =>
-            val pastPosMap = anyPos.asInstanceOf[Map[String, ListBuffer[String]]]
+            val pastPosMap = anyPos.asInstanceOf[Map[String, JListWrapper[String]]]
             app.otherTitleList = getList(pastPosMap("title"))
             app.otherLocationList = getList(pastPosMap("location"))
             app.otherOrganizationList = getList(pastPosMap("organization"))
