@@ -15,7 +15,6 @@
     <div class="inner-addon right-addon">
       <i class="glyphicon glyphicon-search" ng-click="search(searchText)"></i>
       <input type="text" ng-keyup="$event.keyCode == 13 && search(searchText)" class="form-control" id="search" ng-model="searchText" placeholder="Search here..." required>
-
       <div class="input-group-btn">
                     <div class="btn-group" role="group">
                         <div class="dropdown dropdown-lg">
@@ -26,7 +25,9 @@
                                     <label for="filter">Filter by</label>
                                     <div class="checkbox">
                                       <label>
-                                        <input type="checkbox"> Computer Science
+                                        <input type="checkbox" id="csCheck"> Computer Science <br>
+                                        <input type="checkbox" id="cpeCheck"> Computer Engineering <br>
+                                        <input type="checkbox" id="itCheck"> Information Technology <br>
                                       </label>
                                     </div>
                                 </form>
@@ -36,6 +37,7 @@
                 </div>
 
       </div>
+    </div>
   </div>
 </div>
 

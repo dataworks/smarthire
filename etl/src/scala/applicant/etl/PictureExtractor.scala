@@ -1,6 +1,7 @@
 package applicant.etl
 
 import scala.language.postfixOps
+import scala.io._
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkConf
 import org.apache.spark.input.PortableDataStream
@@ -28,6 +29,7 @@ object PictureExtractor {
    * @return A base64 string encoded version of the profile picture
    */
   def downloadGithubPicture(applicantId: String, urlStr: String): Map[String, Object] = {
+    try {
       val url = new URL(urlStr)
 
       val connection = url.openConnection().asInstanceOf[HttpURLConnection]
@@ -57,7 +59,10 @@ object PictureExtractor {
         "extension" -> fileExtension,
         "metadata" -> metadataMap
         )
-
+    }
+    catch {
+      case ex: Exception => return Map()
+    }
   }
 
   /**
@@ -102,17 +107,22 @@ object PictureExtractor {
     //RDD is an array of tuples (String, PortableDataStream)
     val fileData = sc.binaryFiles(directory)
 
+    fileData.keys.map { test =>
+      println(test)
+    }
+
     fileData.values.map { currentFile =>
+
       Map(
         "hash" -> MessageDigest.getInstance("MD5").digest(currentFile.toArray),
-        "applicantid" -> FilenameUtils.getBaseName(currentFile.getPath().replace("_","/")),
+        "applicantid" -> FilenameUtils.getBaseName(currentFile.getPath()).replace("_","/"),
         "base64string" -> currentFile.toArray,
         "filename" -> FilenameUtils.getName(currentFile.getPath()),
         "extension" -> FilenameUtils.getExtension(currentFile.getPath()),
         "metadata" -> TextExtractor.extractMetadata(currentFile.open())
         )
-    }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
 
+    }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
   }
 
   /**

@@ -216,6 +216,28 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       $scope.index = 0;
       $scope.searchText = searchText;
 
+      var eduString = "";
+      var csChecked = document.getElementById("csCheck").checked;
+      var cpeChecked = document.getElementById("cpeCheck").checked;
+      var itChecked = document.getElementById("itCheck").checked;
+      if (csChecked) {
+        eduString = eduString + "'computer science'";
+      }
+
+      if (cpeChecked) {
+        eduString = eduString + "'computer engineering'";
+      }
+
+      if (itChecked) {
+        eduString = eduString + "'information technology'";
+      }
+
+      if (eduString != "") {
+        $scope.searchText = searchText + " AND education.degree: (" + eduString + ")";
+      }
+
+      console.log($scope.searchText);
+
       $scope.applicants = Applicant.query({
         query: $scope.searchText,
         from: $scope.index,
@@ -223,6 +245,8 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
         sort: $scope.sort,
         order: $scope.sortOrder
       });
+
+      $scope.searchText = searchText;
     }
 
     /** 
@@ -257,7 +281,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
         })(files[i]);
       }
     }
-    //test comment
+
     //scroll code
     $(function() {
       var lastScrollTop = 0,
