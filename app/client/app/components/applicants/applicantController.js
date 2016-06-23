@@ -1,11 +1,11 @@
-applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applicant', 'Label', 'Upload', '$window', 'ngToast', '$timeout',
-  function($scope, $location, Applicant, Label, Upload, $window, ngToast, $timeout) {
+applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applicant', 'Label', 'Suggest', 'Upload', '$window', 'ngToast', '$timeout',
+  function($scope, $location, Applicant, Label, Suggest, Upload, $window, ngToast, $timeout) {
 
-    $scope.autoSkills = ["Java",
-                        "Python",
-                        "C#",
-                        "Angular",
-                        "Cassandra"];
+    // $scope.autoSkills = ["Java",
+    //                     "Python",
+    //                     "C#",
+    //                     "Angular",
+    //                     "Cassandra"];
 
     //default dropdown menu to 'new' on page load
     $scope.selection = "new";
@@ -23,6 +23,11 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
     $scope.propertyName = null;
     $scope.reverse = false;
     $scope.searchText = "";
+
+    $scope.autoSkills = Suggest.query({
+      field: 'additionalInfo.resume',
+      term: 'ja'
+    });
 
     //default query
     $scope.applicants = Applicant.query({

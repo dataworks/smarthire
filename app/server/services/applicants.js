@@ -42,3 +42,10 @@ function buildQuery(res, hits, type) {
   }
   return type === 'new' ? '*' : ' ';
 }
+
+/*
+ * Calls the suggest method in ES.js
+ */
+// exports.suggest = function(req, res) {
+//   esservice.suggest(config.applicants, req.params, res)
+// }
