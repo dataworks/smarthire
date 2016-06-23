@@ -1,6 +1,12 @@
 applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applicant', 'Label', 'Upload', '$window', 'ngToast', '$timeout',
   function($scope, $location, Applicant, Label, Upload, $window, ngToast, $timeout) {
 
+    $scope.autoSkills = ["Java",
+                        "Python",
+                        "C#",
+                        "Angular",
+                        "Cassandra"];
+
     //default dropdown menu to 'new' on page load
     $scope.selection = "new";
     $scope.sort = "score";
@@ -391,5 +397,4 @@ applicantControllers.directive('customOnChange', function() {
       element.bind('change', onChangeFunc);
     }
   };
-});
-
+})

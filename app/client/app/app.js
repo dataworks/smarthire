@@ -6,6 +6,7 @@ var applicantApp = angular.module('applicantApp', [
   'ngSanitize',
   'ngToast',
   'ngAnimate',
+  'autocomplete',
 ]);
 
 var applicantControllers = angular.module('applicantControllers', []);
