@@ -44,10 +44,12 @@ object MlModelGenerator {
       val archivedAppRDD = sc.esRDD(options.esAppIndex + "/applicant", "?q=id:" + applicantid).collectAsMap()
       val archivedAppMap = archivedAppRDD(applicantid.toString())
       val archivedAppMutableMap = collection.mutable.Map(archivedAppMap.toSeq: _*)
-      println(ApplicantData(archivedAppMutableMap))
+      val contactMap = archivedAppMutableMap.get("contact").get.asInstanceOf[Map[String, Any]]
+      println(contactMap.get("linkedin").getClass)
+      println(contactMap.get("linkedin"))
       //archivedAppListBuff += ApplicantData(archivedAppMap)
       //println((archivedAppMap))
-      //println(ApplicantData(archivedAppMap))*/
+      println(ApplicantData(archivedAppMutableMap))
     }
 
   }
