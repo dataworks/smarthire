@@ -436,7 +436,8 @@ td{
 
 /*search dropdown*/
 .dropdown.dropdown-lg .dropdown-menu {
-    margin-top: -1px;
+    margin-top: 5%;
+    margin-left: 107%;
     padding: 6px 20px;
 }
 .input-group-btn .btn-group {
