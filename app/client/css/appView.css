@@ -10,6 +10,20 @@
   width: auto;
 }
 
+#two{
+  padding-right: 5%;
+  cursor: unset;
+}
+
+#three{
+  padding-right: 32%;
+  cursor: unset;
+}
+
+#csCheck, #cpeCheck, #itCheck, #vaCheck, #mdCheck, #dcCheck, #uvaCheck, #jmuCheck, #rpiCheck, #devCheck, #arcCheck, #manCheck{
+  cursor: pointer;
+}
+
 #top-link-block.affix-top {
   position: fixed; /* allows it to "slide" up into view, change to absolute to get it to slide */
   bottom: 25px; /* negative of the offset - height of link element */
@@ -249,7 +263,7 @@ td > #high{
   }
 
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   #o{
     width: 5% !important;
     vertical-align: center;
