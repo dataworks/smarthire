@@ -3,14 +3,51 @@ package applicant.ml.score
 import scala.collection.mutable.HashMap
 import applicant.nlp.LuceneTokenizer
 import applicant.etl._
-import java.lang._
+//import java.lang._
 import java.util.regex
 import org.apache.spark.mllib.feature.{Word2Vec, Word2VecModel}
+import org.apache.spark.mllib.linalg.{Vectors, Vector}
 
 /**
- *
+ * FeatureGenerator
  */
-class FeatureGenerator {
+object FeatureGenerator {
+
+
+  /**
+   * Calculates all of the feature scores and returns a vector of the scores
+   *
+   * @param model A word2VecModel uses to find synonyms
+   * @param applicant The applicant whose features are needed
+   * @return A vector that corresponds to the feature scores
+   */
+  def getFeatureVec(model: Word2VecModel, applicant: ApplicantData): Vector = {
+    //first feature (number of synonyms to Java/Spark/Hadoop within resume body)
+    val featureArray = scala.collection.mutable.ArrayBuffer.empty[Double]
+    val synonymMap = w2vSynonymMapper(model, List("Java", "Spark", "Hadoop"), 20)
+    featureArray += firstFeature(synonymMap, applicant.fullText)
+    //second feature (distance from Reston VA)
+    if (applicant.recentLocation == "") {
+      featureArray += Double.MaxValue
+    }
+    else {
+      featureArray += secondFeature("Reston,VA", applicant.recentLocation)
+    }
+    //third feature (density of contact info)
+    featureArray += thirdFeature(applicant)
+    //fourth feature (length of resume)
+    featureArray += fourthFeature(applicant.fullText)
+    //fifth feature (gpa value)
+    if (applicant.gpa == "") {
+      featureArray += 3.0
+    }
+    else {
+      featureArray += fifthFeature(applicant.gpa)
+    }
+
+    return Vectors.dense(featureArray.toArray[Double])
+  }
+
 
   /**
    * Calculates first feature
@@ -50,6 +87,12 @@ class FeatureGenerator {
    */
   def secondFeature (location1: String, location2: String): Double = {
     val distance = ApiMapper.googlemapsAPI(location1, location2)
+    distance match {
+      case Some(distance) =>
+        return distance.toDouble
+      case None =>
+        return Double.MaxValue
+    }
     return distance.get.toDouble
   }
 
@@ -83,7 +126,8 @@ class FeatureGenerator {
    */
   def fifthFeature (gpa: String) : Double = {
     val arrStr : Array[String] = gpa.split(" ")
-    val gpaDouble = Double.parseDouble(arrStr(1))
+    val gpaDouble = arrStr(1).toDouble
+    //val gpaDouble = Double.parseDouble(arrStr(1))
     return gpaDouble
   }
 
