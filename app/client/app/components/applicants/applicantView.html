@@ -10,12 +10,11 @@
   <label id="upload" class="btn btn-primary">
     Upload Resume <input type="file" style="display: none;" custom-on-change="upload" multiple />
   </label>
-  <autocomplete ng-model="yourchoice" data="autoSkills"></autocomplete>
    <!-- search bar -->
    <div class="form-group col-xs-6">
     <div class="inner-addon right-addon">
       <i id="sb" class="glyphicon glyphicon-search" ng-click="search(searchText)"></i>
-      <input type="text" ng-keyup="$event.keyCode == 13 && search(searchText)" class="form-control" id="search" ng-model="searchText" placeholder="Search here..." required>
+      <autocomplete data="autoSkills" type="text" ng-keyup="$event.keyCode == 13 && search(searchText)" id="search" ng-model="searchText" placeholder="Search here..." required></autocomplete>
       <div class="input-group-btn">
           <div class="dropdown dropdown-lg">
             <button id="arrow" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
