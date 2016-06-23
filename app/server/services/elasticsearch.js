@@ -1,5 +1,8 @@
 var elasticsearch = require('elasticsearch');
 
+/**
+ * 
+ */
 exports.query = function(config, params, res, query, handler) {
   var client = new elasticsearch.Client({
     host: config.url
@@ -28,7 +31,7 @@ exports.query = function(config, params, res, query, handler) {
     }
   }).then(function(resp) {
     // Parse ES response and send result back
-    var hits = module.exports.parseResponse(resp, res);
+    var hits = module.exports.parseSearchHits(resp, res);
 
     if (handler) {
       handler(res, hits);
@@ -46,17 +49,23 @@ exports.query = function(config, params, res, query, handler) {
 /**
  * Parses an ES response, formats it and sends data on the HTTP response.
  */
-exports.parseResponse = function(resp, res) {
+exports.parseSearchHits = function(resp, res) {
   return resp.hits.hits.map(function(hit) {
     return hit._source;
   });
 }
 
+/**
+ * sends a JSON formatted object of hits
+ */
 exports.defaultHandler = function(res, hits) {
   res.json(hits);
 }
 
-exports.suggest = function(config, field, term, res) {
+/**
+ * Returns aggregated data based on search query for autocomplete functionality
+ */
+exports.suggest = function(config, params, res) {
   var client = new elasticsearch.Client({
     host: config.url
   });
@@ -70,8 +79,8 @@ exports.suggest = function(config, field, term, res) {
         autocomplete: {
           terms: {
             size: 5,
-            field: field,
-            include: term + ".*",
+            field: params.field,
+            include: params.term + ".*",
             order: {
               _count: "desc"
             }
@@ -80,30 +89,28 @@ exports.suggest = function(config, field, term, res) {
       },
       query: {
         query_string: {
-          query: term + "*"
+          query: params.term + "*"
         }
       }
     }
-  }).then(function(response) {
-
+  }).then(function(resp) {
     var hits = module.exports.getSuggestions(resp);
-    module.exports.sendSuggestions(res, hits);
-    
+    module.exports.defaultHandler(res, hits);
     client.close();
   }, function(err) {
       errorMessage(err, res);
   });
 }
 
+/*
+ * Returns the keys (suggestions) associated with each bucket
+ */
 exports.getSuggestions = function(resp) {
-  return resp.aggregations.autocomplete.buckets.map(function(hit){
+  return resp.aggregations.autocomplete.buckets.map(function(hit) {
     return hit.key;
   });
 }
 
-exports.sendSuggestions = function(res, hits) {
-  return 
-}
 
 /**
  * Creates a new index

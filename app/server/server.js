@@ -47,7 +47,7 @@ app.post("/service/uploads", function(req,res) {
   uploadService.index(req,res);
 });
 
-app.get("/service/applicants", function(req, res) {
+app.get("/service/suggest", function(req, res) {
   suggestService.suggest(req, res);
 });
 
