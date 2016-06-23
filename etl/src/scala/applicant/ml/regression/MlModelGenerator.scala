@@ -37,25 +37,27 @@ object MlModelGenerator {
     val sc = new SparkContext(conf)
     //Create Word2Vec model
     val w2vModel = Word2VecModel.load(sc, options.word2vecModel)
-    val archiveLabelsSeq = sc.esRDD(options.esLabelIndex + "/label", "?q=type:archive").keys.collect()
-    archiveLabelsSeq.foreach{ applicantid =>
-      val archivedApp = sc.esRDD(options.esAppIndex + "/applicant", "?q=id:" + applicantid).values.first
-      println(archivedApp)
-      val archivedAppMap = collection.mutable.Map(archivedApp.toSeq: _*)
-      archivedAppListBuff += ApplicantData(archivedAppMap)
-      println((archivedAppMap))
-      println(ApplicantData(archivedAppMap))
+    val archiveLabelsSeq = sc.esRDD(options.esLabelIndex + "/label", "?q=type:archive").collectAsMap()
+    archiveLabelsSeq.foreach{ label =>
+      val labelMap = label._2
+      val applicantid = labelMap("id")
+      val archivedAppRDD = sc.esRDD(options.esAppIndex + "/applicant", "?q=id:" + applicantid).collectAsMap()
+      val archivedAppMap = archivedAppRDD(applicantid.toString())
+      val archivedAppMutableMap = collection.mutable.Map(archivedAppMap.toSeq: _*)
+      println(ApplicantData(archivedAppMutableMap))
+      //archivedAppListBuff += ApplicantData(archivedAppMap)
+      //println((archivedAppMap))
+      //println(ApplicantData(archivedAppMap))*/
     }
 
   }
-
-  def main(args: Array[String]) {
 
   /**
    * Main method
    *
    * @param args Array of Strings: see options
    */
+  def main(args: Array[String]) {
 
     //Command line option parser
     val parser = new OptionParser[Command]("ResumeParser") {
