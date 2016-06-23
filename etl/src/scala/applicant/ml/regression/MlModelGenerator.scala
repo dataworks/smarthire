@@ -8,11 +8,13 @@ import scopt.OptionParser
 import scala.collection.mutable.HashMap
 import applicant.nlp.LuceneTokenizer
 import applicant.etl._
+import applicant.ml.score._
 import java.io.File
-import java.lang._
 import java.util.regex
 import org.apache.spark.mllib.feature.{Word2Vec, Word2VecModel}
-import scala.collection.mutable.{ListBuffer, Map}
+import org.apache.spark.mllib.linalg.{Vectors, Vector}
+import org.apache.spark.mllib.regression.LabeledPoint
+import scala.collection.mutable.{ListBuffer, Map, HashMap}
 
 /**
  *
@@ -37,19 +39,34 @@ object MlModelGenerator {
     val sc = new SparkContext(conf)
     //Create Word2Vec model
     val w2vModel = Word2VecModel.load(sc, options.word2vecModel)
-    val archiveLabelsSeq = sc.esRDD(options.esLabelIndex + "/label", "?q=type:archive").collectAsMap()
-    archiveLabelsSeq.foreach{ label =>
-      val labelMap = label._2
-      val applicantid = labelMap("id")
-      val archivedAppRDD = sc.esRDD(options.esAppIndex + "/applicant", "?q=id:" + applicantid).collectAsMap()
-      val archivedAppMap = archivedAppRDD(applicantid.toString())
-      val archivedAppMutableMap = collection.mutable.Map(archivedAppMap.toSeq: _*)
-      val contactMap = archivedAppMutableMap.get("contact").get.asInstanceOf[Map[String, Any]]
-      println(contactMap.get("linkedin").getClass)
-      println(contactMap.get("linkedin"))
-      //archivedAppListBuff += ApplicantData(archivedAppMap)
-      //println((archivedAppMap))
-      println(ApplicantData(archivedAppMutableMap))
+    val labelsHashMap: HashMap[String,Double] = new HashMap[String,Double]()
+    val archiveLabelsSeq = sc.esRDD(options.esLabelIndex + "/label", "?q=*").values.map{label =>
+      if (label("type").asInstanceOf[String] == "archive") {
+        label("id").asInstanceOf[String] -> 0.0
+      }
+      else {
+        label("id").asInstanceOf[String] -> 1.0
+      }
+    }.collect()
+
+    archiveLabelsSeq.foreach(x => labelsHashMap += x)
+    println(labelsHashMap)
+
+    val modelData: ListBuffer[LabeledPoint] = new ListBuffer[LabeledPoint]()
+
+    val appRDD = sc.esRDD(options.esAppIndex + "/applicant", "?q=*").values
+
+    appRDD.foreach{ app =>
+      if (labelsHashMap.contains(app("id").asInstanceOf[String])) {
+        val appData = ApplicantData(collection.mutable.Map(app.toSeq: _*))
+        val appVec = FeatureGenerator.getFeatureVec(w2vModel, appData)
+        if (labelsHashMap(app("id").asInstanceOf[String]) == 0.0) {
+          modelData += LabeledPoint(0.0, appVec)
+        }
+        else {
+          modelData += LabeledPoint(1.0, appVec)
+        }
+      }
     }
 
   }
