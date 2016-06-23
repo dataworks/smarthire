@@ -216,6 +216,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       $scope.index = 0;
       $scope.searchText = searchText;
 
+      //education advanced search 
       var eduString = "";
       var csChecked = document.getElementById("csCheck").checked;
       var cpeChecked = document.getElementById("cpeCheck").checked;
@@ -233,7 +234,30 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       }
 
       if (eduString != "") {
-        $scope.searchText = searchText + " AND education.degree: (" + eduString + ")";
+
+        $scope.searchText = $scope.searchText + " AND education.degree: (" + eduString + ")";
+      }
+
+      //location advanced search
+      var locString = "";
+      var vaChecked = document.getElementById("vaCheck").checked;
+      var mdChecked = document.getElementById("mdCheck").checked;
+      var dcChecked = document.getElementById("dcCheck").checked;
+
+      if (vaChecked) {
+        locString = locString + "'VA'";
+      }
+
+      if (mdChecked) {
+        locString = locString + "'MD'";
+      }
+
+      if (dcChecked) {
+        locString = locString + "'DC'";
+      }
+
+      if (locString != "") {
+        $scope.searchText = $scope.searchText + " AND currentLocation.location: (" + locString + ")";
       }
 
       console.log($scope.searchText);
@@ -246,7 +270,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
         order: $scope.sortOrder
       });
 
-      $scope.searchText = searchText;
+      //$scope.searchText = searchText;
     }
 
     /** 
