@@ -58,7 +58,8 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
         from: $scope.index,
         size: $scope.pageSize,
         sort: $scope.sort,
-        order: $scope.sortOrder
+        order: $scope.sortOrder,
+        query: $scope.searchText
       });
     }
 
@@ -218,7 +219,9 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       $scope.applicants = Applicant.query({
         query: $scope.searchText,
         from: $scope.index,
-        size: $scope.pageSize
+        size: $scope.pageSize,
+        sort: $scope.sort,
+        order: $scope.sortOrder
       });
     }
 
