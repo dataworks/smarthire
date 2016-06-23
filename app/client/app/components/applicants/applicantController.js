@@ -1,5 +1,5 @@
-applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applicant', 'Label', 'Suggest', 'Upload', '$window', 'ngToast', '$timeout',
-  function($scope, $location, Applicant, Label, Suggest, Upload, $window, ngToast, $timeout) {
+applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applicant', 'Label', 'Upload', '$window', 'ngToast', '$timeout',
+  function($scope, $location, Applicant, Label, Upload, $window, ngToast, $timeout) {
 
     //default dropdown menu to 'new' on page load
     $scope.selection = "new";
