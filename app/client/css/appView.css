@@ -81,9 +81,12 @@ font-style: italic;
 }
 
 input:focus, input:active {
-  border-radius: 25px;
   box-shadow: 0 0 5px rgba(81, 203, 238, 1);
   border: 1px solid rgba(81, 203, 238, 1);
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
 }
 
 /*input[type=text]:focus, textarea:focus {
@@ -510,7 +513,7 @@ td{
 }
 
 .autocomplete input{
-  font-size: 1.2em;
+  font-size: 125%;
   width: 100%;
   padding-bottom: 0.5%;
   padding-top: 0.5%;
@@ -520,16 +523,19 @@ td{
   position: absolute;
   left: 0;
   width: 100%;
-  border-left: 1px solid #888;
+  background: white;
+  margin-top: 5%;
+  margin-left: -3%;
+/*  border-left: 1px solid #888;
   border-right: 1px solid #888;
-  border-bottom: 1px solid #888;
+  border-bottom: 1px solid #888;*/
 }
 
 .autocomplete li{
   text-align: left;
   list-style:none;
   width: 100%;
-  padding:0.4em;
+  padding: 1%;
   background-color: #fff;
 }
 
