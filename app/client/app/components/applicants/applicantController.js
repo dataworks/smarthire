@@ -24,10 +24,19 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
     $scope.reverse = false;
     $scope.searchText = "";
 
-    $scope.autoSkills = Suggest.query({
-      field: 'additionalInfo.resume',
-      term: 'ja'
-    });
+    // $scope.autoSkills = Suggest.query({
+    //   field: 'additionalInfo.resume',
+    //   term: 'ja'
+    // });
+
+    $scope.startFunc = function(text) {
+      console.log("hello");
+      $scope.searchText = text;
+      $scope.autoSkills = Suggest.query({
+        field: 'additionalInfo.resume',
+        term: $scope.searchText
+      });
+    }
 
     //default query
     $scope.applicants = Applicant.query({

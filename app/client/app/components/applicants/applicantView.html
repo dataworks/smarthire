@@ -14,7 +14,7 @@
    <div class="form-group col-xs-6">
     <div class="inner-addon right-addon">
       <i id="sb" class="glyphicon glyphicon-search" ng-click="search(searchText)"></i>
-      <autocomplete data="autoSkills" type="text" ng-keyup="$event.keyCode == 13 && search(searchText)" id="search" ng-model="searchText" placeholder="Search here..." required></autocomplete>
+      <autocomplete data="autoSkills" type="text" ng-click="startFunc(searchText)" ng-keyup="$event.keyCode == 13 && search(searchText)" id="search" ng-model="searchText" placeholder="Search here..." required></autocomplete>
       <div class="input-group-btn">
           <div class="dropdown dropdown-lg">
             <button id="arrow" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
