@@ -1,6 +1,7 @@
 package applicant.etl
 
 import scala.language.postfixOps
+import scala.io._
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkConf
 import org.apache.spark.input.PortableDataStream
@@ -28,6 +29,7 @@ object PictureExtractor {
    * @return A base64 string encoded version of the profile picture
    */
   def downloadGithubPicture(applicantId: String, urlStr: String): Map[String, Object] = {
+    try {
       val url = new URL(urlStr)
 
       val connection = url.openConnection().asInstanceOf[HttpURLConnection]
@@ -57,7 +59,10 @@ object PictureExtractor {
         "extension" -> fileExtension,
         "metadata" -> metadataMap
         )
-
+    }
+    catch {
+      case ex: Exception => return Map()
+    }
   }
 
   /**
@@ -107,22 +112,17 @@ object PictureExtractor {
     }
 
     fileData.values.map { currentFile =>
-      var path = currentFile.getPath()
-      path = path.substring(path.lastIndexOf("/") + 1).replace("_", "/")
-      path = path.substring(0, path.length() - 4)
-      println(FilenameUtils.getBaseName(currentFile.getPath()).replace("_","/"))
-      /*
+
       Map(
         "hash" -> MessageDigest.getInstance("MD5").digest(currentFile.toArray),
-        "applicantid" -> FilenameUtils.getBaseName(currentFile.getPath().replace("_","/")),
+        "applicantid" -> FilenameUtils.getBaseName(currentFile.getPath()).replace("_","/"),
         "base64string" -> currentFile.toArray,
         "filename" -> FilenameUtils.getName(currentFile.getPath()),
         "extension" -> FilenameUtils.getExtension(currentFile.getPath()),
         "metadata" -> TextExtractor.extractMetadata(currentFile.open())
         )
-        */
-    }.collect()//.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
 
+    }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
   }
 
   /**
@@ -142,14 +142,12 @@ object PictureExtractor {
     //Create Spark RDD using conf
     val sc = new SparkContext(conf)
 
-    /*
     //Check to see if we need to load github pictures
     if (options.githubPics == true) {
       println("Loading pictures from GitHub...")
       getGithubPictures(sc, options)
       println("Github pictures loaded")
     }
-    */
 
     //Check to see if we need to load pictures from a directory
     if (options.picDirectories != "") {
