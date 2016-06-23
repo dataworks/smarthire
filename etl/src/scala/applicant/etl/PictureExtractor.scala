@@ -88,11 +88,11 @@ object PictureExtractor {
         case None =>
       }
     }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
-
   }
 
   /**
    * Will upload pictures to elasticsearch with their metadata
+   * Since ids in elasticsearch are base-64 hashes, we have saved the pictures with _ instead of /, so must convert back
    *
    * @param options The command line options
    * @param sc The spark context
@@ -105,13 +105,14 @@ object PictureExtractor {
     fileData.values.map { currentFile =>
       Map(
         "hash" -> MessageDigest.getInstance("MD5").digest(currentFile.toArray),
-        "applicantid" -> FilenameUtils.getBaseName(currentFile.getPath()),
+        "applicantid" -> FilenameUtils.getBaseName(currentFile.getPath().replace("_","/")),
         "base64string" -> currentFile.toArray,
         "filename" -> FilenameUtils.getName(currentFile.getPath()),
         "extension" -> FilenameUtils.getExtension(currentFile.getPath()),
         "metadata" -> TextExtractor.extractMetadata(currentFile.open())
         )
     }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
+
   }
 
   /**
