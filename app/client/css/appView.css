@@ -481,11 +481,12 @@ td{
   border-color: #689F38;
 }
 
-@media screen and (min-width: 768px) {
+@media (max-width: 768px) {
     .dropdown.dropdown-lg {
         position: static !important;
     }
     .dropdown.dropdown-lg .dropdown-menu {
-        min-width: 500px;
+      margin-left: -275%;
+      margin-top: 23%;
     }
 }
