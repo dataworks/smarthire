@@ -13,11 +13,11 @@
    <!-- search bar -->
    <div class="form-group col-xs-6">
     <div class="inner-addon right-addon">
-      <i class="glyphicon glyphicon-search" ng-click="search(searchText)"></i>
+      <i id="sb" class="glyphicon glyphicon-search" ng-click="search(searchText)"></i>
       <input type="text" ng-keyup="$event.keyCode == 13 && search(searchText)" class="form-control" id="search" ng-model="searchText" placeholder="Search here..." required>
       <div class="input-group-btn">
           <div class="dropdown dropdown-lg">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+            <button id="arrow" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
             <div class="dropdown-menu" role="menu">
               <form class="form-horizontal" role="form">
                 <div class="form-group">

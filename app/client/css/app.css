@@ -17,9 +17,9 @@
 }
 
 @media (max-width: 767px) {
-/*  .page-header > h1{
-    font-size: 500%;
-  }*/
+  .navbar-header > p{
+    margin-left: 1.5%;
+  }
   .dwl{
     padding-top: 1.5%;
   }
@@ -27,10 +27,7 @@
     height: 80px;
     width: 100%;
   }
-  .page-header{
-    width: 100%;
-    margin-top: 25%;
-  }
+
 
   #fb{
     padding-top: 1.5%
@@ -86,7 +83,7 @@
   background-color: #689F38;
   border: none;
   margin-top: 5%;
-  margin-right: -111%;
+  margin-right: -100%;
 }
 
 .navbar-default .navbar-toggle:hover{
@@ -181,10 +178,7 @@ body {
   text-align: center;
 }
 
-#target{
-  height: auto;
-  width: 40%;
-}
+
 
 /* Sticky footer styles
 -------------------------------------------------- */

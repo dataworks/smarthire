@@ -249,9 +249,10 @@ td > #high{
   }
 
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   #o{
     width: 5% !important;
+    vertical-align: center;
   }
 
   #p{
@@ -294,10 +295,22 @@ td > #high{
     margin-right: 200px !important;
   }
 
-  .inner-addon .glyphicon {
-  margin-top: 3.5% !important;
-  margin-right: 3.5% !important;
-  padding: 2% !important;
+  #search{
+    float: left;
+  }
+
+  .btn-default{
+    float: left;
+  }
+
+  #arrow{
+    margin-left: 45%;
+    margin-top: 13.75%;
+  }
+
+  #sb{
+    margin-right: 48%;
+    margin-top: 3.5%;
   }
 
 }
