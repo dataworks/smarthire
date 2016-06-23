@@ -4,6 +4,7 @@ import applicant.nlp._
 import java.text.DecimalFormat
 import java.net.{URL, HttpURLConnection}
 import scala.io._
+import java.io.FileNotFoundException
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
@@ -21,21 +22,26 @@ object ApiMapper {
   def githubAPI(github : String) : Map[String,String] = {
     LinkParser.parseGithubProfile("https://api.github.com/users/", github) match {
       case Some(apiUrl) =>
-        val jsonString = scala.io.Source.fromURL(apiUrl).mkString
-        val parsedJson = parse(jsonString)
-        object VarToString extends CustomSerializer[String](format => (
-          {
-            case JBool(false) => "false"
-            case JBool(true) => "true"
-          },
-          {
-            case format: String => JString(format)
-          }
-        ))
-        implicit val formats = DefaultFormats + VarToString
+        try {
+          val jsonString = scala.io.Source.fromURL(apiUrl).mkString
+          val parsedJson = parse(jsonString)
+          object VarToString extends CustomSerializer[String](format => (
+            {
+              case JBool(false) => "false"
+              case JBool(true) => "true"
+            },
+            {
+              case format: String => JString(format)
+            }
+          ))
+          implicit val formats = DefaultFormats + VarToString
 
-        val gitJsonMap = parsedJson.extract[Map[String, String]]
-        return gitJsonMap
+          val gitJsonMap = parsedJson.extract[Map[String, String]]
+          return gitJsonMap
+        }
+        catch {
+          case ex: Exception => return Map()
+        }
       case None =>
         return Map()
     }

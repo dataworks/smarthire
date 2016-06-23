@@ -69,7 +69,6 @@ class ApplicantData {
         "resume" -> fullText
       )
     )
-
     return map
   }
 }
@@ -171,7 +170,7 @@ object ApplicantData {
    *
    * @param elasticMap A map structure returned from querying on the elasticsearch applicant index
    */
-  def apply(elasticMap: Map[String, Any]): ApplicantData = {
+  def apply(elasticMap: Map[String, AnyRef]): ApplicantData = {
     val app = new ApplicantData()
 
     app.applicantid = getSome(elasticMap.get("id").asInstanceOf[Option[String]])
