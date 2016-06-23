@@ -10,7 +10,7 @@ import scopt.OptionParser
 import java.security.MessageDigest
 import org.apache.commons.io.FilenameUtils
 
-import scala.collection.mutable.LinkedHashMap
+import scala.collection.mutable.{LinkedHashMap, ListBuffer}
 
 import java.net.{URL, HttpURLConnection}
 import java.io._
@@ -28,7 +28,7 @@ object PictureExtractor {
    * @param url The url for a github profile. Formating is checked to ensure that the link is not a project link
    * @return A base64 string encoded version of the profile picture
    */
-  def downloadGithubPicture(applicantId: String, urlStr: String): Map[String, Object] = {
+  def downloadGithubPicture(applicantId: String, urlStr: String): Option[Map[String, Object]] = {
     try {
       val url = new URL(urlStr)
 
@@ -48,20 +48,24 @@ object PictureExtractor {
         case Some(png) if png.endsWith("png") =>
           fileExtension = "png"
         case _ =>
-          return Map()
+          return None
       }
 
-      return Map(
+      if (byteArray.length == 0) {
+        return None
+      }
+
+      return Some(Map(
         "hash" -> MessageDigest.getInstance("MD5").digest(byteArray),
         "applicantid" -> applicantId,
         "base64string" -> byteArray,
         "filename" -> (FilenameUtils.getName(urlStr) + "." + fileExtension),
         "extension" -> fileExtension,
         "metadata" -> metadataMap
-        )
+      ))
     }
     catch {
-      case ex: Exception => return Map()
+      case ex: Exception => return None
     }
   }
 
@@ -75,7 +79,7 @@ object PictureExtractor {
     //query Elasticsearch for github
     val githubApplicants = sc.esRDD("applicants/applicant", "?q=contact.github:http*")
 
-    githubApplicants.map { applicant =>
+    val profiles = githubApplicants.map { applicant =>
       val applicantId = applicant._1
       val contactOption = applicant._2.get("contact")
       contactOption match {
@@ -85,14 +89,30 @@ object PictureExtractor {
             case Some(githubUrl) =>
                LinkParser.parseGithubProfile("https://avatars.githubusercontent.com/", githubUrl) match {
                 case Some(properUrl) =>
-                  downloadGithubPicture(applicantId, properUrl)
+                  downloadGithubPicture(applicantId, properUrl) match {
+                    case Some(properMap) =>
+                      properMap
+                    case None =>
+                  }
                 case None =>
               }
             case None =>
           }
         case None =>
       }
-    }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
+    }.collect()
+
+    val filteredProfiles = ListBuffer[Map[String, Object]]()
+
+    for (item <- profiles) {
+      if (!item.getClass.toString.contains("BoxedUnit")) {
+        filteredProfiles += item.asInstanceOf[Map[String, Object]]
+      }
+    }
+
+    println(filteredProfiles.length + " github pics found")
+
+    sc.parallelize(filteredProfiles).saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
   }
 
   /**
@@ -106,10 +126,6 @@ object PictureExtractor {
     //Create a key-value pair RDD of files within resume directory
     //RDD is an array of tuples (String, PortableDataStream)
     val fileData = sc.binaryFiles(directory)
-
-    fileData.keys.map { test =>
-      println(test)
-    }
 
     fileData.values.map { currentFile =>
 

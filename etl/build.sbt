@@ -12,8 +12,8 @@ scalaSource in Compile := baseDirectory.value / "src"
 // Use test/scala
 scalaSource in Test := baseDirectory.value / "test"
 
-//run with the features and deprecation options
-scalacOptions ++= Seq("-feature", "-deprecation")
+//run with the feature option
+scalacOptions ++= Seq("-feature")
 
 // Needed for JavaCPP
 classpathTypes += "maven-plugin"
