@@ -58,7 +58,8 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
         from: $scope.index,
         size: $scope.pageSize,
         sort: $scope.sort,
-        order: $scope.sortOrder
+        order: $scope.sortOrder,
+        query: $scope.searchText
       });
     }
 
@@ -215,11 +216,61 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       $scope.index = 0;
       $scope.searchText = searchText;
 
+      //education advanced search 
+      var eduString = "";
+      var csChecked = document.getElementById("csCheck").checked;
+      var cpeChecked = document.getElementById("cpeCheck").checked;
+      var itChecked = document.getElementById("itCheck").checked;
+      if (csChecked) {
+        eduString = eduString + "'computer science'";
+      }
+
+      if (cpeChecked) {
+        eduString = eduString + "'computer engineering'";
+      }
+
+      if (itChecked) {
+        eduString = eduString + "'information technology'";
+      }
+
+      if (eduString != "") {
+
+        $scope.searchText = $scope.searchText + " AND education.degree: (" + eduString + ")";
+      }
+
+      //location advanced search
+      var locString = "";
+      var vaChecked = document.getElementById("vaCheck").checked;
+      var mdChecked = document.getElementById("mdCheck").checked;
+      var dcChecked = document.getElementById("dcCheck").checked;
+
+      if (vaChecked) {
+        locString = locString + "'VA'";
+      }
+
+      if (mdChecked) {
+        locString = locString + "'MD'";
+      }
+
+      if (dcChecked) {
+        locString = locString + "'DC'";
+      }
+
+      if (locString != "") {
+        $scope.searchText = $scope.searchText + " AND currentLocation.location: (" + locString + ")";
+      }
+
+      console.log($scope.searchText);
+
       $scope.applicants = Applicant.query({
         query: $scope.searchText,
         from: $scope.index,
-        size: $scope.pageSize
+        size: $scope.pageSize,
+        sort: $scope.sort,
+        order: $scope.sortOrder
       });
+
+      //$scope.searchText = searchText;
     }
 
     /** 
@@ -254,7 +305,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
         })(files[i]);
       }
     }
-    //test comment
+
     //scroll code
     $(function() {
       var lastScrollTop = 0,

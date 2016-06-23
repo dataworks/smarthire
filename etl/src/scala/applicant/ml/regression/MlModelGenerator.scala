@@ -2,6 +2,7 @@ package applicant.ml.regression
 
 import org.apache.spark.SparkConf
 import org.apache.spark.SparkContext
+import org.apache.spark.SparkContext._
 import org.elasticsearch.spark._
 import scopt.OptionParser
 import scala.collection.mutable.HashMap
@@ -11,6 +12,7 @@ import java.io.File
 import java.lang._
 import java.util.regex
 import org.apache.spark.mllib.feature.{Word2Vec, Word2VecModel}
+import scala.collection.mutable.{ListBuffer, Map}
 
 /**
  *
@@ -23,6 +25,9 @@ object MlModelGenerator {
     esLabelIndex: String ="")
 
   def generateMLmodel(options: Command) {
+    val archivedAppListBuff = scala.collection.mutable.ListBuffer.empty[ApplicantData]
+    val favoritedAppListBuff = scala.collection.mutable.ListBuffer.empty[ApplicantData]
+
     val conf = new SparkConf().setMaster(options.sparkMaster)
       .setAppName("generateMLmodel").set("es.nodes", options.esNodes)
       .set("es.port", options.esPort)
@@ -32,16 +37,27 @@ object MlModelGenerator {
     val sc = new SparkContext(conf)
     //Create Word2Vec model
     val w2vModel = Word2VecModel.load(sc, options.word2vecModel)
-    println(sc.esRDD("applicants/applicant", "?q=contact.github:http*"))
-  }
+    val archiveLabelsSeq = sc.esRDD(options.esLabelIndex + "/label", "?q=type:archive").collectAsMap()
+    archiveLabelsSeq.foreach{ label =>
+      val labelMap = label._2
+      val applicantid = labelMap("id")
+      val archivedAppRDD = sc.esRDD(options.esAppIndex + "/applicant", "?q=id:" + applicantid).collectAsMap()
+      val archivedAppMap = archivedAppRDD(applicantid.toString())
+      val archivedAppMutableMap = collection.mutable.Map(archivedAppMap.toSeq: _*)
+      println(ApplicantData(archivedAppMutableMap))
+      //archivedAppListBuff += ApplicantData(archivedAppMap)
+      //println((archivedAppMap))
+      //println(ApplicantData(archivedAppMap))*/
+    }
 
-  def main(args: Array[String]) {
+  }
 
   /**
    * Main method
    *
    * @param args Array of Strings: see options
    */
+  def main(args: Array[String]) {
 
     //Command line option parser
     val parser = new OptionParser[Command]("ResumeParser") {
@@ -60,6 +76,9 @@ object MlModelGenerator {
       opt[String]('i', "applicantindex") required() valueName("<applicantindex>") action { (x, c) =>
         c.copy(esAppIndex = x)
       } text ("Name of the Elasticsearch index to read and write data.")
+      opt[String]('l', "labelindex") required() valueName("<labelindex>") action { (x, c) =>
+        c.copy(esLabelIndex = x)
+      } text ("Name of the Elasticsearch containing archived/favorited labes.")
 
       note ("Pulls labeled resumes from elasticsearch and generates a logistic regression model \n")
       help("help") text("Prints this usage text")
