@@ -22,7 +22,10 @@
     "normalize-css": "^2.3.1",
     "request": "^2.72.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "should": "^9.0.2",
+    "supertest": "^1.2.0"
+  },
   "scripts": {
     "start": "node server/server.js",
     "test": "./node_modules/.bin/mocha --reporter mocha-tap-reporter"
