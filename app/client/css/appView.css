@@ -332,13 +332,13 @@ td > #high{
   }
 
   #arrow{
-    margin-left: 45%;
-    margin-top: 13.75%;
+    margin-left: 80%;
+    margin-top: -11%;
   }
 
   #sb{
-    margin-right: 48%;
-    margin-top: 3.5%;
+    margin-right: 43%;
+    margin-top: 2%;
   }
 
 }
@@ -496,11 +496,15 @@ td{
         position: static !important;
     }
     .dropdown.dropdown-lg .dropdown-menu {
-      margin-left: -275%;
-      margin-top: 23%;
+      margin-left: -1%;
+      width: 100%;
     }
     .autocomplete{
       margin-left: 0 !important;
+    }
+
+    #two{
+      display: block;
     }
 }
 
