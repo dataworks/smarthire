@@ -200,7 +200,7 @@ object FeatureGenerator {
     }
     titleScore += pastTitles.length
     for (title <- pastTitles) {
-      if (titleKeywords.exists(title.contains)) {
+      if (titleKeywords.exists(title.toLowerCase.contains)) {
         titleScore += 1
       }
     }
