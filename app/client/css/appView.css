@@ -496,11 +496,15 @@ td{
         position: static !important;
     }
     .dropdown.dropdown-lg .dropdown-menu {
-      margin-left: -275%;
-      margin-top: 23%;
+      margin-left: -1%;
+      width: 100%;
     }
     .autocomplete{
       margin-left: 0 !important;
+    }
+
+    #two{
+      display: block;
     }
 }
 
