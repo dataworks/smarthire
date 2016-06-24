@@ -103,19 +103,12 @@
   font-size: 150%;
 }
  
- /*#h, #a, #c2, #drop{
-  margin-top: 2.5%;
- }*/
 
  .dropdown-menu li a{
   color: black !important;
   font-size: 125% !important;
   font-family: 'Raleway', sans-serif !important;
   font-weight: normal;
-}
-
-.dropdown-menu > #log{
-  vertical-align: center;
 }
 
 body {

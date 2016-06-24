@@ -186,6 +186,7 @@ th{
 
 #s > a, #n > a{
   color: #689F38;
+  cursor: pointer;
 }
 
 td > #high{

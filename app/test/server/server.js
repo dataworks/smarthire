@@ -16,19 +16,15 @@ describe("Applicant Server", function() {
     });
   });
 
-  // describe("Archive Server", function() {
-  //   var url = "http://localhost:8082/app/service/archive";
+  describe("Autocomplete", function() {
+    var url = "http://localhost:8082/app/service/suggest?field=additionalInfo.resume&term=java";
 
-  //   it("returns dummy applicants", function(done) {
-  //     request(url, function(error, response, body) {
-  //       expect(response.statusCode).to.equal(200);
-
-  //       var data = JSON.parse(body);
-  //       expect(data).to.have.length.above(0);
-  //       //expect(data[0].name).to.equal('Dave Mezzetti');
-
-  //       done();
-  //     });
-  //   });
-  // });
+    it("aggregation length is not equal to 5", function(done) {
+      request(url, function(error, response, body) {
+        var data = JSON.parse(body);
+        expect(data).to.have.lengthOf(5);
+        done();
+      });
+    });
+  });
 });

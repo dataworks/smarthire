@@ -104,7 +104,7 @@ object MlModelGenerator {
       } text ("Name of the Elasticsearch containing archived/favorited labes.")
       opt[String]('d', "modeldirectory") required() valueName("<modeldirectory>") action { (x, c) =>
         c.copy(modelDirectory = x)
-      }
+      } text("Path where the logistic regression model is to be saved")
 
       note ("Pulls labeled resumes from elasticsearch and generates a logistic regression model \n")
       help("help") text("Prints this usage text")
