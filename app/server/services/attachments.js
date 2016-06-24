@@ -14,7 +14,7 @@ exports.getAttachment = function(req, res) {
       });
       res.send(buffer);
     } else {
-      //res.status(404);
+      res.status(204);
     }
     res.end();
   }, function(error, response) {
