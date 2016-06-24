@@ -11,7 +11,7 @@ import java.io._
 import scopt.OptionParser
 import org.elasticsearch.spark._
 import org.apache.commons.io.FilenameUtils
-import org.apache.commons.codec.binary.Base64
+import org.apache.commons.codec.binary.Hex
 import applicant.nlp._
 import java.security.MessageDigest
 
@@ -70,17 +70,21 @@ object ResumeParser {
       fileCount += 1
       broadcastExtractor.synchronized {
         val entitySet = broadcastExtractor.value.extractEntities(text)
-        val applicantid = Base64.encodeBase64String(MessageDigest.getInstance("MD5").digest(currentFile.toArray))
+        val applicantid = Hex.encodeHexString(MessageDigest.getInstance("MD5").digest(currentFile.toArray)).toLowerCase()
         val app = ApplicantData(entitySet, applicantid, text)
         app.toMap()
       }
 
     }.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
+    
+    var pdfCount = 0
 
     fileData.values.map{ currentFile =>
+      println("Uploading pdf " + Hex.encodeHexString(MessageDigest.getInstance("MD5").digest(currentFile.toArray)).toLowerCase() + ", " + pdfCount + " pdfs uploaded")
+      pdfCount += 1
       Map(
-        "hash" -> MessageDigest.getInstance("MD5").digest(currentFile.toArray),
-        "applicantid" -> MessageDigest.getInstance("MD5").digest(currentFile.toArray),
+        "hash" -> Hex.encodeHexString(MessageDigest.getInstance("MD5").digest(currentFile.toArray)).toLowerCase(),
+        "applicantid" -> Hex.encodeHexString(MessageDigest.getInstance("MD5").digest(currentFile.toArray)).toLowerCase(),
         "base64string" -> currentFile.toArray,
         "filename" -> FilenameUtils.getName(currentFile.getPath()),
         "extension" -> FilenameUtils.getExtension(currentFile.getPath()),

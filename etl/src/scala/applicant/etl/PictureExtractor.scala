@@ -9,6 +9,7 @@ import org.elasticsearch.spark._
 import scopt.OptionParser
 import java.security.MessageDigest
 import org.apache.commons.io.FilenameUtils
+import org.apache.commons.codec.binary.Hex
 
 import scala.collection.mutable.{LinkedHashMap, ListBuffer}
 
@@ -56,7 +57,7 @@ object PictureExtractor {
       }
 
       return Some(Map(
-        "hash" -> MessageDigest.getInstance("MD5").digest(byteArray),
+        "hash" -> Hex.encodeHexString(MessageDigest.getInstance("MD5").digest(byteArray)).toLowerCase(),
         "applicantid" -> applicantId,
         "base64string" -> byteArray,
         "filename" -> (FilenameUtils.getName(urlStr) + "." + fileExtension),
@@ -130,7 +131,7 @@ object PictureExtractor {
     fileData.values.map { currentFile =>
 
       Map(
-        "hash" -> MessageDigest.getInstance("MD5").digest(currentFile.toArray),
+        "hash" -> Hex.encodeHexString(MessageDigest.getInstance("MD5").digest(currentFile.toArray)).toLowerCase(),
         "applicantid" -> FilenameUtils.getBaseName(currentFile.getPath()).replace("_","/"),
         "base64string" -> currentFile.toArray,
         "filename" -> FilenameUtils.getName(currentFile.getPath()),
