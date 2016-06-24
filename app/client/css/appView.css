@@ -67,17 +67,20 @@
 
 /*search bar*/
 input {
-font: 115% 'Raleway', sans-serif;
-background: white;
-float: right;
-border-radius: 25px;
-outline: none;
+  font: 115% 'Raleway', sans-serif;
+  background: white;
+  float: right;
+  border-radius: 25px;
+  outline: none;
+  border-top-color: white;
+  border-bottom-color: #ababab;
+  border-right-color: #ababab;
 }
 
 input::-webkit-input-placeholder {
-color: black;
-font-weight: normal;
-font-style: italic;
+  color: black;
+  font-weight: normal;
+  font-style: italic;
 }
 
 input:focus, input:active {
@@ -89,12 +92,6 @@ input:focus, input:active {
   -o-transition: all 0.30s ease-in-out;
 }
 
-/*input[type=text]:focus, textarea:focus {
-  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
-  padding: 3px 0px 3px 3px;
-  margin: 5px 1px 3px 0px;
-  border: 1px solid rgba(81, 203, 238, 1);
-}*/
 
 /* enable absolute positioning */
 .inner-addon {
@@ -468,6 +465,8 @@ td{
     margin-left: 107%;
     padding: 10px 24px;
     width: 200%;
+    border: 1px solid #ababab;
+    border-radius: 10px;
 }
 
 .btn-default{
@@ -552,18 +551,27 @@ td{
 .autocomplete ul{
   position: absolute;
   left: 0;
-  width: 100%;
+  width: 95%;
   background: white;
   margin-top: 5%;
-  margin-left: -3%;
-/*  border-left: 1px solid #888;
-  border-right: 1px solid #888;
-  border-bottom: 1px solid #888;*/
+  margin-left: 3.5%;
+  padding-left: 0;
+  padding-right: 0;
+  border-left: 1px solid rgba(81, 203, 238, 1);
+  border-right: 1px solid rgba(81, 203, 238, 1);
+  border-bottom: 1px solid rgba(81, 203, 238, 1);
+  border-bottom-right-radius: 25px;
+  border-bottom-left-radius: 25px;
+  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
 }
 
 .autocomplete li:last-child{
   border-bottom-right-radius: 25px;
-  border-bottom-left-radius: 25px;
+  border-bottom-left-radius: 25px;  
   padding-bottom: 2%;
 }
 
@@ -575,7 +583,7 @@ td{
   padding-bottom: 1%;
   padding-top: 1%;
   padding-left: 2.5%;
-  background-color: #E0F2F1;
+  background-color: white;
 }
 
 .autocomplete li.active{

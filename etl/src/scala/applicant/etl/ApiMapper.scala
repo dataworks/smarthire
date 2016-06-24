@@ -57,10 +57,15 @@ object ApiMapper {
   def googlemapsAPI(location1 : String, location2 : String) : Option[Int] = {
     val apiUrl = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + location1.trim().replaceAll("\\s", "+") + "&destinations=" + location2.trim().replaceAll("\\s", "+")
     val jsonString = scala.io.Source.fromURL(apiUrl).mkString
-    val distance = ((((parse(jsonString) \ "rows")(0) \ "elements")(0) \ "distance") \ "value" )
-    implicit val formats = DefaultFormats
-    if (distance.isInstanceOf[JInt]) {
-      return Some(distance.extract[Int])
+    if (jsonString.contains("distance") && jsonString.contains("value") && jsonString.contains("rows") && jsonString.contains("elements")) {
+      val distance = ((((parse(jsonString) \ "rows")(0) \ "elements")(0) \ "distance") \ "value" )
+      implicit val formats = DefaultFormats
+      if (distance.isInstanceOf[JInt]) {
+        return Some(distance.extract[Int])
+      }
+      else {
+        return None
+      }
     }
     else {
       return None

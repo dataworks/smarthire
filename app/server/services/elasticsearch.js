@@ -13,8 +13,6 @@ exports.query = function(config, params, res, query, handler) {
     sort[params.sort] = {"order" : (params ? params.order : null), "ignore_unmapped" : true}
   }
 
-  console.log(sort);
-
   // Execute ES Query
   client.search({
     index: config.index,
@@ -163,7 +161,7 @@ exports.delete = function(config, params, res) {
 
 function errorMessage(err, res) {
   console.log(err.message);
-  res.status(400).send(err.message);
+  res.status(500).send(err.message);
 
   // Release client resources
   client.close();

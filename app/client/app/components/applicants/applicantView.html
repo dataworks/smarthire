@@ -9,14 +9,14 @@
   <!-- needed in order to have toast -->
 <toast></toast>
   <!-- upload button -->
-  <label id="upload" class="btn btn-primary">
+  <label id="upload" class="btn btn-primary" onclick="showToast('Upload')">
     Upload Resume <input type="file" style="display: none;" custom-on-change="upload" multiple />
   </label>
    <!-- search bar -->
    <div class="form-group col-xs-6">
     <div class="inner-addon right-addon">
-      <i id="sb" class="glyphicon glyphicon-search" ng-click="search(searchText)"></i>
-      <autocomplete data="autoSuggest" type="text" ng-keyup="$event.keyCode == 13 && search(searchText)" id="search" ng-model="searchText" placeholder="Search here..." required></autocomplete>
+      <i id="sb" class="glyphicon glyphicon-search" ng-click="search(displayText)"></i>
+      <autocomplete data="autoSuggest" type="text" ng-keyup="$event.keyCode == 13 && search(displayText)" id="search" ng-model="displayText" placeholder="Search here..." required></autocomplete>
       <div class="input-group-btn">
           <div class="dropdown dropdown-lg">
             <button id="arrow" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>

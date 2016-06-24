@@ -167,7 +167,7 @@ object ApplicantData {
    *
    * @param elasticMap A map structure returned from querying on the elasticsearch applicant index
    */
-  def apply(elasticMap: Map[String, AnyRef]): ApplicantData = {
+  def apply(elasticMap: scala.collection.Map[String, AnyRef]): ApplicantData = {
     val app = new ApplicantData()
 
     app.applicantid = getString(elasticMap("id"))
