@@ -202,6 +202,10 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
 
       }
 
+      else if(type == 'Upload'){
+        ngToast.create("Resume has been Uploaded");
+      }
+
       else {
         ngToast.create({
           className: 'info',

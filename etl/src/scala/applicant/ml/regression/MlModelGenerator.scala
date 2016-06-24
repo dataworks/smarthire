@@ -24,7 +24,7 @@ object MlModelGenerator {
   //Class to store command line options
   case class Command(word2vecModel: String = "", sparkMaster: String = "",
     esNodes: String = "", esPort: String = "", esAppIndex: String = "",
-    esLabelIndex: String ="")
+    esLabelIndex: String ="", modelDirectory: String = "")
 
   def generateMLmodel(options: Command) {
     val archivedAppListBuff = scala.collection.mutable.ListBuffer.empty[ApplicantData]
@@ -40,7 +40,7 @@ object MlModelGenerator {
     //Create Word2Vec model
     val w2vModel = Word2VecModel.load(sc, options.word2vecModel)
     val labelsHashMap: HashMap[String,Double] = new HashMap[String,Double]()
-    val archiveLabelsSeq = sc.esRDD(options.esLabelIndex + "/label", "?q=*").values.map{label =>
+    val archiveLabelsSeq = sc.esRDD(options.esLabelIndex + "/label").values.map{label =>
       if (label("type").asInstanceOf[String] == "archive") {
         label("id").asInstanceOf[String] -> 0.0
       }
@@ -49,26 +49,30 @@ object MlModelGenerator {
       }
     }.collect()
 
+    //Add these results to a hash map for faster lookup during the filter
     archiveLabelsSeq.foreach(x => labelsHashMap += x)
-    println(labelsHashMap)
 
-    val modelData: ListBuffer[LabeledPoint] = new ListBuffer[LabeledPoint]()
+    //Query elasticsearch for every item in the applicant index
+    val appRDD = sc.esRDD(options.esAppIndex + "/applicant").values
 
-    val appRDD = sc.esRDD(options.esAppIndex + "/applicant", "?q=*").values
+    //Filter out all of the applicants who do not have a proper label
+    val applicantsArray = appRDD.filter(applicantMap => labelsHashMap.contains(applicantMap("id").asInstanceOf[String])).collect()
 
-    appRDD.foreach{ app =>
-      if (labelsHashMap.contains(app("id").asInstanceOf[String])) {
-        val appData = ApplicantData(collection.mutable.Map(app.toSeq: _*))
-        val appVec = FeatureGenerator.getFeatureVec(w2vModel, appData)
-        if (labelsHashMap(app("id").asInstanceOf[String]) == 0.0) {
-          modelData += LabeledPoint(0.0, appVec)
-        }
-        else {
-          modelData += LabeledPoint(1.0, appVec)
-        }
-      }
+    //Turn the applicant Map stuctures into a workable type
+    val applicantDataList = ListBuffer[ApplicantData]()
+    for (app <- applicantsArray) {
+      applicantDataList += ApplicantData(app)
     }
 
+    //Turn the applicant objects into Labeled Points
+    val modelData: ListBuffer[LabeledPoint] = new ListBuffer[LabeledPoint]()
+    applicantDataList.foreach { applicant =>
+      val currentValue = labelsHashMap(applicant.applicantid)
+      modelData += LabeledPoint(currentValue, FeatureGenerator.getFeatureVec(w2vModel, applicant))
+    }
+
+    //Create and save the logistic regression model
+    LogisticRegressionHelper.createAndSaveModel(sc, options.modelDirectory, modelData)
   }
 
   /**
@@ -98,6 +102,9 @@ object MlModelGenerator {
       opt[String]('l', "labelindex") required() valueName("<labelindex>") action { (x, c) =>
         c.copy(esLabelIndex = x)
       } text ("Name of the Elasticsearch containing archived/favorited labes.")
+      opt[String]('d', "modeldirectory") required() valueName("<modeldirectory>") action { (x, c) =>
+        c.copy(modelDirectory = x)
+      }
 
       note ("Pulls labeled resumes from elasticsearch and generates a logistic regression model \n")
       help("help") text("Prints this usage text")
