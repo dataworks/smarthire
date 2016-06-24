@@ -47,5 +47,5 @@ function buildQuery(res, hits, type) {
  * Calls the suggest method in ES.js
  */
 exports.suggest = function(req, res) {
-  esservice.suggest(config.applicants, req.query, res)
+  esservice.suggest(config.applicants, req.query, 'additionalInfo.resume', res)
 }

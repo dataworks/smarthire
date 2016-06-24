@@ -27,7 +27,6 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
     $scope.autoComplete = function(text) {
       $scope.searchText = text;
       $scope.autoSuggest = Suggest.query({
-        field: 'additionalInfo.resume',
         term: $scope.searchText
       });
     }

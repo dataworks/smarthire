@@ -491,7 +491,28 @@ td{
   border-color: #689F38;
 }
 
-@media (max-width: 768px) {
+#one{
+    padding: 2.5%;
+}
+
+/*for ipads*/
+@media (min-width: 768px) and (max-width: 991px){
+    .dropdown.dropdown-lg .dropdown-menu {
+      width: 325%;
+    }
+    #arrow{
+    margin-left: 367%;
+    margin-top: 6%;
+  }
+
+  #sb{
+    margin-right: 4%;
+    margin-top: 0.75%;
+  }
+}
+
+/*for phones*/
+@media (max-width: 767px) {
     .dropdown.dropdown-lg {
         position: static !important;
     }
@@ -505,6 +526,11 @@ td{
 
     #two{
       display: block;
+      padding-top: 2.5%;
+    }
+
+    #three{
+      padding-bottom: 2.5%;
     }
 }
 
@@ -535,11 +561,20 @@ td{
   border-bottom: 1px solid #888;*/
 }
 
+.autocomplete li:last-child{
+  border-bottom-right-radius: 25px;
+  border-bottom-left-radius: 25px;
+  padding-bottom: 2%;
+}
+
 .autocomplete li{
   text-align: left;
   list-style:none;
   width: 100%;
-  padding: 1%;
+  padding-right: 1%;
+  padding-bottom: 1%;
+  padding-top: 1%;
+  padding-left: 2.5%;
   background-color: #E0F2F1;
 }
 

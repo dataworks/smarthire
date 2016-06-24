@@ -8,7 +8,6 @@ var applicantService = require("./services/applicants.js");
 var labelService = require("./services/labels.js");
 var attachmentService = require("./services/attachments.js");
 var uploadService = require("./services/uploads.js");
-//var suggestService = require("./services/suggest.js");
 
 app.use(express.static("client"));
 
