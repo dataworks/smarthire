@@ -167,20 +167,20 @@ object FeatureGenerator {
    */
   def degreeScore (degree: String) : Double = {
     var degreeVal = 0.0
-    val degreeKeywords : List[String] = List("tech", "computer", "information", "engineer", "c.s.")
+    val degreeKeywords : List[String] = List("tech", "computer", "information", "engineer", "c.s.", "program")
     //give point if degree is parsed
     if (degree != "") {
       degreeVal += 1
     }
     //give point if degree is masters, else 0.5 for bachelors
-    if (degree.contains("master")) {
+    if (degree.toLowerCase.contains("master")) {
       degreeVal += 1
     }
-    else if(degree.contains("bachelor")) {
+    else if(degree.toLowerCase.contains("bachelor")) {
       degreeVal += 0.5
     }
     //give 2 points if tech degreeVal
-    if (degreeKeywords.exists(degree.contains)) {
+    if (degreeKeywords.exists(degree.toLowerCase.contains)) {
       degreeVal += 2
     }
     return degreeVal / 4.5
