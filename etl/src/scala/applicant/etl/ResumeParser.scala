@@ -76,8 +76,12 @@ object ResumeParser {
       }
 
     }.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
+    
+    var pdfCount = 0
 
     fileData.values.map{ currentFile =>
+      println("Uploading pdf " + Hex.encodeHexString(MessageDigest.getInstance("MD5").digest(currentFile.toArray)).toLowerCase() + ", " + pdfCount + " pdfs uploaded")
+      pdfCount += 1
       Map(
         "hash" -> Hex.encodeHexString(MessageDigest.getInstance("MD5").digest(currentFile.toArray)).toLowerCase(),
         "applicantid" -> Hex.encodeHexString(MessageDigest.getInstance("MD5").digest(currentFile.toArray)).toLowerCase(),

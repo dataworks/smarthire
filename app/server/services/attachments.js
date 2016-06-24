@@ -1,6 +1,12 @@
 var esservice = require("./elasticsearch.js");
 var config = require("./config.js");
 
+/**
+ * Retrieves resumes and images of applicants
+ *
+ * @param req - HTTP request object which contains id and type of applicant
+ * @param res - HTTP response object
+ */
 exports.getAttachment = function(req, res) {
   var query = "applicantid:" + req.query.id + " AND metadata.Content-Type:" + req.query.type;
   esservice.query(config.attachments, null, res, query, function(res, hits) {

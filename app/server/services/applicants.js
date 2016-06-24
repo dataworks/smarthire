@@ -2,7 +2,11 @@ var esservice = require("./elasticsearch.js");
 var config = require("./config.js");
 
 /*
- *lists applicants based on type
+ * lists applicants based on type
+ *
+ * @param req - HTTP reqquest object that has the query
+ * @param res - HTTP response object
+ * @param type - type of applicant can be new, favorite, archive, or review
  */
 exports.listApplicants = function(req, res, type) {
   var query = '*';
@@ -24,7 +28,11 @@ exports.listApplicants = function(req, res, type) {
 }
 
 /*
- * Builds the query string for ES
+ * Builds the query string for ES based on type
+ *
+ * @param res - HTTP response object
+ * @param hits - Id's are extracted from hits and mapped to an array
+ * @param type - type of the applicant 
  */
 function buildQuery(res, hits, type) {
   if (hits && hits.length > 0) {
@@ -45,7 +53,10 @@ function buildQuery(res, hits, type) {
 
 /*
  * Calls the suggest method in ES.js
+ *
+ * @param term - the search term
+ * @param res - HTTP response object 
  */
-exports.suggest = function(req, res) {
-  esservice.suggest(config.applicants, req.query, 'additionalInfo.resume', res)
+exports.suggest = function(term, res) {
+  esservice.suggest(config.applicants, term, 'additionalInfo.resume', res)
 }
