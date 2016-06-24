@@ -25,25 +25,30 @@ object FeatureGenerator {
     //first feature (number of synonyms to Java/Spark/Hadoop within resume body)
     val featureArray = scala.collection.mutable.ArrayBuffer.empty[Double]
     val synonymMap = w2vSynonymMapper(model, List("Java", "Spark", "Hadoop"), 20)
-    featureArray += firstFeature(synonymMap, applicant.fullText)
+    featureArray += keywordSynonyms(synonymMap, applicant.fullText)
     //second feature (distance from Reston VA)
     if (applicant.recentLocation == "") {
       featureArray += Double.MaxValue
     }
     else {
-      featureArray += secondFeature("Reston,VA", applicant.recentLocation)
+      featureArray += distanceFinder("Reston,VA", applicant.recentLocation)
     }
     //third feature (density of contact info)
-    featureArray += thirdFeature(applicant)
+    featureArray += countContacts(applicant)
     //fourth feature (length of resume)
-    featureArray += fourthFeature(applicant.fullText)
+    featureArray += resumeLength(applicant.fullText)
     //fifth feature (gpa value)
     if (applicant.gpa == "") {
       featureArray += 3.0
     }
     else {
-      featureArray += fifthFeature(applicant.gpa)
+      featureArray += gpaDouble(applicant.gpa)
     }
+
+    featureArray += degreeScore(applicant.degree)
+
+    featureArray += pastTitles(applicant.recentTitle, applicant.otherTitleList.toList)
+
 
     return Vectors.dense(featureArray.toArray[Double])
   }
@@ -56,7 +61,7 @@ object FeatureGenerator {
    * @param resume Full string of parsed resume
    * @return First feature score framed to 0-1
    */
-  def firstFeature (w2vmap: HashMap[String,Boolean], resume: String): Double = {
+  def keywordSynonyms (w2vmap: HashMap[String,Boolean], resume: String): Double = {
     val tokenizer = new LuceneTokenizer()
     val resumeArray = tokenizer.tokenize(resume)
     var matches : Double = 0.0
@@ -79,13 +84,13 @@ object FeatureGenerator {
   }
 
   /**
-   * Same as googlemapsAPI in etl.ApiMapper
+   * Second feature
    *
    * @param location1 First location
    * @param location2 Second location
    * @return Distance between the two locations in meters
    */
-  def secondFeature (location1: String, location2: String): Double = {
+  def distanceFinder (location1: String, location2: String): Double = {
     val distance = ApiMapper.googlemapsAPI(location1, location2)
     distance match {
       case Some(distance) =>
@@ -97,38 +102,84 @@ object FeatureGenerator {
   }
 
   /**
-   * Counts number of contact information items
+   * Third feature, Counts number of contact information items
    *
    * @param app The applicant being ranked
    * @return The number of contact items found
    */
-  def thirdFeature (app: ApplicantData): Double = {
+  def countContacts (app: ApplicantData): Double = {
     val sum = stringCounter(app.linkedin) + stringCounter(app.github) + stringCounter(app.indeed) + app.urlList.length + stringCounter(app.email) + stringCounter(app.phone)
     return sum.toDouble
   }
 
   /**
-   * Measures resume length (note: may want to precompile regex if slow)
+   * Fourth feature, Measures resume length (note: may want to precompile regex if slow)
    *
    * @param resume Full string of parsed resume
    * @return Resume length without punctuation, spaces, or newline characters
    */
-  def fourthFeature (resume: String): Double = {
+  def resumeLength (resume: String): Double = {
     val resumeLength = resume.replaceAll("[^a-zA-Z0-9]+","").length()
     return resumeLength.toDouble
   }
 
   /**
-   * Converts the GPA field stored in ApplicantData to a double
+   * Fifth feature, Converts the GPA field stored in ApplicantData to a double
    * (note: nlp gpa parser can be improved by changing gpa in regex.txt to omit the word "GPA")
    * @param gpa gpa string from applicant
    * @return gpa as a double
    */
-  def fifthFeature (gpa: String) : Double = {
+  def gpaDouble (gpa: String) : Double = {
     val arrStr : Array[String] = gpa.split(" ")
-    val gpaDouble = arrStr(1).toDouble
-    //val gpaDouble = Double.parseDouble(arrStr(1))
-    return gpaDouble
+    val gpaDbl = arrStr(1).toDouble
+    return gpaDbl
+  }
+
+  /**
+   * Sixth feature
+   * @param degree The degree field parsed out from the resume
+   * @return score of degree
+   */
+  def degreeScore (degree: String) : Double = {
+    var degreeVal = 0.0
+    val degreeKeywords : List[String] = List("tech", "computer", "information", "engineer", "c.s.")
+    //give point if degree is parsed
+    if (degree != "") {
+      degreeVal += 1
+    }
+    //give point if degree is masters, else 0.5 for bachelors
+    if (degree.contains("master")) {
+      degreeVal += 1
+    }
+    else if(degree.contains("bachelor")) {
+      degreeVal += 0.5
+    }
+    //give 2 points if tech degreeVal
+    if (degreeKeywords.exists(degree.contains)) {
+      degreeVal += 2
+    }
+    return degreeVal
+  }
+
+  /**
+   * Seventh feature
+   * @param recentTitle Current position
+   * @param pastTitles List of previous positions
+   * @return Double representing number of titles and if tech related
+   */
+  def pastTitles (recentTitle: String, pastTitles: List[String]) : Double = {
+    var titleScore = 0.0
+    val titleKeywords : List[String] = List("tech", "computer", "information", "engineer", "developer", "software", "analyst")
+    if (recentTitle != "") {
+      titleScore += 1
+    }
+    titleScore += pastTitles.length
+    for (title <- pastTitles) {
+      if (titleKeywords.exists(title.contains)) {
+        titleScore += 1
+      }
+    }
+    return titleScore
   }
 
   /**
