@@ -1,78 +1,105 @@
 package applicant.ml.score
 
+import scala.collection.mutable.ListBuffer
 import org.apache.spark.SparkConf
 import org.apache.spark.SparkContext
 import scopt.OptionParser
-import scala.collection.mutable.HashMap
-import applicant.nlp.LuceneTokenizer
-import java.io.File
+import org.elasticsearch.spark._
 import org.apache.spark.mllib.feature.{Word2Vec, Word2VecModel}
+import org.apache.spark.mllib.linalg.{Vectors, Vector}
+
+import applicant.ml.regression._
+import applicant.etl._
 
 /**
- *
+ * ScoreCalculator is a class that loads a logistic regression model, queries elasticsearch
+ *  for applicants, and then updates their scores based on the model
  */
-class ScoreCalculator {
+object ScoreCalculator {
+  case class Command(word2vecModel: String = "", sparkMaster: String = "",
+    esNodes: String = "", esPort: String = "", esAppIndex: String = "",
+    regressionModelDirectory: String = "")
 
-  val conf = new SparkConf().setMaster("local[*]")
-    .setAppName("ResumeParser").set("es.nodes", "172.31.61.189")
-    .set("es.port", "9200")
-    .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+  def reloadScores(options: Command) {
+    val conf = new SparkConf().setMaster(options.sparkMaster)
+      .setAppName("generateMLmodel").set("es.nodes", options.esNodes)
+      .set("es.port", options.esPort)
+      .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
 
-  /*
-   The internal hostname is ip-172-31-61-189.ec2.internal (172.31.61.189).  Internally the REST API is available on port 9200 and the native transport runs on port 9300.
-  */
+    //create spark rdd using conf
+    val sc = new SparkContext(conf)
 
-  //Create Spark RDD using conf
-  val sc = new SparkContext(conf)
-
-  //Create Word2Vec model and synonym hash map
-  val w2vModel = Word2VecModel.load(sc, "model/w2v")
-
-  /**
-   * Calculates first feature
-   *
-   * @param w2vmap Word2Vec synonym map
-   * @param resume Full string of parsed resume
-   * @return First feature score framed to 0-1
-   */
-  def firstFeature (w2vmap: HashMap[String,Boolean], resume: String): Double = {
-    val tokenizer = new LuceneTokenizer()
-    val resumeArray = tokenizer.tokenize(resume)
-    var matches : Double = 0.0
-
-    resumeArray.foreach { word =>
-      if (w2vmap.contains(word)){
-        w2vmap += (word -> true)
-      }
+    //Load the w2v and logistic regression models
+    val w2vModel = Word2VecModel.load(sc, options.word2vecModel)
+    var regressionModel = LogisticRegressionHelper.loadModel(sc, options.regressionModelDirectory) match {
+      case Some(model) =>
+        model
+      case None =>
+        null
     }
 
-    w2vmap.foreach{ case (k,v) =>
-      if (v == true){
-        matches += 1
-        w2vmap += (k -> false)
-      }
+    if (regressionModel == null) {
+      println("There was a problem loading the regression model. Quitting now.")
+      return
     }
 
-    val featuresScore = matches
-    return featuresScore
+    //Query elasticsearch for every applicant
+    val appRDD = sc.esRDD(options.esAppIndex + "/applicant").values
+
+    //Create applicant data objects out of what was queried and find scores for each
+    val appDataArray = appRDD.map { appMap =>
+      val app = ApplicantData(appMap)
+      val features = FeatureGenerator.getFeatureVec(w2vModel, app)
+      val calculatedScore = LogisticRegressionHelper.predictSingleScore(regressionModel, features)
+
+      app.score = calculatedScore
+      app
+    }
+
+    for (app <- appDataArray) {
+      println(app.applicantid + " " + app.score)
+    }
+
+    //Load the new scores into the applicants
+
+    //Push the applicants back up to Elasticsearch
   }
 
-  /**
-   * Creates a hash map of w2v synonyms and booleans
-   * @param model A w2v model generated from source data
-   * @param terms The search terms to find synonyms for
-   * @param synonymCount Number of synonyms to return per term
-   * @return A hash map of the synonyms as keys and booleans as values
-   */
-  def w2vSynonymMapper(model: Word2VecModel, terms: List[String], synonymCount: Int) : HashMap[String,Boolean] = {
-    val map = HashMap.empty[String,Boolean]
-    terms.foreach{ term =>
-      map += (term -> false)
-      val synonyms = model.findSynonyms(term.toLowerCase(), synonymCount)
-      for((synonym, cosineSimilarity) <- synonyms) {
-        map += (synonym -> false)
-      }
+
+  def main(args: Array[String]) {
+    //Command line option parser
+    val parser = new OptionParser[Command]("ResumeParser") {
+      opt[String]('w', "word2vecModel") required() valueName("<word2vecModel>") action { (x, c) =>
+        c.copy(word2vecModel = x)
+      } text ("Path to word2vec model (usually model/w2v)")
+      opt[String]('m', "master") required() valueName("<master>") action { (x, c) =>
+        c.copy(sparkMaster = x)
+      } text ("Spark master argument.")
+      opt[String]('n', "nodes") required() valueName("<nodes>") action { (x, c) =>
+        c.copy(esNodes = x)
+      } text ("Elasticsearch node to connect to, usually IP address of ES server.")
+      opt[String]('p', "port") required() valueName("<port>") action { (x, c) =>
+        c.copy(esPort = x)
+      } text ("Default HTTP/REST port used for connecting to Elasticsearch, usually 9200.")
+      opt[String]('i', "applicantindex") required() valueName("<applicantindex>") action { (x, c) =>
+        c.copy(esAppIndex = x)
+      } text ("Name of the Elasticsearch index to read and write data.")
+      opt[String]('d', "regressionmodeldirectory") required() valueName("<regressionmodeldirectory>") action { (x, c) =>
+        c.copy(regressionModelDirectory = x)
+      } text ("The path to the logistic regression model")
+
+      note ("Pulls labeled resumes from elasticsearch and generates a logistic regression model \n")
+      help("help") text("Prints this usage text")
     }
-    return map
+
+    // Parses command line arguments and passes them to the search
+    parser.parse(args, Command()) match {
+        //If the command line options were all present continue
+        case Some(options) =>
+          //Read all of the files in sourceDirectory and use Tika to grab the text from each
+          reloadScores(options)
+        //Elsewise, just exit
+        case None =>
+    }
   }
 }
