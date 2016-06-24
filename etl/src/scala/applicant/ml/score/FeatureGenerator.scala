@@ -24,8 +24,9 @@ object FeatureGenerator {
   def getFeatureVec(model: Word2VecModel, applicant: ApplicantData): Vector = {
     //first feature (number of synonyms to Java/Spark/Hadoop within resume body)
     val featureArray = scala.collection.mutable.ArrayBuffer.empty[Double]
-    val synonymMap = w2vSynonymMapper(model, List("Java", "Spark", "Hadoop"), 20)
-    featureArray += keywordSynonyms(synonymMap, applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Java"), 30), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Spark"), 30), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Hadoop"), 30), applicant.fullText)
     //second feature (distance from Reston VA)
     if (applicant.recentLocation == "") {
       featureArray += 0.0
