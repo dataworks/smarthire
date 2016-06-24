@@ -27,4 +27,18 @@ describe("Applicant Server", function() {
       });
     });
   });
+
+  describe("Attachments", function() {
+    var url = "http://localhost:8082/app/service/attachments?id=00186ac4af79e884ad164394043005a6&type=pdf";
+
+    it("checks the resume body to be a string", function(done) {
+      request(url, function(error, response, body) {
+        body.should.be.a.('string');
+        done();
+      });
+    });
+  });
+
+
+
 });
