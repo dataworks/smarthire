@@ -47,7 +47,8 @@ app.post("/service/uploads", function(req,res) {
 });
 
 app.get("/service/suggest", function(req, res) {
-  applicantService.suggest(req, res);
+  var term = req.query.term.toLowerCase();
+  applicantService.suggest(term, res);
 });
 
 root.get("/", function(req, res) {

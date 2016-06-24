@@ -70,7 +70,7 @@ exports.defaultHandler = function(res, hits) {
  * @param field - field is set to additionalInfo.resume
  * @param res - HTTP response to send back data
  */
-exports.suggest = function(config, params, field, res) {
+exports.suggest = function(config, term, field, res) {
   var client = new elasticsearch.Client({
     host: config.url
   });
@@ -85,7 +85,7 @@ exports.suggest = function(config, params, field, res) {
           terms: {
             size: 5,
             field: field,
-            include: params.term + ".*",
+            include: term + ".*",
             order: {
               _count: "desc"
             }
@@ -94,7 +94,7 @@ exports.suggest = function(config, params, field, res) {
       },
       query: {
         query_string: {
-          query: params.term + "*"
+          query: term + "*"
         }
       }
     }
