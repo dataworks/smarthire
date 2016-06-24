@@ -8,7 +8,6 @@ var applicantService = require("./services/applicants.js");
 var labelService = require("./services/labels.js");
 var attachmentService = require("./services/attachments.js");
 var uploadService = require("./services/uploads.js");
-var suggestService = require("./services/suggest.js");
 
 app.use(express.static("client"));
 
@@ -48,7 +47,7 @@ app.post("/service/uploads", function(req,res) {
 });
 
 app.get("/service/suggest", function(req, res) {
-  suggestService.suggest(req, res);
+  applicantService.suggest(req, res);
 });
 
 root.get("/", function(req, res) {

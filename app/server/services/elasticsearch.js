@@ -64,8 +64,13 @@ exports.defaultHandler = function(res, hits) {
 
 /**
  * Returns aggregated data based on search query for autocomplete functionality
+ *
+ * @param config - object that contains index, url, and type of ES
+ * @param params - params contains the search term
+ * @param field - field is set to additionalInfo.resume
+ * @param res - HTTP response to send back data
  */
-exports.suggest = function(config, params, res) {
+exports.suggest = function(config, params, field, res) {
   var client = new elasticsearch.Client({
     host: config.url
   });
@@ -79,7 +84,7 @@ exports.suggest = function(config, params, res) {
         autocomplete: {
           terms: {
             size: 5,
-            field: params.field,
+            field: field,
             include: params.term + ".*",
             order: {
               _count: "desc"
