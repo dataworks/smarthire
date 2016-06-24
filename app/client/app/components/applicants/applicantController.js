@@ -1,12 +1,6 @@
 applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applicant', 'Label', 'Suggest', 'Upload', '$window', 'ngToast', '$timeout',
   function($scope, $location, Applicant, Label, Suggest, Upload, $window, ngToast, $timeout) {
 
-    // $scope.autoSkills = ["Java",
-    //                     "Python",
-    //                     "C#",
-    //                     "Angular",
-    //                     "Cassandra"];
-
     //default dropdown menu to 'new' on page load
     $scope.selection = "new";
     $scope.sort = "score";
@@ -24,19 +18,22 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
     $scope.reverse = false;
     $scope.searchText = "";
 
-    // $scope.autoSkills = Suggest.query({
-    //   field: 'additionalInfo.resume',
-    //   term: 'ja'
-    // });
+    /**
+     * function that changes the suggestion query based on the text that is in the search bar
+     *
+     * @param text- text that is currently in the search bar
+     */
 
-    $scope.startFunc = function(text) {
-      console.log("hello");
+    $scope.autoComplete = function(text) {
       $scope.searchText = text;
-      $scope.autoSkills = Suggest.query({
+      $scope.autoSuggest = Suggest.query({
         field: 'additionalInfo.resume',
         term: $scope.searchText
       });
     }
+
+    //alternative to ng-change, calls $scope.autoComplete when 'searchText' has been modified
+    $scope.$watch('searchText', $scope.autoComplete);
 
     //default query
     $scope.applicants = Applicant.query({
