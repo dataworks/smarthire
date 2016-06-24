@@ -158,7 +158,7 @@ exports.delete = function(config, params, res) {
 
 function errorMessage(err, res) {
   console.log(err.message);
-  res.status(400).send(err.message);
+  res.status(204).send(err.message);
 
   // Release client resources
   client.close();
