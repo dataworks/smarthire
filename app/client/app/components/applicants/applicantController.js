@@ -87,6 +87,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
      */
     $scope.showSelectValue = function(type) {
       $scope.searchText = "";
+      $scope.displayText = "";
       $scope.index = 0;
       $scope.hasData = true;
       $scope.selection = type;
