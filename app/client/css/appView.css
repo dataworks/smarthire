@@ -491,7 +491,28 @@ td{
   border-color: #689F38;
 }
 
-@media (max-width: 768px) {
+#one{
+    padding: 2.5%;
+}
+
+/*for ipads*/
+@media (min-width: 768px){
+    .dropdown.dropdown-lg .dropdown-menu {
+      width: 325%;
+    }
+    #arrow{
+    margin-left: 367%;
+    margin-top: 6%;
+  }
+
+  #sb{
+    margin-right: 4%;
+    margin-top: 0.75%;
+  }
+}
+
+/*for phones*/
+@media (max-width: 767px) {
     .dropdown.dropdown-lg {
         position: static !important;
     }
@@ -505,6 +526,11 @@ td{
 
     #two{
       display: block;
+      padding-top: 2.5%;
+    }
+
+    #three{
+      padding-bottom: 2.5%;
     }
 }
 
