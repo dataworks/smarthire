@@ -169,10 +169,12 @@ input[type='text'] {
 
 table{
 	width:100%;
+  font-family: 'Open Sans', sans-serif;
 }
 
 th{
   text-align: center;
+  font-size: 125%;
 }
 
 #s{
