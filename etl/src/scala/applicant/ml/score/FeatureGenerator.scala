@@ -28,7 +28,7 @@ object FeatureGenerator {
     featureArray += keywordSynonyms(synonymMap, applicant.fullText)
     //second feature (distance from Reston VA)
     if (applicant.recentLocation == "") {
-      featureArray += Double.MaxValue
+      featureArray += 0.0
     }
     else {
       featureArray += distanceFinder("Reston,VA", applicant.recentLocation)
@@ -95,13 +95,13 @@ object FeatureGenerator {
     distance match {
       case Some(distance) =>
         if (distance.toDouble >= 3000000){
-          return 1.0
+          return 0.0
         }
         else {
-          return distance.toDouble/3000000
+          return 1 - (distance.toDouble/3000000)
         }
       case None =>
-        return Double.MaxValue
+        return 0.0
     }
   }
 
@@ -134,7 +134,7 @@ object FeatureGenerator {
     }
     else
     {
-      return resumeLength.toDouble
+      return resumeLength.toDouble / 5000
     }
   }
 
@@ -151,7 +151,7 @@ object FeatureGenerator {
       return 1.0
     }
     else {
-      return gpaDbl
+      return gpaDbl / 4.0
     }
   }
 
@@ -200,10 +200,10 @@ object FeatureGenerator {
       }
     }
     if (titleScore >= 10) {
-      return titleScore/10
+      return 1.0
     }
     else {
-      return titleScore
+      return titleScore/10
     }
   }
 
