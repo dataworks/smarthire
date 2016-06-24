@@ -351,8 +351,6 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
             reader.addEventListener("load", function () {
               var temp = reader.result;
               var base64string = temp.substring(28);
-              console.log(base64string);
-              console.log(file.type);
              
               var upload = new Upload({
                 'type': 'upload',
