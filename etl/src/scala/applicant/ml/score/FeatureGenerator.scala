@@ -28,7 +28,7 @@ object FeatureGenerator {
     featureArray += keywordSynonyms(synonymMap, applicant.fullText)
     //second feature (distance from Reston VA)
     if (applicant.recentLocation == "") {
-      featureArray += Double.MaxValue
+      featureArray += 0.0
     }
     else {
       featureArray += distanceFinder("Reston,VA", applicant.recentLocation)
@@ -95,13 +95,13 @@ object FeatureGenerator {
     distance match {
       case Some(distance) =>
         if (distance.toDouble >= 3000000){
-          return 1.0
+          return 0.0
         }
         else {
-          return distance.toDouble/3000000
+          return 1 - (distance.toDouble/3000000)
         }
       case None =>
-        return Double.MaxValue
+        return 0.0
     }
   }
 
@@ -134,7 +134,7 @@ object FeatureGenerator {
     }
     else
     {
-      return resumeLength.toDouble
+      return resumeLength.toDouble / 5000
     }
   }
 
@@ -151,7 +151,7 @@ object FeatureGenerator {
       return 1.0
     }
     else {
-      return gpaDbl
+      return gpaDbl / 4.0
     }
   }
 
@@ -162,20 +162,20 @@ object FeatureGenerator {
    */
   def degreeScore (degree: String) : Double = {
     var degreeVal = 0.0
-    val degreeKeywords : List[String] = List("tech", "computer", "information", "engineer", "c.s.")
+    val degreeKeywords : List[String] = List("tech", "computer", "information", "engineer", "c.s.", "program")
     //give point if degree is parsed
     if (degree != "") {
       degreeVal += 1
     }
     //give point if degree is masters, else 0.5 for bachelors
-    if (degree.contains("master")) {
+    if (degree.toLowerCase.contains("master")) {
       degreeVal += 1
     }
-    else if(degree.contains("bachelor")) {
+    else if(degree.toLowerCase.contains("bachelor")) {
       degreeVal += 0.5
     }
     //give 2 points if tech degreeVal
-    if (degreeKeywords.exists(degree.contains)) {
+    if (degreeKeywords.exists(degree.toLowerCase.contains)) {
       degreeVal += 2
     }
     return degreeVal / 4.5
@@ -200,10 +200,10 @@ object FeatureGenerator {
       }
     }
     if (titleScore >= 10) {
-      return titleScore/10
+      return 1.0
     }
     else {
-      return titleScore
+      return titleScore/10
     }
   }
 
