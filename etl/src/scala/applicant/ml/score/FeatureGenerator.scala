@@ -80,7 +80,7 @@ object FeatureGenerator {
     }
 
     val featuresScore = matches
-    return featuresScore
+    return featuresScore/w2vmap.size
   }
 
   /**
@@ -94,11 +94,15 @@ object FeatureGenerator {
     val distance = ApiMapper.googlemapsAPI(location1, location2)
     distance match {
       case Some(distance) =>
-        return distance.toDouble
+        if (distance.toDouble >= 3000000){
+          return 1.0
+        }
+        else {
+          return distance.toDouble/3000000
+        }
       case None =>
         return Double.MaxValue
     }
-    return distance.get.toDouble
   }
 
   /**
@@ -109,7 +113,12 @@ object FeatureGenerator {
    */
   def countContacts (app: ApplicantData): Double = {
     val sum = stringCounter(app.linkedin) + stringCounter(app.github) + stringCounter(app.indeed) + app.urlList.length + stringCounter(app.email) + stringCounter(app.phone)
-    return sum.toDouble
+    if (sum >= 5.0) {
+      return 1.0
+    }
+    else {
+      return sum.toDouble/5.0
+    }
   }
 
   /**
@@ -120,7 +129,13 @@ object FeatureGenerator {
    */
   def resumeLength (resume: String): Double = {
     val resumeLength = resume.replaceAll("[^a-zA-Z0-9]+","").length()
-    return resumeLength.toDouble
+    if (resumeLength >= 5000) {
+      return 1.0
+    }
+    else
+    {
+      return resumeLength.toDouble
+    }
   }
 
   /**
@@ -132,7 +147,12 @@ object FeatureGenerator {
   def gpaDouble (gpa: String) : Double = {
     val arrStr : Array[String] = gpa.split(" ")
     val gpaDbl = arrStr(1).toDouble
-    return gpaDbl
+    if (gpaDbl >= 4.0) {
+      return 1.0
+    }
+    else {
+      return gpaDbl
+    }
   }
 
   /**
@@ -158,7 +178,7 @@ object FeatureGenerator {
     if (degreeKeywords.exists(degree.contains)) {
       degreeVal += 2
     }
-    return degreeVal
+    return degreeVal / 4.5
   }
 
   /**
@@ -179,7 +199,12 @@ object FeatureGenerator {
         titleScore += 1
       }
     }
-    return titleScore
+    if (titleScore >= 10) {
+      return titleScore/10
+    }
+    else {
+      return titleScore
+    }
   }
 
   /**
