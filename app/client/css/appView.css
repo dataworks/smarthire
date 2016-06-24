@@ -1,10 +1,10 @@
 .sortorder.reverse:after {
   content: '\25b2';   /*// BLACK UP-POINTING TRIANGLE*/
-  size: 75%;
+  font-size: 75%;
 }
 .sortorder:after {
   content: '\25bc';  /* // BLACK DOWN-POINTING TRIANGLE*/
-  size: 75%;
+  font-size: 75%;
 }
 
 #profile{
@@ -243,7 +243,7 @@ th{
   }
 
   td > #valL{
-    padding-left: 4%;
+    padding-left: 5%;
   }
 
   td > #valM{
