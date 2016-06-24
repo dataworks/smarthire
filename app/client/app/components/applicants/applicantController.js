@@ -17,6 +17,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
     $scope.propertyName = null;
     $scope.reverse = false;
     $scope.searchText = "";
+    $scope.displayText = "";
 
     /**
      * function that changes the suggestion query based on the text that is in the search bar
@@ -32,7 +33,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
     }
 
     //alternative to ng-change, calls $scope.autoComplete when 'searchText' has been modified
-    $scope.$watch('searchText', $scope.autoComplete);
+    $scope.$watch('displayText', $scope.autoComplete);
 
     //default query
     $scope.applicants = Applicant.query({
@@ -328,7 +329,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
         order: $scope.sortOrder
       });
 
-      //$scope.searchText = searchText;
+      $scope.displayText = searchText;
     }
 
     /** 
