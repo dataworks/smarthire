@@ -73,9 +73,9 @@
       <tbody ng-repeat="applicant in applicants track by applicant.id">
         <tr class="accordion-toggle">
           <td id="p"><img id = "profile" ng-src="{{getLink(applicant.id, 'image')}}" onerror="this.src='images/profile.png'"></td>
-          <td id="s"><span id="high" ng-if="applicant.score >= 0.7">{{applicant.score}}</span>
+          <td id="s"><span ng-if="applicant.score < 0">Not Ranked</span><span id="high" ng-if="applicant.score >= 0.7">{{applicant.score}}</span>
             <span id="mid" ng-if="applicant.score < 0.7 && applicant.score > 0.3">{{applicant.score}}</span>
-            <span id="low" ng-if="applicant.score <= 0.3">{{applicant.score}}</span> <br> <span id="star" class="glyphicon glyphicon-star" ng-if="applicant.score >= 0.9"></span>
+            <span id="low" ng-if="applicant.score <= 0.3 && applicant.score => 0">{{applicant.score}}</span> <br> <span id="star" class="glyphicon glyphicon-star" ng-if="applicant.score >= 0.9"></span>
           </td>
           <td id="n"><span ng-if="applicant.name != ''">{{applicant.name}}</span>
           <span ng-if="applicant.name == ''">Name Not found</span></td>
