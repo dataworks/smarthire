@@ -1,9 +1,9 @@
 package applicant.ml.score
 
+import scala.util.Try
 import scala.collection.mutable.HashMap
 import applicant.nlp.LuceneTokenizer
 import applicant.etl._
-//import java.lang._
 import java.util.regex
 import org.apache.spark.mllib.feature.{Word2Vec, Word2VecModel}
 import org.apache.spark.mllib.linalg.{Vectors, Vector}
@@ -146,12 +146,17 @@ object FeatureGenerator {
    */
   def gpaDouble (gpa: String) : Double = {
     val arrStr : Array[String] = gpa.split(" ")
-    val gpaDbl = arrStr(1).toDouble
-    if (gpaDbl >= 4.0) {
-      return 1.0
+    try {
+      val gpaDbl = arrStr(1).toDouble
+      if (gpaDbl >= 4.0) {
+        return 1.0
+      }
+      else {
+        return gpaDbl / 4.0
+      }
     }
-    else {
-      return gpaDbl / 4.0
+    catch {
+      case ex: Exception => return 0.0
     }
   }
 

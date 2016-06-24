@@ -106,7 +106,7 @@ object LogisticRegressionHelper {
     val testMetadataPath: File = new File(loadLoc + "/metadata")
 
     if (testDataPath.exists() && testMetadataPath.exists()) {
-      return Some(LogisticRegressionModel.load(sc, loadLoc))
+      return Some(LogisticRegressionModel.load(sc, loadLoc).clearThreshold())
     }
 
     return None
