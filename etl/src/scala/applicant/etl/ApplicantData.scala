@@ -25,8 +25,7 @@ class ApplicantData {
   var otherOrganizationList: ListBuffer[String] = new ListBuffer[String]()
   var df: DecimalFormat = new DecimalFormat("#.##")
   var githubData = Map[String,String]()
-  val r = scala.util.Random
-  var score = Math.round(r.nextDouble*1e2)/1e2
+  var score = -1.0
 
   def toMap(): Map[String, Any] = {
 
@@ -126,7 +125,14 @@ object ApplicantData {
     }
 
     app.githubData = collection.mutable.Map(ApiMapper.githubAPI(app.github).toSeq: _*)
-
+    if (app.githubData != collection.mutable.Map() && app.name == notFound) {
+      if (app.githubData("name") != null && app.githubData("name") != "") {
+        app.name = app.githubData("name")
+      }
+      else if (app.githubData("login") != null && app.githubData("login") != "") {
+        app.name = app.githubData("login")
+      }
+    }
     return app
   }
 
