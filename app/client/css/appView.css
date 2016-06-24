@@ -561,11 +561,20 @@ td{
   border-bottom: 1px solid #888;*/
 }
 
+.autocomplete li:last-child{
+  border-bottom-right-radius: 25px;
+  border-bottom-left-radius: 25px;
+  padding-bottom: 2%;
+}
+
 .autocomplete li{
   text-align: left;
   list-style:none;
   width: 100%;
-  padding: 1%;
+  padding-right: 1%;
+  padding-bottom: 1%;
+  padding-top: 1%;
+  padding-left: 2.5%;
   background-color: #E0F2F1;
 }
 

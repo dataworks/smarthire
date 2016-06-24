@@ -6,6 +6,8 @@
     <option id="u" value="review">Review</option>
     <option id="u"  value="archive" >Archive</option>
   </select>
+  <!-- needed in order to have toast -->
+<toast></toast>
   <!-- upload button -->
   <label id="upload" class="btn btn-primary">
     Upload Resume <input type="file" style="display: none;" custom-on-change="upload" multiple />
@@ -53,8 +55,7 @@
     </div>
   </div>
 
-<!-- needed in order to have toast -->
-<toast></toast>
+
 <div infinite-scroll="nextPage()" infinite-scroll-disabled="loadingData" infinite-scroll-check="false" infinite-scroll-distance="1">
   <div class="row-applicant-row" >
     <table class="table table-condensed">
