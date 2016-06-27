@@ -36,12 +36,11 @@ exports.query = function(config, params, res, query, handler) {
   }).then(function(resp) {
     // Parse ES response and send result back
     var hits = module.exports.parseSearchHits(resp, res);
-    console.log("HITS COUNT:" + resp.hits.total);
 
     if (handler) {
       handler(res, hits);
     } else {
-      module.exports.defaultHandler(res, hits, resp.hits.total);
+      module.exports.defaultHandler(res, hits, resp.hits.total, true);
     }
 
     // Release client resources
@@ -69,8 +68,11 @@ exports.parseSearchHits = function(resp, res) {
  * @param res - HTTP response from queries
  * @param hits - Data in array format
  */
-exports.defaultHandler = function(res, hits, count) {
-  res.json({"results": hits, "size": count});
+exports.defaultHandler = function(res, hits, count, useCount) {
+  if(useCount)
+    res.json({"rows": hits, "size": count});
+  else
+    res.json(hits);
 }
 
 /**
@@ -111,7 +113,7 @@ exports.suggest = function(config, term, field, res) {
     }
   }).then(function(resp) {
     var hits = module.exports.getSuggestions(resp);
-    module.exports.defaultHandler(res, hits, resp.hits.total);
+    module.exports.defaultHandler(res, hits, resp.hits.total, false);
     client.close();
   }, function(err) {
       errorMessage(err, res);

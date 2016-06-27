@@ -1,5 +1,5 @@
-applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', '$http', 'Applicant', 'Label', 'Suggest', 'Upload', '$window', 'ngToast', '$timeout',
-  function($scope, $location, $http, Applicant, Label, Suggest, Upload, $window, ngToast, $timeout) {
+applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applicant', 'Label', 'Suggest', 'Upload', '$window', 'ngToast', '$timeout',
+  function($scope, $location, Applicant, Label, Suggest, Upload, $window, ngToast, $timeout) {
 
     //default dropdown menu to 'new' on page load
     $scope.selection = "new";
@@ -36,24 +36,12 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', '$http'
     $scope.$watch('displayText', $scope.autoComplete);
 
     //default query
-    // $scope.applicants = Applicant.query({
-    //   from: $scope.index,
-    //   size: $scope.pageSize,
-    //   sort: $scope.sort,
-    //   order: $scope.sortOrder
-    // });
-
-    Applicant.query({
+    $scope.applicants = Applicant.query({
       from: $scope.index,
       size: $scope.pageSize,
       sort: $scope.sort,
       order: $scope.sortOrder
-    }).$promise.then(function(data) {
-        console.log(data);
-    }).then(function(error) {
-        console.log(error);
     });
-
 
     /**
      * sort by property name. function is called when column is clicked
@@ -118,8 +106,9 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', '$http'
      * @param result- rest of the query
      */
     $scope.dataLoaded = function(result) {
-      if (result.length > 0) {
-        $scope.applicants = $scope.applicants.concat(result);
+      var rows = result.rows;
+      if (rows.length > 0) {
+        $scope.applicants.rows = $scope.applicants.rows.concat(rows);
       } else {
         $scope.hasData = false;
         $scope.index = 0;
