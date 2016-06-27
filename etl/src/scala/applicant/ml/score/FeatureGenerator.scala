@@ -13,9 +13,35 @@ import org.apache.spark.mllib.linalg.{Vectors, Vector}
  */
 object FeatureGenerator {
 
+  val locationMap: HashMap[(String, String), (Double, Double)] = {
+    val cityFileLoc = "data/citylocations/UsData.txt"
+
+    val result = HashMap[(String, String), (Double, Double)]()
+    val lines = scala.io.Source.fromFile(cityFileLoc).getLines()
+
+    for (line <- lines) {
+      val splitVals = line.split("#")//#split
+      result += ((splitVals(0), splitVals(1)) -> (splitVals(2).toDouble, splitVals(3).toDouble))
+    }
+
+    result
+  }
 
   /**
    * Calculates all of the feature scores and returns a vector of the scores
+   *
+   * The features are as follows:
+   *  1) Number of terms similar to our core terms (Java, Scala, Spark, Hadoop)
+   *  2) Number of terms similar to Big Data
+   *  3) Number of terms similar to Database Engineering
+   *  4) Number of terms similar to ETL Engineering
+   *  5) Number of terms similar to Web App Development
+   *  6) Number of terms similar to common programming languages
+   *  7) Measure of distance from recent location
+   *  8) The length of the resume
+   *  9) The GPA
+   *  10) What type and how technical their degree
+   *  11) How technical their positions have been
    *
    * @param model A word2VecModel uses to find synonyms
    * @param applicant The applicant whose features are needed
@@ -24,9 +50,14 @@ object FeatureGenerator {
   def getFeatureVec(model: Word2VecModel, applicant: ApplicantData): Vector = {
     //first feature (number of synonyms to Java/Spark/Hadoop within resume body)
     val featureArray = scala.collection.mutable.ArrayBuffer.empty[Double]
-    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Java"), 30), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Spark"), 30), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Hadoop"), 30), applicant.fullText)
+    // Core key words
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Java","Scala","Spark","Hadoop"), 10), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS"), 5), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Oracle","Postgresql","Mysql"), 5), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Pentaho","Informatica","Streamsets","Syncsort"), 5), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("AngularJS","Javascript","Grails","Spring","Hibernate","node.js"), 5), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Android","iOS","Ionic","Cordova","Phonegap"), 5), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Groovy","C#","C++","Python","Ruby"), 5), applicant.fullText)
     //second feature (distance from Reston VA)
     if (applicant.recentLocation == "") {
       featureArray += 0.0
@@ -64,7 +95,7 @@ object FeatureGenerator {
    */
   def keywordSynonyms (w2vmap: HashMap[String,Boolean], resume: String): Double = {
     val tokenizer = new LuceneTokenizer()
-    val resumeArray = tokenizer.tokenize(resume)
+    val resumeArray = tokenizer.tokenize(resume) //Converts to lowercase
     var matches : Double = 0.0
 
     resumeArray.foreach { word =>
@@ -82,6 +113,50 @@ object FeatureGenerator {
 
     val featuresScore = matches
     return featuresScore/w2vmap.size
+  }
+
+  def locationToPair(location: String): (String, String) = {
+    val tokens = location.split(",")
+    if (tokens.length == 2) {
+      val city = tokens(0).trim
+      val state = tokens(1).trim
+
+      return (city, state)
+    }
+    return ("", "")
+  }
+
+  /**
+   * A backup for finding distance when google decides that we have used enough of their info
+   *
+   * @param location1 First location
+   * @param location2 Second location
+   * @return Distance between the two locations in meters
+   */
+  def backupDistanceFinder (location1: String, location2: String): Double = {
+    val loc1Key = locationToPair(location1)
+    val loc2Key = locationToPair(location2)
+
+    locationMap.get(loc1Key) match {
+      case Some(loc1Coords) =>
+        locationMap.get(loc2Key) match {
+          case Some(loc2Coords) =>
+
+          /*
+            TODO:
+            implement a curvature distance lookup based on the latitude and longitude
+            example of something similar at http://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
+
+            replace the return 1.0 with that
+          */
+
+            return 1.0
+          case None =>
+            return 0.5
+        }
+      case None =>
+        return 0.5
+    }
   }
 
   /**
@@ -102,7 +177,7 @@ object FeatureGenerator {
           return 1 - (distance.toDouble/3000000)
         }
       case None =>
-        return 0.0
+      return backupDistanceFinder(location1, location2)
     }
   }
 
@@ -133,8 +208,7 @@ object FeatureGenerator {
     if (resumeLength >= 5000) {
       return 1.0
     }
-    else
-    {
+    else {
       return resumeLength.toDouble / 5000
     }
   }
@@ -223,10 +297,19 @@ object FeatureGenerator {
   def w2vSynonymMapper(model: Word2VecModel, terms: List[String], synonymCount: Int) : HashMap[String,Boolean] = {
     val map = HashMap.empty[String,Boolean]
     terms.foreach{ term =>
-      map += (term -> false)
-      val synonyms = model.findSynonyms(term.toLowerCase(), synonymCount)
-      for((synonym, cosineSimilarity) <- synonyms) {
-        map += (synonym -> false)
+      try {
+        map += (term -> false)
+        val synonyms = model.findSynonyms(term.toLowerCase(), synonymCount)
+        for((synonym, cosineSimilarity) <- synonyms) {
+          //Filter out numbers
+          if (!Character.isDigit(synonym.charAt(0))) {
+            map += (synonym.toLowerCase() -> false)
+          }
+        }
+      }
+      catch {
+        case ise: java.lang.IllegalStateException => println(term + " not found in w2v library")
+        case e: Exception => println("An error occurred finding synonyms for " + term)
       }
     }
     return map

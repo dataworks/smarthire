@@ -119,4 +119,6 @@ var server = root.listen(8082, function() {
   var port = server.address().port
 
   console.log("ResCheck listening at http://%s:%s", host, port)
+  
 });
+
