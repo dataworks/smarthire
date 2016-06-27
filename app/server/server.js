@@ -129,8 +129,8 @@ var server = root.listen(8082, function() {
 
 //authentication code
 
-var GITHUB_CLIENT_ID = "83af93cff3169eedc35e";
-var GITHUB_CLIENT_SECRET = "98d5c4bb652bc1b58c54d515af74cdef8b2fdeb4";
+var GITHUB_CLIENT_ID = "";
+var GITHUB_CLIENT_SECRET = "";
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
