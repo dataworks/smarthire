@@ -1,6 +1,7 @@
+#!/bin/bash
+
 #script to create elasticsearch index with desired mappings
 
-curl -XPUT 'http://interns.dataworks-inc.com/elasticsearch/'
 curl -XPUT 'http://interns.dataworks-inc.com/elasticsearch/applicants/applicant/_mapping' -d '
 {
   "applicant": {
