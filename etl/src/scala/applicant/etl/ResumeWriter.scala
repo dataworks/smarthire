@@ -51,6 +51,9 @@ class ResumeWriter(output: FileWriter, format: String) {
             else if (sectionName != null) {
                 section += lines(x)
             }
+            else if (lines(x).matches(".+? - Email me.*")) {
+                writeLocation(lines(x))
+            }
             else if (isNotBlank(lines(x)) && isNlpFormat()) {
                 output.write(lines(x) + "\n")
             }
@@ -96,6 +99,18 @@ class ResumeWriter(output: FileWriter, format: String) {
             writeEntity("person", line, false)
             output.write("\n")
         }
+    }
+
+    /**
+     * Writes the master location section if found.
+     *
+     * @param line current line
+     */
+    private def writeLocation(line: String) {
+        val parts = line.split(" - ")
+
+        writeEntity("location", parts(0), false)
+        output.write(" - " + parts(1))
     }
 
     /**
@@ -211,16 +226,17 @@ class ResumeWriter(output: FileWriter, format: String) {
         writeEntity("organization", values(0), true)
         if (values.length > 1){
             var start = 1
+            val separator = getSeparator()
 
             // Skip experience that only has a date range
             if (!values(1).matches(".*\\d{4}.*")) {
-                writeSeparator()
+                output.write(separator)
                 writeEntity("location", values(1), true)
                 start = 2
             }
 
             for (y <- start until values.size) {
-                writeSeparator()
+                output.write(separator)
                 output.write(values(y))
             }
         }
@@ -278,13 +294,23 @@ class ResumeWriter(output: FileWriter, format: String) {
     }
 
     /**
+    * Writes a separator, injecting data variance. Variance prevents algorithms from overfitting the output
+    * file format.
+    *
+    * @return String
+    */
+    private def getSeparator(): String = {
+        // Inject data variance
+        separatorCount += 1
+        return separators(separatorCount % separators.size)
+    }
+
+    /**
      * Writes a separator, injecting data variance. Variance prevents algorithms from overfitting the output
      * file format.
      */
     private def writeSeparator() {
-        // Inject data variance
-        separatorCount += 1
-        output.write(separators(separatorCount % separators.size))
+        output.write(getSeparator())
     }
 
     /**
