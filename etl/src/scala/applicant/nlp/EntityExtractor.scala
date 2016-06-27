@@ -55,6 +55,9 @@ class EntityExtractor(models: Seq[String], patterns: String) {
         return new RegexNameFinder(patterns)
     }
 
+    /**
+     * Clears adaptive data in nameFinders
+     */
     def clearNameFinderData() {
       for (nameFinder <- nameFinders) {
           nameFinder.clearAdaptiveData()
@@ -76,9 +79,6 @@ class EntityExtractor(models: Seq[String], patterns: String) {
           if (!line.equals("")) {
             // Find the entites and values
             val whitespaceTokenizerLine = WhitespaceTokenizer.INSTANCE.tokenize(line)
-            if (whitespaceTokenizerLine.length == 0) {
-
-            }
 
             val names: ListBuffer[Span] = new ListBuffer[Span]()
             for (nameFinder <- nameFinders) {
