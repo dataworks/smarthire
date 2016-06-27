@@ -1,8 +1,10 @@
 .sortorder.reverse:after {
   content: '\25b2';   /*// BLACK UP-POINTING TRIANGLE*/
+  font-size: 75%;
 }
 .sortorder:after {
   content: '\25bc';  /* // BLACK DOWN-POINTING TRIANGLE*/
+  font-size: 75%;
 }
 
 #profile{
@@ -191,19 +193,19 @@ th{
   cursor: pointer;
 }
 
-td > #high{
+#high{
   color: #558B2F;
-  font-weight: bold;
+  font-weight: bolder;
 }
 
 #mid{
   color: #FFC107;
-  font-weight: bold;
+  font-weight: bolder;
 }
 
 #low{
   color: #d50000;
-  font-weight: bold;
+  font-weight: bolder;
 } 
 
 #ci{
@@ -241,7 +243,7 @@ td > #high{
   }
 
   td > #valL{
-    padding-left: 4%;
+    padding-left: 5%;
   }
 
   td > #valM{

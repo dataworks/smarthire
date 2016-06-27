@@ -4,7 +4,7 @@ var config = require("./config.js");
 /*
  * lists applicants based on type
  *
- * @param req - HTTP reqquest object that has the query
+ * @param req - HTTP request object that has the query
  * @param res - HTTP response object
  * @param type - type of applicant can be new, favorite, archive, or review
  */
@@ -13,7 +13,7 @@ exports.listApplicants = function(req, res, type) {
   if (type !== 'new') {
     query = 'type: ' + type;
   }
-  if (req.query.query) {// != null || req.query.query.length < 1) {
+  if (req.query.query) {
     esservice.query(config.applicants, req.query, res, req.query.query, null);
   }
   else {

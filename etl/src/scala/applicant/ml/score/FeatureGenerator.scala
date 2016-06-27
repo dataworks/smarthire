@@ -1,9 +1,9 @@
 package applicant.ml.score
 
+import scala.util.Try
 import scala.collection.mutable.HashMap
 import applicant.nlp.LuceneTokenizer
 import applicant.etl._
-//import java.lang._
 import java.util.regex
 import org.apache.spark.mllib.feature.{Word2Vec, Word2VecModel}
 import org.apache.spark.mllib.linalg.{Vectors, Vector}
@@ -24,11 +24,12 @@ object FeatureGenerator {
   def getFeatureVec(model: Word2VecModel, applicant: ApplicantData): Vector = {
     //first feature (number of synonyms to Java/Spark/Hadoop within resume body)
     val featureArray = scala.collection.mutable.ArrayBuffer.empty[Double]
-    val synonymMap = w2vSynonymMapper(model, List("Java", "Spark", "Hadoop"), 20)
-    featureArray += keywordSynonyms(synonymMap, applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Java"), 30), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Spark"), 30), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Hadoop"), 30), applicant.fullText)
     //second feature (distance from Reston VA)
     if (applicant.recentLocation == "") {
-      featureArray += Double.MaxValue
+      featureArray += 0.0
     }
     else {
       featureArray += distanceFinder("Reston,VA", applicant.recentLocation)
@@ -95,13 +96,13 @@ object FeatureGenerator {
     distance match {
       case Some(distance) =>
         if (distance.toDouble >= 3000000){
-          return 1.0
+          return 0.0
         }
         else {
-          return distance.toDouble/3000000
+          return 1 - (distance.toDouble/3000000)
         }
       case None =>
-        return Double.MaxValue
+        return 0.0
     }
   }
 
@@ -134,7 +135,7 @@ object FeatureGenerator {
     }
     else
     {
-      return resumeLength.toDouble
+      return resumeLength.toDouble / 5000
     }
   }
 
@@ -146,12 +147,17 @@ object FeatureGenerator {
    */
   def gpaDouble (gpa: String) : Double = {
     val arrStr : Array[String] = gpa.split(" ")
-    val gpaDbl = arrStr(1).toDouble
-    if (gpaDbl >= 4.0) {
-      return 1.0
+    try {
+      val gpaDbl = arrStr(1).toDouble
+      if (gpaDbl >= 4.0) {
+        return 1.0
+      }
+      else {
+        return gpaDbl / 4.0
+      }
     }
-    else {
-      return gpaDbl
+    catch {
+      case ex: Exception => return 0.0
     }
   }
 
@@ -162,20 +168,20 @@ object FeatureGenerator {
    */
   def degreeScore (degree: String) : Double = {
     var degreeVal = 0.0
-    val degreeKeywords : List[String] = List("tech", "computer", "information", "engineer", "c.s.")
+    val degreeKeywords : List[String] = List("tech", "computer", "information", "engineer", "c.s.", "program")
     //give point if degree is parsed
     if (degree != "") {
       degreeVal += 1
     }
     //give point if degree is masters, else 0.5 for bachelors
-    if (degree.contains("master")) {
+    if (degree.toLowerCase.contains("master")) {
       degreeVal += 1
     }
-    else if(degree.contains("bachelor")) {
+    else if(degree.toLowerCase.contains("bachelor")) {
       degreeVal += 0.5
     }
     //give 2 points if tech degreeVal
-    if (degreeKeywords.exists(degree.contains)) {
+    if (degreeKeywords.exists(degree.toLowerCase.contains)) {
       degreeVal += 2
     }
     return degreeVal / 4.5
@@ -195,15 +201,15 @@ object FeatureGenerator {
     }
     titleScore += pastTitles.length
     for (title <- pastTitles) {
-      if (titleKeywords.exists(title.contains)) {
+      if (titleKeywords.exists(title.toLowerCase.contains)) {
         titleScore += 1
       }
     }
     if (titleScore >= 10) {
-      return titleScore/10
+      return 1.0
     }
     else {
-      return titleScore
+      return titleScore/10
     }
   }
 

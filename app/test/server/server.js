@@ -1,11 +1,16 @@
 var expect = require("chai").expect;
 var request = require("request");
+var supertest = require("supertest");
+var should = require("should");
+
+var server = supertest.agent("http://localhost:8082/app");
+
 
 describe("Applicant Server", function() {
   describe("New List", function() {
     var url = "http://localhost:8082/app/service/applicants";
 
-    it("returns dummy applicants", function(done) {
+    it("returns applicants from Elasticsearch", function(done) {
       request(url, function(error, response, body) {
         expect(response.statusCode).to.equal(200);
         var data = JSON.parse(body);
@@ -19,7 +24,7 @@ describe("Applicant Server", function() {
   describe("Autocomplete", function() {
     var url = "http://localhost:8082/app/service/suggest?field=additionalInfo.resume&term=java";
 
-    it("aggregation length is not equal to 5", function(done) {
+    it("should be have a length of 5", function(done) {
       request(url, function(error, response, body) {
         var data = JSON.parse(body);
         expect(data).to.have.lengthOf(5);
@@ -28,14 +33,30 @@ describe("Applicant Server", function() {
     });
   });
 
-  describe("Attachments", function() {
-    var url = "http://localhost:8082/app/service/attachments?id=00186ac4af79e884ad164394043005a6&type=pdf";
+  describe("Labels POST", function() {
+    it("should POST dummy applicant", function(done) {
+      server
+        .post('/service/labels')
+        .send({"type" : "favorite", "id" : "123"})
+        .expect("Content-type",/json/)
+        .expect(200)
+        .end(function(err,res){
+          res.status.should.equal(200);
+          done();
+        });
+    });
+  });
 
-    it("checks the resume body to be a string", function(done) {
-      request(url, function(error, response, body) {
-        body.should.be.a.('string');
-        done();
-      });
+  describe("Labels DELETE", function() {
+    it("should DELETE dummy applicant", function(done) {
+      server
+        .delete('/service/labels/123')
+        .expect("Content-type",/json/)
+        .expect(200)
+        .end(function(err,res){
+          res.status.should.equal(200);
+          done();
+        });
     });
   });
 

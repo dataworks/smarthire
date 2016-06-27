@@ -99,6 +99,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', '$http'
      */
     $scope.showSelectValue = function(type) {
       $scope.searchText = "";
+      $scope.displayText = "";
       $scope.index = 0;
       $scope.hasData = true;
       $scope.selection = type;
@@ -362,8 +363,6 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', '$http'
             reader.addEventListener("load", function () {
               var temp = reader.result;
               var base64string = temp.substring(28);
-              console.log(base64string);
-              console.log(file.type);
              
               var upload = new Upload({
                 'type': 'upload',

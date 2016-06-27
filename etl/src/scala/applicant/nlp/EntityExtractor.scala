@@ -55,25 +55,29 @@ class EntityExtractor(models: Seq[String], patterns: String) {
         return new RegexNameFinder(patterns)
     }
 
+    def clearNameFinderData() {
+      for (nameFinder <- nameFinders) {
+          nameFinder.clearAdaptiveData()
+      }
+    }
+
     /**
      * Use the models to grab the entity values from a string
      *
      * @param options command line options
      */
     def extractEntities(text: String): LinkedHashMap[(String, String),(String, String)]  = {
+        this.clearNameFinderData()
         val entitySet = LinkedHashMap[(String, String),(String, String)]()
 
         var line: String = null
         val untokenizedLineStream = new PlainTextByLineStream(new ByteArrayInputStream(text.getBytes()), Charset.forName("UTF-8"))
         while ({ line = untokenizedLineStream.read(); line != null }) {
           if (!line.equals("")) {
-
             // Find the entites and values
             val whitespaceTokenizerLine = WhitespaceTokenizer.INSTANCE.tokenize(line)
             if (whitespaceTokenizerLine.length == 0) {
-                for (nameFinder <- nameFinders) {
-                    nameFinder.clearAdaptiveData()
-                }
+
             }
 
             val names: ListBuffer[Span] = new ListBuffer[Span]()

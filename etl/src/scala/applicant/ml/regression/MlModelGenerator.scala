@@ -72,7 +72,11 @@ object MlModelGenerator {
     }
 
     //Create and save the logistic regression model
-    LogisticRegressionHelper.createAndSaveModel(sc, options.modelDirectory, modelData)
+    val model = LogisticRegressionHelper.createModel(sc, modelData)
+
+    println(model.weights)
+
+    LogisticRegressionHelper.saveModel(model, sc, options.modelDirectory)
   }
 
   /**
