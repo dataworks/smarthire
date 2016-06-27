@@ -12,6 +12,14 @@
   width: auto;
 }
 
+#size{
+  font-size: 175%;
+  font-weight: bold;
+  position: fixed;
+  bottom: 0;
+  margin-left: 78%;
+}
+
 #two{
   padding-right: 10%;
   cursor: unset;
