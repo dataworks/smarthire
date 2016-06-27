@@ -76,7 +76,7 @@ object ResumeParser {
       }
 
     }.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
-    
+
     var pdfCount = 0
 
     fileData.values.map{ currentFile =>
@@ -90,6 +90,7 @@ object ResumeParser {
         "extension" -> FilenameUtils.getExtension(currentFile.getPath()),
         "metadata" -> TextExtractor.extractMetadata(currentFile.open())
         )
+
     }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
 
     sc.stop()

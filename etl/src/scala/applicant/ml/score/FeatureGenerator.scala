@@ -13,9 +13,35 @@ import org.apache.spark.mllib.linalg.{Vectors, Vector}
  */
 object FeatureGenerator {
 
+  val locationMap: HashMap[(String, String), (Double, Double)] = {
+    val cityFileLoc = "data/citylocations/UsData.txt"
+
+    val result = HashMap[(String, String), (Double, Double)]()
+    val lines = scala.io.Source.fromFile(cityFileLoc).getLines()
+
+    for (line <- lines) {
+      val splitVals = line.split("#")//#split
+      result += ((splitVals(0), splitVals(1)) -> (splitVals(2).toDouble, splitVals(3).toDouble))
+    }
+
+    result
+  }
 
   /**
    * Calculates all of the feature scores and returns a vector of the scores
+   *
+   * The features are as follows:
+   *  1) Number of terms similar to our core terms (Java, Scala, Spark, Hadoop)
+   *  2) Number of terms similar to Big Data
+   *  3) Number of terms similar to Database Engineering
+   *  4) Number of terms similar to ETL Engineering
+   *  5) Number of terms similar to Web App Development
+   *  6) Number of terms similar to common programming languages
+   *  7) Measure of distance from recent location
+   *  8) The length of the resume
+   *  9) The GPA
+   *  10) What type and how technical their degree
+   *  11) How technical their positions have been
    *
    * @param model A word2VecModel uses to find synonyms
    * @param applicant The applicant whose features are needed
@@ -89,6 +115,49 @@ object FeatureGenerator {
     return featuresScore/w2vmap.size
   }
 
+  def locationToPair(location: String): (String, String) = {
+    val tokens = location.split(",")
+    if (tokens.length == 2) {
+      val city = tokens(0).trim
+      val state = tokens(1).trim
+
+      return (city, state)
+    }
+  }
+
+  /**
+   * A backup for finding distance when google decides that we have used enough of their info
+   *
+   * @param location1 First location
+   * @param location2 Second location
+   * @return Distance between the two locations in meters
+   */
+  def backupDistanceFinder (location1: String, location2: String): Double = {
+    val loc1Key = locationToPair(location1)
+    val loc2Key = locationToPair(location2)
+
+    locationMap.get(loc1Key) match {
+      case Some(loc1Coords) =>
+        locationMap.get(loc2Key) match {
+          case Some(loc2Coords) =>
+
+          /*
+            TODO:
+            implement a curvature distance lookup based on the latitude and longitude
+            example of something similar at http://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
+
+            replace the return 1.0 with that
+          */
+
+            return 1.0
+          case None =>
+            return 0.5
+        }
+      case None =>
+        return 0.5
+    }
+  }
+
   /**
    * Second feature
    *
@@ -107,8 +176,7 @@ object FeatureGenerator {
           return 1 - (distance.toDouble/3000000)
         }
       case None =>
-        // REPLACE 0.0 WITH CUSTOM DISTANCE FINDER
-        return 0.0
+      return backupDistanceFinder(location1, location2)
     }
   }
 
@@ -139,8 +207,7 @@ object FeatureGenerator {
     if (resumeLength >= 5000) {
       return 1.0
     }
-    else
-    {
+    else {
       return resumeLength.toDouble / 5000
     }
   }
