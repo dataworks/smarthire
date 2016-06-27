@@ -24,9 +24,14 @@ object FeatureGenerator {
   def getFeatureVec(model: Word2VecModel, applicant: ApplicantData): Vector = {
     //first feature (number of synonyms to Java/Spark/Hadoop within resume body)
     val featureArray = scala.collection.mutable.ArrayBuffer.empty[Double]
-    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Java"), 30), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Spark"), 30), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Hadoop"), 30), applicant.fullText)
+    // Core key words
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Java","Scala","Spark","Hadoop"), 10), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS"), 5), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Oracle","Postgresql","Mysql"), 5), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Pentaho","Informatica","Streamsets","Syncsort"), 5), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("AngularJS","Javascript","Grails","Spring","Hibernate","node.js"), 5), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Android","iOS","Ionic","Cordova","Phonegap"), 5), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Groovy","C#","C++","Python","Ruby"), 5), applicant.fullText)
     //second feature (distance from Reston VA)
     if (applicant.recentLocation == "") {
       featureArray += 0.0
@@ -64,7 +69,7 @@ object FeatureGenerator {
    */
   def keywordSynonyms (w2vmap: HashMap[String,Boolean], resume: String): Double = {
     val tokenizer = new LuceneTokenizer()
-    val resumeArray = tokenizer.tokenize(resume)
+    val resumeArray = tokenizer.tokenize(resume) //Converts to lowercase
     var matches : Double = 0.0
 
     resumeArray.foreach { word =>
@@ -102,6 +107,7 @@ object FeatureGenerator {
           return 1 - (distance.toDouble/3000000)
         }
       case None =>
+        // REPLACE 0.0 WITH CUSTOM DISTANCE FINDER
         return 0.0
     }
   }
@@ -223,10 +229,19 @@ object FeatureGenerator {
   def w2vSynonymMapper(model: Word2VecModel, terms: List[String], synonymCount: Int) : HashMap[String,Boolean] = {
     val map = HashMap.empty[String,Boolean]
     terms.foreach{ term =>
-      map += (term -> false)
-      val synonyms = model.findSynonyms(term.toLowerCase(), synonymCount)
-      for((synonym, cosineSimilarity) <- synonyms) {
-        map += (synonym -> false)
+      try {
+        map += (term -> false)
+        val synonyms = model.findSynonyms(term.toLowerCase(), synonymCount)
+        for((synonym, cosineSimilarity) <- synonyms) {
+          //Filter out numbers
+          if (!Character.isDigit(synonym.charAt(0))) {
+            map += (synonym.toLowerCase() -> false)
+          }
+        }
+      }
+      catch {
+        case ise: java.lang.IllegalStateException => println(term + " not found in w2v library")
+        case e: Exception => println("An error occurred finding synonyms for " + term)
       }
     }
     return map
