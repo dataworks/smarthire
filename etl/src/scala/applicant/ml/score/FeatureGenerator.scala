@@ -229,13 +229,19 @@ object FeatureGenerator {
   def w2vSynonymMapper(model: Word2VecModel, terms: List[String], synonymCount: Int) : HashMap[String,Boolean] = {
     val map = HashMap.empty[String,Boolean]
     terms.foreach{ term =>
-      map += (term -> false)
-      val synonyms = model.findSynonyms(term.toLowerCase(), synonymCount)
-      for((synonym, cosineSimilarity) <- synonyms) {
-        //Filter out numbers
-        if (!Character.isDigit(term.charAt(0))) {
-          map += (synonym.toLowerCase() -> false)
+      try {
+        map += (term -> false)
+        val synonyms = model.findSynonyms(term.toLowerCase(), synonymCount)
+        for((synonym, cosineSimilarity) <- synonyms) {
+          //Filter out numbers
+          if (!Character.isDigit(synonym.charAt(0))) {
+            map += (synonym.toLowerCase() -> false)
+          }
         }
+      }
+      catch {
+        case ise: java.lang.IllegalStateException => println(term + " not found in w2v library")
+        case e: Exception => println("An error occurred finding synonyms for " + term)
       }
     }
     return map
