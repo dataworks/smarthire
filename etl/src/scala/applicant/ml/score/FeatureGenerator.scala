@@ -123,6 +123,7 @@ object FeatureGenerator {
 
       return (city, state)
     }
+    return ("", "")
   }
 
   /**
