@@ -9,7 +9,7 @@ var labelService = require("./services/labels.js");
 var attachmentService = require("./services/attachments.js");
 var uploadService = require("./services/uploads.js");
 
-//used for static files (html, client js, images)
+//used for serving static files (html, client js, images)
 app.use(express.static("client"));
 
 app.use(express.static("node_modules"));
