@@ -62,9 +62,9 @@ class ApplicantData {
         "pastPositions" -> Map(
           "title" -> otherTitleList,
           "location" -> otherLocationList,
-          "organization" -> otherOrganizationList,
-          "url" -> urlList
+          "organization" -> otherOrganizationList
         ),
+        "url" -> urlList,
         "githubData" -> githubData,
         "resume" -> fullText
       )
@@ -231,6 +231,11 @@ object ApplicantData {
             app.otherLocationList = getList(pastPosMap("location"))
             app.otherOrganizationList = getList(pastPosMap("organization"))
             app.urlList = getList(pastPosMap("url"))
+          case None =>
+        }
+        infoMap.get("url") match {
+          case Some(any) =>
+            app.urlList = getList(any.asInstanceOf[JListWrapper[String]])
           case None =>
         }
         infoMap.get("githubData") match {
