@@ -17,7 +17,7 @@
   font-weight: bold;
   position: fixed;
   bottom: 0;
-  margin-left: 78%;
+  right: 0;
 }
 
 #two{
@@ -130,6 +130,10 @@ table{
 th{
   text-align: center;
   font-size: 125%;
+}
+
+a{
+  outline: none;
 }
 
 #s{
@@ -302,6 +306,7 @@ td{
   text-align: center;
   width: 15%;
   bottom-border: 1px solid #CCC;
+  z-index: 5;
 }
 
 #body{
@@ -322,6 +327,7 @@ td{
   color: #007ead; 
   background: none; 
   padding: 5%;  
+  z-index: 2;
 }
 
 #file:hover{
@@ -338,6 +344,7 @@ td{
   color: #007ead; 
   background: none; 
   padding: 5%;
+  z-index: 2;
 }
 
 #eye:hover{
@@ -353,6 +360,7 @@ td{
   color: #007ead;
   background: none; 
   padding: 5%;
+  z-index: 2;
 }
 
 #up:hover{
@@ -368,6 +376,7 @@ td{
   color: #007ead; 
   background: none;
   padding: 5%;
+  z-index: 2;
 }
 
 #down:hover {
@@ -383,6 +392,7 @@ td{
   color: #007ead; 
   background: none;
   padding: 5%;
+  z-index: 2;
 }
 
 #question:hover {
@@ -398,6 +408,7 @@ td{
   color: #007ead; 
   background: none;
   padding: 5%;
+  z-index: 2;
 }
 
 #back:hover {
@@ -524,6 +535,10 @@ input[type='text'] {
     margin-right: 4%;
     margin-top: 0.75%;
   }
+  #size{
+    display: none;
+    background-color: yellow;
+  }
 }
 
 /*for phones*/
@@ -623,5 +638,5 @@ input[type='text'] {
   margin-left: 30%;
   transform: scale(0.5);
   /*background-color: white;*/
-  border-radius: 25px;
+  /*border-radius: 25px;*/
 }
