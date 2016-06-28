@@ -14,7 +14,8 @@ describe("Applicant Server", function() {
       request(url, function(error, response, body) {
         expect(response.statusCode).to.equal(200);
         var data = JSON.parse(body);
-        expect(data).to.have.length.above(0);
+        console.log(data.size);
+        expect(data.size).to.be.above(0);
 
         done();
       });

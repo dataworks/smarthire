@@ -46,23 +46,21 @@ object ScoreCalculator {
     //Query elasticsearch for every applicant
     val appRDD = sc.esRDD(options.esAppIndex + "/applicant").values
 
+    //accumulator
+    val counter = sc.accumulator(0)
+
     //Create applicant data objects out of what was queried and find scores for each
     val appDataArray = appRDD.map { appMap =>
       val app = ApplicantData(appMap)
       val features = FeatureGenerator.getFeatureVec(w2vModel, app)
       val calculatedScore = LogisticRegressionHelper.predictSingleScore(regressionModel, features)
+      app.score = Math.round(calculatedScore * 100.0) / 100.0
 
-      app.score = calculatedScore
-      app
-    }
+      println("Scoring applicant number " + counter + " with id of " + app.applicantid + ". Score = " + app.score)
+      counter += 1
 
-    for (app <- appDataArray) {
-      println(app.applicantid + " " + app.score)
-    }
-
-    //Load the new scores into the applicants
-
-    //Push the applicants back up to Elasticsearch
+      app.toMap
+    }.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
   }
 
 
