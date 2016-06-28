@@ -1,78 +1,84 @@
-//function for creating an advanced search query
+/**
+  * function that takes in booleans based on the checkboxes and returns a query string for search
+  *
+  * @params check1-12- booleans that are determined by the checkbox in the advanced search menu
+  * @return final - query string that is sent back to applicantController.js for search
+  *
+  */
 applicantServices.factory('advancedSearch', function() {
   return {
-    createQuery: function(initial, check1, check2, check3, type) {
+    createQuery: function(check1, check2, check3, check4, check5, check6, check7, check8, check9, check10, check11, check12) {
+      var initial = "";
       var final = "";
-      if (type == "major") {
-        if (check1) {
-          initial = initial + "'computer science'";
-        }
 
-        if (check2) {
-          initial = initial + "'computer engineering'";
-        }
-
-        if (check3) {
-          initial = initial + "'information technology'";
-        }
-
-        if (initial != "") {
-          final = final + " AND education.degree: (" + initial + ")";
-        }
+      if (check1) {
+        initial = initial + "'computer science'";
       }
 
-      else if (type == "location") {
-        if (check1) {
-          initial = initial + "'VA'";
-        }
-
-        if (check2) {
-          initial = initial + "'MD'";
-        }
-
-        if (check3) {
-          initial = initial + "'DC'";
-        }
-
-        if (initial != "") {
-          final = final + " AND currentLocation.location: (" + initial + ")";
-        }
+      if (check2) {
+        initial = initial + "'computer engineering'";
       }
 
-      else if (type == "education") {
-        if (check1) {
-          initial = initial + "'Virginia'";
-        }
-
-        if (check2) {
-          initial = initial + "'James Madison'";
-        }
-
-        if (check3) {
-          initial = initial + "'Rensselaer'";
-        }
-
-        if (initial != "") {
-          final = final + " AND education.school: (" + initial + ")";
-        }
+      if (check3) {
+        initial = initial + "'information technology'";
       }
 
-      else if (type == "position") {
-        if (check1) {
-          initial = initial + "'developer'";
-        }
+      if (initial != "") {
+        final = final + " AND education.degree: (" + initial + ")";
+      }
 
-        if (check2) {
-          initial = initial + "'architect'";
-        }
+      initial = "";
 
-        if (check3) {
-          initial = initial + "'manager'";
-        }
+      if (check4) {
+        initial = initial + "'VA'";
+      }
 
-        if (initial != "") {
-          final = final + " AND currentLocation.title: (" + initial + ")";
-        }
+      if (check5) {
+        initial = initial + "'MD'";
+      }
+
+      if (check6) {
+        initial = initial + "'DC'";
+      }
+
+      if (initial != "") {
+        final = final + " AND currentLocation.location: (" + initial + ")";
+      }
+
+      initial = "";
+
+      if (check7) {
+        initial = initial + "'Virginia'";
+      }
+
+      if (check8) {
+        initial = initial + "'James Madison'";
+      }
+
+      if (check9) {
+        initial = initial + "'Rensselaer'";
+      }
+
+      if (initial != "") {
+        final = final + " AND education.school: (" + initial + ")";
+      }
+
+      initial = "";
+
+      if (check10) {
+        initial = initial + "'developer'";
+      }
+
+      if (check11) {
+        initial = initial + "'architect'";
+      }
+
+      if (check12) {
+        initial = initial + "'manager'";
+      }
+
+      if (initial != "") {
+        final = final + " AND currentLocation.title: (" + initial + ")";
       }
 
       return final;
