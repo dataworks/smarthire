@@ -1,6 +1,7 @@
 .content {
   padding-top: 0%;
   padding-bottom: 5.5%;
+  z-index: 2;
 }
 
 .container{

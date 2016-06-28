@@ -17,8 +17,7 @@
   font-weight: bold;
   position: fixed;
   bottom: 0;
-  margin-left: 74%;
-  z-index: 1;
+  right: 0;
 }
 
 #two{
@@ -126,7 +125,6 @@
 table{
 	width:100%;
   font-family: 'Open Sans', sans-serif;
-  z-index: 2;
 }
 
 th{
@@ -308,6 +306,7 @@ td{
   text-align: center;
   width: 15%;
   bottom-border: 1px solid #CCC;
+  z-index: 5;
 }
 
 #body{
@@ -328,6 +327,7 @@ td{
   color: #007ead; 
   background: none; 
   padding: 5%;  
+  z-index: 2;
 }
 
 #file:hover{
@@ -344,6 +344,7 @@ td{
   color: #007ead; 
   background: none; 
   padding: 5%;
+  z-index: 2;
 }
 
 #eye:hover{
@@ -359,6 +360,7 @@ td{
   color: #007ead;
   background: none; 
   padding: 5%;
+  z-index: 2;
 }
 
 #up:hover{
@@ -374,6 +376,7 @@ td{
   color: #007ead; 
   background: none;
   padding: 5%;
+  z-index: 2;
 }
 
 #down:hover {
@@ -389,6 +392,7 @@ td{
   color: #007ead; 
   background: none;
   padding: 5%;
+  z-index: 2;
 }
 
 #question:hover {
@@ -404,6 +408,7 @@ td{
   color: #007ead; 
   background: none;
   padding: 5%;
+  z-index: 2;
 }
 
 #back:hover {
@@ -529,6 +534,10 @@ input[type='text'] {
   #sb{
     margin-right: 4%;
     margin-top: 0.75%;
+  }
+  #size{
+    display: none;
+    background-color: yellow;
   }
 }
 
