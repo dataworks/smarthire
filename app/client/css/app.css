@@ -61,10 +61,22 @@
 .navbar-header > p{
   color: white;
   font-size: 225%;
-/*  margin-top: 2%;*/
-  /*padding-right: 30%;*/
+  text-decoration: none;
   font-weight: bold;
   margin-bottom: 0%;
+}
+
+.navbar-header > p > a{
+  color: white;
+}
+
+.navbar-header > p > a:hover{
+  text-decoration: none;
+}
+
+#s > a:hover, #n > a:hover{
+  text-decoration: none;
+  color: #1976d2;
 }
 
 .navbar-default .navbar-toggle .icon-bar{
@@ -82,7 +94,7 @@
   background-color: #689F38;
   border: none;
   margin-top: 5%;
-  margin-right: -111%;
+  margin-right: -105%;
 }
 
 .navbar-default .navbar-toggle:hover{
