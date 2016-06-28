@@ -1,5 +1,5 @@
 .content {
-  padding-top: 0%;
+  padding-top: 1.5%;
   padding-bottom: 5.5%;
   z-index: 2;
 }
@@ -44,25 +44,23 @@
   }
 }
 
-/*h1 { 
-  font-family: 'Original Surfer', cursive;
-  position: relative;
-  padding-top: 5%;
-  margin-top: 7%;
-  background-color: #CCFF90;
-  width: 100%;
+#bb { 
+  height: 74px;
+  width: auto;
+  margin-right: .5%;
+  margin-bottom: 1%;
 }
-*/
+
 .nav{
   padding-left: 2.5%;
-  padding-top: 1%;
+  padding-top: 1.5%;
   /*padding-top: .13%;*/
   float: right;
 }
 
 .navbar-header > p{
   color: white;
-  font-size: 175%;
+  font-size: 225%;
 /*  margin-top: 2%;*/
   /*padding-right: 30%;*/
   font-weight: bold;
