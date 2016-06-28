@@ -32,19 +32,18 @@ object FeatureGenerator {
    * Calculates all of the feature scores and returns a vector of the scores
    *
    * The features are as follows:
-   *  1) Number of terms similar to our core terms (Java, Scala, Spark, Hadoop)
-   *  2) Number of terms similar to Big Data
-   *  3) Number of terms similar to Database Engineering
-   *  4) Number of terms similar to ETL Engineering
-   *  5) Number of terms similar to Web App Development
-   *  6) Number of terms similar to Mobile Development
-   *  7) Number of terms similar to common programming languages
-   *  8) Measure of distance from recent location
-   *  9) Density of contact info
-   *  10) The length of the resume
-   *  11) The GPA
-   *  12) What type and how technical their degree
-   *  13) How technical their positions have been
+   *  1) Number of terms similar to Big Data
+   *  2) Number of terms similar to Database Engineering
+   *  3) Number of terms similar to ETL Engineering
+   *  4) Number of terms similar to Web App Development
+   *  5) Number of terms similar to Mobile Development
+   *  6) Number of terms similar to common programming languages
+   *  7) Measure of distance from recent location
+   *  8) Density of contact info
+   *  9) The length of the resume
+   *  10) The GPA
+   *  11) What type and how technical their degree
+   *  12) How technical their positions have been
    *
    * @param model A word2VecModel uses to find synonyms
    * @param applicant The applicant whose features are needed
@@ -54,13 +53,12 @@ object FeatureGenerator {
     //first feature (number of synonyms to Java/Spark/Hadoop within resume body)
     val featureArray = scala.collection.mutable.ArrayBuffer.empty[Double]
     // Core key words
-    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Java","Scala","Spark","Hadoop"), 5), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS"), 5), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Hadoop","Spark","HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS"), 5), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Oracle","Postgresql","Mysql"), 5), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Pentaho","Informatica","Streamsets","Syncsort"), 5), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("AngularJS","Javascript","Grails","Spring","Hibernate","node.js"), 5), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("AngularJS","Grails","Spring","Hibernate","node.js"), 5), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Android","iOS","Ionic","Cordova","Phonegap"), 5), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Groovy","C#","C++","Python","Ruby"), 5), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Java","Javascript","Scala","Groovy","C#","C++","Python","Ruby"), 0), applicant.fullText)
     //second feature (distance from Reston VA)
     if (applicant.recentLocation == "") {
       featureArray += 0.0
