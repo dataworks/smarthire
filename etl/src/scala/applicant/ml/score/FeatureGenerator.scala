@@ -21,7 +21,7 @@ object FeatureGenerator {
     val lines = scala.io.Source.fromFile(cityFileLoc).getLines()
 
     for (line <- lines) {
-      val splitVals = line.split("#")//#split
+      val splitVals = line.toLowerCase().split("#")//#split
       result += ((splitVals(0), splitVals(1)) -> (splitVals(2).toDouble, splitVals(3).toDouble))
     }
 
@@ -135,20 +135,20 @@ object FeatureGenerator {
    * @return Distance between the two locations in meters
    */
   def backupDistanceFinder (location1: String, location2: String): Double = {
-    val loc1Key = locationToPair(location1)
-    val loc2Key = locationToPair(location2)
+    val loc1Key = locationToPair(location1.toLowerCase())
+    val loc2Key = locationToPair(location2.toLowerCase())
 
     locationMap.get(loc1Key) match {
       case Some(loc1Coords) =>
         locationMap.get(loc2Key) match {
           case Some(loc2Coords) =>
 
-            var r = 6371
-            var dLat = loc2Coords._1 - loc1Coords._1
-            var dLon = loc2Coords._2 - loc1Coords._2
-            var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(loc1Coords._1.toRadians) * Math.cos(loc2Coords._1.toRadians) * Math.sin(dLon/2) * Math.sin(dLon/2)
-            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
-            return r * c * 1000;
+            val r = 6371
+            val dLat = Math.toRadians(loc2Coords._1 - loc1Coords._1)
+            val dLon = Math.toRadians(loc2Coords._2 - loc1Coords._2)
+            val a = Math.sin(dLat/2.0) * Math.sin(dLat/2.0) + Math.cos(loc1Coords._1.toRadians) * Math.cos(loc2Coords._1.toRadians) * Math.sin(dLon/2.0) * Math.sin(dLon/2.0)
+            val c = 2.0 * Math.atan2(Math.sqrt(a), Math.sqrt(1.0-a))
+            return r * c * 1000.0;
           case None =>
             return 0.5
         }
