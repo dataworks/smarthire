@@ -230,7 +230,6 @@ object ApplicantData {
             app.otherTitleList = getList(pastPosMap("title"))
             app.otherLocationList = getList(pastPosMap("location"))
             app.otherOrganizationList = getList(pastPosMap("organization"))
-            app.urlList = getList(pastPosMap("url"))
           case None =>
         }
         infoMap.get("url") match {

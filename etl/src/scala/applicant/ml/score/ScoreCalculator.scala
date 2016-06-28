@@ -54,11 +54,11 @@ object ScoreCalculator {
       val app = ApplicantData(appMap)
       val features = FeatureGenerator.getFeatureVec(w2vModel, app)
       val calculatedScore = LogisticRegressionHelper.predictSingleScore(regressionModel, features)
+      app.score = Math.round(calculatedScore * 100.0) / 100.0
 
-      println("Scoring applicant number " + counter + " with id of " + app.applicantid + ". Score = " + calculatedScore)
+      println("Scoring applicant number " + counter + " with id of " + app.applicantid + ". Score = " + app.score)
       counter += 1
 
-      app.score = calculatedScore
       app.toMap
     }.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
   }
