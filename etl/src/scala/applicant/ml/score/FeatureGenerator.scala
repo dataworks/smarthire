@@ -117,8 +117,6 @@ object FeatureGenerator {
         else {
           matches += v.toDouble
         }
-        matches += 1.0
-        w2vmap += (k -> 0)
       }
     }
 
