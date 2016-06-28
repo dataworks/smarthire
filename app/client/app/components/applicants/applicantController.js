@@ -239,30 +239,22 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       $scope.index = 0;
       $scope.searchText = searchText;
 
-      var initString = "";
+      //sets a boolean based on which checkboxes are checked
       var csChecked = document.getElementById("csCheck").checked;
       var cpeChecked = document.getElementById("cpeCheck").checked;
       var itChecked = document.getElementById("itCheck").checked;
-
-      $scope.searchText = $scope.searchText + advancedSearch.createQuery(initString, csChecked, cpeChecked, itChecked, "major");
-
       var vaChecked = document.getElementById("vaCheck").checked;
       var mdChecked = document.getElementById("mdCheck").checked;
       var dcChecked = document.getElementById("dcCheck").checked;
-
-      $scope.searchText = $scope.searchText + advancedSearch.createQuery(initString, vaChecked, mdChecked, dcChecked, "location");
-
       var uvaChecked = document.getElementById("uvaCheck").checked;
       var jmuChecked = document.getElementById("jmuCheck").checked;
       var rpiChecked = document.getElementById("rpiCheck").checked;
-
-      $scope.searchText = $scope.searchText + advancedSearch.createQuery(initString, uvaChecked, jmuChecked, rpiChecked, "education");
-
       var devChecked = document.getElementById("devCheck").checked;
       var arcChecked = document.getElementById("arcCheck").checked;
       var manChecked = document.getElementById("manCheck").checked;
 
-      $scope.searchText = $scope.searchText + advancedSearch.createQuery(initString, devChecked, arcChecked, manChecked, "position");
+      //calls the createQuery function in searchService.js
+      $scope.searchText = $scope.searchText + advancedSearch.createQuery(csChecked, cpeChecked, itChecked, vaChecked, mdChecked, dcChecked, uvaChecked, jmuChecked, rpiChecked, devChecked, arcChecked, manChecked);
 
       $scope.applicants = Applicant.query({
         query: $scope.searchText,
@@ -272,6 +264,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
         order: $scope.sortOrder
       });
 
+      //sets text in search bar to what user typed in, hides the query call
       $scope.displayText = searchText;
     }
 
