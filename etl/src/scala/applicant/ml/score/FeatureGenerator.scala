@@ -52,7 +52,7 @@ object FeatureGenerator {
     //first feature (number of synonyms to Java/Spark/Hadoop within resume body)
     val featureArray = scala.collection.mutable.ArrayBuffer.empty[Double]
     // Core key words
-    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Java","Scala","Spark","Hadoop"), 10), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Java","Scala","Spark","Hadoop"), 5), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(model, List("HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS"), 5), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Oracle","Postgresql","Mysql"), 5), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Pentaho","Informatica","Streamsets","Syncsort"), 5), applicant.fullText)
@@ -107,7 +107,7 @@ object FeatureGenerator {
 
     w2vmap.foreach{ case (k,v) =>
       if (v == true){
-        matches += 1
+        matches += 1.0
         w2vmap += (k -> false)
       }
     }
@@ -148,12 +148,19 @@ object FeatureGenerator {
             val dLon = Math.toRadians(loc2Coords._2 - loc1Coords._2)
             val a = Math.sin(dLat/2.0) * Math.sin(dLat/2.0) + Math.cos(loc1Coords._1.toRadians) * Math.cos(loc2Coords._1.toRadians) * Math.sin(dLon/2.0) * Math.sin(dLon/2.0)
             val c = 2.0 * Math.atan2(Math.sqrt(a), Math.sqrt(1.0-a))
-            return r * c * 1000.0;
+            val result = r * c * 1000.0;
+
+            if (result >= 3000000.0){
+              return 0.0
+            }
+            else {
+              return 1 - (result/3000000.0)
+            }
+
           case None =>
-            return 0.5
-        }
+            return 0.25
       case None =>
-        return 0.5
+        return 0.25
     }
   }
 
@@ -168,11 +175,11 @@ object FeatureGenerator {
     val distance = ApiMapper.googlemapsAPI(location1, location2)
     distance match {
       case Some(distance) =>
-        if (distance.toDouble >= 3000000){
+        if (distance.toDouble >= 3000000.0){
           return 0.0
         }
         else {
-          return 1 - (distance.toDouble/3000000)
+          return 1 - (distance.toDouble/3000000.0)
         }
       case None =>
       return backupDistanceFinder(location1, location2)
@@ -207,7 +214,7 @@ object FeatureGenerator {
       return 1.0
     }
     else {
-      return resumeLength.toDouble / 5000
+      return resumeLength.toDouble / 5000.0
     }
   }
 
@@ -243,18 +250,18 @@ object FeatureGenerator {
     val degreeKeywords : List[String] = List("tech", "computer", "information", "engineer", "c.s.", "program")
     //give point if degree is parsed
     if (degree != "") {
-      degreeVal += 1
+      degreeVal += 1.0
     }
     //give point if degree is masters, else 0.5 for bachelors
     if (degree.toLowerCase.contains("master")) {
-      degreeVal += 1
+      degreeVal += 1.0
     }
     else if(degree.toLowerCase.contains("bachelor")) {
       degreeVal += 0.5
     }
     //give 2 points if tech degreeVal
     if (degreeKeywords.exists(degree.toLowerCase.contains)) {
-      degreeVal += 2
+      degreeVal += 2.0
     }
     return degreeVal / 4.5
   }
@@ -269,19 +276,19 @@ object FeatureGenerator {
     var titleScore = 0.0
     val titleKeywords : List[String] = List("tech", "computer", "information", "engineer", "developer", "software", "analyst")
     if (recentTitle != "") {
-      titleScore += 1
+      titleScore += 1.0
     }
     titleScore += pastTitles.length
     for (title <- pastTitles) {
       if (titleKeywords.exists(title.toLowerCase.contains)) {
-        titleScore += 1
+        titleScore += 1.0
       }
     }
-    if (titleScore >= 10) {
+    if (titleScore >= 5.0) {
       return 1.0
     }
     else {
-      return titleScore/10
+      return titleScore/5.0
     }
   }
 
