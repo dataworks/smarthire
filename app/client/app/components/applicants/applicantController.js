@@ -158,7 +158,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
         'type': type
       });
       label.$save().then(function() {
-        $scope.applicants.splice($scope.applicants.indexOf(applicant), 1);
+        $scope.applicants.rows.splice($scope.applicants.rows.indexOf(applicant), 1);
       });
     }
 
@@ -172,7 +172,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       Label.delete({
         'id': id
       }).$promise.then(function() {
-        $scope.applicants.splice($scope.applicants.indexOf(applicant), 1);
+        $scope.applicants.rows.splice($scope.applicants.rows.indexOf(applicant), 1);
       });
     }
 
