@@ -314,8 +314,8 @@ object FeatureGenerator {
         }
       }
       catch {
-        case ise: java.lang.IllegalStateException => println(term + " not found in w2v library")
-        case e: Exception => println("An error occurred finding synonyms for " + term)
+        //case ise: java.lang.IllegalStateException => println(term + " not found in w2v library")
+        case e: Exception => //println("An error occurred finding synonyms for " + term)
       }
     }
     return map
