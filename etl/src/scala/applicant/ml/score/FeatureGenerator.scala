@@ -159,6 +159,7 @@ object FeatureGenerator {
 
           case None =>
             return 0.25
+        }
       case None =>
         return 0.25
     }
