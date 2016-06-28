@@ -143,7 +143,7 @@ object FeatureGenerator {
         locationMap.get(loc2Key) match {
           case Some(loc2Coords) =>
 
-            val r = 6371
+            val r = 6371.0
             val dLat = Math.toRadians(loc2Coords._1 - loc1Coords._1)
             val dLon = Math.toRadians(loc2Coords._2 - loc1Coords._2)
             val a = Math.sin(dLat/2.0) * Math.sin(dLat/2.0) + Math.cos(loc1Coords._1.toRadians) * Math.cos(loc2Coords._1.toRadians) * Math.sin(dLon/2.0) * Math.sin(dLon/2.0)
