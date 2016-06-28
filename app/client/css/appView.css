@@ -20,6 +20,12 @@
   margin-left: 78%;
 }
 
+@media (min-width: 1200px){
+  #size{
+    margin-left: 74%;
+  }
+}
+
 #two{
   padding-right: 10%;
   cursor: unset;
