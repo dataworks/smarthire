@@ -73,6 +73,7 @@
 
 .navbar-header > p > a{
   color: white;
+  text-decoration: none;
 }
 
 .navbar-header > p > a:hover{
