@@ -40,7 +40,7 @@ object FeatureGenerator {
    *  6) Number of terms similar to Mobile Development
    *  7) Number of terms similar to common programming languages
    *  8) Measure of distance from recent location
-      9) Density of contact info
+   *  9) Density of contact info
    *  10) The length of the resume
    *  11) The GPA
    *  12) What type and how technical their degree
@@ -123,7 +123,7 @@ object FeatureGenerator {
     }
 
     val featuresScore = matches
-    return featuresScore/(w2vmap.size*5)
+    return featuresScore/(w2vmap.size*5.0)
   }
 
   def locationToPair(location: String): (String, String) = {
