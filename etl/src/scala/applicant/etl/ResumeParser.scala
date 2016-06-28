@@ -61,30 +61,34 @@ object ResumeParser {
 
     val broadcastExtractor = sc.broadcast(extractor)
 
-    var fileCount: Int = 0
+    var fileCount = sc.accumulator(0)
 
     fileData.values.map { currentFile =>
-      println("Parsing applicant " + MessageDigest.getInstance("MD5").digest(currentFile.toArray) + ", " + fileCount + " files parsed")
+      val esId = Hex.encodeHexString(MessageDigest.getInstance("MD5").digest(currentFile.toArray)).toLowerCase()
+
+      println("Parsing applicant " + esId + ", " + fileCount + " files parsed")
       val text = TextExtractor.extractText(currentFile.open())
 
       fileCount += 1
+
       broadcastExtractor.synchronized {
         val entitySet = broadcastExtractor.value.extractEntities(text)
-        val applicantid = Hex.encodeHexString(MessageDigest.getInstance("MD5").digest(currentFile.toArray)).toLowerCase()
-        val app = ApplicantData(entitySet, applicantid, text)
+        val app = ApplicantData(entitySet, esId, text)
         app.toMap()
       }
 
     }.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
 
-    var pdfCount = 0
+    var pdfCount = sc.accumulator(0)
 
     fileData.values.map{ currentFile =>
-      println("Uploading pdf " + Hex.encodeHexString(MessageDigest.getInstance("MD5").digest(currentFile.toArray)).toLowerCase() + ", " + pdfCount + " pdfs uploaded")
+      val esId = Hex.encodeHexString(MessageDigest.getInstance("MD5").digest(currentFile.toArray)).toLowerCase()
+
+      println("Uploading pdf " + esId + ", " + pdfCount + " pdfs uploaded")
       pdfCount += 1
       Map(
-        "hash" -> Hex.encodeHexString(MessageDigest.getInstance("MD5").digest(currentFile.toArray)).toLowerCase(),
-        "applicantid" -> Hex.encodeHexString(MessageDigest.getInstance("MD5").digest(currentFile.toArray)).toLowerCase(),
+        "hash" -> esId,
+        "applicantid" -> esId,
         "base64string" -> currentFile.toArray,
         "filename" -> FilenameUtils.getName(currentFile.getPath()),
         "extension" -> FilenameUtils.getExtension(currentFile.getPath()),
