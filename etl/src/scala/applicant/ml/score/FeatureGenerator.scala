@@ -5,6 +5,7 @@ import scala.collection.mutable.HashMap
 import applicant.nlp.LuceneTokenizer
 import applicant.etl._
 import java.util.regex
+import java.lang.Math
 import org.apache.spark.mllib.feature.{Word2Vec, Word2VecModel}
 import org.apache.spark.mllib.linalg.{Vectors, Vector}
 
@@ -142,15 +143,12 @@ object FeatureGenerator {
         locationMap.get(loc2Key) match {
           case Some(loc2Coords) =>
 
-          /*
-            TODO:
-            implement a curvature distance lookup based on the latitude and longitude
-            example of something similar at http://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
-
-            replace the return 1.0 with that
-          */
-
-            return 1.0
+            var r = 6371
+            var dLat = loc2Coords._1 - loc1Coords._1
+            var dLon = loc2Coords._2 - loc1Coords._2
+            var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(loc1Coords._1.toRadians) * Math.cos(loc2Coords._1.toRadians) * Math.sin(dLon/2) * Math.sin(dLon/2)
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+            return r * c * 1000;
           case None =>
             return 0.5
         }
