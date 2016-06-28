@@ -87,7 +87,8 @@ app.post("/service/uploads", function(req,res) {
  */
 app.get("/service/suggest", function(req, res) {
   var term = req.query.term.toLowerCase();
-  applicantService.suggest(term, res);
+  var docCount = req.query.docCount;
+  applicantService.suggest(term, res, docCount);
 });
 
 /**
@@ -118,7 +119,7 @@ var server = root.listen(8082, function() {
   var host = server.address().address
   var port = server.address().port
 
-  console.log("ResCheck listening at http://%s:%s", host, port)
+  console.log("SmartHire listening at http://%s:%s", host, port)
   
 });
 

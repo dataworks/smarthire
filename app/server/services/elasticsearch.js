@@ -83,7 +83,7 @@ exports.defaultHandler = function(res, hits, count, useCount) {
  * @param field - field is set to additionalInfo.resume
  * @param res - HTTP response to send back data
  */
-exports.suggest = function(config, term, field, res) {
+exports.suggest = function(config, term, docCount, field, res) {
   var client = new elasticsearch.Client({
     host: config.url
   });
@@ -112,7 +112,7 @@ exports.suggest = function(config, term, field, res) {
       }
     }
   }).then(function(resp) {
-    var hits = module.exports.getSuggestions(resp);
+    var hits = module.exports.getBuckets(resp, docCount);
     module.exports.defaultHandler(res, hits, resp.hits.total, false);
     client.close();
   }, function(err) {
@@ -125,9 +125,17 @@ exports.suggest = function(config, term, field, res) {
  *
  * @param resp - HTTP response from suggest after a search is done
  */
-exports.getSuggestions = function(resp) {
+exports.getBuckets = function(resp, docCount) {
   return resp.aggregations.autocomplete.buckets.map(function(hit) {
-    return hit.key;
+    if(docCount) {
+      var obj = {
+        term: hit.key,
+        count: hit.doc_count
+      };
+      return obj;
+    }
+    else
+      return hit.key;
   });
 }
 

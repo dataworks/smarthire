@@ -57,6 +57,6 @@ function buildQuery(res, hits, type) {
  * @param term - the search term
  * @param res - HTTP response object 
  */
-exports.suggest = function(term, res) {
-  esservice.suggest(config.applicants, term, 'additionalInfo.resume', res)
+exports.suggest = function(term, res, docCount) {
+  esservice.suggest(config.applicants, term, docCount, 'additionalInfo.resume', res)
 }

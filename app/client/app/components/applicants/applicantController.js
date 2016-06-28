@@ -28,7 +28,8 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
     $scope.autoComplete = function(text) {
       $scope.searchText = text;
       $scope.autoSuggest = Suggest.query({
-        term: $scope.searchText
+        term: $scope.searchText,
+        docCount: false
       });
     }
 
