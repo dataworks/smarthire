@@ -52,13 +52,12 @@ object FeatureGenerator {
     //first feature (number of synonyms to Java/Spark/Hadoop within resume body)
     val featureArray = scala.collection.mutable.ArrayBuffer.empty[Double]
     // Core key words
-    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Java","Scala","Spark","Hadoop"), 5), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS"), 5), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Spark","Hadoop","HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS"), 5), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Oracle","Postgresql","Mysql"), 5), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Pentaho","Informatica","Streamsets","Syncsort"), 5), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(model, List("AngularJS","Javascript","Grails","Spring","Hibernate","node.js"), 5), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Android","iOS","Ionic","Cordova","Phonegap"), 5), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Groovy","C#","C++","Python","Ruby"), 5), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Java","Scala","Groovy","C#","C++","Python","Ruby"), 0), applicant.fullText)
     //second feature (distance from Reston VA)
     if (applicant.recentLocation == "") {
       featureArray += 0.0
@@ -305,11 +304,13 @@ object FeatureGenerator {
     terms.foreach{ term =>
       try {
         map += (term -> false)
-        val synonyms = model.findSynonyms(term.toLowerCase(), synonymCount)
-        for((synonym, cosineSimilarity) <- synonyms) {
-          //Filter out numbers
-          if (!Character.isDigit(synonym.charAt(0))) {
-            map += (synonym.toLowerCase() -> false)
+        if (synonymCount > 0) {
+          val synonyms = model.findSynonyms(term.toLowerCase(), synonymCount)
+          for((synonym, cosineSimilarity) <- synonyms) {
+            //Filter out numbers
+            if (!Character.isDigit(synonym.charAt(0))) {
+              map += (synonym.toLowerCase() -> false)
+            }
           }
         }
       }
