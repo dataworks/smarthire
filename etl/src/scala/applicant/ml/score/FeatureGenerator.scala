@@ -37,12 +37,14 @@ object FeatureGenerator {
    *  3) Number of terms similar to Database Engineering
    *  4) Number of terms similar to ETL Engineering
    *  5) Number of terms similar to Web App Development
-   *  6) Number of terms similar to common programming languages
-   *  7) Measure of distance from recent location
-   *  8) The length of the resume
-   *  9) The GPA
-   *  10) What type and how technical their degree
-   *  11) How technical their positions have been
+   *  6) Number of terms similar to Mobile Development
+   *  7) Number of terms similar to common programming languages
+   *  8) Measure of distance from recent location
+      9) Density of contact info
+   *  10) The length of the resume
+   *  11) The GPA
+   *  12) What type and how technical their degree
+   *  13) How technical their positions have been
    *
    * @param model A word2VecModel uses to find synonyms
    * @param applicant The applicant whose features are needed
@@ -52,12 +54,13 @@ object FeatureGenerator {
     //first feature (number of synonyms to Java/Spark/Hadoop within resume body)
     val featureArray = scala.collection.mutable.ArrayBuffer.empty[Double]
     // Core key words
-    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Spark","Hadoop","HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS"), 5), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Java","Scala","Spark","Hadoop"), 5), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS"), 5), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Oracle","Postgresql","Mysql"), 5), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Pentaho","Informatica","Streamsets","Syncsort"), 5), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(model, List("AngularJS","Javascript","Grails","Spring","Hibernate","node.js"), 5), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Android","iOS","Ionic","Cordova","Phonegap"), 5), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Java","Scala","Groovy","C#","C++","Python","Ruby"), 0), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Groovy","C#","C++","Python","Ruby"), 5), applicant.fullText)
     //second feature (distance from Reston VA)
     if (applicant.recentLocation == "") {
       featureArray += 0.0
@@ -76,9 +79,10 @@ object FeatureGenerator {
     else {
       featureArray += gpaDouble(applicant.gpa)
     }
-
+    //Measure of degree score
     featureArray += degreeScore(applicant.degree)
 
+    //measure of past titles
     featureArray += pastTitles(applicant.recentTitle, applicant.otherTitleList.toList)
 
 
@@ -93,26 +97,33 @@ object FeatureGenerator {
    * @param resume Full string of parsed resume
    * @return First feature score framed to 0-1
    */
-  def keywordSynonyms (w2vmap: HashMap[String,Boolean], resume: String): Double = {
+  def keywordSynonyms (w2vmap: HashMap[String,Int], resume: String): Double = {
     val tokenizer = new LuceneTokenizer()
     val resumeArray = tokenizer.tokenize(resume) //Converts to lowercase
     var matches : Double = 0.0
 
     resumeArray.foreach { word =>
       if (w2vmap.contains(word)){
-        w2vmap += (word -> true)
+        val currentWordCount = w2vmap(word)
+        w2vmap += (word -> (currentWordCount + 1))
       }
     }
 
     w2vmap.foreach{ case (k,v) =>
-      if (v == true){
+      if (v >= 3){
+        if (v > 5) {
+          matches += 5.0
+        }
+        else {
+          matches += v.toDouble
+        }
         matches += 1.0
-        w2vmap += (k -> false)
+        w2vmap += (k -> 0)
       }
     }
 
     val featuresScore = matches
-    return featuresScore/w2vmap.size
+    return featuresScore/(w2vmap.size*5)
   }
 
   def locationToPair(location: String): (String, String) = {
@@ -210,11 +221,11 @@ object FeatureGenerator {
    */
   def resumeLength (resume: String): Double = {
     val resumeLength = resume.replaceAll("[^a-zA-Z0-9]+","").length()
-    if (resumeLength >= 5000) {
+    if (resumeLength >= 25000) {
       return 1.0
     }
     else {
-      return resumeLength.toDouble / 5000.0
+      return resumeLength.toDouble / 25000.0
     }
   }
 
@@ -299,17 +310,18 @@ object FeatureGenerator {
    * @param synonymCount Number of synonyms to return per term
    * @return A hash map of the synonyms as keys and booleans as values
    */
-  def w2vSynonymMapper(model: Word2VecModel, terms: List[String], synonymCount: Int) : HashMap[String,Boolean] = {
-    val map = HashMap.empty[String,Boolean]
+  def w2vSynonymMapper(model: Word2VecModel, terms: List[String], synonymCount: Int) : HashMap[String,Int] = {
+    val map = HashMap.empty[String,Int]
     terms.foreach{ term =>
       try {
-        map += (term -> false)
-        if (synonymCount > 0) {
+        map += (term -> 0)
+
+        if (synonymCount != 0) {
           val synonyms = model.findSynonyms(term.toLowerCase(), synonymCount)
           for((synonym, cosineSimilarity) <- synonyms) {
             //Filter out numbers
             if (!Character.isDigit(synonym.charAt(0))) {
-              map += (synonym.toLowerCase() -> false)
+              map += (synonym.toLowerCase() -> 0)
             }
           }
         }
