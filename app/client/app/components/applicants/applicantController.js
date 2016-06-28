@@ -1,5 +1,5 @@
-applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applicant', 'Label', 'Suggest', 'Upload', '$window', 'ngToast', '$timeout',
-  function($scope, $location, Applicant, Label, Suggest, Upload, $window, ngToast, $timeout) {
+applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applicant', 'Label', 'Suggest', 'Upload', '$window', 'ngToast', '$timeout', 'advancedSearch',
+  function($scope, $location, Applicant, Label, Suggest, Upload, $window, ngToast, $timeout, advancedSearch) {
 
     //default dropdown menu to 'new' on page load
     $scope.selection = "new";
@@ -239,93 +239,30 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       $scope.index = 0;
       $scope.searchText = searchText;
 
-      //major advanced search 
-      var majString = "";
+      var initString = "";
       var csChecked = document.getElementById("csCheck").checked;
       var cpeChecked = document.getElementById("cpeCheck").checked;
       var itChecked = document.getElementById("itCheck").checked;
-      if (csChecked) {
-        majString = majString + "'computer science'";
-      }
 
-      if (cpeChecked) {
-        majString = majString + "'computer engineering'";
-      }
+      $scope.searchText = $scope.searchText + advancedSearch.createQuery(initString, csChecked, cpeChecked, itChecked, "major");
 
-      if (itChecked) {
-        majString = majString + "'information technology'";
-      }
-
-      if (majString != "") {
-
-        $scope.searchText = $scope.searchText + " AND education.degree: (" + majString + ")";
-      }
-
-      //location advanced search
-      var locString = "";
       var vaChecked = document.getElementById("vaCheck").checked;
       var mdChecked = document.getElementById("mdCheck").checked;
       var dcChecked = document.getElementById("dcCheck").checked;
 
-      if (vaChecked) {
-        locString = locString + "'VA'";
-      }
+      $scope.searchText = $scope.searchText + advancedSearch.createQuery(initString, vaChecked, mdChecked, dcChecked, "location");
 
-      if (mdChecked) {
-        locString = locString + "'MD'";
-      }
-
-      if (dcChecked) {
-        locString = locString + "'DC'";
-      }
-
-      if (locString != "") {
-        $scope.searchText = $scope.searchText + " AND currentLocation.location: (" + locString + ")";
-      }
-
-      //education advanced search
-      var colString = "";
       var uvaChecked = document.getElementById("uvaCheck").checked;
       var jmuChecked = document.getElementById("jmuCheck").checked;
       var rpiChecked = document.getElementById("rpiCheck").checked;
 
-      if (uvaChecked) {
-        colString = colString + "'Virginia'";
-      }
+      $scope.searchText = $scope.searchText + advancedSearch.createQuery(initString, uvaChecked, jmuChecked, rpiChecked, "education");
 
-      if (jmuChecked) {
-        colString = colString + "'James Madison'";
-      }
-
-      if (rpiChecked) {
-        colString = colString + "'Rensselaer'";
-      }
-
-      if (colString != "") {
-        $scope.searchText = $scope.searchText + " AND education.school: (" + colString + ")";
-      }
-
-      //job title advanced search
-      var jobString = "";
       var devChecked = document.getElementById("devCheck").checked;
       var arcChecked = document.getElementById("arcCheck").checked;
       var manChecked = document.getElementById("manCheck").checked;
 
-      if (devChecked) {
-        jobString = jobString + "'developer'";
-      }
-
-      if (arcChecked) {
-        jobString = jobString + "'architect'";
-      }
-
-      if (manChecked) {
-        jobString = jobString + "'manager'";
-      }
-
-      if (jobString != "") {
-        $scope.searchText = $scope.searchText + " AND currentLocation.title: (" + jobString + ")";
-      }
+      $scope.searchText = $scope.searchText + advancedSearch.createQuery(initString, devChecked, arcChecked, manChecked, "position");
 
       $scope.applicants = Applicant.query({
         query: $scope.searchText,
