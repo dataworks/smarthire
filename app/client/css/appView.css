@@ -17,13 +17,8 @@
   font-weight: bold;
   position: fixed;
   bottom: 0;
-  margin-left: 78%;
-}
-
-@media (min-width: 1200px){
-  #size{
-    margin-left: 74%;
-  }
+  margin-left: 74%;
+  z-index: 1;
 }
 
 #two{
@@ -131,11 +126,16 @@
 table{
 	width:100%;
   font-family: 'Open Sans', sans-serif;
+  z-index: 2;
 }
 
 th{
   text-align: center;
   font-size: 125%;
+}
+
+a{
+  outline: none;
 }
 
 #s{

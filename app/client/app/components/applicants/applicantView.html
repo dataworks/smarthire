@@ -70,9 +70,9 @@
           <th id="p">Profile</th>
           <th id="s"><a title="Click to Sort Score." ng-click="sortColumn('score')">Score</a><span class="sortorder" ng-class="{reverse: reverse}" ng-hide="sortBool"></span></th>
           <th id="n"><a title="Click to sort Name." ng-click="sortColumn('name.raw')">Name</a><span class="sortorder" ng-class="{reverse: reverse}" ng-show="sortBool"></span></th></th>
-          <th id="ci" class="hidden-xs hidden-s hidden-m">Current Info</th>
-          <th id="d" class="hidden-xs hidden-s hidden-m">Degree</th>
-          <th id="c" class="hidden-xs hidden-s hidden-m">Contact</th>
+          <th id="ci" class="hidden-xs hidden-s">Current Info</th>
+          <th id="d" class="hidden-xs hidden-s">Degree</th>
+          <th id="c" class="hidden-xs hidden-s">Contact</th>
           <th id="o">Options</th>
         </tr>
       </thead>
@@ -85,9 +85,9 @@
           </td>
           <td id="n"><span ng-if="applicant.name != ''">{{applicant.name}}</span>
           <span ng-if="applicant.name == ''">Name Not found</span></td>
-          <td id="ci" class="hidden-xs hidden-s hidden-m">{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
-          <td id="d" class="hidden-xs hidden-s hidden-m">{{applicant.education.degree}}</td>
-          <td id="c" class="hidden-xs hidden-s hidden-m"><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <br> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> </td>
+          <td id="ci" class="hidden-xs hidden-s">{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
+          <td id="d" class="hidden-xs hidden-s">{{applicant.education.degree}}</td>
+          <td id="c" class="hidden-xs hidden-s"><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <br> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> </td>
           <td id="o"><span ng-if="selection != 'favorite'"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite', applicant); showToast('Favorite')"> 
             <span title="Add to Favorites" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
           </button></span>
@@ -122,15 +122,15 @@
               <thead>
                 <tr>
                   <th id="skill">Skills</th>
-                  <th id="ed" class="hidden-xs hidden-s hidden-m">Education</th>
-                  <th id="link" class="hidden-xs hidden-s hidden-m">Web Links</th>
+                  <th id="ed" class="hidden-xs hidden-s">Education</th>
+                  <th id="link" class="hidden-xs hidden-s">Web Links</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td id='body'><b>ETL:</b><span id="valE"> {{applicant.skills.etl.join(', ')}}</span> <br> <b>Web App:</b> <span id="valW">{{applicant.skills.webapp.join(', ')}}</span> <br> <b>Languages:</b> <span id="valL">{{applicant.skills.language.join(', ')}}</span> <br> <b>Mobile:</b> <span id="valM">{{applicant.skills.mobile.join(', ')}}</span> <br> <b>Databases:</b> <span id="valD">{{applicant.skills.database.join(', ')}}</span><br> <b> Big Data:</b> <span id="valB">{{applicant.skills.bigdata.join(', ')}}</span></td>
-                  <td id='body' class="hidden-xs hidden-s hidden-m"><b>School:</b> <span id="valS">{{applicant.education.school}}</span> <br> <b>GPA:</b> <span id="valGPA">{{applicant.education.gpa}}</span> <br> </td>
-                  <td id='body'  class="hidden-xs hidden-s hidden-m"> <b>Linked-in: </b><a ng-href="{{applicant.contact.linkedin}}" target="_blank">{{applicant.contact.linkedin}} </a> <br> <b> GitHub: </b><a ng-href="{{applicant.contact.github}}" target="_blank">{{applicant.contact.github}}</a> <br> <b>Indeed: </b><a ng-href="{{applicant.contact.indeed}}" target="_blank">{{applicant.contact.indeed}}</a></td>
+                  <td id='body' class="hidden-xs hidden-s"><b>School:</b> <span id="valS">{{applicant.education.school}}</span> <br> <b>GPA:</b> <span id="valGPA">{{applicant.education.gpa}}</span> <br> </td>
+                  <td id='body'  class="hidden-xs hidden-s"> <b>Linked-in: </b><a ng-href="{{applicant.contact.linkedin}}" target="_blank">{{applicant.contact.linkedin}} </a> <br> <b> GitHub: </b><a ng-href="{{applicant.contact.github}}" target="_blank">{{applicant.contact.github}}</a> <br> <b>Indeed: </b><a ng-href="{{applicant.contact.indeed}}" target="_blank">{{applicant.contact.indeed}}</a></td>
                 </tbody>
               </table>
             </div>
