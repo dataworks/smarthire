@@ -426,7 +426,8 @@ td{
 }
 
 .alert {
-  margin-right: 1050px;  
+  margin-right: 825px;
+  padding-left: 5%;  
   z-index: 2;
   font-size: 100%;
 }
