@@ -57,8 +57,9 @@ object FeatureGenerator {
     featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Oracle","Postgresql","Mysql"), 5), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Pentaho","Informatica","Streamsets","Syncsort"), 5), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(model, List("AngularJS","Grails","Spring","Hibernate","node.js"), 5), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Android","iOS","Ionic","Cordova","Phonegap"), 5), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Android","iOS","Ionic","Cordova","Phonegap"), 0), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Java","Javascript","Scala","Groovy","C#","C++","Python","Ruby"), 0), applicant.fullText)
+
     //second feature (distance from Reston VA)
     if (applicant.recentLocation == "") {
       featureArray += 0.0
@@ -83,7 +84,7 @@ object FeatureGenerator {
     //measure of past titles
     featureArray += pastTitles(applicant.recentTitle, applicant.otherTitleList.toList)
 
-
+    //println(featureArray)
     return Vectors.dense(featureArray.toArray[Double])
   }
 
@@ -108,7 +109,7 @@ object FeatureGenerator {
     }
 
     w2vmap.foreach{ case (k,v) =>
-      if (v >= 3){
+      if (v >= 2){
         if (v > 5) {
           matches += 5.0
         }
@@ -118,8 +119,9 @@ object FeatureGenerator {
       }
     }
 
-    val featuresScore = matches
-    return featuresScore/(w2vmap.size*5.0)
+    val rawScore = matches/(w2vmap.size*1.0)
+
+    return if (rawScore > 1.0) 1.0 else rawScore
   }
 
   def locationToPair(location: String): (String, String) = {
@@ -310,7 +312,7 @@ object FeatureGenerator {
     val map = HashMap.empty[String,Int]
     terms.foreach{ term =>
       try {
-        map += (term -> 0)
+        map += (term.toLowerCase() -> 0)
 
         if (synonymCount != 0) {
           val synonyms = model.findSynonyms(term.toLowerCase(), synonymCount)
