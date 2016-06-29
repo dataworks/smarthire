@@ -165,6 +165,8 @@ a{
   font-weight: bolder;
 } 
 
+/*p = profile, s=score, n=name, ci= current info, d=degree, c=contact, and o = options*/
+
 #ci{
   width: 12% !important;
 }
@@ -183,6 +185,7 @@ a{
 
 #n{
   width: 10% !important;
+  max-width: 240px !important;
 }
 
 #c{

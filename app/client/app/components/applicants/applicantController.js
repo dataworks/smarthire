@@ -240,6 +240,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       $scope.index = 0;
       $scope.searchText = searchText;
 
+
       //sets a boolean based on which checkboxes are checked
       var csChecked = document.getElementById("csCheck").checked;
       var cpeChecked = document.getElementById("cpeCheck").checked;
@@ -253,7 +254,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       var devChecked = document.getElementById("devCheck").checked;
       var arcChecked = document.getElementById("arcCheck").checked;
       var manChecked = document.getElementById("manCheck").checked;
-
+      
       //calls the createQuery function in searchService.js
       $scope.searchText = $scope.searchText + advancedSearch.createQuery(csChecked, cpeChecked, itChecked, vaChecked, mdChecked, dcChecked, uvaChecked, jmuChecked, rpiChecked, devChecked, arcChecked, manChecked);
 
@@ -264,7 +265,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
         sort: $scope.sort,
         order: $scope.sortOrder
       });
-
+      
       //sets text in search bar to what user typed in, hides the query call
       $scope.displayText = searchText;
     }

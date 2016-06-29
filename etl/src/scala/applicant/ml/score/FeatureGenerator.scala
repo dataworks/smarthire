@@ -5,7 +5,6 @@ import scala.collection.mutable.HashMap
 import applicant.nlp.LuceneTokenizer
 import applicant.etl._
 import java.util.regex
-import java.lang.Math
 import org.apache.spark.mllib.feature.{Word2Vec, Word2VecModel}
 import org.apache.spark.mllib.linalg.{Vectors, Vector}
 
@@ -57,39 +56,41 @@ object FeatureGenerator {
     featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Oracle","Postgresql","Mysql"), 5), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Pentaho","Informatica","Streamsets","Syncsort"), 5), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(model, List("AngularJS","Grails","Spring","Hibernate","node.js"), 5), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Android","iOS","Ionic","Cordova","Phonegap"), 5), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Android","iOS","Ionic","Cordova","Phonegap"), 0), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Java","Javascript","Scala","Groovy","C#","C++","Python","Ruby"), 0), applicant.fullText)
-    //second feature (distance from Reston VA)
+
+    //distance from Reston VA
     if (applicant.recentLocation == "") {
       featureArray += 0.0
     }
     else {
       featureArray += distanceFinder("Reston,VA", applicant.recentLocation)
     }
-    //third feature (density of contact info)
+    //density of contact info
     featureArray += countContacts(applicant)
-    //fourth feature (length of resume)
+    //length of resume
     featureArray += resumeLength(applicant.fullText)
-    //fifth feature (gpa value)
+    //gpa value
     if (applicant.gpa == "") {
       featureArray += 3.0
     }
     else {
       featureArray += gpaDouble(applicant.gpa)
     }
+
     //Measure of degree score
     featureArray += degreeScore(applicant.degree)
 
     //measure of past titles
     featureArray += pastTitles(applicant.recentTitle, applicant.otherTitleList.toList)
 
-
     return Vectors.dense(featureArray.toArray[Double])
   }
 
 
   /**
-   * Calculates first feature
+   * Will look through a the resume string seeing if the resume contains at
+   *  least 2 of a set of keywords
    *
    * @param w2vmap Word2Vec synonym map
    * @param resume Full string of parsed resume
@@ -108,7 +109,7 @@ object FeatureGenerator {
     }
 
     w2vmap.foreach{ case (k,v) =>
-      if (v >= 3){
+      if (v >= 2){
         if (v > 5) {
           matches += 5.0
         }
@@ -118,8 +119,9 @@ object FeatureGenerator {
       }
     }
 
-    val featuresScore = matches
-    return featuresScore/(w2vmap.size*5.0)
+    val rawScore = matches/(w2vmap.size*1.0)
+
+    return if (rawScore > 1.0) 1.0 else rawScore
   }
 
   def locationToPair(location: String): (String, String) = {
@@ -149,18 +151,13 @@ object FeatureGenerator {
         locationMap.get(loc2Key) match {
           case Some(loc2Coords) =>
 
-            val r = 6371.0
-            val dLat = Math.toRadians(loc2Coords._1 - loc1Coords._1)
-            val dLon = Math.toRadians(loc2Coords._2 - loc1Coords._2)
-            val a = Math.sin(dLat/2.0) * Math.sin(dLat/2.0) + Math.cos(loc1Coords._1.toRadians) * Math.cos(loc2Coords._1.toRadians) * Math.sin(dLon/2.0) * Math.sin(dLon/2.0)
-            val c = 2.0 * Math.atan2(Math.sqrt(a), Math.sqrt(1.0-a))
-            val result = r * c * 1000.0;
+            val result = GeoUtils.haversineEarthDistance(loc1Coords, loc2Coords)
 
-            if (result >= 3000000.0){
+            if (result >= 1000000.0){
               return 0.0
             }
             else {
-              return 1 - (result/3000000.0)
+              return 1 - (result/1000000.0)
             }
 
           case None =>
@@ -172,7 +169,7 @@ object FeatureGenerator {
   }
 
   /**
-   * Second feature
+   * Finds the distance between two locations using first google and second a list of cities
    *
    * @param location1 First location
    * @param location2 Second location
@@ -194,7 +191,22 @@ object FeatureGenerator {
   }
 
   /**
-   * Third feature, Counts number of contact information items
+   * Chechs if a string is empty or not
+   *
+   * @param str String to check if empty or null
+   * @return 0 if str is null or empty, 1 otherwise
+   */
+  def stringCounter(str: String) : Int = {
+    if (str != null && !str.isEmpty()) {
+      return 1
+    }
+    else {
+      return 0
+    }
+  }
+
+  /**
+   * Counts number of contact information items
    *
    * @param app The applicant being ranked
    * @return The number of contact items found
@@ -210,7 +222,7 @@ object FeatureGenerator {
   }
 
   /**
-   * Fourth feature, Measures resume length (note: may want to precompile regex if slow)
+   * Measures resume length (note: may want to precompile regex if slow)
    *
    * @param resume Full string of parsed resume
    * @return Resume length without punctuation, spaces, or newline characters
@@ -226,7 +238,7 @@ object FeatureGenerator {
   }
 
   /**
-   * Fifth feature, Converts the GPA field stored in ApplicantData to a double
+   * Converts the GPA field stored in ApplicantData to a double
    * (note: nlp gpa parser can be improved by changing gpa in regex.txt to omit the word "GPA")
    * @param gpa gpa string from applicant
    * @return gpa as a double
@@ -248,7 +260,9 @@ object FeatureGenerator {
   }
 
   /**
-   * Sixth feature
+   * Will check what kind of degree the user has and assign score based
+   *  on its techiness
+   *
    * @param degree The degree field parsed out from the resume
    * @return score of degree
    */
@@ -274,7 +288,9 @@ object FeatureGenerator {
   }
 
   /**
-   * Seventh feature
+   * Will look through the past positions the user has had and
+   *  whether they were tech related
+   *
    * @param recentTitle Current position
    * @param pastTitles List of previous positions
    * @return Double representing number of titles and if tech related
@@ -310,7 +326,7 @@ object FeatureGenerator {
     val map = HashMap.empty[String,Int]
     terms.foreach{ term =>
       try {
-        map += (term -> 0)
+        map += (term.toLowerCase() -> 0)
 
         if (synonymCount != 0) {
           val synonyms = model.findSynonyms(term.toLowerCase(), synonymCount)
@@ -330,17 +346,4 @@ object FeatureGenerator {
     return map
   }
 
-  /**
-   * Helper function for thirdFeature
-   * @param str String to check if empty or null
-   * @return 0 if str is null or empty, 1 otherwise
-   */
-  def stringCounter(str: String) : Int = {
-    if (str != null && !str.isEmpty()) {
-      return 1
-    }
-    else {
-      return 0
-    }
-  }
 }
