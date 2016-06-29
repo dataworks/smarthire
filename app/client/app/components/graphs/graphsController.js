@@ -1,8 +1,8 @@
-applicantControllers.controller('GraphsCtrl', ['$scope', 'Suggest',
-  function($scope, Suggest) {
+applicantControllers.controller('GraphsCtrl', ['$scope', 'Graphs', 
+  function($scope, graphs) {
   	
-	  $scope.count = Suggest.query({
-	    term: 'java',
+	  $scope.count = graphs.query({
+	    field: 'skills.language', 
 	    docCount: true
 	  });
 

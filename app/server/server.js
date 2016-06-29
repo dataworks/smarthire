@@ -91,6 +91,10 @@ app.get("/service/suggest", function(req, res) {
   applicantService.suggest(term, res, docCount);
 });
 
+app.get("/service/graphs", function(req, res) {
+  applicantService.graph(res, req.query.field, req.query.docCount);
+});
+
 /**
  * HTTP GET request on the app root 
  *

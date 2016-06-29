@@ -79,7 +79,8 @@ exports.defaultHandler = function(res, hits, count, useCount) {
  * Returns aggregated data based on search query for autocomplete functionality
  *
  * @param config - object that contains index, url, and type of ES
- * @param params - params contains the search term
+ * @param term - params contains the search term
+ * @param docCount - boolean to return appropriate values from getBuckets()
  * @param field - field is set to additionalInfo.resume
  * @param res - HTTP response to send back data
  */
@@ -116,27 +117,71 @@ exports.suggest = function(config, term, docCount, field, res) {
     module.exports.defaultHandler(res, hits, resp.hits.total, false);
     client.close();
   }, function(err) {
-      errorMessage(err, res);
+    errorMessage(err, res);
   });
 }
 
+/**
+ * Returns the unique terms indexed for a given field & the number of matching documents
+ * @param config - object that contains index, url, and type of ES
+ * @param docCount - boolean to return appropriate values from getBuckets()
+ * @param field - field is set to additionalInfo.resume
+ * @param res - HTTP response to send back data
+ */
+exports.graph = function(config, docCount, field, res) {
+  var client = new elasticsearch.Client({
+    host: config.url
+  });
+
+  console.log(field);
+  client.search({
+    index: config.index,
+    type: config.type,
+    body: {
+      size: 0,
+      aggs: {
+        skills: {
+          terms: {
+            field: field,
+            order: {
+              _count: "desc"
+            }
+          }
+        }
+      }
+    }
+  }).then(function(resp) {
+    console.log(resp);
+    var hits = module.exports.getBuckets(resp, docCount);
+    module.exports.defaultHandler(res, hits, resp.hits.total, false);
+    client.close();
+  }, function(err) {
+    errorMessage(err, res);
+  });
+}
+
+
 /*
- * Returns the keys (suggestions) associated with each bucket
+ * Returns the keys and/or doc_counts associated with each bucket
  *
  * @param resp - HTTP response from suggest after a search is done
  */
 exports.getBuckets = function(resp, docCount) {
-  return resp.aggregations.autocomplete.buckets.map(function(hit) {
-    if(docCount) {
+  if(docCount) {
+    return resp.aggregations.skills.buckets.map(function(hit) {
+      console.log(hit);
       var obj = {
         term: hit.key,
         count: hit.doc_count
       };
       return obj;
-    }
-    else
-      return hit.key;
-  });
+    });
+  }
+  else {
+    return resp.aggregations.autocomplete.buckets.map(function(hit) {
+        return hit.key;
+    });
+  }
 }
 
 

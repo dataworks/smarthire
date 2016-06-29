@@ -56,7 +56,21 @@ function buildQuery(res, hits, type) {
  *
  * @param term - the search term
  * @param res - HTTP response object 
+ * @param docCount - boolean to return doc_count
  */
 exports.suggest = function(term, res, docCount) {
-  esservice.suggest(config.applicants, term, docCount, 'additionalInfo.resume', res)
+  var field = 'additionalInfo.resume';
+  esservice.suggest(config.applicants, term, docCount, field, res);
+}
+
+/*
+ * Calls the graph method in ES.js
+ *
+ * @param res - HTTP response object 
+ * @param docCount - boolean to return doc_count
+ * @param field - ES field
+ */
+exports.graph = function(res, field, docCount) {
+  console.log(field);
+  esservice.graph(config.applicants, docCount, field, res);
 }
