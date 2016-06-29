@@ -125,8 +125,14 @@ object ResumeGenerator {
 
         contentStream.beginText();
         contentStream.setFont( font, 12 )
-        contentStream.moveTextPositionByAmount( 100, 700 )
-        //contentStream.showText("hello world")
+        contentStream.setLeading(14.5f)
+        contentStream.moveTextPositionByAmount( 50, 750 )
+        // contentStream.showText("hello world")
+        // contentStream.newLine()
+        // contentStream.showText("goodbye world")
+        // contentStream.newLine()
+        // contentStream.showText("is this working")
+
     
         val parser = new OptionParser[Command]("ResumeGenerator") {
             opt[String]('a', "attributeDir") required() valueName("<attributes dir>") action { (x, c) =>
@@ -150,11 +156,33 @@ object ResumeGenerator {
                 generator.generate().foreach { line =>
                     if (line.endsWith("\n")) {
                         print(line)
-                        contentStream.showText(line.filter(_ >= ' '))
+                        val trimLine = line.replace('\n', ' ')
+
+                        if (trimLine.length() > 80) {
+                            contentStream.showText(trimLine.substring(0, 81))
+                            contentStream.newLine()
+                            contentStream.showText(trimLine.substring(81, trimLine.length()))
+                        }
+                        else {
+                            contentStream.showText(trimLine)
+                            contentStream.newLine()
+                        }
+                        
                     }
                     else {
                         println(line)
-                        contentStream.showText(line.filter(_ >= ' '))
+
+                        val trimLine2 = line.replace('\n', ' ')
+
+                        if (trimLine2.length() > 80) {
+                            contentStream.showText(trimLine2.substring(0, 81))
+                            contentStream.newLine()
+                            contentStream.showText(trimLine2.substring(81, trimLine2.length()))
+                        }
+                        else {
+                            contentStream.showText(trimLine2)
+                            contentStream.newLine()
+                        }
                     }
                 }
             case None =>
