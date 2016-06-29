@@ -8,6 +8,12 @@ import scala.util.Random
 
 import scopt.OptionParser
 
+import org.apache.pdfbox.pdmodel.PDDocument
+import org.apache.pdfbox.pdmodel.PDPage
+import org.apache.pdfbox.pdmodel.font.PDFont
+import org.apache.pdfbox.pdmodel.PDPageContentStream
+import org.apache.pdfbox.pdmodel.font.PDType1Font
+
 /**
  * Generates resume(s) from attribute files.
  */
@@ -103,6 +109,31 @@ object ResumeGenerator {
      * Main method
      */
     def main(args: Array[String]) {
+
+        // Create a new empty document
+        val document = new PDDocument()
+
+        // Create a new blank page and add it to the document
+        val page = new PDPage()
+        document.addPage(page)
+
+        // Create a new font object selecting one of the PDF base fonts
+        val font = PDType1Font.HELVETICA
+
+        // Start a new content stream which will "hold" the to be created content
+        val contentStream = new PDPageContentStream(document, page)
+
+        contentStream.beginText();
+        contentStream.setFont( font, 12 )
+        contentStream.setLeading(14.5f)
+        contentStream.moveTextPositionByAmount( 50, 750 )
+        // contentStream.showText("hello world")
+        // contentStream.newLine()
+        // contentStream.showText("goodbye world")
+        // contentStream.newLine()
+        // contentStream.showText("is this working")
+
+    
         val parser = new OptionParser[Command]("ResumeGenerator") {
             opt[String]('a', "attributeDir") required() valueName("<attributes dir>") action { (x, c) =>
                 c.copy(attributeDir = x)
@@ -125,12 +156,49 @@ object ResumeGenerator {
                 generator.generate().foreach { line =>
                     if (line.endsWith("\n")) {
                         print(line)
+                        val trimLine = line.replace('\n', ' ')
+
+                        if (trimLine.length() > 80) {
+                            contentStream.showText(trimLine.substring(0, 81))
+                            contentStream.newLine()
+                            contentStream.showText(trimLine.substring(81, trimLine.length()))
+                        }
+                        else {
+                            contentStream.showText(trimLine)
+                            contentStream.newLine()
+                        }
+                        
                     }
                     else {
                         println(line)
+
+                        val trimLine2 = line.replace('\n', ' ')
+
+                        if (trimLine2.length() > 80) {
+                            contentStream.showText(trimLine2.substring(0, 81))
+                            contentStream.newLine()
+                            contentStream.showText(trimLine2.substring(81, trimLine2.length()))
+                        }
+                        else {
+                            contentStream.showText(trimLine2)
+                            contentStream.newLine()
+                        }
                     }
                 }
             case None =>
         }
+
+        contentStream.endText();
+
+        // Make sure that the content stream is closed:
+        contentStream.close();
+
+         // Save the newly created document
+        document.save("data/generatedresumes/BlankPage.pdf")
+
+        // finally make sure that the document is properly
+        // closed.
+        document.close()
+
     }
 }
