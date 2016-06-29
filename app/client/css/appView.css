@@ -425,11 +425,14 @@ td{
   font-size: 150%;
 }
 
+/*toast messages*/
 .alert {
-  margin-right: 850px;  
+  position: relative;
+  margin-right: 825px;  
   z-index: 2;
   font-size: 100%;
 }
+
 
 /*search dropdown*/
 .dropdown.dropdown-lg .dropdown-menu {
