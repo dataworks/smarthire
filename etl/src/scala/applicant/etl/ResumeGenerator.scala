@@ -157,17 +157,26 @@ object ResumeGenerator {
                     if (line.endsWith("\n")) {
                         print(line)
                         val trimLine = line.replace('\n', ' ')
-
                         if (trimLine.length() > 80) {
-                            contentStream.showText(trimLine.substring(0, 81))
+                                                   
+                            var count = 80
+                            var index = 0
+
+                            while (count < trimLine.length()) {
+                                contentStream.showText(trimLine.substring(index, count))
+                                contentStream.newLine()
+                                index += 80
+                                count += 80
+
+                            }
+                            contentStream.showText(trimLine.substring(index, trimLine.length()))
                             contentStream.newLine()
-                            contentStream.showText(trimLine.substring(81, trimLine.length()))
                         }
+
                         else {
                             contentStream.showText(trimLine)
                             contentStream.newLine()
                         }
-                        
                     }
                     else {
                         println(line)
@@ -175,10 +184,23 @@ object ResumeGenerator {
                         val trimLine2 = line.replace('\n', ' ')
 
                         if (trimLine2.length() > 80) {
-                            contentStream.showText(trimLine2.substring(0, 81))
+                                                   
+                            var count2 = 80
+                            var index2 = 0
+
+                            while (count2 < trimLine2.length()) {
+                                contentStream.showText(trimLine2.substring(index2, count2))
+                                contentStream.newLine()
+                                index2 += 80
+                                count2 += 80
+
+                            }
+                            contentStream.showText(trimLine2.substring(index2, trimLine2.length()))
                             contentStream.newLine()
-                            contentStream.showText(trimLine2.substring(81, trimLine2.length()))
+
+
                         }
+
                         else {
                             contentStream.showText(trimLine2)
                             contentStream.newLine()
