@@ -127,12 +127,6 @@ object ResumeGenerator {
         contentStream.setFont( font, 12 )
         contentStream.setLeading(14.5f)
         contentStream.moveTextPositionByAmount( 50, 750 )
-        // contentStream.showText("hello world")
-        // contentStream.newLine()
-        // contentStream.showText("goodbye world")
-        // contentStream.newLine()
-        // contentStream.showText("is this working")
-
     
         val parser = new OptionParser[Command]("ResumeGenerator") {
             opt[String]('a', "attributeDir") required() valueName("<attributes dir>") action { (x, c) =>
@@ -159,17 +153,20 @@ object ResumeGenerator {
                         val trimLine = line.replace('\n', ' ')
                         if (trimLine.length() > 80) {
                                                    
-                            var count = 80
+                            var count = 0
                             var index = 0
+                            var track = 80
 
                             while (count < trimLine.length()) {
+                                count = trimLine.indexOf(' ', track)
                                 contentStream.showText(trimLine.substring(index, count))
                                 contentStream.newLine()
-                                index += 80
+                                index = (count - 1)
                                 count += 80
+                                track += 80
 
                             }
-                            contentStream.showText(trimLine.substring(index, trimLine.length()))
+                            contentStream.showText(trimLine.substring((count - 81), trimLine.length()))
                             contentStream.newLine()
                         }
 
@@ -185,17 +182,20 @@ object ResumeGenerator {
 
                         if (trimLine2.length() > 80) {
                                                    
-                            var count2 = 80
+                            var count2 = 0
                             var index2 = 0
+                            var track2 = 80
 
                             while (count2 < trimLine2.length()) {
+                                count2 = trimLine2.indexOf(' ', track2)
                                 contentStream.showText(trimLine2.substring(index2, count2))
                                 contentStream.newLine()
-                                index2 += 80
+                                index2 = (count2 - 1)
                                 count2 += 80
+                                track2 += 80
 
                             }
-                            contentStream.showText(trimLine2.substring(index2, trimLine2.length()))
+                            contentStream.showText(trimLine2.substring((count2 - 81), trimLine2.length()))
                             contentStream.newLine()
 
 

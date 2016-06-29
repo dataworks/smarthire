@@ -1,6 +1,6 @@
 applicantControllers.controller('GraphsCtrl', ['$scope', 'Graphs', 
   function($scope, graphs) {
-  	
+  	//test comment
 	  $scope.count = graphs.query({
 	    field: 'skills.language'
 	  });
