@@ -425,11 +425,18 @@ td{
   font-size: 150%;
 }
 
+/*toast messages*/
 .alert {
   margin-right: 825px;  
   z-index: 2;
   font-size: 100%;
 }
+
+.ng-toast.ng-toast--right .ng-toast__list {
+     left: auto; 
+    right: 0;
+    margin-right: 445px;
+
 
 /*search dropdown*/
 .dropdown.dropdown-lg .dropdown-menu {
