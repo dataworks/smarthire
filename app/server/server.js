@@ -12,10 +12,15 @@ var uploadService = require("./services/uploads.js");
 //used for serving static files (html, client js, images)
 app.use(express.static("client"));
 
+//node module directory
 app.use(express.static("node_modules"));
+
+//max file size for uploads
+app.use(bodyParser.json({limit: '50mb'}));
 
 //parses the text as url encoded data and exposes the resulting object on req.body
 app.use(bodyParser.urlencoded({
+  limit: '50mb', 
   extended: true
 }));
 
