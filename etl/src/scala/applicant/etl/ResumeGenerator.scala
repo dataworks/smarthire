@@ -127,12 +127,6 @@ object ResumeGenerator {
         contentStream.setFont( font, 12 )
         contentStream.setLeading(14.5f)
         contentStream.moveTextPositionByAmount( 50, 750 )
-        // contentStream.showText("hello world")
-        // contentStream.newLine()
-        // contentStream.showText("goodbye world")
-        // contentStream.newLine()
-        // contentStream.showText("is this working")
-
     
         val parser = new OptionParser[Command]("ResumeGenerator") {
             opt[String]('a', "attributeDir") required() valueName("<attributes dir>") action { (x, c) =>
@@ -157,17 +151,29 @@ object ResumeGenerator {
                     if (line.endsWith("\n")) {
                         print(line)
                         val trimLine = line.replace('\n', ' ')
-
                         if (trimLine.length() > 80) {
-                            contentStream.showText(trimLine.substring(0, 81))
+                                                   
+                            var count = 0
+                            var index = 0
+                            var track = 80
+
+                            while (count < trimLine.length()) {
+                                count = trimLine.indexOf(' ', track)
+                                contentStream.showText(trimLine.substring(index, count))
+                                contentStream.newLine()
+                                index = (count - 1)
+                                count += 80
+                                track += 80
+
+                            }
+                            contentStream.showText(trimLine.substring((count - 81), trimLine.length()))
                             contentStream.newLine()
-                            contentStream.showText(trimLine.substring(81, trimLine.length()))
                         }
+
                         else {
                             contentStream.showText(trimLine)
                             contentStream.newLine()
                         }
-                        
                     }
                     else {
                         println(line)
@@ -175,10 +181,26 @@ object ResumeGenerator {
                         val trimLine2 = line.replace('\n', ' ')
 
                         if (trimLine2.length() > 80) {
-                            contentStream.showText(trimLine2.substring(0, 81))
+                                                   
+                            var count2 = 0
+                            var index2 = 0
+                            var track2 = 80
+
+                            while (count2 < trimLine2.length()) {
+                                count2 = trimLine2.indexOf(' ', track2)
+                                contentStream.showText(trimLine2.substring(index2, count2))
+                                contentStream.newLine()
+                                index2 = (count2 - 1)
+                                count2 += 80
+                                track2 += 80
+
+                            }
+                            contentStream.showText(trimLine2.substring((count2 - 81), trimLine2.length()))
                             contentStream.newLine()
-                            contentStream.showText(trimLine2.substring(81, trimLine2.length()))
+
+
                         }
+
                         else {
                             contentStream.showText(trimLine2)
                             contentStream.newLine()

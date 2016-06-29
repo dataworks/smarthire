@@ -2,7 +2,8 @@ applicantControllers.controller('GraphsCtrl', ['$scope', 'Graphs',
   function($scope, graphs) {
   	
 	  $scope.count = graphs.query({
-	    field: 'skills.language'
+	    field: 'skills.language', 
+	    docCount: true
 	  });
 
     $scope.count.$promise.then(function(data) {
@@ -25,18 +26,24 @@ applicantControllers.controller('GraphsCtrl', ['$scope', 'Graphs',
             label: '# of Votes',
             data: data,
             backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)'
+              '#F44336',
+              '#2196F3',
+              '#FFEB3B',
+              '#4CAF50',
+              '#9C27B0',
+              '#FFA726',
+              '#E91E63',
+              '#3F51B5'
             ],
             borderColor: [
-              'rgba(255,99,132,1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)'
+              '#EF9A9A',
+              '#90CAF9',
+              '#FFF59D',
+              '#A5D6A7',
+              '#CE93D8',
+              '#FFCC80',
+              '#F48FB1',
+              '#9FA8DA'
             ],
             borderWidth: 1
           }]
