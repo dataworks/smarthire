@@ -80,11 +80,10 @@ exports.defaultHandler = function(res, hits, count, useCount) {
  *
  * @param config - object that contains index, url, and type of ES
  * @param term - params contains the search term
- * @param docCount - boolean to return appropriate values from getBuckets()
  * @param field - field is set to additionalInfo.resume
  * @param res - HTTP response to send back data
  */
-exports.suggest = function(config, term, docCount, field, res) {
+exports.suggest = function(config, term, field, res) {
   var client = new elasticsearch.Client({
     host: config.url
   });
@@ -113,7 +112,7 @@ exports.suggest = function(config, term, docCount, field, res) {
       }
     }
   }).then(function(resp) {
-    var hits = module.exports.getBuckets(resp, docCount);
+    var hits = module.exports.getKeys(resp);
     module.exports.defaultHandler(res, hits, resp.hits.total, false);
     client.close();
   }, function(err) {
@@ -124,16 +123,14 @@ exports.suggest = function(config, term, docCount, field, res) {
 /**
  * Returns the unique terms indexed for a given field & the number of matching documents
  * @param config - object that contains index, url, and type of ES
- * @param docCount - boolean to return appropriate values from getBuckets()
  * @param field - field is set to additionalInfo.resume
  * @param res - HTTP response to send back data
  */
-exports.graph = function(config, docCount, field, res) {
+exports.aggregations = function(config, field, res) {
   var client = new elasticsearch.Client({
     host: config.url
   });
 
-  console.log(field);
   client.search({
     index: config.index,
     type: config.type,
@@ -151,8 +148,7 @@ exports.graph = function(config, docCount, field, res) {
       }
     }
   }).then(function(resp) {
-    console.log(resp);
-    var hits = module.exports.getBuckets(resp, docCount);
+    var hits = module.exports.getBuckets(resp);
     module.exports.defaultHandler(res, hits, resp.hits.total, false);
     client.close();
   }, function(err) {
@@ -162,26 +158,29 @@ exports.graph = function(config, docCount, field, res) {
 
 
 /*
- * Returns the keys and/or doc_counts associated with each bucket
+ * Returns the keys  associated with each bucket
  *
  * @param resp - HTTP response from suggest after a search is done
  */
-exports.getBuckets = function(resp, docCount) {
-  if(docCount) {
-    return resp.aggregations.skills.buckets.map(function(hit) {
-      console.log(hit);
-      var obj = {
-        term: hit.key,
-        count: hit.doc_count
-      };
-      return obj;
-    });
-  }
-  else {
-    return resp.aggregations.autocomplete.buckets.map(function(hit) {
-        return hit.key;
-    });
-  }
+exports.getKeys = function(resp) {
+  return resp.aggregations.autocomplete.buckets.map(function(hit) {
+      return hit.key;
+  });
+}
+
+/*
+ * Returns the keys & doc_count associated with each bucket
+ *
+ * @param resp - HTTP response from suggest after a search is done
+ */
+exports.getBuckets = function(resp) {
+  return resp.aggregations.skills.buckets.map(function(hit) {
+    var obj = {
+      term: hit.key,
+      count: hit.doc_count
+    };
+    return obj;
+  });
 }
 
 

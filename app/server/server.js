@@ -87,12 +87,11 @@ app.post("/service/uploads", function(req,res) {
  */
 app.get("/service/suggest", function(req, res) {
   var term = req.query.term.toLowerCase();
-  var docCount = req.query.docCount;
-  applicantService.suggest(term, res, docCount);
+  applicantService.suggest(term, res);
 });
 
 app.get("/service/graphs", function(req, res) {
-  applicantService.graph(res, req.query.field, req.query.docCount);
+  applicantService.aggregations(res, req.query.field);
 });
 
 /**
