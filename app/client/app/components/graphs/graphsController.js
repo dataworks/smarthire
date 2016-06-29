@@ -2,8 +2,7 @@ applicantControllers.controller('GraphsCtrl', ['$scope', 'Graphs',
   function($scope, graphs) {
   	
 	  $scope.count = graphs.query({
-	    field: 'skills.language', 
-	    docCount: true
+	    field: 'skills.language'
 	  });
 
     $scope.count.$promise.then(function(data) {
