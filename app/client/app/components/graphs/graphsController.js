@@ -2,18 +2,17 @@ applicantControllers.controller('GraphsCtrl', ['$scope', 'Graphs',
   function($scope, graphs) {
   	
 	  $scope.count = graphs.query({
-	    field: 'skills.language', 
-	    docCount: true
+	    field: 'languages'
 	  });
 
     $scope.count.$promise.then(function(data) {
 
       var labels = data.map(function(index) {
-        return index.term;
+        return index.key;
       });
 
       var data = data.map(function(index) {
-        return index.count;
+        return index.doc_count;
       });
 
       var ctx = document.getElementById("myChart");

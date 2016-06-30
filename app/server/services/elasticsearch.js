@@ -137,7 +137,7 @@ exports.aggregations = function(config, field, res) {
     body: {
       size: 0,
       aggs: {
-        skills: {
+        aggs_name: {
           terms: {
             field: field,
             order: {
@@ -174,12 +174,8 @@ exports.getKeys = function(resp) {
  * @param resp - HTTP response from suggest after a search is done
  */
 exports.getBuckets = function(resp) {
-  return resp.aggregations.skills.buckets.map(function(hit) {
-    var obj = {
-      term: hit.key,
-      count: hit.doc_count
-    };
-    return obj;
+  return resp.aggregations.aggs_name.buckets.map(function(hit) {
+    return hit;
   });
 }
 

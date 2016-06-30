@@ -68,5 +68,16 @@ exports.suggest = function(term, res) {
  * @param field - ES field
  */
 exports.aggregations = function(res, field) {
-  esservice.aggregations(config.applicants, field, res);
+  // var skills = {        
+  //     skills: {
+  //         terms: {
+  //           field: field
+  //         }
+  //       }
+  // };
+  // console.log(skills);
+  // console.log(skills.skills);
+
+  if(field === 'languages')
+   esservice.aggregations(config.applicants, 'skills.language', res);
 }
