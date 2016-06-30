@@ -48,16 +48,12 @@ div > #charts1, div > #charts2, div > #charts3 {
 }
 
 @media (max-width: 767px) {
-	#da, #e, #m{
+	#da, #e, #m, #l, #w, #b{
 		width: 75% !important;
 	}
 
-	#l, #w, #b{
-		width: 90% !important;
-	}
 	div > #charts1, div > #charts2, div > #charts3 {
-		left: 0;
-		width: 100%;
+		display: block;
 	}
 }
 
