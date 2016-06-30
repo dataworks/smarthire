@@ -227,8 +227,9 @@ exports.indexUploads = function(config, params, res) {
     body: {
       id: params.id,
       type: params.type,
+      name: params.name,
       base64string: params.base64string,
-      name: params.name
+      processed: params.processed
     },
     refresh: true
   }).then(function(response) {

@@ -31,6 +31,7 @@ object ResumeData {
   def apply(fileName: String, byteArr: Array[Byte], stream: InputStream): ResumeData = {
     val resume = new ResumeData()
 
+
     try {
       resume.esId = Hex.encodeHexString(MessageDigest.getInstance("MD5").digest(byteArr)).toLowerCase()
       resume.text = TextExtractor.extractText(stream)
