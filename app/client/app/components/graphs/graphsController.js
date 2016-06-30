@@ -1,69 +1,23 @@
 applicantControllers.controller('GraphsCtrl', ['$scope', 'Graphs', 
   function($scope, graphs) {
 
-  	// $scope.queries = [$scope.languages, $scope.etl, $scope.web, 
-  	// 	$scope.mobile, $scope.db, $scope.bigData];
+  	$scope.queries = [$scope.languages, $scope.etl, $scope.web, 
+  		$scope.mobile, $scope.db, $scope.bigData];
 
-  	// var fields = ['languages', 'etl', 'web', 'mobile', 'db', 'bigData'];
-  	// var ids = ['Languages', 'ETL', 'Web', 'Mobile', 'Databases', 'Big'];
+  	var fields = ['languages', 'etl', 'web', 'mobile', 'db', 'bigData'];
+  	var ids = ['Language', 'ETL', 'Web', 'Mobile', 'Databases', 'Big'];
 
-  	// for(var i = 0; i < 6; i++) {
-  	// 	$scope.queries[i] = graphs.query ({
-  	// 		field: fields[i]
-  	// 	});
+  	$scope.queries.forEach(function(value, index) {
+  		$scope.queries[index] = graphs.query ({
+  			field: fields[index]
+  		});
 
-  	// 	$scope.queries[i].$promise.then(function(data) {
-  	// 		displayGraph(data, ids[i]);
-  	// 	});
-  	// }
-
-	  $scope.languages = graphs.query({
-	    field: 'languages'
-	  });
-
-	  $scope.etl = graphs.query({
-	  	field: 'etl'
-	  });
-
-	  $scope.web = graphs.query({
-	  	field: 'web'
-	  });
-
-	  $scope.mobile = graphs.query({
-	  	field: 'mobile'
-	  });
-
-	  $scope.db = graphs.query({
-	  	field: 'db'
-	  });
-
-	  $scope.bigData = graphs.query({
-	  	field: 'bigData'
-	  });
-
-	  $scope.languages.$promise.then(function(data) {
-	  	displayGraph(data, "Language");
-	  });
-
-	  $scope.etl.$promise.then(function(data) {
-	  	displayGraph(data, "ETL");
-	  });
-
-	   $scope.web.$promise.then(function(data) {
-	  	displayGraph(data, "Web");
-	  });
-
-	  $scope.mobile.$promise.then(function(data) {
-	  	displayGraph(data, "Mobile");
-	  });
-
-	  $scope.db.$promise.then(function(data) {
-	  	displayGraph(data, "Databases");
-	  });
-
-	  $scope.bigData.$promise.then(function(data) {
-	  	displayGraph(data, "Big");
-	  });
+  		$scope.queries[index].$promise.then(function(data) {
+  			console.log(index);
+  			console.log(data);
+  			displayGraph(data, ids[index]);
+  		});
+  	});
 
 	  function displayGraph(data, id) {
 	  	var labels = data.map(function(index) {
