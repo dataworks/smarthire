@@ -171,14 +171,13 @@ exports.getKeys = function(resp) {
 /*
  * Returns the keys & doc_count associated with each bucket
  *
- * @param resp - HTTP response from suggest after a search is done
+ * @param resp - HTTP response 
  */
 exports.getBuckets = function(resp) {
   return resp.aggregations.aggs_name.buckets.map(function(hit) {
     return hit;
   });
 }
-
 
 /**
  * Indexes data in ES
@@ -198,15 +197,45 @@ exports.index = function(config, params, res) {
     id: params.id,
     body: {
       id: params.id,
-      type: params.type,
-      base64string: params.base64string ? params.base64string : null
+      type: params.type
     },
     refresh: true
   }).then(function(response) {
     client.close();
     res.end();
   }, function(err) {
-      errorMessage(err, res);
+    errorMessage(err, res);
+  });
+}
+
+/**
+ * Indexes uploaded resumes in ES
+ *
+ * @param config - object that contains indexing info (labels or uploads only)
+ * @param params - associated with req.query
+ * @param res - HTTP response object to send back data 
+ */
+exports.indexUploads = function(config, params, res) {
+  var client = new elasticsearch.Client({
+    host: config.url
+  });
+
+  client.index({
+    index: config.index,
+    type: config.type,
+    id: params.id,
+    body: {
+      id: params.id,
+      type: params.type,
+      base64string: params.base64string,
+      name: params.name
+    },
+    refresh: true
+  }).then(function(response) {
+    client.close();
+    res.end();
+  }, function(err) {
+    errorMessage(err, res);
   });
 }
 
