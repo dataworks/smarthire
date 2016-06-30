@@ -33,7 +33,7 @@ object MergeResumes {
      * @param writer output writer
      */
     def generateResumes(attributeDir: String, count: Int, writer: ResumeWriter) {
-        val generator = new ResumeGenerator(attributeDir, null, null)
+        val generator = new ResumeGenerator(attributeDir, null, null, null)
         for (x <- 0 until count) {
             writer.write(generator.generate())
         }
