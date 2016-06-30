@@ -28,16 +28,21 @@ object ResumeData {
    * @param entitySet From EntityExtractor
    * @return A new ResumeData object
    */
-  def apply(fileName: String, byteArr: Array[Byte]): ResumeData = {
+  def apply(fileName: String, byteArr: Array[Byte], stream: InputStream): ResumeData = {
     val resume = new ResumeData()
-    val stream : ByteArrayInputStream = new ByteArrayInputStream(byteArr)
 
-    resume.esId = Hex.encodeHexString(MessageDigest.getInstance("MD5").digest(byteArr)).toLowerCase()
-    resume.text = TextExtractor.extractText(stream)
-    resume.base64string = Base64.encodeBase64String(byteArr)
-    resume.metaDataMap = TextExtractor.extractMetadata(stream)
-    resume.filename = fileName
-    resume.extension = resume.metaDataMap("Content-Type")
+    try {
+      resume.esId = Hex.encodeHexString(MessageDigest.getInstance("MD5").digest(byteArr)).toLowerCase()
+      resume.text = TextExtractor.extractText(stream)
+      resume.base64string = Base64.encodeBase64String(byteArr)
+      resume.metaDataMap = TextExtractor.extractMetadata(stream)
+      resume.filename = fileName
+      resume.extension = resume.metaDataMap("Content-Type")
+    }
+    finally {
+      // Close stream after parsing
+      stream.close
+    }
 
     return resume
   }
