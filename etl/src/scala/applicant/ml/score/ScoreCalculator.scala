@@ -52,7 +52,7 @@ object ScoreCalculator {
     //Create applicant data objects out of what was queried and find scores for each
     val appDataArray = appRDD.map { appMap =>
       val app = ApplicantData(appMap)
-      val features = FeatureGenerator.getFeatureVec(w2vModel, app)
+      val features = FeatureGenerator.getLogisticFeatureVec(w2vModel, app)
       val calculatedScore = LogisticRegressionHelper.predictSingleScore(regressionModel, features)
       app.score = Math.round(calculatedScore * 100.0) / 100.0
 

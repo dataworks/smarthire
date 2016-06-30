@@ -68,7 +68,7 @@ object MlModelGenerator {
     val modelData: ListBuffer[LabeledPoint] = new ListBuffer[LabeledPoint]()
     applicantDataList.foreach { applicant =>
       val currentValue = labelsHashMap(applicant.applicantid)
-      modelData += LabeledPoint(currentValue, FeatureGenerator.getFeatureVec(w2vModel, applicant))
+      modelData += LabeledPoint(currentValue, FeatureGenerator.getLogisticFeatureVec(w2vModel, applicant))
     }
 
     //Create and save the logistic regression model

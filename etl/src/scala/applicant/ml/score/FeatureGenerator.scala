@@ -48,7 +48,7 @@ object FeatureGenerator {
    * @param applicant The applicant whose features are needed
    * @return A vector that corresponds to the feature scores
    */
-  def getFeatureVec(model: Word2VecModel, applicant: ApplicantData): Vector = {
+  def getLogisticFeatureVec(model: Word2VecModel, applicant: ApplicantData): Vector = {
     //first feature (number of synonyms to Java/Spark/Hadoop within resume body)
     val featureArray = scala.collection.mutable.ArrayBuffer.empty[Double]
     // Core key words
