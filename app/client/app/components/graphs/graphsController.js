@@ -15,9 +15,9 @@ applicantControllers.controller('GraphsCtrl', ['$scope', 'Graphs',
         return index.count;
       });
 
-      var ctx = document.getElementById("myChart");
+      var ctx = document.getElementById("Language");
 
-      var myChart = new Chart(ctx, {
+      var Language = new Chart(ctx, {
         type: 'pie',
         data: {
           labels: labels,
