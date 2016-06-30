@@ -80,7 +80,7 @@ app.get("/service/attachments", function(req, res) {
  * @param callback function - Calls a service method to index the attachments
  */
 app.post("/service/uploads", function(req,res) {
-  uploadService.index(req,res);
+  uploadService.indexUploads(req,res);
 });
 
 /**
@@ -94,6 +94,12 @@ app.get("/service/suggest", function(req, res) {
   applicantService.suggest(term, res);
 });
 
+/**
+ * HTTP GET request for aggregations for graphs
+ *
+ * @param route - Routes HTTP GET requests to the specified path
+ * @param callback function - Calls a service method to query user input to find relavent terms
+ */
 app.get("/service/graphs", function(req, res) {
   applicantService.aggregations(res, req.query.field);
 });

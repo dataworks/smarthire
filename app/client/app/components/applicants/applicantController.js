@@ -286,7 +286,8 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
              
               var upload = new Upload({
                 'type': 'upload',
-                'base64string': base64string
+                'base64string': base64string,
+                'name': file.name
               });
 
               upload.$save();
