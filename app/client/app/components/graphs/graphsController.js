@@ -232,4 +232,4 @@ applicantControllers.controller('GraphsCtrl', ['$scope', 'Graphs',
 
 		}
 	}
-	]);
+]);
