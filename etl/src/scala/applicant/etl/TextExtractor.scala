@@ -39,14 +39,8 @@ object TextExtractor {
     // Object to pass context information to Tika parser, use to modify parser
     val context : ParseContext = new ParseContext()
 
-    try {
-      // Parse text from file and store in hander object
-      myparser.parse(stream, handler, metadata, context)
-    }
-    finally {
-      // Close stream after parsing
-      stream.close
-    }
+    // Parse text from file and store in hander object
+    myparser.parse(stream, handler, metadata, context)
 
     return handler.toString()
   }
@@ -54,12 +48,8 @@ object TextExtractor {
   def extractMetadata (data: InputStream) : Map[String,String] = {
     val myparser : AutoDetectParser = new AutoDetectParser()
 
-    try {
-      myparser.parse(data, handler, metadata, context)
-    }
-    finally {
-      data.close
-    }
+    myparser.parse(data, handler, metadata, context)
+
 
     var metaDataMap = Map[String,String]()
     val metaDataNames = metadata.names()

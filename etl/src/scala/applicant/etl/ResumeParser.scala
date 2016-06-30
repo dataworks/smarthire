@@ -3,20 +3,15 @@ package applicant.etl
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkContext._
 import org.apache.spark.SparkConf
-import org.apache.spark.input.PortableDataStream
 import org.apache.spark.rdd.RDD
-import org.apache.tika.metadata._
-import org.apache.tika.parser._
-import org.apache.tika.sax.WriteOutContentHandler
 import java.io._
 import scopt.OptionParser
 import org.elasticsearch.spark._
 import org.apache.commons.io.FilenameUtils
-import org.apache.commons.codec.binary.{Hex,Base64}
+import org.apache.commons.codec.binary.Base64
 import applicant.nlp._
-import java.security.MessageDigest
 
-import scala.collection.mutable.{ListBuffer, Map, LinkedHashMap, HashMap}
+import scala.collection.mutable.{Map, LinkedHashMap}
 
 object ResumeParser {
 
@@ -44,20 +39,19 @@ object ResumeParser {
 
     //Create Spark RDD using conf
     val sc = new SparkContext(conf)
-    println("Loading uploads into RDD")
+
     //Create a key-value pair RDD of files within resume directory
     //RDD is an array of tuples (String, PortableDataStream)
     val fileData = if (options.fromES) {
       sc.esRDD(options.uploadindex + "/upload").values.map{ resume =>
-        ResumeData(getString(resume("name")),Base64.decodeBase64(getString(resume("base64string"))))
+        ResumeData(getString(resume("name")),Base64.decodeBase64(getString(resume("base64string"))), new DataInputStream(new ByteArrayInputStream(Base64.decodeBase64(getString(resume("base64string"))))))
       }
     }
     else {
       sc.binaryFiles(filesPath).values.map{ resume =>
-        ResumeData(FilenameUtils.getName(resume.getPath()),resume.toArray)
+        ResumeData(FilenameUtils.getName(resume.getPath()),resume.toArray,resume.open)
       }
     }
-    println("RDD created, Creating EntityExtractor")
     // Create EntityExtractor object
     val models = options.nlpModels.split(",")
     val patterns = options.nlpRegex
@@ -68,7 +62,6 @@ object ResumeParser {
 
     var fileCount = sc.accumulator(0)
 
-    println("Starting parsing")
     fileData.map { resume =>
       println("Parsing applicant " + resume.esId + ", " + fileCount + " files parsed")
       fileCount += 1
