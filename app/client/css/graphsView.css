@@ -1,0 +1,55 @@
+/*each charts is a group of 2 charts*/
+/*#charts1, #charts2, #charts3{
+	width: 100%;
+	height: auto;
+	display: flex;
+	margin-left: 5%;
+	margin-bottom: 5%;
+}*/
+
+div > #charts1, div > #charts2, div > #charts3 {
+	display: flex;
+	position: relative;
+    left: 13%;
+    padding-bottom: 5%;
+}
+
+#l{
+	width: 32%;
+	height: auto;
+	margin-right: 15%;
+}
+
+#e{
+	width: 32%;
+	height: auto;
+}
+
+#w{
+	width: 32%;
+	height: auto;
+	margin-right: 15%;
+}
+
+#m{
+	width: 32%;
+	height: auto;
+}
+
+#da{
+	width: 32%;
+	height: auto;
+	margin-right: 15%;
+}
+
+#b{
+	width: 32%;
+	height: auto;
+}
+
+
+
+/*#de{
+	width: 35%;
+	height: auto;
+}*/
