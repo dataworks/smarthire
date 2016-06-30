@@ -30,7 +30,7 @@
   cursor: unset;
 }
 
-#csCheck, #cpeCheck, #itCheck, #vaCheck, #mdCheck, #dcCheck, #uvaCheck, #jmuCheck, #rpiCheck, #devCheck, #arcCheck, #manCheck{
+#csCheck, #cpeCheck, #itCheck, #vaCheck, #mdCheck, #dcCheck, #uvaCheck, #jmuCheck, #rpiCheck, #devCheck, #arcCheck, #manCheck, #engCheck, #gmuCheck, #paCheck{
   cursor: pointer;
 }
 
