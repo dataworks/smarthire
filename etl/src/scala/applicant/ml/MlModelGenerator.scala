@@ -1,13 +1,15 @@
 package applicant.ml.regression
 
+import applicant.nlp.LuceneTokenizer
+import applicant.ml.regression._
+import applicant.etl._
+
 import org.apache.spark.SparkConf
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkContext._
 import org.elasticsearch.spark._
 import scopt.OptionParser
 import scala.collection.mutable.HashMap
-import applicant.nlp.LuceneTokenizer
-import applicant.etl._
 import applicant.ml.score._
 import java.io.File
 import java.util.regex
@@ -68,7 +70,7 @@ object MlModelGenerator {
     val modelData: ListBuffer[LabeledPoint] = new ListBuffer[LabeledPoint]()
     applicantDataList.foreach { applicant =>
       val currentValue = labelsHashMap(applicant.applicantid)
-      modelData += LabeledPoint(currentValue, FeatureGenerator.getFeatureVec(w2vModel, applicant))
+      modelData += LabeledPoint(currentValue, LogisticFeatureGenerator.getLogisticFeatureVec(w2vModel, applicant))
     }
 
     //Create and save the logistic regression model
