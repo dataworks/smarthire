@@ -101,6 +101,92 @@ class ResumeGenerator(attributeDir: String, json: String, coefficients: String) 
     }
 }
 
+/** 
+  * Generates a PDF file that contains the strings from the generated resume
+  */
+
+class PDFGenerator() {
+    // Create a new empty document
+    val document = new PDDocument()
+    var nameGet = false
+    var name = "" 
+
+    // Create a new blank page and add it to the document
+    val page = new PDPage()
+    document.addPage(page)
+
+    // Create a new font object selecting one of the PDF base fonts
+    val font = PDType1Font.HELVETICA
+
+    // Start a new content stream which will "hold" the to be created content
+    val contentStream = new PDPageContentStream(document, page)
+
+    contentStream.beginText();
+    contentStream.setFont( font, 12 )
+
+    //sets offset for each new line in PDF
+    contentStream.setLeading(14.5f)
+
+    //initially moves text to upper left of page
+    contentStream.moveTextPositionByAmount( 50, 750 )
+
+    /**
+      * adds a line to the PDF document. each string has been trimmed to remove space characters, as 
+      * PDFBox does not take their encoding. also checks to see if a string is longer than 80 characters, 
+      * which then separates the string into substrings to avoid running off the page
+      *
+      * @param trimLine - string to add to PDF
+      */
+
+    def addLine(trimLine: String) : Unit = {
+        if (trimLine.length() > 80) {
+                                                   
+            var count = 0
+            var index = 0
+            var track = 80
+
+            while (count < trimLine.length()) {
+                count = trimLine.indexOf(' ', track)
+                contentStream.showText(trimLine.substring(index, count))
+                contentStream.newLine()
+                index = count
+                count += 80
+                track += 80
+
+            }
+            contentStream.showText(trimLine.substring((index + 1), trimLine.length()))
+            contentStream.newLine()
+        }
+        
+        else {
+            contentStream.showText(trimLine)
+            contentStream.newLine()
+        }
+
+
+    }
+
+    /**
+      * closes the stream to PDF and saves it to the desired directory
+      *
+      * @param name - first string of the PDF doc (the name of the applicant), used for naming the PDF file
+      */
+
+    def end(name: String) : Unit = {
+        contentStream.endText();
+
+        // Make sure that the content stream is closed:
+        contentStream.close();
+         // Save the newly created document
+        document.save("data/generatedresumes/" + name + ".pdf")
+
+        // finally make sure that the document is properly
+        // closed.
+        document.close()
+
+    }
+}
+
 object ResumeGenerator {
     // Command line arguments
     case class Command(attributeDir: String = "", json: String = "", coefficients: String = "")
@@ -110,25 +196,9 @@ object ResumeGenerator {
      */
     def main(args: Array[String]) {
 
-        // Create a new empty document
-        val document = new PDDocument()
         var nameGet = false
         var name = "" 
-
-        // Create a new blank page and add it to the document
-        val page = new PDPage()
-        document.addPage(page)
-
-        // Create a new font object selecting one of the PDF base fonts
-        val font = PDType1Font.HELVETICA
-
-        // Start a new content stream which will "hold" the to be created content
-        val contentStream = new PDPageContentStream(document, page)
-
-        contentStream.beginText();
-        contentStream.setFont( font, 12 )
-        contentStream.setLeading(14.5f)
-        contentStream.moveTextPositionByAmount( 50, 750 )
+        val pdfGenerator = new PDFGenerator()
     
         val parser = new OptionParser[Command]("ResumeGenerator") {
             opt[String]('a', "attributeDir") required() valueName("<attributes dir>") action { (x, c) =>
@@ -152,83 +222,24 @@ object ResumeGenerator {
                 generator.generate().foreach { line =>
                     if (line.endsWith("\n")) {
                         print(line)
-
                         val trimLine = line.replace('\n', ' ')
-
-                        if (trimLine.length() > 80) {
-                                                   
-                            var count = 0
-                            var index = 0
-                            var track = 80
-
-                            while (count < trimLine.length()) {
-                                count = trimLine.indexOf(' ', track)
-                                contentStream.showText(trimLine.substring(index, count))
-                                contentStream.newLine()
-                                index = count
-                                count += 80
-                                track += 80
-
-                            }
-                            contentStream.showText(trimLine.substring((index + 1), trimLine.length()))
-                            contentStream.newLine()
-                        }
-
-                        else {
-                            contentStream.showText(trimLine)
-                            contentStream.newLine()
-                        }
+                        pdfGenerator.addLine(trimLine)
                     }
                     else {
                         println(line)
-
                         val trimLine2 = line.replace('\n', ' ')
+                        pdfGenerator.addLine(trimLine2)
 
                         if (nameGet == false) {
                             name = trimLine2
                             nameGet = true 
-                        }
-
-                        if (trimLine2.length() > 80) {
-                                                   
-                            var count2 = 0
-                            var index2 = 0
-                            var track2 = 80
-
-                            while (count2 < trimLine2.length()) {
-                                count2 = trimLine2.indexOf(' ', track2)
-                                contentStream.showText(trimLine2.substring(index2, count2))
-                                contentStream.newLine()
-                                index2 = count2
-                                count2 += 80
-                                track2 += 80
-
-                            }
-                            contentStream.showText(trimLine2.substring((index2 + 1), trimLine2.length()))
-                            contentStream.newLine()
-
-
-                        }
-
-                        else {
-                            contentStream.showText(trimLine2)
-                            contentStream.newLine()
                         }
                     }
                 }
             case None =>
         }
 
-        contentStream.endText();
-
-        // Make sure that the content stream is closed:
-        contentStream.close();
-         // Save the newly created document
-        document.save("data/generatedresumes/" + name + ".pdf")
-
-        // finally make sure that the document is properly
-        // closed.
-        document.close()
+        pdfGenerator.end(name)
 
     }
 }
