@@ -11,7 +11,7 @@ import org.apache.spark.mllib.linalg.{Vectors, Vector}
 /**
  * FeatureGenerator
  */
-object FeatureGenerator {
+object LogisticFeatureGenerator {
 
   val locationMap: HashMap[(String, String), (Double, Double)] = {
     val cityFileLoc = "data/citylocations/UsData.txt"
