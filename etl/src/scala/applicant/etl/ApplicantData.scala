@@ -136,6 +136,10 @@ object ApplicantData {
         val textArr = fullText.trim().split("\\s+")
         app.name = textArr(2) + textArr(3)
       }
+      else {
+        val textArr = fullText.trim().split("\\s+")
+        app.name = textArr(0) + " " + textArr(1)
+      }
     }
 
     return app
