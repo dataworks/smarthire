@@ -71,11 +71,13 @@ object ResumeParser {
 
       fileCount += 1
 
-      broadcastExtractor.synchronized {
-        val entitySet = broadcastExtractor.value.extractEntities(text)
-        val app = ApplicantData(entitySet, esId, text)
-        app.toMap()
+      var entitySet: LinkedHashMap[(String, String),(String, String)] = null
+      this.synchronized {
+        entitySet = broadcastExtractor.value.extractEntities(text)
       }
+
+      val app = ApplicantData(entitySet, esId, text)
+      app.toMap()
 
     }.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
 
