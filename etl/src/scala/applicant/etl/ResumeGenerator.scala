@@ -112,6 +112,8 @@ object ResumeGenerator {
 
         // Create a new empty document
         val document = new PDDocument()
+        var nameGet = false
+        var name = "" 
 
         // Create a new blank page and add it to the document
         val page = new PDPage()
@@ -150,7 +152,9 @@ object ResumeGenerator {
                 generator.generate().foreach { line =>
                     if (line.endsWith("\n")) {
                         print(line)
+
                         val trimLine = line.replace('\n', ' ')
+
                         if (trimLine.length() > 80) {
                                                    
                             var count = 0
@@ -179,6 +183,11 @@ object ResumeGenerator {
                         println(line)
 
                         val trimLine2 = line.replace('\n', ' ')
+
+                        if (nameGet == false) {
+                            name = trimLine2
+                            nameGet = true 
+                        }
 
                         if (trimLine2.length() > 80) {
                                                    
@@ -214,9 +223,8 @@ object ResumeGenerator {
 
         // Make sure that the content stream is closed:
         contentStream.close();
-
          // Save the newly created document
-        document.save("data/generatedresumes/BlankPage.pdf")
+        document.save("data/generatedresumes/" + name + ".pdf")
 
         // finally make sure that the document is properly
         // closed.
