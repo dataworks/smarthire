@@ -70,16 +70,16 @@ applicantControllers.controller('GraphsCtrl', ['$scope', 'Graphs',
 			];
 
 			var oranges = [
-			'#FFF350',
-			'#FFE0B2',
-			'#FFCC80',
-			'#FFB74D',
-			'#FFA726',
-			'#FF9800',
-			'#FB8C00',
-			'#F87C00',
-			'#EF6C00',
-			'#E65100'
+			'#FBE9E7',
+			'#FFCCBC',
+			'#FFAB91',
+			'#FF8A65',
+			'#FF7043',
+			'#FF5722',
+			'#F4511E',
+			'#E64A19',
+			'#D84315',
+			'#BF360C'
 			];
 
 			var yellows = [
@@ -158,8 +158,8 @@ applicantControllers.controller('GraphsCtrl', ['$scope', 'Graphs',
 						datasets: [{
 							label: '# of Votes',
 							data: count,
-							backgroundColor: teals,
-							borderColor: teals,
+							backgroundColor: oranges,
+							borderColor: oranges,
 							borderWidth: 1
 						}]
 					}
