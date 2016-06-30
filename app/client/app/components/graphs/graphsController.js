@@ -7,18 +7,24 @@ applicantControllers.controller('GraphsCtrl', ['$scope', 'Graphs',
   	var fields = ['languages', 'etl', 'web', 'mobile', 'db', 'bigData'];
   	var ids = ['Language', 'ETL', 'Web', 'Mobile', 'Databases', 'Big'];
 
+  	//Goes through the queries array and calls displayGraph for each type of query
   	$scope.queries.forEach(function(value, index) {
   		$scope.queries[index] = graphs.query ({
   			field: fields[index]
   		});
 
   		$scope.queries[index].$promise.then(function(data) {
-  			console.log(index);
-  			console.log(data);
   			displayGraph(data, ids[index]);
   		});
   	});
 
+  	/**
+  	 * Displays the graph using the chart.js library
+  	 *
+  	 * @param data - data is an object containing an array of keys (skills) & doc_count (occurances)
+  	 * @param id - id of the div
+  	 *
+  	 */
 	  function displayGraph(data, id) {
 	  	var labels = data.map(function(index) {
         return index.key;
