@@ -19,8 +19,7 @@ app.use(express.static("node_modules"));
 app.use(bodyParser.json({limit: '50mb'}));
 
 //parses the text as url encoded data and exposes the resulting object on req.body
-app.use(bodyParser.urlencoded({
-  limit: '50mb', 
+app.use(bodyParser.urlencoded({ 
   extended: true
 }));
 
