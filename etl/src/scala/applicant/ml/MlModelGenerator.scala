@@ -1,13 +1,15 @@
 package applicant.ml.regression
 
+import applicant.nlp.LuceneTokenizer
+import applicant.ml.regression._
+import applicant.etl._
+
 import org.apache.spark.SparkConf
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkContext._
 import org.elasticsearch.spark._
 import scopt.OptionParser
 import scala.collection.mutable.HashMap
-import applicant.nlp.LuceneTokenizer
-import applicant.etl._
 import applicant.ml.score._
 import java.io.File
 import java.util.regex
