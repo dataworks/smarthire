@@ -13,8 +13,6 @@ applicantControllers.controller('GraphsCtrl', ['$scope', 'Graphs',
 			});
 
 			$scope.queries[index].$promise.then(function(data) {
-				console.log(index);
-				console.log(data);
 				displayGraph(data, ids[index]);
 			});
 		});

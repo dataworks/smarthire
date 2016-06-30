@@ -2,6 +2,7 @@ package applicant.ml.regression
 
 import applicant.nlp.LuceneTokenizer
 import applicant.ml.regression._
+import applicant.ml.naivebayes._
 import applicant.etl._
 
 import org.apache.spark.SparkConf
@@ -19,14 +20,16 @@ import org.apache.spark.mllib.regression.LabeledPoint
 import scala.collection.mutable.{ListBuffer, Map, HashMap}
 
 /**
- *
+ * MlModelGenerator is a class that will query elasticsearch for applicants who are favorited and
+ *  archived and build various machine learning models out of their data
  */
 object MlModelGenerator {
 
   //Class to store command line options
   case class Command(word2vecModel: String = "", sparkMaster: String = "",
     esNodes: String = "", esPort: String = "", esAppIndex: String = "",
-    esLabelIndex: String ="", modelDirectory: String = "")
+    esLabelIndex: String ="", logisticModelDirectory: String = "",
+    naiveBayesModelDirectory: String = "")
 
   def generateMLmodel(options: Command) {
     val archivedAppListBuff = scala.collection.mutable.ListBuffer.empty[ApplicantData]
@@ -66,19 +69,35 @@ object MlModelGenerator {
       applicantDataList += ApplicantData(app)
     }
 
-    //Turn the applicant objects into Labeled Points
     val modelData: ListBuffer[LabeledPoint] = new ListBuffer[LabeledPoint]()
-    applicantDataList.foreach { applicant =>
-      val currentValue = labelsHashMap(applicant.applicantid)
-      modelData += LabeledPoint(currentValue, LogisticFeatureGenerator.getLogisticFeatureVec(w2vModel, applicant))
+
+    //If the Naive Bayes flag was set
+    if (options.naiveBayesModelDirectory != "") {
+      //Turn the applicant objects into Labeled Points
+      applicantDataList.foreach { applicant =>
+        val currentValue = labelsHashMap(applicant.applicantid)
+        modelData += LabeledPoint(currentValue, NaiveBayesFeatureGenerator.getFeatureVec(applicant))
+      }
+
+      //Create and save the NaiveBayes model
+      NaiveBayesHelper.createAndSaveModel(sc, options.naiveBayesModelDirectory, modelData)
     }
 
-    //Create and save the logistic regression model
-    val model = LogisticRegressionHelper.createModel(sc, modelData)
+    //If the logistic regression flag was set
+    if (options.logisticModelDirectory != "") {
+      //Turn the applicant objects into Labeled Points
+      applicantDataList.foreach { applicant =>
+        val currentValue = labelsHashMap(applicant.applicantid)
+        modelData += LabeledPoint(currentValue, LogisticFeatureGenerator.getLogisticFeatureVec(w2vModel, applicant))
+      }
 
-    println(model.weights)
+      //Create and save the logistic regression model
+      val model = LogisticRegressionHelper.createModel(sc, modelData)
 
-    LogisticRegressionHelper.saveModel(model, sc, options.modelDirectory)
+      println(model.weights)
+
+      LogisticRegressionHelper.saveModel(model, sc, options.logisticModelDirectory)
+    }
   }
 
   /**
@@ -108,9 +127,12 @@ object MlModelGenerator {
       opt[String]('l', "labelindex") required() valueName("<labelindex>") action { (x, c) =>
         c.copy(esLabelIndex = x)
       } text ("Name of the Elasticsearch containing archived/favorited labes.")
-      opt[String]('d', "modeldirectory") required() valueName("<modeldirectory>") action { (x, c) =>
-        c.copy(modelDirectory = x)
+      opt[String]("logisticmodeldirectory") valueName("<logisticmodeldirectory>") action { (x, c) =>
+        c.copy(logisticModelDirectory = x)
       } text("Path where the logistic regression model is to be saved")
+      opt[String]("naivebayesmodeldirectory") valueName("<naivebayesmodeldirectory>") action { (x, c) =>
+        c.copy(naiveBayesModelDirectory = x)
+      } text ("Path where the naive bayes model is to be saved")
 
       note ("Pulls labeled resumes from elasticsearch and generates a logistic regression model \n")
       help("help") text("Prints this usage text")

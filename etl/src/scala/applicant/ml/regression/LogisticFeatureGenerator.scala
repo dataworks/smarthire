@@ -1,4 +1,4 @@
-package applicant.ml.score
+package applicant.ml.regression
 
 import scala.util.Try
 import scala.collection.mutable.HashMap
@@ -244,9 +244,8 @@ object LogisticFeatureGenerator {
    * @return gpa as a double
    */
   def gpaDouble (gpa: String) : Double = {
-    val arrStr : Array[String] = gpa.split(" ")
     try {
-      val gpaDbl = arrStr(1).toDouble
+      val gpaDbl = gpa.toDouble
       if (gpaDbl >= 4.0) {
         return 1.0
       }
