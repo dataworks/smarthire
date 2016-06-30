@@ -68,16 +68,21 @@ exports.suggest = function(term, res) {
  * @param field - ES field
  */
 exports.aggregations = function(res, field) {
-  // var skills = {        
-  //     skills: {
-  //         terms: {
-  //           field: field
-  //         }
-  //       }
-  // };
-  // console.log(skills);
-  // console.log(skills.skills);
-
   if(field === 'languages')
    esservice.aggregations(config.applicants, 'skills.language', res);
+
+  if(field === 'etl')
+   esservice.aggregations(config.applicants, 'skills.etl', res);
+
+  if(field === 'web')
+   esservice.aggregations(config.applicants, 'skills.webapp', res);
+
+  if(field === 'mobile')
+   esservice.aggregations(config.applicants, 'skills.mobile', res);
+
+  if(field === 'db')
+   esservice.aggregations(config.applicants, 'skills.database', res);
+
+  if(field === 'bigData')
+    esservice.aggregations(config.applicants, 'skills.bigdata', res);
 }

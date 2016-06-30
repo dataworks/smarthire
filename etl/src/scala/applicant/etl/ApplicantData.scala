@@ -125,14 +125,19 @@ object ApplicantData {
     }
 
     app.githubData = collection.mutable.Map(ApiMapper.githubAPI(app.github).toSeq: _*)
-    if (app.githubData != collection.mutable.Map() && app.name == notFound) {
-      if (app.githubData("name") != null && app.githubData("name") != "") {
+    if (app.name == notFound) {
+      if (app.githubData != collection.mutable.Map() && app.githubData("name") != null && app.githubData("name") != "") {
         app.name = app.githubData("name")
       }
-      else if (app.githubData("login") != null && app.githubData("login") != "") {
+      else if (app.githubData != collection.mutable.Map() && app.githubData("login") != null && app.githubData("login") != "") {
         app.name = app.githubData("login")
       }
+      else if (fullText.trim().startsWith("Indeed Resume")) {
+        val textArr = fullText.trim().split("\\s+")
+        app.name = textArr(2) + textArr(3)
+      }
     }
+
     return app
   }
 
