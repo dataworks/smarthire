@@ -39,7 +39,7 @@ object ResumeParser {
 
     //Create Spark RDD using conf
     val sc = new SparkContext(conf)
-    println("Loading uploads into RDD")
+
     //Create a key-value pair RDD of files within resume directory
     //RDD is an array of tuples (String, PortableDataStream)
     val fileData = if (options.fromES) {
@@ -52,7 +52,6 @@ object ResumeParser {
         ResumeData(FilenameUtils.getName(resume.getPath()),resume.toArray,resume.open)
       }
     }
-  /*  println("RDD created, Creating EntityExtractor")
     // Create EntityExtractor object
     val models = options.nlpModels.split(",")
     val patterns = options.nlpRegex
@@ -63,7 +62,6 @@ object ResumeParser {
 
     var fileCount = sc.accumulator(0)
 
-    println("Starting parsing")
     fileData.map { resume =>
       println("Parsing applicant " + resume.esId + ", " + fileCount + " files parsed")
       fileCount += 1
@@ -77,7 +75,7 @@ object ResumeParser {
       app.toMap()
 
     }.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
-*/
+
     var pdfCount = sc.accumulator(0)
 
     fileData.map{ resume =>
