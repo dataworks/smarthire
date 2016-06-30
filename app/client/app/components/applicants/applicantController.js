@@ -277,27 +277,24 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       var files = document.querySelector('input[type=file]').files;
       for(var i = 0; i < files.length; i++) {
         (function(file) {
-          if(file.type === 'application/pdf' || file.type === 'application/doc') {
-            var reader = new FileReader();
+          var reader = new FileReader();
 
-            reader.addEventListener("load", function () {
-              var temp = reader.result;
-              var base64string = temp.substring(28);
-             
-              var upload = new Upload({
-                'type': 'upload',
-                'base64string': base64string,
-                'name': file.name,
-                'processed': false
-              });
+          reader.addEventListener("load", function () {
+            var temp = reader.result;
+            var base64string = temp.substring(28);
+            
+            var upload = new Upload({
+              'type': 'upload',
+              'base64string': base64string,
+              'name': file.name,
+              'processed': false
+            });
 
-              upload.$save();
-            }, false);
+            upload.$save();
+          }, false);
 
-            if(file)
-              reader.readAsDataURL(file);
-          } else
-              alert('only pdf or word doc files')
+          if(file)
+            reader.readAsDataURL(file);
         })(files[i]);
       }
     }

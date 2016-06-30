@@ -47,7 +47,15 @@ div > #charts1, div > #charts2, div > #charts3 {
 	height: auto;
 }
 
+@media (max-width: 767px) {
+	#da, #e, #m, #l, #w, #b{
+		width: 75% !important;
+	}
 
+	div > #charts1, div > #charts2, div > #charts3 {
+		display: block;
+	}
+}
 
 /*#de{
 	width: 35%;

@@ -4,6 +4,7 @@ import org.apache.spark.SparkContext
 import org.apache.spark.SparkContext._
 import org.apache.spark.SparkConf
 import org.apache.spark.input.PortableDataStream
+import org.apache.spark.rdd.RDD
 import org.apache.tika.metadata._
 import org.apache.tika.parser._
 import org.apache.tika.sax.WriteOutContentHandler
@@ -11,25 +12,19 @@ import java.io._
 import scopt.OptionParser
 import org.elasticsearch.spark._
 import org.apache.commons.io.FilenameUtils
-import org.apache.commons.codec.binary.Hex
+import org.apache.commons.codec.binary.{Hex,Base64}
 import applicant.nlp._
 import java.security.MessageDigest
 
 import scala.collection.mutable.{ListBuffer, Map, LinkedHashMap, HashMap}
-
-/**
- *@author Brantley Gilbert
- *
- *@version 0.0.1
- *
- */
 
 object ResumeParser {
 
   //Class to store command line options
   case class Command(sourceDirectory: String = "", sparkMaster: String = "",
     esNodes: String = "", esPort: String = "", esAppIndex: String = "",
-    nlpRegex: String = "", nlpModels: String = "", esAttIndex: String = "")
+    nlpRegex: String = "", nlpModels: String = "", esAttIndex: String = "",
+    fromES: Boolean = false, uploadindex: String = "")
 
   /**
    * Will itialize the spark objects and pass off files to tika
@@ -49,10 +44,20 @@ object ResumeParser {
 
     //Create Spark RDD using conf
     val sc = new SparkContext(conf)
+    println("Loading uploads into RDD")
     //Create a key-value pair RDD of files within resume directory
     //RDD is an array of tuples (String, PortableDataStream)
-    val fileData = sc.binaryFiles(filesPath)
-
+    val fileData = if (options.fromES) {
+      sc.esRDD(options.uploadindex + "/upload").values.map{ resume =>
+        ResumeData(getString(resume("name")),Base64.decodeBase64(getString(resume("base64string"))))
+      }
+    }
+    else {
+      sc.binaryFiles(filesPath).values.map{ resume =>
+        ResumeData(FilenameUtils.getName(resume.getPath()),resume.toArray)
+      }
+    }
+    println("RDD created, Creating EntityExtractor")
     // Create EntityExtractor object
     val models = options.nlpModels.split(",")
     val patterns = options.nlpRegex
@@ -63,38 +68,33 @@ object ResumeParser {
 
     var fileCount = sc.accumulator(0)
 
-    fileData.values.map { currentFile =>
-      val esId = Hex.encodeHexString(MessageDigest.getInstance("MD5").digest(currentFile.toArray)).toLowerCase()
-
-      println("Parsing applicant " + esId + ", " + fileCount + " files parsed")
-      val text = TextExtractor.extractText(currentFile.open())
-
+    println("Starting parsing")
+    fileData.map { resume =>
+      println("Parsing applicant " + resume.esId + ", " + fileCount + " files parsed")
       fileCount += 1
 
       var entitySet: LinkedHashMap[(String, String),(String, String)] = null
       this.synchronized {
-        entitySet = broadcastExtractor.value.extractEntities(text)
+        entitySet = broadcastExtractor.value.extractEntities(resume.text)
       }
 
-      val app = ApplicantData(entitySet, esId, text)
+      val app = ApplicantData(entitySet, resume.esId, resume.text)
       app.toMap()
 
     }.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
 
     var pdfCount = sc.accumulator(0)
 
-    fileData.values.map{ currentFile =>
-      val esId = Hex.encodeHexString(MessageDigest.getInstance("MD5").digest(currentFile.toArray)).toLowerCase()
-
-      println("Uploading pdf " + esId + ", " + pdfCount + " pdfs uploaded")
+    fileData.map{ resume =>
+      println("Parsing applicant " + resume.esId + ", " + pdfCount + " files parsed")
       pdfCount += 1
       Map(
-        "hash" -> esId,
-        "applicantid" -> esId,
-        "base64string" -> currentFile.toArray,
-        "filename" -> FilenameUtils.getName(currentFile.getPath()),
-        "extension" -> FilenameUtils.getExtension(currentFile.getPath()),
-        "metadata" -> TextExtractor.extractMetadata(currentFile.open())
+        "hash" -> resume.esId,
+        "applicantid" -> resume.esId,
+        "base64string" -> resume.base64string,
+        "filename" -> resume.filename,
+        "extension" -> resume.extension,
+        "metadata" -> resume.metaDataMap
         )
 
     }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
@@ -142,6 +142,12 @@ object ResumeParser {
         opt[String]('o', "models") required() valueName("<models>") action { (x, c) =>
             c.copy(nlpModels = x)
         } text ("Path to the binary models for OpenNLP, comma delimited")
+        opt[String]('u', "uploadindex") required() valueName("<uploadindex>") action { (x, c) =>
+            c.copy(uploadindex = x)
+        } text ("Name of the Elasticsearch upload index to pull resumes from")
+        opt[Unit]('f', "fromElasticsearch") action { (_, c) =>
+            c.copy(fromES = true)
+        } text("A flag used to specify loading resumes from elasticsearch uploads")
 
         note ("Reades through a directory of resumes, parses the text from each, and saves the applicant data to Elasticsearch\n")
         help("help") text("Prints this usage text")
@@ -156,7 +162,14 @@ object ResumeParser {
         //Elsewise, just exit
         case None =>
     }
+
   }
 
+  private def getString(value: AnyRef): String = {
+    if (value == None) {
+      return ""
+    }
+    return value.asInstanceOf[String]
+  }
 
 }
