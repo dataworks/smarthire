@@ -7,7 +7,7 @@
   */
 applicantServices.factory('advancedSearch', function() {
   return {
-    createQuery: function(check1, check2, check3, check4, check5, check6, check7, check8, check9, check10, check11, check12) {
+    createQuery: function(check1, check2, check3, check4, check5, check6, check7, check8, check9, check10, check11, check12, check13, check14, check15, check16) {
       var initial = "";
       var final = "";
 
@@ -23,22 +23,30 @@ applicantServices.factory('advancedSearch', function() {
         initial = initial + "'information technology'";
       }
 
+      if (check4) {
+        initial = initial + "'mathematic'";
+      }
+
       if (initial != "") {
         final = final + " AND education.degree: (" + initial + ")";
       }
 
       initial = "";
 
-      if (check4) {
+      if (check5) {
         initial = initial + "'VA'";
       }
 
-      if (check5) {
+      if (check6) {
         initial = initial + "'MD'";
       }
 
-      if (check6) {
+      if (check7) {
         initial = initial + "'DC'";
+      }
+
+      if (check8) {
+        initial = initial + "'PA'";
       }
 
       if (initial != "") {
@@ -47,16 +55,20 @@ applicantServices.factory('advancedSearch', function() {
 
       initial = "";
 
-      if (check7) {
+      if (check9) {
         initial = initial + "'Virginia'";
       }
 
-      if (check8) {
+      if (check10) {
         initial = initial + "'James Madison'";
       }
 
-      if (check9) {
+      if (check11) {
         initial = initial + "'Rensselaer'";
+      }
+
+      if (check12) {
+        initial = initial + "'George Mason'";
       }
 
       if (initial != "") {
@@ -65,16 +77,20 @@ applicantServices.factory('advancedSearch', function() {
 
       initial = "";
 
-      if (check10) {
+      if (check13) {
         initial = initial + "'developer'";
       }
 
-      if (check11) {
+      if (check14) {
         initial = initial + "'architect'";
       }
 
-      if (check12) {
+      if (check15) {
         initial = initial + "'manager'";
+      }
+
+      if (check16) {
+        initial = initial + "'engineer'";
       }
 
       if (initial != "") {
