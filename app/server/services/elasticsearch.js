@@ -112,7 +112,7 @@ exports.suggest = function(config, term, field, res) {
       }
     }
   }).then(function(resp) {
-    var hits = module.exports.getKeys(resp);
+    var hits = module.exports.getAutocompleteKeys(resp);
     module.exports.defaultHandler(res, hits, resp.hits.total, false);
     client.close();
   }, function(err) {
@@ -148,7 +148,7 @@ exports.aggregations = function(config, field, res) {
       }
     }
   }).then(function(resp) {
-    var hits = module.exports.getBuckets(resp);
+    var hits = module.exports.getAggregationHits(resp);
     module.exports.defaultHandler(res, hits, resp.hits.total, false);
     client.close();
   }, function(err) {
@@ -158,22 +158,22 @@ exports.aggregations = function(config, field, res) {
 
 
 /*
- * Returns the keys  associated with each bucket
+ * Returns the keys  associated with each bucket for suggest
  *
  * @param resp - HTTP response from suggest after a search is done
  */
-exports.getKeys = function(resp) {
+exports.getAutocompleteKeys = function(resp) {
   return resp.aggregations.autocomplete.buckets.map(function(hit) {
       return hit.key;
   });
 }
 
-/*
- * Returns the keys & doc_count associated with each bucket
+/**
+ * Returns the keys & doc_count associated with each bucket for aggregations
  *
  * @param resp - HTTP response 
  */
-exports.getBuckets = function(resp) {
+exports.getAggregationHits = function(resp) {
   return resp.aggregations.aggs_name.buckets.map(function(hit) {
     return hit;
   });
