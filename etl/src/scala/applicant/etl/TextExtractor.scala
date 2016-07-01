@@ -2,6 +2,7 @@ package applicant.etl
 
 import org.apache.tika.metadata._
 import org.apache.tika.parser._
+import org.apache.tika.parser.pdf._
 import org.apache.tika.sax.WriteOutContentHandler
 import java.io._
 import org.apache.commons.io.FilenameUtils
@@ -26,21 +27,44 @@ object TextExtractor {
   val metadata : Metadata = new Metadata()
   val context : ParseContext = new ParseContext()
 
+  def extractAll(data: InputStream): (String, Map[String, String]) = {
+    // Apache Tika parser object, auto detects file type
+    val myparser : AutoDetectParser = new AutoDetectParser()
+    // Input stream for parser, from PortableDataStream data
+    val stream : InputStream = data
+
+    try {
+      // Parse text from file and store in hander object
+      myparser.parse(stream, handler, metadata, context)
+    }
+    finally {
+      stream.close
+    }
+
+
+    var metaDataMap = Map[String,String]()
+    val metaDataNames = metadata.names()
+    for (name <- metaDataNames) {
+      metaDataMap += (name -> metadata.get(name))
+    }
+
+    return (handler.toString(), metaDataMap)
+  }
+
   def extractText (data: InputStream) : String = {
 
     // Apache Tika parser object, auto detects file type
     val myparser : AutoDetectParser = new AutoDetectParser()
     // Input stream for parser, from PortableDataStream data
     val stream : InputStream = data
-    // Creates object to hold text ouput from Tika parser
-    val handler : WriteOutContentHandler = new WriteOutContentHandler(-1)
-    // Creates a object to hold the metadata of the file being parsed
-    val metadata : Metadata = new Metadata()
-    // Object to pass context information to Tika parser, use to modify parser
-    val context : ParseContext = new ParseContext()
 
-    // Parse text from file and store in hander object
-    myparser.parse(stream, handler, metadata, context)
+    try {
+      // Parse text from file and store in hander object
+      myparser.parse(stream, handler, metadata, context)
+    }
+    finally {
+      stream.close
+    }
 
     return handler.toString()
   }
@@ -48,8 +72,12 @@ object TextExtractor {
   def extractMetadata (data: InputStream) : Map[String,String] = {
     val myparser : AutoDetectParser = new AutoDetectParser()
 
-    myparser.parse(data, handler, metadata, context)
-
+    try{
+      myparser.parse(data, handler, metadata, context)
+    }
+    finally {
+      data.close
+    }
 
     var metaDataMap = Map[String,String]()
     val metaDataNames = metadata.names()
