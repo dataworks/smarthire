@@ -40,7 +40,7 @@ object ResumeData {
     resume.base64string = Base64.encodeBase64String(byteArr)
     resume.metaDataMap = streamResult._2
     resume.filename = fileName
-    resume.extension = resume.metaDataMap("Content-Type")
+    resume.extension = FilenameUtils.getExtension(fileName)
 
     return resume
   }
