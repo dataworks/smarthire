@@ -18,34 +18,52 @@ div > #charts1, div > #charts2, div > #charts3 {
 	width: 32%;
 	height: auto;
 	margin-right: 15%;
+	font-size: 225%;
+	text-align: center;
+	font-family: 'Gurajada', serif;
 }
 
 #e{
 	width: 32%;
 	height: auto;
 	margin-right: 15%;
+	font-size: 225%;
+	text-align: center;
+	font-family: 'Gurajada', serif;
 }
 
 #w{
 	width: 32%;
 	height: auto;
 	margin-right: 15%;
+	font-size: 225%;
+	text-align: center;
+	font-family: 'Gurajada', serif;
 }
 
 #m{
 	width: 32%;
 	height: auto;
+	font-size: 225%;
+	text-align: center;
+	font-family: 'Gurajada', serif;
 }
 
 #da{
 	width: 32%;
 	height: auto;
 	margin-right: 15%;
+	font-size: 225%;
+	text-align: center;
+	font-family: 'Gurajada', serif;
 }
 
 #b{
 	width: 32%;
 	height: auto;
+	font-size: 225%;
+	text-align: center;
+	font-family: 'Gurajada', serif;
 }
 
 @media (max-width: 767px) {
@@ -57,8 +75,3 @@ div > #charts1, div > #charts2, div > #charts3 {
 		display: block;
 	}
 }
-
-/*#de{
-	width: 35%;
-	height: auto;
-}*/
