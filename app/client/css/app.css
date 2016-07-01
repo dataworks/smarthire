@@ -47,6 +47,10 @@
   .content{
     padding-top: 5%; 
   }
+
+  .nav{
+    float: left !important;
+  }
 }
 
 #bb { 
@@ -118,6 +122,10 @@
   font-weight: bold;
   color: white;
   font-size: 150%;
+}
+
+.nav.navbar-nav li a:hover, .nav.navbar-nav li a:focus{
+  color: #fbfc00;
 }
  
 
