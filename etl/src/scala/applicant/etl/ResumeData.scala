@@ -11,6 +11,8 @@ import org.apache.commons.codec.binary.{Hex, Base64}
 import java.security.MessageDigest
 import org.apache.commons.io.FilenameUtils
 
+import java.io.DataInputStream
+
 /**
  * Class to hold raw resume data
  */
@@ -31,19 +33,14 @@ object ResumeData {
   def apply(fileName: String, byteArr: Array[Byte], stream: InputStream): ResumeData = {
     val resume = new ResumeData()
 
+    val streamResult = TextExtractor.extractAll(stream)
 
-    try {
-      resume.esId = Hex.encodeHexString(MessageDigest.getInstance("MD5").digest(byteArr)).toLowerCase()
-      resume.text = TextExtractor.extractText(stream)
-      resume.base64string = Base64.encodeBase64String(byteArr)
-      resume.metaDataMap = TextExtractor.extractMetadata(stream)
-      resume.filename = fileName
-      resume.extension = resume.metaDataMap("Content-Type")
-    }
-    finally {
-      // Close stream after parsing
-      stream.close
-    }
+    resume.esId = Hex.encodeHexString(MessageDigest.getInstance("MD5").digest(byteArr)).toLowerCase()
+    resume.text = streamResult._1
+    resume.base64string = Base64.encodeBase64String(byteArr)
+    resume.metaDataMap = streamResult._2
+    resume.filename = fileName
+    resume.extension = FilenameUtils.getExtension(fileName)
 
     return resume
   }
