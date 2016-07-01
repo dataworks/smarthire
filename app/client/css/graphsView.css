@@ -23,6 +23,7 @@ div > #charts1, div > #charts2, div > #charts3 {
 #e{
 	width: 32%;
 	height: auto;
+	margin-right: 15%;
 }
 
 #w{

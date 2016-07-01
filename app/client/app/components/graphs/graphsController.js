@@ -236,7 +236,7 @@ applicantControllers.controller('GraphsCtrl', ['$scope', 'Graphs',
 				});
 			}
 
-			if( id == 'ETL'){
+			if( id == 'Web'){
 				var chart = new Chart(ctx, {
 					type: 'pie',
 					data: {
@@ -252,7 +252,7 @@ applicantControllers.controller('GraphsCtrl', ['$scope', 'Graphs',
 				});
 			}
 
-			if( id == 'Web'){
+			if( id == 'ETL'){
 				var chart = new Chart(ctx, {
 					type: 'pie',
 					data: {
