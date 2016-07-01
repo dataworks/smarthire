@@ -170,7 +170,7 @@ exports.getKeys = function(resp) {
 
 /*
  * Returns the keys & doc_count associated with each bucket
- *
+ * 
  * @param resp - HTTP response 
  */
 exports.getBuckets = function(resp) {
