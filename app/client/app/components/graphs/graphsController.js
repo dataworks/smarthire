@@ -166,8 +166,8 @@ applicantControllers.controller('GraphsCtrl', ['$scope', 'Graphs',
 			'#FFEE58',
 			'#FFF176',
 			'#FFF59D',
-			'#FFF9C4',
-			'#FFFDE7'
+			'#ffff99',
+			'#ffffb2'
 			];
 
 			var purples = [
