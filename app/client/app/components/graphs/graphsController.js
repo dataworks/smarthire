@@ -53,6 +53,7 @@ applicantControllers.controller('GraphsCtrl', ['$scope', 'Graphs',
 			];
 
 			var reds = [
+			// light to dark
 			// '#FFEBEE',
 			// '#FFCDD2',
 			// '#EF9A9A',
@@ -63,16 +64,28 @@ applicantControllers.controller('GraphsCtrl', ['$scope', 'Graphs',
 			// '#D32F2F',
 			// '#C62828',
 			// '#B71C1C'
+			// dark to light google
+			// '#B71C1C',
+			// '#C62828',
+			// '#D32F2F',
+			// '#E53935',
+			// '#F44336',
+			// '#EF5350',
+			// '#E57373',
+			// '#EF9A9A',
+			// '#FFCDD2',
+			// '#FFEBEE'
+			// dark to light mix of two color groups
 			'#B71C1C',
-			'#C62828',
-			'#D32F2F',
-			'#E53935',
-			'#F44336',
-			'#EF5350',
-			'#E57373',
-			'#EF9A9A',
-			'#FFCDD2',
-			'#FFEBEE'
+			'#FF1919',
+			'#FF3232',
+			'#FF4C4C',
+			'#FF6666',
+			'#FF7F7F',
+			'#FF9999',
+			'#FFB2B2',
+			'#FFCCCC',
+			'#FFE5E5'
 			];
 
 			var greens = [
@@ -99,6 +112,7 @@ applicantControllers.controller('GraphsCtrl', ['$scope', 'Graphs',
 			];
 
 			var oranges = [
+			// from light to dark google 
 			// '#FBE9E7',
 			// '#FFCCBC',
 			// '#FFAB91',
@@ -109,16 +123,28 @@ applicantControllers.controller('GraphsCtrl', ['$scope', 'Graphs',
 			// '#E64A19',
 			// '#D84315',
 			// '#BF360C'
-			'#BF360C',
-			'#D84315',	
-			'#E64A19',
-			'#F4511E',
-			'#FF5722',
-			'#FF7043',
-			'#FF8A65',
-			'#FFAB91',
-			'#FFCCBC',
-			'#FBE9E7'
+			// from dark to light google
+			// '#BF360C',
+			// '#D84315',	
+			// '#E64A19',
+			// '#F4511E',
+			// '#FF5722',
+			// '#FF7043',
+			// '#FF8A65',
+			// '#FFAB91',
+			// '#FFCCBC',
+			// '#FBE9E7'
+			// from dark to light other site
+			'#E65100',
+			'#EF6C00',
+			'#F57C00',
+			'#FB8C00',
+			'#FF9800',
+			'#FFA726',
+			'#FFB74D',
+			'#FFCC80',
+			'#FFE0B2',
+			'#FFF3E0'
 			];
 
 			var yellows = [
