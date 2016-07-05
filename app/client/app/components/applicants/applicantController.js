@@ -285,8 +285,9 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
           var reader = new FileReader();
 
           reader.addEventListener("load", function () {
-            var temp = reader.result;
-            var base64string = temp.substring(28);
+            var temp = reader.result.split(',');
+            var base64string = temp[1];
+            console.log(base64string);
             
             var upload = new Upload({
               'type': 'upload',
