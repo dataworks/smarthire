@@ -19,6 +19,24 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
     $scope.searchText = "";
     $scope.displayText = "";
 
+    // for expand button
+    var active = true;
+
+    $('.openall').click(function(){
+      if (active) {
+        active = false;
+        $('.accordian-body:not(".in")').collapse('show');
+        // $(this).find('i').toggleClass('glyphicon glyphicon-resize-full').toggleClass('glyphicon glyphicon-resize-small');
+        $(this).find('i').toggleClass('glyphicon glyphicon-plus-sign').toggleClass('glyphicon glyphicon-minus-sign');
+      } 
+      else {
+        active = true;
+        $('.accordian-body.in').collapse('hide');
+        // $(this).find('i').toggleClass('glyphicon glyphicon-resize-small').toggleClass('glyphicon glyphicon-resize-full');
+        $(this).find('i').toggleClass('glyphicon glyphicon-minus-sign').toggleClass('glyphicon glyphicon-plus-sign');
+      }
+    });
+
     /**
      * function that changes the suggestion query based on the text that is in the search bar
      *

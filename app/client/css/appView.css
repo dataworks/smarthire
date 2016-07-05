@@ -10,6 +10,7 @@
 #profile{
   height: 70px;
   width: auto;
+  cursor: pointer; 
 }
 
 #size{
@@ -127,9 +128,14 @@ table{
   font-family: 'Open Sans', sans-serif;
 }
 
-th{
+th, th > #expander{
   text-align: center;
   font-size: 125%;
+  color: #333;
+}
+
+th > #expander:hover{
+  color: #673AB7;
 }
 
 a{
@@ -147,6 +153,11 @@ a{
 
 #s > a, #n > a{
   color: #689F38;
+  cursor: pointer;
+}
+
+#nl{
+  color: black;
   cursor: pointer;
 }
 
@@ -350,7 +361,7 @@ td{
   z-index: 2;
 }
 
-#eye:hover{
+#eye:hover, #nl:hover{
   text-decoration: none;
   background: none;
   color: #FDD835;
