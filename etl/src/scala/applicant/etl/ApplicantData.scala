@@ -9,6 +9,7 @@ import scala.util._
 import scala.collection.mutable.{ListBuffer, Map, LinkedHashMap}
 import org.apache.spark.mllib.feature.{Word2Vec, Word2VecModel}
 import scala.collection.JavaConversions._
+import org.apache.commons.lang3.text.WordUtils
 
 class ApplicantData {
   var name, recentTitle, recentLocation, recentOrganization, degree, school, gpa, email, phone, linkedin, indeed, github, fullText, applicantid: String = ""
@@ -134,7 +135,7 @@ object ApplicantData {
       }
       else if (fullText.trim().startsWith("Indeed Resume")) {
         val textArr = fullText.trim().split("\\s+")
-        app.name = textArr(2) + textArr(3)
+        app.name = textArr(2) + " " + textArr(3)
       }
       else {
         val textArr = fullText.trim().split("\\s+")
@@ -142,6 +143,7 @@ object ApplicantData {
       }
     }
 
+    app.name = WordUtils.capitalizeFully(app.name)
     return app
   }
 

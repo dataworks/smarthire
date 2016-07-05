@@ -26,3 +26,23 @@
 .img-center {
 	margin: 0 auto;
 }
+
+#mainAbout {
+    font-size: 14px;
+    line-height: 1.6;
+    font-weight: 300;
+    color: #565656;
+}
+
+#thankYou {
+    font-size: 14px;
+    line-height: 1.6;
+    font-weight: 300;
+    color: #565656;
+}
+
+#mainAbout h2 {
+	border-bottom: 1px solid #D5D5D5;
+    margin: 30px 0 15px;
+    padding-bottom: 15px;
+}
