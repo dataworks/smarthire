@@ -27,6 +27,11 @@
 	margin: 0 auto;
 }
 
+p {
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 115%;
+}
+
 #mainAbout, #thankYou, #team {
     font-size: 14px;
     line-height: 1.6;
