@@ -23,11 +23,11 @@ object TextExtractor {
    *
    *@param data A PortableDataStream from Spark of a PDF file
    */
-  val handler : WriteOutContentHandler = new WriteOutContentHandler(-1)
-  val metadata : Metadata = new Metadata()
-  val context : ParseContext = new ParseContext()
 
   def extractAll(data: InputStream): (String, Map[String, String]) = {
+    val handler : WriteOutContentHandler = new WriteOutContentHandler(-1)
+    val metadata : Metadata = new Metadata()
+    val context : ParseContext = new ParseContext()
     // Apache Tika parser object, auto detects file type
     val myparser : AutoDetectParser = new AutoDetectParser()
     // Input stream for parser, from PortableDataStream data
@@ -52,7 +52,9 @@ object TextExtractor {
   }
 
   def extractText (data: InputStream) : String = {
-
+    val handler : WriteOutContentHandler = new WriteOutContentHandler(-1)
+    val metadata : Metadata = new Metadata()
+    val context : ParseContext = new ParseContext()
     // Apache Tika parser object, auto detects file type
     val myparser : AutoDetectParser = new AutoDetectParser()
     // Input stream for parser, from PortableDataStream data
@@ -70,6 +72,9 @@ object TextExtractor {
   }
 
   def extractMetadata (data: InputStream) : Map[String,String] = {
+    val handler : WriteOutContentHandler = new WriteOutContentHandler(-1)
+    val metadata : Metadata = new Metadata()
+    val context : ParseContext = new ParseContext()
     val myparser : AutoDetectParser = new AutoDetectParser()
 
     try{
