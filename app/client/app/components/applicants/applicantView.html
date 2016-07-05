@@ -69,10 +69,9 @@
 <div infinite-scroll="nextPage()" infinite-scroll-disabled="loadingData" infinite-scroll-check="false" infinite-scroll-distance="1">
   <div class="row-applicant-row" >
     <table class="table table-condensed text-center">
-    <a id="openAll" href="#" class="btn btn-default openall hidden-xs hidden-s">Expand all</a>
       <thead id="head">
         <tr>
-          <th id="p">Profile</th>
+          <th id="p"><a id="expander" title="Toggle" href="#" class="openall hidden-xs hidden-s"><!-- <i class="glyphicon glyphicon-resize-full"></i> --> <i class="glyphicon glyphicon-plus-sign"></i></a></th>
           <th id="s"><a title="Click to Sort Score." ng-click="sortColumn('score')">Score</a><span class="sortorder" ng-class="{reverse: reverse}" ng-hide="sortBool"></span></th>
           <th id="n"><a title="Click to sort Name." ng-click="sortColumn('name.raw')">Name</a><span class="sortorder" ng-class="{reverse: reverse}" ng-show="sortBool"></span></th></th>
           <th id="ci" class="hidden-xs hidden-s">Current Info</th>

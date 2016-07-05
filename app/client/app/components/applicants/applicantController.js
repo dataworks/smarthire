@@ -24,18 +24,16 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
 
     $('.openall').click(function(){
       if (active) {
-        console.log("first: " + active);
         active = false;
         $('.accordian-body:not(".in")').collapse('show');
-        // $('.eye').attr('data-toggle', '');
-        $(this).text('Close All');
+        // $(this).find('i').toggleClass('glyphicon glyphicon-resize-full').toggleClass('glyphicon glyphicon-resize-small');
+        $(this).find('i').toggleClass('glyphicon glyphicon-plus-sign').toggleClass('glyphicon glyphicon-minus-sign');
       } 
       else {
-        console.log("second: " + active);
         active = true;
         $('.accordian-body.in').collapse('hide');
-        // $('.eye').attr('data-toggle', 'collapse');
-        $(this).text('Expand All');
+        // $(this).find('i').toggleClass('glyphicon glyphicon-resize-small').toggleClass('glyphicon glyphicon-resize-full');
+        $(this).find('i').toggleClass('glyphicon glyphicon-minus-sign').toggleClass('glyphicon glyphicon-plus-sign');
       }
     });
 
