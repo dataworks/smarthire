@@ -287,9 +287,10 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
           reader.addEventListener("load", function () {
             var temp = reader.result.split(',');
             var base64string = temp[1];
-            console.log(base64string);
+            var hash = calcMD5(base64string);
             
             var upload = new Upload({
+              'id': hash,
               'type': 'upload',
               'base64string': base64string,
               'name': file.name,
