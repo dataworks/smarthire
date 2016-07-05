@@ -107,6 +107,11 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
      */
     $scope.dataLoaded = function(result) {
       var rows = result.rows;
+
+      if (rows == null) {
+        rows = results.rows;  
+      }
+
       if (rows.length > 0) {
         $scope.applicants.rows = $scope.applicants.rows.concat(rows);
       } else {
