@@ -23,9 +23,9 @@ applicantApp.config(['$routeProvider', '$locationProvider', 'ngToastProvider',
       templateUrl: 'app/components/about/aboutView.html',
       controller: 'AboutCtrl'
     }).
-    when('/graphs', {
-      templateUrl: 'app/components/graphs/graphsView.html',
-      controller: 'GraphsCtrl'
+    when('/analysis', {
+      templateUrl: 'app/components/graphs/analysisView.html',
+      controller: 'AnalysisCtrl'
     }).
     otherwise({
       redirectTo: '/applicants'

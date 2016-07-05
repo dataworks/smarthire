@@ -1,4 +1,4 @@
-applicantControllers.controller('GraphsCtrl', ['$scope', 'Graphs', 
+applicantControllers.controller('AnalysisCtrl', ['$scope', 'Graphs', 
 	function($scope, graphs) {
 
 		$scope.queries = [$scope.languages, $scope.etl, $scope.web, 
