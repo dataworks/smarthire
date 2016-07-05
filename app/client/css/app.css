@@ -32,16 +32,16 @@
 
 
   #fb{
-    padding-top: 1.5%
+    padding-top: 1.5%;
   }
   #li{
-    padding-top: 1.5%
+    padding-top: 1.5%;
   }
   #tw{
-    padding-top: 1.5%
+    padding-top: 1.5%;
   }
   #gt{
-    padding-top: 1.5%
+    padding-top: 1.5%;
   }
 
   .content{
@@ -147,6 +147,7 @@ body {
   left: 5%;
   height: 75%;
   width: auto;
+  z-index: 10;
 }
 
 .dwl{
@@ -163,6 +164,7 @@ body {
   margin-top: .75%;
   height: 55%;
   width: auto;
+  z-index: 10;
 }
 
 #tw {
@@ -172,6 +174,7 @@ body {
   margin-top: .75%;
   height: 55%;
   width: auto;
+  z-index: 10;
 }
 
 #gt {
@@ -181,6 +184,7 @@ body {
   margin-top: .75%;
   height: 55%;
   width: auto;
+  z-index: 10;
 }
 
 #li {
@@ -190,6 +194,7 @@ body {
   margin-top: .75%;
   height: 55%;
   width: auto;
+  z-index: 10;
 }
 
 .page-header{
