@@ -73,30 +73,50 @@ object MlModelGenerator {
 
     //If the Naive Bayes flag was set
     if (options.naiveBayesModelDirectory != "") {
+      println("Creating naive bayes model.")
       //Turn the applicant objects into Labeled Points
       applicantDataList.foreach { applicant =>
-        val currentValue = labelsHashMap(applicant.applicantid)
-        modelData += LabeledPoint(currentValue, NaiveBayesFeatureGenerator.getFeatureVec(applicant))
+        val applicantScore = labelsHashMap(applicant.applicantid)
+        modelData += LabeledPoint(applicantScore, NaiveBayesFeatureGenerator.getFeatureVec(applicant))
       }
 
       //Create and save the NaiveBayes model
       NaiveBayesHelper.createAndSaveModel(sc, options.naiveBayesModelDirectory, modelData)
+      modelData.clear()
+
+      println("Naive bayes model created.")
     }
 
     //If the logistic regression flag was set
     if (options.logisticModelDirectory != "") {
-      //Turn the applicant objects into Labeled Points
-      applicantDataList.foreach { applicant =>
-        val currentValue = labelsHashMap(applicant.applicantid)
-        modelData += LabeledPoint(currentValue, LogisticFeatureGenerator.getLogisticFeatureVec(w2vModel, applicant))
+      println("Creating logistic regression model.")
+      val bayesModel = NaiveBayesHelper.loadModel(sc, options.naiveBayesModelDirectory) match {
+        case Some(model) =>
+          model
+        case None =>
+          null
       }
 
-      //Create and save the logistic regression model
-      val model = LogisticRegressionHelper.createModel(sc, modelData)
+      if (bayesModel != null) {
+        applicantDataList.foreach { applicant =>
+          val applicantScore = labelsHashMap(applicant.applicantid)
 
-      println(model.weights)
+          modelData += LabeledPoint(applicantScore, LogisticFeatureGenerator.getLogisticFeatureVec(w2vModel, bayesModel, applicant))
+        }
 
-      LogisticRegressionHelper.saveModel(model, sc, options.logisticModelDirectory)
+        //Create and save the logistic regression model
+        val logisticModel = LogisticRegressionHelper.createModel(sc, modelData)
+
+        println("Weights:")
+        println(logisticModel.weights)
+
+        LogisticRegressionHelper.saveModel(logisticModel, sc, options.logisticModelDirectory)
+
+        println("Logistic regression model created.")
+      }
+      else {
+        println("The bayes model could not be loaded for generating the logistic regression model.")
+      }
     }
   }
 
