@@ -21,7 +21,7 @@ applicantControllers.controller('AnalysisCtrl', ['$scope', 'Analysis',
     function displayGraph(data, id) {
       var labels = data.map(function(index) {
         return index.key;
-      });
+    });
 
       var count = data.map(function(index) {
         return index.doc_count;

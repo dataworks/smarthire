@@ -38,7 +38,7 @@ class TextExtractorSpec extends FlatSpec with BeforeAndAfterAll {
     val sc = new SparkContext(conf)
     val fileData = sc.binaryFiles("data/test/resume.pdf")
 
-    var text: String = TextExtractor.extractText(fileData.values.first().open())
+    var text: String = TextExtractor.extractAll(fileData.values.first().open())._1
 
     text = text.replace(" ", "").replace("\n", "").replace("-", "")
 
