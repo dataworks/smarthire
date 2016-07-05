@@ -40,8 +40,6 @@ object ResumeParser {
     //Create Spark RDD using conf
     val sc = new SparkContext(conf)
 
-    //Create a key-value pair RDD of files within resume directory
-    //RDD is an array of tuples (String, PortableDataStream)
     val fileData = if (options.fromES) {
       sc.esRDD(options.uploadindex + "/upload").values.map{ resume =>
         ResumeData(getString(resume("name")),Base64.decodeBase64(getString(resume("base64string"))), new DataInputStream(new ByteArrayInputStream(Base64.decodeBase64(getString(resume("base64string"))))))
@@ -56,7 +54,6 @@ object ResumeParser {
     val models = options.nlpModels.split(",")
     val patterns = options.nlpRegex
     val extractor = new EntityExtractor(models, patterns)
-
 
     val broadcastExtractor = sc.broadcast(extractor)
 
@@ -89,7 +86,6 @@ object ResumeParser {
         "extension" -> resume.extension,
         "metadata" -> resume.metaDataMap
         )
-
     }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
 
     sc.stop()
