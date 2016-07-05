@@ -41,7 +41,7 @@ object PictureExtractor {
 
       in.close()
 
-      val metadataMap = TextExtractor.extractMetadata(new ByteArrayInputStream(byteArray))
+      val metadataMap = TextExtractor.extractAll(new ByteArrayInputStream(byteArray))._2
       var fileExtension: String = ""
       metadataMap.get("Content-Type") match {
         case Some(jpg) if jpg.endsWith("jpeg") =>
@@ -136,7 +136,7 @@ object PictureExtractor {
         "base64string" -> currentFile.toArray,
         "filename" -> FilenameUtils.getName(currentFile.getPath()),
         "extension" -> FilenameUtils.getExtension(currentFile.getPath()),
-        "metadata" -> TextExtractor.extractMetadata(currentFile.open())
+        "metadata" -> TextExtractor.extractAll(currentFile.open())._2
         )
 
     }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
