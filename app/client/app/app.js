@@ -24,7 +24,7 @@ applicantApp.config(['$routeProvider', '$locationProvider', 'ngToastProvider',
       controller: 'AboutCtrl'
     }).
     when('/analysis', {
-      templateUrl: 'app/components/graphs/analysisView.html',
+      templateUrl: 'app/components/analysis/analysisView.html',
       controller: 'AnalysisCtrl'
     }).
     otherwise({

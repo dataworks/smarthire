@@ -1,5 +1,5 @@
-applicantControllers.controller('AnalysisCtrl', ['$scope', 'Graphs', 
-	function($scope, graphs) {
+applicantControllers.controller('AnalysisCtrl', ['$scope', 'Analysis', 
+	function($scope, analysis) {
 
 		$scope.queries = [$scope.languages, $scope.etl, $scope.web, 
 		$scope.mobile, $scope.db, $scope.bigData];
@@ -8,7 +8,7 @@ applicantControllers.controller('AnalysisCtrl', ['$scope', 'Graphs',
 		var ids = ['Language', 'ETL', 'Web', 'Mobile', 'Databases', 'Big'];
 
 		$scope.queries.forEach(function(value, index) {
-			$scope.queries[index] = graphs.query ({
+			$scope.queries[index] = analysis.query ({
 				field: fields[index]
 			});
 
