@@ -19,6 +19,26 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
     $scope.searchText = "";
     $scope.displayText = "";
 
+    // for expand button
+    var active = true;
+
+    $('.openall').click(function(){
+      if (active) {
+        console.log("first: " + active);
+        active = false;
+        $('.accordian-body:not(".in")').collapse('show');
+        // $('.eye').attr('data-toggle', '');
+        $(this).text('Close All');
+      } 
+      else {
+        console.log("second: " + active);
+        active = true;
+        $('.accordian-body.in').collapse('hide');
+        // $('.eye').attr('data-toggle', 'collapse');
+        $(this).text('Expand All');
+      }
+    });
+
     /**
      * function that changes the suggestion query based on the text that is in the search bar
      *

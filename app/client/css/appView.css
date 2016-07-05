@@ -10,6 +10,7 @@
 #profile{
   height: 70px;
   width: auto;
+  cursor: pointer; 
 }
 
 #size{
@@ -47,6 +48,15 @@
   left: 10px; /* padding from the left side of the window */
   z-index: 2;
 
+}
+
+#openAll{
+  margin-left: 32%;
+  margin-top: .5%;
+  outline: none;
+  background: #689F38;
+  color: white;
+  font-weight: bold;
 }
 
 .block > #select{
@@ -147,6 +157,11 @@ a{
 
 #s > a, #n > a{
   color: #689F38;
+  cursor: pointer;
+}
+
+#nl{
+  color: black;
   cursor: pointer;
 }
 
@@ -350,7 +365,7 @@ td{
   z-index: 2;
 }
 
-#eye:hover{
+#eye:hover, #nl:hover{
   text-decoration: none;
   background: none;
   color: #FDD835;
