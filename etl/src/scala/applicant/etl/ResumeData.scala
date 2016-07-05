@@ -18,7 +18,7 @@ import java.io.DataInputStream
  */
 class ResumeData {
 
-  var esId, base64string, filename, extension, text : String = ""
+  var esId, base64string, filename, extension, text, uploadId : String = ""
   var metaDataMap = scala.collection.mutable.Map[String,String]()
 
 }
@@ -30,11 +30,12 @@ object ResumeData {
    * @param entitySet From EntityExtractor
    * @return A new ResumeData object
    */
-  def apply(fileName: String, byteArr: Array[Byte], stream: InputStream): ResumeData = {
+  def apply(fileName: String, byteArr: Array[Byte], stream: InputStream, uploadid: String): ResumeData = {
     val resume = new ResumeData()
 
     val streamResult = TextExtractor.extractAll(stream)
 
+    resume.uploadId = uploadid
     resume.esId = Hex.encodeHexString(MessageDigest.getInstance("MD5").digest(byteArr)).toLowerCase()
     resume.text = streamResult._1
     resume.base64string = Base64.encodeBase64String(byteArr)
@@ -44,6 +45,5 @@ object ResumeData {
 
     return resume
   }
-
 
 }
