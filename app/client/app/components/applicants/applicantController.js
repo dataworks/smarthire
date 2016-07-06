@@ -242,15 +242,25 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
     }
 
     /** 
-     * return document (image or PDF) from a link
+     * return image from a link
      *
      * @param id- id of applicant
-     * @param type- type of document either an image or a PDF
+     * @param type-image
      *
      */
 
     $scope.getLink = function(id, type) {
       return "service/attachments?id=" + id + "&type=" + type;
+    }
+
+    /** 
+     * return resume from a link
+     *
+     * @param id- id of applicant
+     *
+     */
+    $scope.getResume = function(id) {
+      return "service/attachments?id=" + id;
     }
 
     /** 

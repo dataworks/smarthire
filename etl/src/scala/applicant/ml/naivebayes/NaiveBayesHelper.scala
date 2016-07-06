@@ -123,6 +123,7 @@ object NaiveBayesHelper {
    * @return A prediction for the given Vector of features
    */
   def predictSingleScore(model: NaiveBayesModel, feature: Vector): Double = {
-    return model.predict(feature)
+    val prediction = model.predictProbabilities(feature).toArray
+    return if (model.labels(0) == 1.0) prediction(0) else prediction(1)
   }
 }

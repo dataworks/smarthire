@@ -218,7 +218,7 @@ exports.index = function(config, params, res) {
 exports.indexUploads = function(config, params, res) {
   var client = new elasticsearch.Client({
     host: config.url
-  });
+});
 
   client.index({
     index: config.index,

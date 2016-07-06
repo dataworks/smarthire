@@ -70,7 +70,10 @@ app.delete("/service/labels/:id", function(req, res) {
  * @param callback function - Calls a service method to get attachments
  */
 app.get("/service/attachments", function(req, res) {
-  attachmentService.getAttachment(req, res);
+  if(req.query.type)
+    attachmentService.getAttachment(req, res);
+  else
+    attachmentService.getResume(req, res);
 });
 
 /**
