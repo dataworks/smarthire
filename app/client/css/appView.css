@@ -437,15 +437,12 @@ td{
 }
 
 /*toast messages*/
-/*.alert {
-  z-index: 2;
-  font-size: 100%;
-}*/
 #toastContainer {
   z-index: 2;
+  float: left;
+  padding-left: 31%;
   font-size: 100%;
 }
-
 
 /*search dropdown*/
 .dropdown.dropdown-lg .dropdown-menu {

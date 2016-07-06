@@ -215,8 +215,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       else if (type == 'Review') {
         ngToast.create({
           className: 'warning',
-          content: 'Applicant added to Review',
-          dismissOnTimeout: false,
+          content: 'Applicant added to Review'
         });
 
       }
