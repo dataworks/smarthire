@@ -8,6 +8,14 @@
   height: 100%;
 }
 
+@supports ( -ms-accelerator:true ) {
+  /*only for edge*/
+  .container{
+    height: 0;
+  }
+  
+}
+
 .applicant-row {
   padding: 0% 0% 2.5% 0%;
   /*outline: 1px solid black;*/
