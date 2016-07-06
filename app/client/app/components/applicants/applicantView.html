@@ -148,5 +148,9 @@
 
     </div>
   </div>
-  <div id="size" class="hidden-sm hidden-xs"> Displaying<br>{{index}} of {{applicants.size}}</div>
+  <div id="size" class="hidden-sm hidden-xs">
+    <span ng-if="(index == 0 && applicants.size >= 25)">Displaying<br>{{index+25}} of {{applicants.size}}</span>
+    <span ng-if="(index == 0 && applicants.size < 25)">Displaying<br>{{applicants.size}} of {{applicants.size}}</span>
+    <span ng-if="(index != 0 && applicants.size >= 25)">Displaying<br>{{index}} of {{applicants.size}}</span>
+  </div>
 </div>
