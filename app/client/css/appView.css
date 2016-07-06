@@ -436,12 +436,12 @@ td{
 }
 
 /*toast messages*/
-.alert {
-  margin-right: 725px;  
+#toastContainer {
   z-index: 2;
+  float: left;
+  padding-left: 31%;
   font-size: 100%;
 }
-
 
 /*search dropdown*/
 .dropdown.dropdown-lg .dropdown-menu {
