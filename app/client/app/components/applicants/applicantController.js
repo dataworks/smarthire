@@ -228,7 +228,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
 
       }
 
-      else if(type == 'Upload'){
+      else if (type == 'Upload') {
         ngToast.create("Resume has been Uploaded");
       }
 
@@ -333,6 +333,8 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
             reader.readAsDataURL(file);
         })(files[i]);
       }
+      $scope.showToast('Upload');
+
     }
 
     //scroll code
