@@ -254,16 +254,6 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
     }
 
     /** 
-     * return resume from a link
-     *
-     * @param id- id of applicant
-     *
-     */
-    $scope.getResume = function(id) {
-      return "service/attachments?id=" + id;
-    }
-
-    /** 
      * return query based on text that was input in search bar
      *
      * @param searchText- text that was input in search bar
