@@ -127,8 +127,14 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       if (rows.length > 0) {
         if ($scope.applicants.rows == null) {
           $scope.applicants.rows = rows;
+          if(active == false){
+            $('.accordian-body:not(".in")').collapse('show');
+          }
         } else {
           $scope.applicants.rows = $scope.applicants.rows.concat(rows);
+          if(active == false){
+            $('.accordian-body:not(".in")').collapse('show');
+          }
         }
       } else {
         $scope.hasData = false;
@@ -143,9 +149,6 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
      *
      */
     $scope.nextPage = function() {
-      if(!active){
-          $('.accordian-body:not(".in")').collapse('show');
-      }
       if ($scope.hasData) {
         $scope.loadingData = true;
         $scope.index += $scope.pageSize;
