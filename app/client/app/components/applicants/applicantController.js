@@ -26,13 +26,11 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       if (active) {
         active = false;
         $('.accordian-body:not(".in")').collapse('show');
-        // $(this).find('i').toggleClass('glyphicon glyphicon-resize-full').toggleClass('glyphicon glyphicon-resize-small');
         $(this).find('i').toggleClass('glyphicon glyphicon-plus-sign').toggleClass('glyphicon glyphicon-minus-sign');
       } 
       else {
         active = true;
         $('.accordian-body.in').collapse('hide');
-        // $(this).find('i').toggleClass('glyphicon glyphicon-resize-small').toggleClass('glyphicon glyphicon-resize-full');
         $(this).find('i').toggleClass('glyphicon glyphicon-minus-sign').toggleClass('glyphicon glyphicon-plus-sign');
       }
     });
@@ -145,10 +143,13 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
      *
      */
     $scope.nextPage = function() {
+      if(!active){
+          $('.accordian-body:not(".in")').collapse('show');
+      }
       if ($scope.hasData) {
         $scope.loadingData = true;
         $scope.index += $scope.pageSize;
-
+        
         Applicant.query({
           query: $scope.searchText,
           type: $scope.selection,
@@ -157,8 +158,8 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
           order: $scope.sortOrder,
           sort: $scope.sort
         }, $scope.dataLoaded);
-      };
-    }
+      }
+    };
 
     // Only enable if the document has a long scroll bar
     // Note the window height + offset
