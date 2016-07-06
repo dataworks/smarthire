@@ -438,7 +438,7 @@ td{
 
 /*toast messages*/
 .alert {
-  margin-right: 825px;  
+  margin-right: 800px;  
   z-index: 2;
   font-size: 100%;
 }
