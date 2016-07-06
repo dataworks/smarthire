@@ -20,16 +20,16 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
     $scope.displayText = "";
 
     // for expand button
-    var active = true;
+    $scope.active = true;
 
     $('.openall').click(function(){
-      if (active) {
-        active = false;
+      if ($scope.active) {
+        $scope.active = false;
         $('.accordian-body:not(".in")').collapse('show');
         $(this).find('i').toggleClass('glyphicon glyphicon-plus-sign').toggleClass('glyphicon glyphicon-minus-sign');
       } 
       else {
-        active = true;
+        $scope.active = true;
         $('.accordian-body.in').collapse('hide');
         $(this).find('i').toggleClass('glyphicon glyphicon-minus-sign').toggleClass('glyphicon glyphicon-plus-sign');
       }
@@ -127,14 +127,8 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
       if (rows.length > 0) {
         if ($scope.applicants.rows == null) {
           $scope.applicants.rows = rows;
-          if(active == false){
-            $('.accordian-body:not(".in")').collapse('show');
-          }
         } else {
           $scope.applicants.rows = $scope.applicants.rows.concat(rows);
-          if(active == false){
-            $('.accordian-body:not(".in")').collapse('show');
-          }
         }
       } else {
         $scope.hasData = false;
