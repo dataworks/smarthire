@@ -61,19 +61,19 @@ describe("Applicant Server", function() {
     });
   });
 
-  describe("Uploads POST", function() {
-    it("should POST dummy upload", function(done) {
-      server
-        .post('/service/uploads')
-        .send({"type" : "upload", "base64string" : "aGVsbG8gd29ybGQ="})
-        .expect("Content-type",/json/)
-        .expect(200)
-        .end(function(err,res){
-          res.status.should.equal(200);
-          done();
-        });
-    });
-  });
+  // describe("Uploads POST", function() {
+  //   it("should POST dummy upload", function(done) {
+  //     server
+  //       .post('/service/uploads')
+  //       .send({"type" : "upload", "base64string" : "aGVsbG8gd29ybGQ="})
+  //       .expect("Content-type",/json/)
+  //       .expect(200)
+  //       .end(function(err,res){
+  //         res.status.should.equal(200);
+  //         done();
+  //       });
+  //   });
+  // });
 
 
 
