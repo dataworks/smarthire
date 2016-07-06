@@ -7,7 +7,7 @@
     <option id="u"  value="archive" >Archive</option>
   </select>
   <!-- needed in order to have toast -->
-<toast></toast>
+  <toast></toast>
   <!-- upload button -->
   <label id="upload" class="btn btn-primary"">
     Upload Resume <input type="file" style="display: none;" custom-on-change="upload" multiple/>
@@ -148,6 +148,7 @@
 
     </div>
   </div>
+  <!-- located on the bottom right -->
   <div id="size" class="hidden-sm hidden-xs">
     <span ng-if="(index == 0 && applicants.size >= 25)">Displaying<br>{{index+25}} of {{applicants.size}}</span>
     <span ng-if="(index == 0 && applicants.size < 25)">Displaying<br>{{applicants.size}} of {{applicants.size}}</span>
