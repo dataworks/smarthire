@@ -437,8 +437,11 @@ td{
 }
 
 /*toast messages*/
-.alert {
-  margin-right: 725px;  
+/*.alert {
+  z-index: 2;
+  font-size: 100%;
+}*/
+#toastContainer {
   z-index: 2;
   font-size: 100%;
 }
