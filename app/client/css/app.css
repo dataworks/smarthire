@@ -13,6 +13,9 @@
   .container{
     height: 0%;
   }
+  .well{
+    padding: 0 7px;
+  }
   
 }
 
