@@ -4,9 +4,11 @@ import scala.util.Try
 import scala.collection.mutable.HashMap
 import applicant.nlp.LuceneTokenizer
 import applicant.etl._
+import applicant.ml.naivebayes._
 import java.util.regex
 import org.apache.spark.mllib.feature.{Word2Vec, Word2VecModel}
 import org.apache.spark.mllib.linalg.{Vectors, Vector}
+import org.apache.spark.mllib.classification.{NaiveBayesModel, NaiveBayes}
 
 /**
  * FeatureGenerator
@@ -31,33 +33,36 @@ object LogisticFeatureGenerator {
    * Calculates all of the feature scores and returns a vector of the scores
    *
    * The features are as follows:
-   *  1) Number of terms similar to Big Data
-   *  2) Number of terms similar to Database Engineering
-   *  3) Number of terms similar to ETL Engineering
-   *  4) Number of terms similar to Web App Development
-   *  5) Number of terms similar to Mobile Development
-   *  6) Number of terms similar to common programming languages
-   *  7) Measure of distance from recent location
-   *  8) Density of contact info
-   *  9) The length of the resume
-   *  10) The GPA
-   *  11) What type and how technical their degree
-   *  12) How technical their positions have been
+   *  1) Result from testing against the premade NaiveBayesModel
+   *  2) Number of terms similar to Big Data
+   *  3) Number of terms similar to Database Engineering
+   *  4) Number of terms similar to ETL Engineering
+   *  5) Number of terms similar to Web App Development
+   *  6) Number of terms similar to Mobile Development
+   *  7) Number of terms similar to common programming languages
+   *  8) Measure of distance from recent location
+   *  9) Density of contact info
+   *  10) The length of the resume
+   *  11) The GPA
+   *  12) What type and how technical their degree
+   *  13) How technical their positions have been
    *
    * @param model A word2VecModel uses to find synonyms
    * @param applicant The applicant whose features are needed
    * @return A vector that corresponds to the feature scores
    */
-  def getLogisticFeatureVec(model: Word2VecModel, applicant: ApplicantData): Vector = {
+  def getLogisticFeatureVec(wordModel: Word2VecModel, bayesModel: NaiveBayesModel, applicant: ApplicantData): Vector = {
     //first feature (number of synonyms to Java/Spark/Hadoop within resume body)
     val featureArray = scala.collection.mutable.ArrayBuffer.empty[Double]
+    //NaiveBayesScore
+    featureArray += naiveBayesTest(bayesModel, applicant)
     // Core key words
-    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Hadoop","Spark","HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS"), 5), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Oracle","Postgresql","Mysql"), 5), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Pentaho","Informatica","Streamsets","Syncsort"), 5), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("AngularJS","Grails","Spring","Hibernate","node.js"), 5), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Android","iOS","Ionic","Cordova","Phonegap"), 0), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(model, List("Java","Javascript","Scala","Groovy","C#","C++","Python","Ruby"), 0), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Hadoop","Spark","HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS"), 0), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Oracle","Postgresql","Mysql"), 0), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Pentaho","Informatica","Streamsets","Syncsort"), 0), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("AngularJS","Grails","Spring","Hibernate","node.js"), 0), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Android","iOS","Ionic","Cordova","Phonegap"), 0), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Java","Javascript","Scala","Groovy","C#","C++","Python","Ruby"), 0), applicant.fullText)
 
     //distance from Reston VA
     if (applicant.recentLocation == "") {
@@ -72,21 +77,32 @@ object LogisticFeatureGenerator {
     featureArray += resumeLength(applicant.fullText)
     //gpa value
     if (applicant.gpa == "") {
-      featureArray += 3.0
+      //featureArray += 3.0
     }
     else {
-      featureArray += gpaDouble(applicant.gpa)
+      //featureArray += gpaDouble(applicant.gpa)
     }
 
     //Measure of degree score
-    featureArray += degreeScore(applicant.degree)
+    //featureArray += degreeScore(applicant.degree)
 
     //measure of past titles
-    featureArray += pastTitles(applicant.recentTitle, applicant.otherTitleList.toList)
+    //featureArray += pastTitles(applicant.recentTitle, applicant.otherTitleList.toList)
 
     return Vectors.dense(featureArray.toArray[Double])
   }
 
+  /**
+   * Will check the word counts in the resume against the premade naiveBayesModel
+   *
+   * @param model The NaiveBayesModel to test against
+   * @param applicant The applicant who needs a score
+   * @return The score from the test against the model
+   */
+  def naiveBayesTest(model: NaiveBayesModel, applicant: ApplicantData): Double = {
+    val result = NaiveBayesHelper.predictSingleScore(model, NaiveBayesFeatureGenerator.getFeatureVec(applicant))
+    return result
+  }
 
   /**
    * Will look through a the resume string seeing if the resume contains at
@@ -119,7 +135,10 @@ object LogisticFeatureGenerator {
       }
     }
 
-    val rawScore = matches/(w2vmap.size*1.0)
+    val rawScore = matches/(w2vmap.size*4.0)
+
+    //TODO: delete this
+    //println(rawScore)
 
     return if (rawScore > 1.0) 1.0 else rawScore
   }

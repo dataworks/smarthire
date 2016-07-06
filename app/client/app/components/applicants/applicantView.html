@@ -71,7 +71,7 @@
     <table class="table table-condensed text-center">
       <thead id="head">
         <tr>
-          <th id="p"><a id="expander" title="Toggle" href="#" class="openall hidden-xs hidden-s"><!-- <i class="glyphicon glyphicon-resize-full"></i> --> <i class="glyphicon glyphicon-plus-sign"></i></a></th>
+          <th id="p"><a id="expander" title="Toggle Open/Close" href="#" class="openall hidden-xs hidden-s"><i class="glyphicon glyphicon-plus-sign"></i></a></th>
           <th id="s"><a title="Click to Sort Score." ng-click="sortColumn('score')">Score</a><span class="sortorder" ng-class="{reverse: reverse}" ng-hide="sortBool"></span></th>
           <th id="n"><a title="Click to sort Name." ng-click="sortColumn('name.raw')">Name</a><span class="sortorder" ng-class="{reverse: reverse}" ng-show="sortBool"></span></th></th>
           <th id="ci" class="hidden-xs hidden-s">Current Info</th>
@@ -148,5 +148,9 @@
 
     </div>
   </div>
-  <div id="size" class="hidden-sm hidden-xs"> Displaying<br>{{index}} of {{applicants.size}}</div>
+  <div id="size" class="hidden-sm hidden-xs">
+    <span ng-if="(index == 0 && applicants.size >= 25)">Displaying<br>{{index+25}} of {{applicants.size}}</span>
+    <span ng-if="(index == 0 && applicants.size < 25)">Displaying<br>{{applicants.size}} of {{applicants.size}}</span>
+    <span ng-if="(index != 0 && applicants.size >= 25)">Displaying<br>{{index}} of {{applicants.size}}</span>
+  </div>
 </div>

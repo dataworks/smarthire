@@ -9,6 +9,7 @@ import org.apache.spark.mllib.feature.{Word2Vec, Word2VecModel}
 import org.apache.spark.mllib.linalg.{Vectors, Vector}
 
 import applicant.ml.regression._
+import applicant.ml.naivebayes._
 import applicant.etl._
 
 /**
@@ -18,7 +19,7 @@ import applicant.etl._
 object ScoreCalculator {
   case class Command(word2vecModel: String = "", sparkMaster: String = "",
     esNodes: String = "", esPort: String = "", esAppIndex: String = "",
-    regressionModelDirectory: String = "")
+    regressionModelDirectory: String = "", naiveBayesModelDirectory: String = "")
 
   def reloadScores(options: Command) {
     val conf = new SparkConf().setMaster(options.sparkMaster)
@@ -31,6 +32,13 @@ object ScoreCalculator {
 
     //Load the w2v and logistic regression models
     val w2vModel = Word2VecModel.load(sc, options.word2vecModel)
+    val naiveBayesModel = NaiveBayesHelper.loadModel(sc, options.naiveBayesModelDirectory) match {
+      case Some(model) =>
+        model
+      case None =>
+        null
+    }
+
     var regressionModel = LogisticRegressionHelper.loadModel(sc, options.regressionModelDirectory) match {
       case Some(model) =>
         model
@@ -38,8 +46,8 @@ object ScoreCalculator {
         null
     }
 
-    if (regressionModel == null) {
-      println("There was a problem loading the regression model. Quitting now.")
+    if (regressionModel == null || naiveBayesModel == null) {
+      println("There was a problem loading the machine learning models. Quitting now.")
       return
     }
 
@@ -52,7 +60,7 @@ object ScoreCalculator {
     //Create applicant data objects out of what was queried and find scores for each
     val appDataArray = appRDD.map { appMap =>
       val app = ApplicantData(appMap)
-      val features = LogisticFeatureGenerator.getLogisticFeatureVec(w2vModel, app)
+      val features = LogisticFeatureGenerator.getLogisticFeatureVec(w2vModel, naiveBayesModel, app)
       val calculatedScore = LogisticRegressionHelper.predictSingleScore(regressionModel, features)
       app.score = Math.round(calculatedScore * 100.0) / 100.0
 
@@ -82,9 +90,12 @@ object ScoreCalculator {
       opt[String]('i', "applicantindex") required() valueName("<applicantindex>") action { (x, c) =>
         c.copy(esAppIndex = x)
       } text ("Name of the Elasticsearch index to read and write data.")
-      opt[String]('d', "regressionmodeldirectory") required() valueName("<regressionmodeldirectory>") action { (x, c) =>
+      opt[String]('r', "regressionmodeldirectory") required() valueName("<regressionmodeldirectory>") action { (x, c) =>
         c.copy(regressionModelDirectory = x)
       } text ("The path to the logistic regression model")
+      opt[String]('b', "naivebayesmodeldirectory") required() valueName("<naivebayesmodeldirectory>") action { (x, c) =>
+        c.copy(naiveBayesModelDirectory = x)
+      } text ("The path to the naive bayes model")
 
       note ("Pulls labeled resumes from elasticsearch and generates a logistic regression model \n")
       help("help") text("Prints this usage text")

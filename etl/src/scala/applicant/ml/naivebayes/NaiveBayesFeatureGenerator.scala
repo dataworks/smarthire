@@ -6,7 +6,7 @@ import org.apache.spark.mllib.feature.HashingTF
 import org.apache.spark.mllib.linalg.{Vectors, Vector}
 
 object NaiveBayesFeatureGenerator {
-  val htf = new HashingTF(10000)
+  val htf = new HashingTF(40)
   val tokenizer = new LuceneTokenizer()
 
   /**
@@ -17,6 +17,7 @@ object NaiveBayesFeatureGenerator {
    * @return A Vector of feature counts
    */
   def getFeatureVec(applicant: ApplicantData): Vector = {
+    //println(htf.transform(tokenizer.tokenize(applicant.fullText)))//TODO: delete this
     return htf.transform(tokenizer.tokenize(applicant.fullText))
   }
 }
