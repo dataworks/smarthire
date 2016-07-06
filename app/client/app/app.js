@@ -36,9 +36,7 @@ applicantApp.config(['$routeProvider', '$locationProvider', 'ngToastProvider',
 
     //give toast animations
     ngToastProvider.configure({
-      animation: 'fade',
-      verticalPosition: 'top',
-      horizontalPosition: 'center'
+      animation: 'fade'
     });
   }
 ]);
