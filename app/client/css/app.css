@@ -14,7 +14,7 @@
     height: 0%;
   }
   .well{
-    padding: 0 7px;
+    padding: 0 7px !important;
   }
   
 }
