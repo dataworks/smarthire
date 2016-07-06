@@ -10,9 +10,8 @@
 
  /*only for edge*/
 @supports ( -ms-accelerator:true ) {
- 
   .container{
-    height: 23%;
+    height: 0%;
   }
   
 }
