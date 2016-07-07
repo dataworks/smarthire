@@ -18,6 +18,7 @@
     "express": "^4.13.4",
     "express-partials": "^0.3.0",
     "express-session": "^1.11.3",
+    "font-awesome": "^4.6.3",
     "jquery": "^2.2.4",
     "method-override": "^2.3.5",
     "mocha": "^2.5.3",
