@@ -296,8 +296,6 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
         sort: $scope.sort,
         order: $scope.sortOrder
       });
-
-      console.log($scope.applicants);
       
       $scope.aggregations = analysis.query({
         query: $scope.searchText,

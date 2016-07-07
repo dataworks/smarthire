@@ -124,6 +124,7 @@ exports.suggest = function(config, term, field, res) {
  * Returns the unique terms indexed for a given field & the number of matching documents
  * @param config - object that contains index, url, and type of ES
  * @param field - field is set to additionalInfo.resume
+ * @param query - performs a query first if requested
  * @param res - HTTP response to send back data
  */
 exports.aggregations = function(config, field, query, res) {
