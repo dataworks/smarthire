@@ -7,9 +7,6 @@
     <option id="u"  value="archive" >Archive</option>
   </select>
 
-  <!-- code for search analytics -->
-  <button><i id="stats" class="fa fa-pie-chart" ng-click="setGraphBool()"></i><!-- <span id="stats" class="glyphicon glyphicon-stats"></span> --></button>
-
   <!-- needed in order to have toast -->
   <div id="toastContainer">
     <toast></toast>
@@ -18,6 +15,8 @@
   <label id="upload" class="btn btn-primary"">
     Upload Resume <input type="file" style="display: none;" custom-on-change="upload" multiple/>
   </label>
+      <!-- code for search analytics -->
+  <button  id="stats"><i class="fa fa-pie-chart" ng-click="setGraphBool()"></i></button>
   <!-- search bar -->
   <div class="form-group col-xs-6">
     <div class="inner-addon right-addon">
