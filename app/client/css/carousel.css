@@ -23,8 +23,8 @@
 /* Declare heights because of positioning of img element */
 .carousel .item {
   height: 500px;
-  background-color: #777;
-  border-radius: 25px;
+  background: none;
+
 }
 .carousel-inner > .item > img {
   position: absolute;
@@ -32,6 +32,11 @@
   left: 0;
   min-width: 100%;
   height: 500px;
+  border-radius: 25px;
+  background: none;
+}
+
+#myCarousel{
   border-radius: 25px;
 }
 
@@ -55,6 +60,7 @@
 
 #slide{
   border-radius: 25px;
+  background-color: none;
 }
 
 /* RESPONSIVE CSS
