@@ -19,7 +19,8 @@ import applicant.etl._
 object ScoreCalculator {
   case class Command(word2vecModel: String = "", sparkMaster: String = "",
     esNodes: String = "", esPort: String = "", esAppIndex: String = "",
-    regressionModelDirectory: String = "", naiveBayesModelDirectory: String = "")
+    regressionModelDirectory: String = "", naiveBayesModelDirectory: String = "",
+    idfModelDirectory: String = "")
 
   def reloadScores(options: Command) {
     val conf = new SparkConf().setMaster(options.sparkMaster)
@@ -30,23 +31,13 @@ object ScoreCalculator {
     //create spark rdd using conf
     val sc = new SparkContext(conf)
 
-    //Load the w2v and logistic regression models
+    //Load the w2v, naive bayes, logistic regression, and IDF models
     val w2vModel = Word2VecModel.load(sc, options.word2vecModel)
-    val naiveBayesModel = NaiveBayesHelper.loadModel(sc, options.naiveBayesModelDirectory) match {
-      case Some(model) =>
-        model
-      case None =>
-        null
-    }
+    val naiveBayesModel = NaiveBayesHelper.loadModel(sc, options.naiveBayesModelDirectory)
+    var regressionModel = LogisticRegressionHelper.loadModel(sc, options.regressionModelDirectory)
+    var idfModel = IDFHelper.loadModel(options.idfModelDirectory)
 
-    var regressionModel = LogisticRegressionHelper.loadModel(sc, options.regressionModelDirectory) match {
-      case Some(model) =>
-        model
-      case None =>
-        null
-    }
-
-    if (regressionModel == null || naiveBayesModel == null) {
+    if (regressionModel.isEmpty || naiveBayesModel.isEmpty || idfModel.isEmpty) {
       println("There was a problem loading the machine learning models. Quitting now.")
       return
     }
@@ -60,8 +51,8 @@ object ScoreCalculator {
     //Create applicant data objects out of what was queried and find scores for each
     val appDataArray = appRDD.map { appMap =>
       val app = ApplicantData(appMap)
-      val features = LogisticFeatureGenerator.getLogisticFeatureVec(w2vModel, naiveBayesModel, app)
-      val calculatedScore = LogisticRegressionHelper.predictSingleScore(regressionModel, features)
+      val features = LogisticFeatureGenerator.getLogisticFeatureVec(w2vModel, naiveBayesModel.get, idfModel.get, app)
+      val calculatedScore = LogisticRegressionHelper.predictSingleScore(regressionModel.get, features)
       app.score = Math.round(calculatedScore * 100.0) / 100.0
 
       println("Scoring applicant number " + counter + " with id of " + app.applicantid + ". Score = " + app.score)
@@ -87,7 +78,7 @@ object ScoreCalculator {
       opt[String]('p', "port") required() valueName("<port>") action { (x, c) =>
         c.copy(esPort = x)
       } text ("Default HTTP/REST port used for connecting to Elasticsearch, usually 9200.")
-      opt[String]('i', "applicantindex") required() valueName("<applicantindex>") action { (x, c) =>
+      opt[String]('a', "applicantindex") required() valueName("<applicantindex>") action { (x, c) =>
         c.copy(esAppIndex = x)
       } text ("Name of the Elasticsearch index to read and write data.")
       opt[String]('r', "regressionmodeldirectory") required() valueName("<regressionmodeldirectory>") action { (x, c) =>
@@ -96,6 +87,9 @@ object ScoreCalculator {
       opt[String]('b', "naivebayesmodeldirectory") required() valueName("<naivebayesmodeldirectory>") action { (x, c) =>
         c.copy(naiveBayesModelDirectory = x)
       } text ("The path to the naive bayes model")
+      opt[String]('i', "idfmodeldirectory") required() valueName("<idfmodeldirectory>") action { (x, c) =>
+        c.copy(idfModelDirectory = x)
+      } text ("The path to the idf model directory")
 
       note ("Pulls labeled resumes from elasticsearch and generates a logistic regression model \n")
       help("help") text("Prints this usage text")

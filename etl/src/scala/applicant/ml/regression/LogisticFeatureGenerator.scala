@@ -6,7 +6,7 @@ import applicant.nlp.LuceneTokenizer
 import applicant.etl._
 import applicant.ml.naivebayes._
 import java.util.regex
-import org.apache.spark.mllib.feature.{Word2Vec, Word2VecModel}
+import org.apache.spark.mllib.feature.{Word2Vec, Word2VecModel, IDFModel}
 import org.apache.spark.mllib.linalg.{Vectors, Vector}
 import org.apache.spark.mllib.classification.{NaiveBayesModel, NaiveBayes}
 
@@ -51,11 +51,10 @@ object LogisticFeatureGenerator {
    * @param applicant The applicant whose features are needed
    * @return A vector that corresponds to the feature scores
    */
-  def getLogisticFeatureVec(wordModel: Word2VecModel, bayesModel: NaiveBayesModel, applicant: ApplicantData): Vector = {
-    //first feature (number of synonyms to Java/Spark/Hadoop within resume body)
+  def getLogisticFeatureVec(wordModel: Word2VecModel, bayesModel: NaiveBayesModel, idfModel: IDFModel, applicant: ApplicantData): Vector = {
     val featureArray = scala.collection.mutable.ArrayBuffer.empty[Double]
     //NaiveBayesScore
-    featureArray += naiveBayesTest(bayesModel, applicant)
+    featureArray += naiveBayesTest(bayesModel, idfModel, applicant)
     // Core key words
     featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Hadoop","Spark","HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS"), 0), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Oracle","Postgresql","Mysql"), 0), applicant.fullText)
@@ -76,7 +75,7 @@ object LogisticFeatureGenerator {
     //length of resume
     featureArray += resumeLength(applicant.fullText)
     //gpa value
-    if (applicant.gpa == "") {
+    if (applicant.gpa == 0.0) {
       //featureArray += 3.0
     }
     else {
@@ -99,8 +98,8 @@ object LogisticFeatureGenerator {
    * @param applicant The applicant who needs a score
    * @return The score from the test against the model
    */
-  def naiveBayesTest(model: NaiveBayesModel, applicant: ApplicantData): Double = {
-    val result = NaiveBayesHelper.predictSingleScore(model, NaiveBayesFeatureGenerator.getFeatureVec(applicant))
+  def naiveBayesTest(model: NaiveBayesModel, idfModel: IDFModel, applicant: ApplicantData): Double = {
+    val result = NaiveBayesHelper.predictSingleScore(model, NaiveBayesFeatureGenerator.getAdjustedFeatureVec(applicant, idfModel))
     return result
   }
 
@@ -136,9 +135,6 @@ object LogisticFeatureGenerator {
     }
 
     val rawScore = matches/(w2vmap.size*4.0)
-
-    //TODO: delete this
-    //println(rawScore)
 
     return if (rawScore > 1.0) 1.0 else rawScore
   }

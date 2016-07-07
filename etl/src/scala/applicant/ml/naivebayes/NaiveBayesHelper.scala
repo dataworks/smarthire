@@ -11,7 +11,6 @@ import org.apache.spark.mllib.evaluation.MulticlassMetrics
 import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.mllib.util.MLUtils
-import org.apache.commons.io.FileUtils
 import java.io.File
 
 object NaiveBayesHelper {
@@ -124,6 +123,8 @@ object NaiveBayesHelper {
    */
   def predictSingleScore(model: NaiveBayesModel, feature: Vector): Double = {
     val prediction = model.predictProbabilities(feature).toArray
-    return if (model.labels(0) == 1.0) prediction(0) else prediction(1)
+    val result = if (model.labels(0) == 1.0) prediction(0) else prediction(1)
+    println("Adjusted score is " + result)
+    return result
   }
 }
