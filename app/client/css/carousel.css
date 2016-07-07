@@ -5,6 +5,7 @@
 .carousel {
   height: 500px;
   margin-bottom: 60px;
+  background-color: white;
 }
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
@@ -15,9 +16,9 @@
     z-index: 10;
     /* padding-top: 60%; */
     padding-bottom: 20%;
-    color: #0072c6 !important;
+    color: #ffffff !important;
     text-align: center;
-    text-shadow: 0 1px 2px rgb(235, 235, 235);
+    text-shadow: 0 1px 2px rgba(35, 3, 3, 0.65);
 }
 
 /* Declare heights because of positioning of img element */
@@ -33,6 +34,19 @@
   height: 500px;
 }
 
+.carousel-control.left {
+    background-image: -webkit-linear-gradient(left,rgb(0, 114, 198) 0,rgba(255, 255, 255, 0.25) 100%);
+    background-image: -o-linear-gradient(left,rgb(0, 114, 198) 0,rgba(255, 255, 255, 0.25) 100%);
+    background-image: -webkit-gradient(linear,left top,right top,from(rgb(0, 114, 198)),to(rgba(255, 255, 255, 0.25)));
+    background-image: linear-gradient(to right,rgb(0, 114, 198) 0,rgba(255, 255, 255, 0.25) 100%);
+}
+
+.carousel-control.right{
+    background-image: -webkit-linear-gradient(left,rgba(255, 255, 255, 0.25) 0,rgb(0, 114, 198) 100%);
+    background-image: -o-linear-gradient(left,rgba(255, 255, 255, 0.25) 0,rgb(0, 114, 198) 100%);
+    background-image: -webkit-gradient(linear,left top,right top,from(rgba(255, 255, 255, 0.25)),to(rgb(0, 114, 198))));
+    background-image: linear-gradient(to right,rgba(255, 255, 255, 0.25) 0,rgb(0, 114, 198) 100%);
+}
 
 /* RESPONSIVE CSS
 -------------------------------------------------- */
