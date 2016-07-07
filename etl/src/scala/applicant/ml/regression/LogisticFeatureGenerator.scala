@@ -258,14 +258,13 @@ object LogisticFeatureGenerator {
    * @param gpa gpa string from applicant
    * @return gpa as a double
    */
-  def gpaDouble (gpa: String) : Double = {
+  def gpaDouble (gpa: Double) : Double = {
     try {
-      val gpaDbl = gpa.toDouble
-      if (gpaDbl >= 4.0) {
+      if (gpa >= 4.0) {
         return 1.0
       }
       else {
-        return gpaDbl / 4.0
+        return gpa / 4.0
       }
     }
     catch {

@@ -328,6 +328,20 @@ td{
   width: 33%;
 }
 
+#stats{
+    font-size: 155%;
+    margin-left: 665%;
+    margin-top: 8%;
+    border: none;
+    color: #689f38;
+    background: none;
+    z-index: 2;
+}
+
+#stats:hover{
+  color: #E91E63;
+}
+
 
 #hide{
   border-top:0 !important;
@@ -662,3 +676,4 @@ input[type='text'] {
   left: 90%;
   margin-top: 2%;
 }
+

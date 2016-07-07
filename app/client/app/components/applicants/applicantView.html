@@ -8,73 +8,75 @@
   </select>
 
   <!-- code for search analytics -->
-<div class="dropdown">
-    <button class="btn btn-primary dropdown-toggle" type="button">Graphs</button>
-</div>
+  <button><i id="stats" class="fa fa-pie-chart" ng-click="setGraphBool()"></i><!-- <span id="stats" class="glyphicon glyphicon-stats"></span> --></button>
 
   <!-- needed in order to have toast -->
-<div id="toastContainer">
+  <div id="toastContainer">
     <toast></toast>
-</div>
+  </div>
   <!-- upload button -->
   <label id="upload" class="btn btn-primary"">
     Upload Resume <input type="file" style="display: none;" custom-on-change="upload" multiple/>
   </label>
-   <!-- search bar -->
-   <div class="form-group col-xs-6">
+  <!-- search bar -->
+  <div class="form-group col-xs-6">
     <div class="inner-addon right-addon">
       <i id="sb" class="glyphicon glyphicon-search" ng-click="search(displayText)"></i>
       <autocomplete data="autoSuggest" type="text" ng-keyup="$event.keyCode == 13 && search(displayText)" id="search" ng-model="displayText" placeholder="Search here..." required></autocomplete>
       <div class="input-group-btn">
-          <div class="dropdown dropdown-lg">
-            <button id="arrow" title="Advanced Search" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-             <div class="visible-sm visible-xs">
+        <div class="dropdown dropdown-lg">
+          <button id="arrow" title="Advanced Search" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+           <div class="visible-sm visible-xs">
              <span  class="caret"></span>
-             </div>
-             <span class="hidden-xs hidden-sm" id="word">Advanced</span>
-            </button>
-            <div class="dropdown-menu" role="menu">
-              <form class="form-horizontal" role="form">
-                <div class="form-group">
-                  <label for="filter">Filter by</label>
-                  <div class="checkbox">
-                  <!-- whenever a new search is added the id needs to be added to the pointer css in appView -->
-                    <label id="two"><b>Major</b> <br>
-                      <input type="checkbox" id="csCheck"> Computer Science<br>
-                      <input type="checkbox" id="cpeCheck"> Computer Engineering<br>
-                      <input type="checkbox" id="itCheck"> Information Technology<br>
-                      <input type="checkbox" id="mathCheck"> Mathematics<br>
-                    </label>
-                    <label id="two"><b>Location</b> <br>
-                      <input type="checkbox" id="vaCheck"> Virginia<br>
-                      <input type="checkbox" id="mdCheck"> Maryland<br>
-                      <input type="checkbox" id="dcCheck"> Washington D.C.<br>
-                      <input type="checkbox" id="paCheck"> Pennsylvania<br>
-                      </label> <div id="one"></div>
-                    <label id="three"><b>Education</b> <br>
-                      <input type="checkbox" id="uvaCheck"> UVa<br>
-                      <input type="checkbox" id="jmuCheck"> JMU<br>
-                      <input type="checkbox" id="rpiCheck"> RPI<br>
-                      <input type="checkbox" id="gmuCheck"> GMU<br>
-                    </label>
-                    <label id="two"><b>Job title</b><br>
-                      <input type="checkbox" id="devCheck"> Developer<br>
-                      <input type="checkbox" id="arcCheck"> Architect<br>
-                      <input type="checkbox" id="manCheck"> Manager<br>
-                      <input type="checkbox" id="engCheck"> Engineer<br>
-                    </label>
-                  </div>
-                </form>
-            </div>
+           </div>
+           <span class="hidden-xs hidden-sm" id="word">Advanced</span>
+         </button>
+         <div class="dropdown-menu" role="menu">
+          <form class="form-horizontal" role="form">
+            <div class="form-group">
+              <label for="filter">Filter by</label>
+              <div class="checkbox">
+                <!-- whenever a new search is added the id needs to be added to the pointer css in appView -->
+                <label id="two"><b>Major</b> <br>
+                  <input type="checkbox" id="csCheck"> Computer Science<br>
+                  <input type="checkbox" id="cpeCheck"> Computer Engineering<br>
+                  <input type="checkbox" id="itCheck"> Information Technology<br>
+                  <input type="checkbox" id="mathCheck"> Mathematics<br>
+                </label>
+                <label id="two"><b>Location</b> <br>
+                  <input type="checkbox" id="vaCheck"> Virginia<br>
+                  <input type="checkbox" id="mdCheck"> Maryland<br>
+                  <input type="checkbox" id="dcCheck"> Washington D.C.<br>
+                  <input type="checkbox" id="paCheck"> Pennsylvania<br>
+                </label> <div id="one"></div>
+                <label id="three"><b>Education</b> <br>
+                  <input type="checkbox" id="uvaCheck"> UVa<br>
+                  <input type="checkbox" id="jmuCheck"> JMU<br>
+                  <input type="checkbox" id="rpiCheck"> RPI<br>
+                  <input type="checkbox" id="gmuCheck"> GMU<br>
+                </label>
+                <label id="two"><b>Job title</b><br>
+                  <input type="checkbox" id="devCheck"> Developer<br>
+                  <input type="checkbox" id="arcCheck"> Architect<br>
+                  <input type="checkbox" id="manCheck"> Manager<br>
+                  <input type="checkbox" id="engCheck"> Engineer<br>
+                </label>
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+<div id="carouselFormat" ng-show="showGraphs">
+  <br> 
+</div>
 
     <!-- Carousel
     ================================================== -->
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel" ng-show="showGraphs">
       <!-- Indicators -->
       <ol class="carousel-indicators">
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -85,30 +87,54 @@
         <div class="item active">
           <img class="first-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="First slide">
           <div class="container">
-            <div class="carousel-caption">
-              <h1>Example headline.</h1>
-              <p>Note: If you're viewing this page via a <code>file://</code> URL, the "next" and "previous" Glyphicon buttons on the left and right might not load/display properly due to web browser security rules.</p>
-              <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+            <div id="cc" class="carousel-caption">
+              <h1>Languages and Web Application</h1>
+              <div id="charts1">
+                <div id="l">
+                  Languages
+                  <canvas id="Language" width="100%" height="100%"></canvas>
+                </div>
+                <div id="w">
+                  Web App
+                  <canvas id="Web" width="100%" height="100%"></canvas>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div class="item">
           <img class="second-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Second slide">
-          <div class="container">
+          <div id="cc" class="container">
             <div class="carousel-caption">
-              <h1>Another example headline.</h1>
-              <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-              <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
+              <h1>ETL and Mobile Development</h1>
+              <div id="charts2">
+                <div id="e">
+                  ETL
+                  <canvas id="ETL" width="100%" height="100%"></canvas>
+                </div>
+                <div id="m">
+                  Mobile
+                  <canvas id="Mobile" width="100%" height="100%"></canvas>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div class="item">
           <img class="third-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Third slide">
           <div class="container">
-            <div class="carousel-caption">
-              <h1>One more for good measure.</h1>
-              <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-              <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
+            <div id="cc" class="carousel-caption">
+              <h1>Databases and Big Data</h1>
+              <div id="charts3">
+                <div id="da">
+                  Databases
+                  <canvas id="Databases" width="100%" height="100%"></canvas>
+                </div>
+                <div id="b">
+                  Big Data
+                  <canvas id="Big" width="100%" height="100%"></canvas>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -121,96 +147,100 @@
         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
         <span class="sr-only">Next</span>
       </a>
+      <br> <br> <br>
     </div><!-- /.carousel -->
 
-
-<div infinite-scroll="nextPage()" infinite-scroll-disabled="loadingData" infinite-scroll-check="false" infinite-scroll-distance="1">
-  <div class="row-applicant-row" >
-    <table class="table table-condensed text-center">
-      <thead id="head">
-        <tr>
-          <th id="p"><a id="expander" title="Toggle Open/Close" href="#" class="openall hidden-xs hidden-s"><i class="glyphicon glyphicon-plus-sign"></i></a></th>
-          <th id="s"><a title="Click to Sort Score." ng-click="sortColumn('score')">Score</a><span class="sortorder" ng-class="{reverse: reverse}" ng-hide="sortBool"></span></th>
-          <th id="n"><a title="Click to sort Name." ng-click="sortColumn('name.raw')">Name</a><span class="sortorder" ng-class="{reverse: reverse}" ng-show="sortBool"></span></th></th>
-          <th id="ci" class="hidden-xs hidden-s">Current Info</th>
-          <th id="d" class="hidden-xs hidden-s">Degree</th>
-          <th id="c" class="hidden-xs hidden-s">Contact</th>
-          <th id="o">Options</th>
-        </tr>
-      </thead>
-      <tbody ng-repeat="applicant in applicants.rows track by applicant.id">
-        <tr class="accordion-toggle">
-          <td id="p"><a title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}"><img id = "profile" ng-src="{{getLink(applicant.id, 'image')}}" onerror="this.src='images/profile.png'"></a></td>
-          <td id="s"><span ng-if="applicant.score < 0">Not Ranked</span><span id="high" ng-if="applicant.score >= 0.7">{{applicant.score}}</span>
-            <span id="mid" ng-if="applicant.score < 0.7 && applicant.score > 0.3">{{applicant.score}}</span>
-            <span id="low" ng-if="applicant.score <= 0.3 && applicant.score > -1">{{applicant.score}}</span> <br> <span id="star" class="glyphicon glyphicon-star" ng-if="applicant.score >= 0.9"></span>
-          </td>
-          <td id="n"><span ng-if="applicant.name != ''"><a id="nl" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}">{{applicant.name}}</a></span>
-          <span ng-if="applicant.name == ''"><a id="nl" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}">Name Not found</a></span></td>
-          <td id="ci" class="hidden-xs hidden-s">{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
-          <td id="d" class="hidden-xs hidden-s">{{applicant.education.degree}}</td>
-          <td id="c" class="hidden-xs hidden-s"><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <br> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> </td>
-          <td id="o"><span ng-if="selection != 'favorite'"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite', applicant); showToast('Favorite')"> 
-            <span title="Add to Favorites" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-          </button></span>
-          <span ng-if="selection != 'review'"><button id="question" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'review', applicant); showToast('Review')">
-            <span title="Add to Review" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-            <a href="/archive"></a> 
-          </button></span>
-          <span ng-if="selection != 'archive'"><button id="down" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'archive', applicant); showToast('Archive')">
-            <span title="Add to Archive" class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
-            <a href="/archive"></a> 
-          </button></span>
-          <span ng-if="selection != 'new'"><button id="back" type="button" class="btn btn-default" aria-label="Left Align" ng-click="remove(applicant.id, applicant); showToast('Back')">
-            <span title="Send back to New" class="glyphicon glyphicon-share-alt">
-            </span>
-          </button></span>    
-          <button id="eye" class="btn btn-default btn-xs eye" data-toggle="collapse" data-target="#dataExpand-{{$index}}">
-            <span title="View more" class="glyphicon glyphicon-eye-open">
-            </span>
-          </button>
-          <a id="viewFile" target="_blank" href="{{getLink(applicant.id, 'document')}}">
-            <button id="file" type="button" class="btn btn-default" aria-label="Left Align" ng-click="">
-              <span title="View resume" class="glyphicon glyphicon-file">
-              </span>
-            </button>
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td  id="hide" colspan="12" class="hiddenRow">
-          <div class="accordian-body collapse {{active ? '' : 'in'}}" id="dataExpand-{{$index}}">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th id="skill">Skills</th>
-                  <th id="ed" class="hidden-xs hidden-s">Education</th>
-                  <th id="link" class="hidden-xs hidden-s">Web Links</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td id='body'><b>ETL:</b><span id="valE"> {{applicant.skills.etl.join(', ')}}</span> <br> <b>Web App:</b> <span id="valW">{{applicant.skills.webapp.join(', ')}}</span> <br> <b>Languages:</b> <span id="valL">{{applicant.skills.language.join(', ')}}</span> <br> <b>Mobile:</b> <span id="valM">{{applicant.skills.mobile.join(', ')}}</span> <br> <b>Databases:</b> <span id="valD">{{applicant.skills.database.join(', ')}}</span><br> <b> Big Data:</b> <span id="valB">{{applicant.skills.bigdata.join(', ')}}</span></td>
-                  <td id='body' class="hidden-xs hidden-s"><b>School:</b> <span id="valS">{{applicant.education.school}}</span> <br> <b>GPA:</b> <span id="valGPA" ng-if="applicant.education.gpa === 0"></span><span id="valGPA" ng-if="applicant.education.gpa != 0">{{applicant.education.gpa}}</span> <br> </td>
-                  <td id='body'  class="hidden-xs hidden-s"> <b>Linked-in: </b><a ng-href="{{applicant.contact.linkedin}}" target="_blank">{{applicant.contact.linkedin}} </a> <br> <b> GitHub: </b><a ng-href="{{applicant.contact.github}}" target="_blank">{{applicant.contact.github}}</a> <br> <b>Indeed: </b><a ng-href="{{applicant.contact.indeed}}" target="_blank">{{applicant.contact.indeed}}</a></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div id="loadMask" ng-show="loadingData">
-    <style type='text/css'>@-webkit-keyframes uil-default-anim { 0% { opacity: 1} 100% {opacity: 0} }@keyframes uil-default-anim { 0% { opacity: 1} 100% {opacity: 0} }.uil-default-css > div:nth-of-type(1){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: -0.5s;animation-delay: -0.5s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(2){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: -0.4166666666666667s;animation-delay: -0.4166666666666667s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(3){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: -0.33333333333333337s;animation-delay: -0.33333333333333337s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(4){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: -0.25s;animation-delay: -0.25s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(5){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: -0.16666666666666669s;animation-delay: -0.16666666666666669s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(6){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: -0.08333333333333331s;animation-delay: -0.08333333333333331s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(7){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: 0s;animation-delay: 0s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(8){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: 0.08333333333333337s;animation-delay: 0.08333333333333337s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(9){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: 0.16666666666666663s;animation-delay: 0.16666666666666663s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(10){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: 0.25s;animation-delay: 0.25s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(11){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: 0.33333333333333337s;animation-delay: 0.33333333333333337s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(12){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: 0.41666666666666663s;animation-delay: 0.41666666666666663s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}</style><div class='uil-default-css' style='transform:scale(0.66);'><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(0deg) translate(0,-60px);transform:rotate(0deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(30deg) translate(0,-60px);transform:rotate(30deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(60deg) translate(0,-60px);transform:rotate(60deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(90deg) translate(0,-60px);transform:rotate(90deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(120deg) translate(0,-60px);transform:rotate(120deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(150deg) translate(0,-60px);transform:rotate(150deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(180deg) translate(0,-60px);transform:rotate(180deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(210deg) translate(0,-60px);transform:rotate(210deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(240deg) translate(0,-60px);transform:rotate(240deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(270deg) translate(0,-60px);transform:rotate(270deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(300deg) translate(0,-60px);transform:rotate(300deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(330deg) translate(0,-60px);transform:rotate(330deg) translate(0,-60px);border-radius:10px;position:absolute;'></div></div>
-
+    <div id="carouselFormat" ng-show="showGraphs">
+      <br>
     </div>
-  </div>
-  <!-- located on the bottom right -->
-  <div id="size" class="hidden-sm hidden-xs">
-    <span ng-if="(index == 0 && applicants.size >= 25)">Displaying<br>{{index+25}} of {{applicants.size}}</span>
-    <span ng-if="(index == 0 && applicants.size < 25)">Displaying<br>{{applicants.size}} of {{applicants.size}}</span>
-    <span ng-if="(index != 0 && applicants.size >= 25)">Displaying<br>{{index}} of {{applicants.size}}</span>
-  </div>
-</div>
+
+    <div infinite-scroll="nextPage()" infinite-scroll-disabled="loadingData" infinite-scroll-check="false" infinite-scroll-distance="1">
+      <div class="row-applicant-row" >
+        <table class="table table-condensed text-center">
+          <thead id="head">
+            <tr>
+              <th id="p"><a id="expander" title="Toggle Open/Close" href="#" class="openall hidden-xs hidden-s"><i class="glyphicon glyphicon-plus-sign"></i></a></th>
+              <th id="s"><a title="Click to Sort Score." ng-click="sortColumn('score')">Score</a><span class="sortorder" ng-class="{reverse: reverse}" ng-hide="sortBool"></span></th>
+              <th id="n"><a title="Click to sort Name." ng-click="sortColumn('name.raw')">Name</a><span class="sortorder" ng-class="{reverse: reverse}" ng-show="sortBool"></span></th></th>
+              <th id="ci" class="hidden-xs hidden-s">Current Info</th>
+              <th id="d" class="hidden-xs hidden-s">Degree</th>
+              <th id="c" class="hidden-xs hidden-s">Contact</th>
+              <th id="o">Options</th>
+            </tr>
+          </thead>
+          <tbody ng-repeat="applicant in applicants.rows track by applicant.id">
+            <tr class="accordion-toggle">
+              <td id="p"><a title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}"><img id = "profile" ng-src="{{getLink(applicant.id, 'image')}}" onerror="this.src='images/profile.png'"></a></td>
+              <td id="s"><span ng-if="applicant.score < 0">Not Ranked</span><span id="high" ng-if="applicant.score >= 0.7">{{applicant.score}}</span>
+                <span id="mid" ng-if="applicant.score < 0.7 && applicant.score > 0.3">{{applicant.score}}</span>
+                <span id="low" ng-if="applicant.score <= 0.3 && applicant.score > -1">{{applicant.score}}</span> <br> <span id="star" class="glyphicon glyphicon-star" ng-if="applicant.score >= 0.9"></span>
+              </td>
+              <td id="n"><span ng-if="applicant.name != ''"><a id="nl" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}">{{applicant.name}}</a></span>
+                <span ng-if="applicant.name == ''"><a id="nl" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}">Name Not found</a></span></td>
+                <td id="ci" class="hidden-xs hidden-s">{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
+                <td id="d" class="hidden-xs hidden-s">{{applicant.education.degree}}</td>
+                <td id="c" class="hidden-xs hidden-s"><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <br> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> </td>
+                <td id="o"><span ng-if="selection != 'favorite'"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite', applicant); showToast('Favorite')"> 
+                  <span title="Add to Favorites" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                </button></span>
+                <span ng-if="selection != 'review'"><button id="question" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'review', applicant); showToast('Review')">
+                  <span title="Add to Review" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+                  <a href="/archive"></a> 
+                </button></span>
+                <span ng-if="selection != 'archive'"><button id="down" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'archive', applicant); showToast('Archive')">
+                  <span title="Add to Archive" class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                  <a href="/archive"></a> 
+                </button></span>
+                <span ng-if="selection != 'new'"><button id="back" type="button" class="btn btn-default" aria-label="Left Align" ng-click="remove(applicant.id, applicant); showToast('Back')">
+                  <span title="Send back to New" class="glyphicon glyphicon-share-alt">
+                  </span>
+                </button></span>    
+                <button id="eye" class="btn btn-default btn-xs eye" data-toggle="collapse" data-target="#dataExpand-{{$index}}">
+                  <span title="View more" class="glyphicon glyphicon-eye-open">
+                  </span>
+                </button>
+                <a id="viewFile" target="_blank" href="{{getLink(applicant.id, 'document')}}">
+                  <button id="file" type="button" class="btn btn-default" aria-label="Left Align" ng-click="">
+                    <span title="View resume" class="glyphicon glyphicon-file">
+                    </span>
+                  </button>
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td  id="hide" colspan="12" class="hiddenRow">
+                <div class="accordian-body collapse {{active ? '' : 'in'}}" id="dataExpand-{{$index}}">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th id="skill">Skills</th>
+                        <th id="ed" class="hidden-xs hidden-s">Education</th>
+                        <th id="link" class="hidden-xs hidden-s">Web Links</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td id='body'><b>ETL:</b><span id="valE"> {{applicant.skills.etl.join(', ')}}</span> <br> <b>Web App:</b> <span id="valW">{{applicant.skills.webapp.join(', ')}}</span> <br> <b>Languages:</b> <span id="valL">{{applicant.skills.language.join(', ')}}</span> <br> <b>Mobile:</b> <span id="valM">{{applicant.skills.mobile.join(', ')}}</span> <br> <b>Databases:</b> <span id="valD">{{applicant.skills.database.join(', ')}}</span><br> <b> Big Data:</b> <span id="valB">{{applicant.skills.bigdata.join(', ')}}</span></td>
+                        <td id='body' class="hidden-xs hidden-s"><b>School:</b> <span id="valS">{{applicant.education.school}}</span> <br> <b>GPA:</b> <span id="valGPA" ng-if="applicant.education.gpa === 0"></span><span id="valGPA" ng-if="applicant.education.gpa != 0">{{applicant.education.gpa}}</span> <br> </td>
+                        <td id='body'  class="hidden-xs hidden-s"> <b>Linked-in: </b><a ng-href="{{applicant.contact.linkedin}}" target="_blank">{{applicant.contact.linkedin}} </a> <br> <b> GitHub: </b><a ng-href="{{applicant.contact.github}}" target="_blank">{{applicant.contact.github}}</a> <br> <b>Indeed: </b><a ng-href="{{applicant.contact.indeed}}" target="_blank">{{applicant.contact.indeed}}</a></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div id="loadMask" ng-show="loadingData">
+          <style type='text/css'>@-webkit-keyframes uil-default-anim { 0% { opacity: 1} 100% {opacity: 0} }@keyframes uil-default-anim { 0% { opacity: 1} 100% {opacity: 0} }.uil-default-css > div:nth-of-type(1){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: -0.5s;animation-delay: -0.5s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(2){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: -0.4166666666666667s;animation-delay: -0.4166666666666667s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(3){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: -0.33333333333333337s;animation-delay: -0.33333333333333337s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(4){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: -0.25s;animation-delay: -0.25s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(5){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: -0.16666666666666669s;animation-delay: -0.16666666666666669s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(6){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: -0.08333333333333331s;animation-delay: -0.08333333333333331s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(7){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: 0s;animation-delay: 0s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(8){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: 0.08333333333333337s;animation-delay: 0.08333333333333337s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(9){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: 0.16666666666666663s;animation-delay: 0.16666666666666663s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(10){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: 0.25s;animation-delay: 0.25s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(11){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: 0.33333333333333337s;animation-delay: 0.33333333333333337s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(12){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: 0.41666666666666663s;animation-delay: 0.41666666666666663s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}</style><div class='uil-default-css' style='transform:scale(0.66);'><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(0deg) translate(0,-60px);transform:rotate(0deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(30deg) translate(0,-60px);transform:rotate(30deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(60deg) translate(0,-60px);transform:rotate(60deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(90deg) translate(0,-60px);transform:rotate(90deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(120deg) translate(0,-60px);transform:rotate(120deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(150deg) translate(0,-60px);transform:rotate(150deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(180deg) translate(0,-60px);transform:rotate(180deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(210deg) translate(0,-60px);transform:rotate(210deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(240deg) translate(0,-60px);transform:rotate(240deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(270deg) translate(0,-60px);transform:rotate(270deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(300deg) translate(0,-60px);transform:rotate(300deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(330deg) translate(0,-60px);transform:rotate(330deg) translate(0,-60px);border-radius:10px;position:absolute;'></div></div>
+
+        </div>
+      </div>
+      <!-- located on the bottom right -->
+      <div id="size" class="hidden-sm hidden-xs">
+        <span ng-if="(index == 0 && applicants.size >= 25)">Displaying<br>{{index+25}} of {{applicants.size}}</span>
+        <span ng-if="(index == 0 && applicants.size < 25)">Displaying<br>{{applicants.size}} of {{applicants.size}}</span>
+        <span ng-if="(index != 0 && applicants.size >= 25)">Displaying<br>{{index}} of {{applicants.size}}</span>
+      </div>
+    </div>
