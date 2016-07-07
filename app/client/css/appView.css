@@ -600,6 +600,7 @@ input[type='text'] {
   width: 100%;
   position: relative;
   margin-left: 30%;
+
 }
 
 .autocomplete input{
@@ -607,6 +608,7 @@ input[type='text'] {
   width: 100%;
   padding-bottom: 0.5%;
   padding-top: 0.5%;
+  z-index: 2;
 }
 
 .autocomplete ul{
@@ -614,7 +616,7 @@ input[type='text'] {
   left: 0;
   width: 95%;
   background: white;
-  margin-top: 5%;
+  margin-top: 5.25%;
   margin-left: 3.5%;
   padding-left: 0;
   padding-right: 0;
@@ -628,12 +630,14 @@ input[type='text'] {
   -moz-transition: all 0.30s ease-in-out;
   -ms-transition: all 0.30s ease-in-out;
   -o-transition: all 0.30s ease-in-out;
+  z-index: 2;
 }
 
 .autocomplete li:last-child{
   border-bottom-right-radius: 25px;
   border-bottom-left-radius: 25px;  
   padding-bottom: 2%;
+  z-index: 2;
 }
 
 .autocomplete li{
@@ -645,12 +649,13 @@ input[type='text'] {
   padding-top: 1%;
   padding-left: 2.5%;
   background-color: white;
+  z-index: 2;
 }
 
 .autocomplete li.active{
   width: 100%;
   background-color: #4bf;
-  z-index: 1;
+  z-index: 2;
 }
 
 .autocomplete .highlight {
