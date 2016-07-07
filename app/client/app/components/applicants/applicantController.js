@@ -1,5 +1,5 @@
-applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applicant', 'Label', 'Suggest', 'Upload', '$window', 'ngToast', '$timeout', 'advancedSearch',
-  function($scope, $location, Applicant, Label, Suggest, Upload, $window, ngToast, $timeout, advancedSearch) {
+applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analysis', 'Applicant', 'Label', 'Suggest', 'Upload', '$window', 'ngToast', '$timeout', 'advancedSearch',
+  function($scope, $location, analysis, Applicant, Label, Suggest, Upload, $window, ngToast, $timeout, advancedSearch) {
 
     //default dropdown menu to 'new' on page load
     $scope.selection = "new";
@@ -286,6 +286,11 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
         order: $scope.sortOrder
       });
       
+      $scope.aggregations = analysis.query({
+        query: $scope.searchText,
+        field: 'languages'
+      });
+      console.log($scope.aggregations);
       //sets text in search bar to what user typed in, hides the query call
       $scope.displayText = searchText;
     }

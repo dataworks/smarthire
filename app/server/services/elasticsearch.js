@@ -126,34 +126,66 @@ exports.suggest = function(config, term, field, res) {
  * @param field - field is set to additionalInfo.resume
  * @param res - HTTP response to send back data
  */
-exports.aggregations = function(config, field, res) {
+exports.aggregations = function(config, field, query, res) {
   var client = new elasticsearch.Client({
     host: config.url
   });
 
-  client.search({
-    index: config.index,
-    type: config.type,
-    body: {
-      size: 0,
-      aggs: {
-        aggs_name: {
-          terms: {
-            field: field,
-            order: {
-              _count: "desc"
+  if(!query) {
+    client.search({
+      index: config.index,
+      type: config.type,
+      body: {
+        size: 0,
+        aggs: {
+          aggs_name: {
+            terms: {
+              field: field,
+              order: {
+                _count: "desc"
+              }
             }
           }
         }
       }
-    }
-  }).then(function(resp) {
-    var hits = module.exports.getAggregationHits(resp);
-    module.exports.defaultHandler(res, hits, resp.hits.total, false);
-    client.close();
-  }, function(err) {
-    errorMessage(err, res);
-  });
+    }).then(function(resp) {
+      var hits = module.exports.getAggregationHits(resp);
+      module.exports.defaultHandler(res, hits, resp.hits.total, false);
+      client.close();
+    }, function(err) {
+      errorMessage(err, res);
+    });
+  }
+  else {
+     client.search({
+      index: config.index,
+      type: config.type,
+      body: {
+        size: 0,
+        query: {
+          query_string: {
+            query: query
+          }
+        },
+        aggs: {
+          aggs_name: {
+            terms: {
+              field: field,
+              order: {
+                _count: "desc"
+              }
+            }
+          }
+        }
+      }
+    }).then(function(resp) {
+      var hits = module.exports.getAggregationHits(resp);
+      module.exports.defaultHandler(res, hits, resp.hits.total, false);
+      client.close();
+    }, function(err) {
+      errorMessage(err, res);
+    });
+  }
 }
 
 

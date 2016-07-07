@@ -67,22 +67,26 @@ exports.suggest = function(term, res) {
  * @param res - HTTP response object 
  * @param field - ES field
  */
-exports.aggregations = function(res, field) {
-  if(field === 'languages')
-   esservice.aggregations(config.applicants, 'skills.language', res);
+exports.aggregations = function(res, field, query) {
+  if(query)
+    esservice.aggregations(config.applicants, 'skills.language', query, res);
+  else {
+    if(field === 'languages')
+     esservice.aggregations(config.applicants, 'skills.language', null, res);
 
-  if(field === 'etl')
-   esservice.aggregations(config.applicants, 'skills.etl', res);
+    if(field === 'etl')
+     esservice.aggregations(config.applicants, 'skills.etl', null, res);
 
-  if(field === 'web')
-   esservice.aggregations(config.applicants, 'skills.webapp', res);
+    if(field === 'web')
+     esservice.aggregations(config.applicants, 'skills.webapp', null, res);
 
-  if(field === 'mobile')
-   esservice.aggregations(config.applicants, 'skills.mobile', res);
+    if(field === 'mobile')
+     esservice.aggregations(config.applicants, 'skills.mobile', null, res);
 
-  if(field === 'db')
-   esservice.aggregations(config.applicants, 'skills.database', res);
+    if(field === 'db')
+     esservice.aggregations(config.applicants, 'skills.database', null, res);
 
-  if(field === 'bigData')
-    esservice.aggregations(config.applicants, 'skills.bigdata', res);
+    if(field === 'bigData')
+      esservice.aggregations(config.applicants, 'skills.bigdata', null, res);
+  }
 }
