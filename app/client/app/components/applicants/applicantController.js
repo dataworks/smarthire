@@ -31,6 +31,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
 
     var fields = ['languages', 'etl', 'web', 'mobile', 'db', 'bigData'];
     var ids = ['Language', 'ETL', 'Web', 'Mobile', 'Databases', 'Big'];
+    var charts = [];
 
     $('.openall').click(function(){
       if ($scope.active) {
@@ -304,12 +305,15 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
         order: $scope.sortOrder
       });
 
+    for(var i = 0; i < charts.length; i++)
+      charts[i].destroy();
+
     $scope.queries.forEach(function(value, index) {
       $scope.queries[index] = analysis.query({
         query: $scope.searchText,
         field: fields[index]
       });
-      console.log(fields[index])
+
       $scope.queries[index].$promise.then(function(data) {
         displayGraph(data, ids[index]);
       });
@@ -462,6 +466,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
           }]
         }
       });
+      charts.push(chart);
     }
 
     /** 
