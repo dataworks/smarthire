@@ -8,6 +8,12 @@ applicantControllers.controller('AnalysisCtrl', ['$scope', 'Analysis',
     var fields = ['languages', 'etl', 'web', 'mobile', 'db', 'bigData'];
     var ids = ['Language', 'ETL', 'Web', 'Mobile', 'Databases', 'Big'];
 
+    /**
+     * Run through each query and get the top 5 terms
+     *
+     * @param value - comes with function from array.prototype.foreach
+     * @param index - current value in the arrays
+     */
     $scope.queries.forEach(function(value, index) {
       $scope.queries[index] = analysis.query({
         field: fields[index]
@@ -18,6 +24,12 @@ applicantControllers.controller('AnalysisCtrl', ['$scope', 'Analysis',
       });
     });
 
+    /**
+     * Stores the aggregation data into arrays & calls function to display charts
+     * 
+     * @param data - aggregation data
+     * @param id - div id of the chart
+     */
     function displayGraph(data, id) {
       var labels = data.map(function(index) {
         return index.key;
@@ -247,6 +259,14 @@ applicantControllers.controller('AnalysisCtrl', ['$scope', 'Analysis',
       }
     }
 
+    /**
+     * Creates a pie chart using the chart.js library
+     *
+     * @param ctx - id of the chart
+     * @param labels - terms
+     * @param count - number of occurances
+     * @param color - color scheme of the chart
+     */
     function createPieChart(ctx, labels, count, color) {
       var chart = new Chart(ctx, {
         type: 'pie',
