@@ -1,11 +1,22 @@
 .content {
-  padding-top: 1.5%;
+  padding-top: 7.5%;
   padding-bottom: 5.5%;
   z-index: 2;
 }
 
 .container{
   height: 100%;
+}
+
+ /*only for edge*/
+@supports ( -ms-accelerator:true ) {
+  .container{
+    height: 0%;
+  }
+  .well{
+    padding: 0 7px !important;
+  }
+  
 }
 
 .applicant-row {

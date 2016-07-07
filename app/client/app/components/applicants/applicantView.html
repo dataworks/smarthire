@@ -7,7 +7,9 @@
     <option id="u"  value="archive" >Archive</option>
   </select>
   <!-- needed in order to have toast -->
-<toast></toast>
+<div id="toastContainer">
+    <toast></toast>
+</div>
   <!-- upload button -->
   <label id="upload" class="btn btn-primary"">
     Upload Resume <input type="file" style="display: none;" custom-on-change="upload" multiple/>
@@ -82,13 +84,13 @@
       </thead>
       <tbody ng-repeat="applicant in applicants.rows track by applicant.id">
         <tr class="accordion-toggle">
-          <td id="p"><a title="View more" data-toggle="collapse" data-target="#demo1-{{$index}}"><img id = "profile" ng-src="{{getLink(applicant.id, 'image')}}" onerror="this.src='images/profile.png'"></a></td>
+          <td id="p"><a title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}"><img id = "profile" ng-src="{{getLink(applicant.id, 'image')}}" onerror="this.src='images/profile.png'"></a></td>
           <td id="s"><span ng-if="applicant.score < 0">Not Ranked</span><span id="high" ng-if="applicant.score >= 0.7">{{applicant.score}}</span>
             <span id="mid" ng-if="applicant.score < 0.7 && applicant.score > 0.3">{{applicant.score}}</span>
             <span id="low" ng-if="applicant.score <= 0.3 && applicant.score > -1">{{applicant.score}}</span> <br> <span id="star" class="glyphicon glyphicon-star" ng-if="applicant.score >= 0.9"></span>
           </td>
-          <td id="n"><span ng-if="applicant.name != ''"><a id="nl" title="View more" data-toggle="collapse" data-target="#demo1-{{$index}}">{{applicant.name}}</a></span>
-          <span ng-if="applicant.name == ''"><a id="nl" title="View more" data-toggle="collapse" data-target="#demo1-{{$index}}">Name Not found</a></span></td>
+          <td id="n"><span ng-if="applicant.name != ''"><a id="nl" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}">{{applicant.name}}</a></span>
+          <span ng-if="applicant.name == ''"><a id="nl" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}">Name Not found</a></span></td>
           <td id="ci" class="hidden-xs hidden-s">{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
           <td id="d" class="hidden-xs hidden-s">{{applicant.education.degree}}</td>
           <td id="c" class="hidden-xs hidden-s"><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <br> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> </td>
@@ -107,7 +109,7 @@
             <span title="Send back to New" class="glyphicon glyphicon-share-alt">
             </span>
           </button></span>    
-          <button id="eye" class="btn btn-default btn-xs eye" data-toggle="collapse" data-target="#demo1-{{$index}}">
+          <button id="eye" class="btn btn-default btn-xs eye" data-toggle="collapse" data-target="#dataExpand-{{$index}}">
             <span title="View more" class="glyphicon glyphicon-eye-open">
             </span>
           </button>
@@ -121,7 +123,7 @@
       </tr>
       <tr>
         <td  id="hide" colspan="12" class="hiddenRow">
-          <div class="accordian-body collapse" id="demo1-{{$index}}">
+          <div class="accordian-body collapse {{active ? '' : 'in'}}" id="dataExpand-{{$index}}">
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -133,8 +135,9 @@
               <tbody>
                 <tr>
                   <td id='body'><b>ETL:</b><span id="valE"> {{applicant.skills.etl.join(', ')}}</span> <br> <b>Web App:</b> <span id="valW">{{applicant.skills.webapp.join(', ')}}</span> <br> <b>Languages:</b> <span id="valL">{{applicant.skills.language.join(', ')}}</span> <br> <b>Mobile:</b> <span id="valM">{{applicant.skills.mobile.join(', ')}}</span> <br> <b>Databases:</b> <span id="valD">{{applicant.skills.database.join(', ')}}</span><br> <b> Big Data:</b> <span id="valB">{{applicant.skills.bigdata.join(', ')}}</span></td>
-                  <td id='body' class="hidden-xs hidden-s"><b>School:</b> <span id="valS">{{applicant.education.school}}</span> <br> <b>GPA:</b> <span id="valGPA">{{applicant.education.gpa}}</span> <br> </td>
+                  <td id='body' class="hidden-xs hidden-s"><b>School:</b> <span id="valS">{{applicant.education.school}}</span> <br> <b>GPA:</b> <span id="valGPA" ng-if="applicant.education.gpa === 0"></span><span id="valGPA" ng-if="applicant.education.gpa != 0">{{applicant.education.gpa}}</span> <br> </td>
                   <td id='body'  class="hidden-xs hidden-s"> <b>Linked-in: </b><a ng-href="{{applicant.contact.linkedin}}" target="_blank">{{applicant.contact.linkedin}} </a> <br> <b> GitHub: </b><a ng-href="{{applicant.contact.github}}" target="_blank">{{applicant.contact.github}}</a> <br> <b>Indeed: </b><a ng-href="{{applicant.contact.indeed}}" target="_blank">{{applicant.contact.indeed}}</a></td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -148,6 +151,7 @@
 
     </div>
   </div>
+  <!-- located on the bottom right -->
   <div id="size" class="hidden-sm hidden-xs">
     <span ng-if="(index == 0 && applicants.size >= 25)">Displaying<br>{{index+25}} of {{applicants.size}}</span>
     <span ng-if="(index == 0 && applicants.size < 25)">Displaying<br>{{applicants.size}} of {{applicants.size}}</span>

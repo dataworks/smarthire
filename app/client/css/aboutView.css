@@ -27,7 +27,7 @@
 	margin: 0 auto;
 }
 
-p {
+#about {
 	font-family: 'Lato', sans-serif;
 	font-size: 115%;
 }
@@ -39,8 +39,12 @@ p {
     color: #565656;
 }
 
-#mainAbout h2, #thankYou h2, #team h2 {
+#team h2 {
 	border-bottom: 1px solid #D5D5D5;
-    margin: 30px 0 15px;
-    padding-bottom: 15px;
+    margin: 0 0 3%;
+}
+
+#mainAbout h2, #thankYou h2 {
+	border-bottom: 1px solid #D5D5D5;
+    margin: 4% 0 3%;
 }

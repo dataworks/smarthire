@@ -20,16 +20,16 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
     $scope.displayText = "";
 
     // for expand button
-    var active = true;
+    $scope.active = true;
 
     $('.openall').click(function(){
-      if (active) {
-        active = false;
+      if ($scope.active) {
+        $scope.active = false;
         $('.accordian-body:not(".in")').collapse('show');
         $(this).find('i').toggleClass('glyphicon glyphicon-plus-sign').toggleClass('glyphicon glyphicon-minus-sign');
       } 
       else {
-        active = true;
+        $scope.active = true;
         $('.accordian-body.in').collapse('hide');
         $(this).find('i').toggleClass('glyphicon glyphicon-minus-sign').toggleClass('glyphicon glyphicon-plus-sign');
       }
@@ -143,9 +143,6 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
      *
      */
     $scope.nextPage = function() {
-      if(!active){
-          $('.accordian-body:not(".in")').collapse('show');
-      }
       if ($scope.hasData) {
         $scope.loadingData = true;
         $scope.index += $scope.pageSize;

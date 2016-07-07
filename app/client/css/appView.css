@@ -183,7 +183,7 @@ a{
 }
 
 #d{
-  width: 8% !important;
+  width: 10% !important;
 }
 
 #p{
@@ -191,7 +191,7 @@ a{
 }
 
 #o{
-  width: 7% !important;
+  width: 6% !important;
 }
 
 #n{
@@ -437,12 +437,12 @@ td{
 }
 
 /*toast messages*/
-.alert {
-  margin-right: 725px;  
+#toastContainer {
   z-index: 2;
+  float: left;
+  padding-left: 31%;
   font-size: 100%;
 }
-
 
 /*search dropdown*/
 .dropdown.dropdown-lg .dropdown-menu {
