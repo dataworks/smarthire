@@ -6,7 +6,7 @@ import org.apache.spark.mllib.feature.{HashingTF, IDFModel}
 import org.apache.spark.mllib.linalg.{Vectors, Vector}
 
 object NaiveBayesFeatureGenerator {
-  val htf = new HashingTF(10000)
+  val htf = new HashingTF(1000000)
   val tokenizer = new LuceneTokenizer()
 
   /**
