@@ -41,7 +41,7 @@ object ResumeParser {
     val sc = new SparkContext(conf)
 
     val fileData = if (options.fromES) {
-      sc.esRDD(options.uploadindex + "/upload").values.map{ resume =>
+      sc.esRDD(options.uploadindex + "/upload", "?q=processed:false").values.map{ resume =>
         ResumeData(getString(resume("name")),Base64.decodeBase64(getString(resume("base64string"))), new DataInputStream(new ByteArrayInputStream(Base64.decodeBase64(getString(resume("base64string"))))),getString(resume("id")))
       }
     }
