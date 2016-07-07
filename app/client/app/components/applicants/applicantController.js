@@ -1,5 +1,5 @@
-applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applicant', 'Label', 'Suggest', 'Upload', '$window', 'ngToast', '$timeout', 'advancedSearch',
-  function($scope, $location, Applicant, Label, Suggest, Upload, $window, ngToast, $timeout, advancedSearch) {
+applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analysis', 'Applicant', 'Label', 'Suggest', 'Upload', '$window', 'ngToast', '$timeout', 'advancedSearch',
+  function($scope, $location, analysis, Applicant, Label, Suggest, Upload, $window, ngToast, $timeout, advancedSearch) {
 
     //default dropdown menu to 'new' on page load
     $scope.selection = "new";
@@ -24,6 +24,13 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
 
     //for search analytics
     $scope.showGraphs = false;
+
+    $scope.queries = [$scope.languages, $scope.etl, $scope.web,
+      $scope.mobile, $scope.db, $scope.bigData
+    ];
+
+    var fields = ['languages', 'etl', 'web', 'mobile', 'db', 'bigData'];
+    var ids = ['Language', 'ETL', 'Web', 'Mobile', 'Databases', 'Big'];
 
     $('.openall').click(function(){
       if ($scope.active) {
@@ -296,9 +303,165 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Applic
         sort: $scope.sort,
         order: $scope.sortOrder
       });
-      
+
+    $scope.queries.forEach(function(value, index) {
+      $scope.queries[index] = analysis.query({
+        query: $scope.searchText,
+        field: fields[index]
+      });
+
+      $scope.queries[index].$promise.then(function(data) {
+        displayGraph(data, ids[index]);
+      });
+    });
       //sets text in search bar to what user typed in, hides the query call
       $scope.displayText = searchText;
+    }
+
+    /**
+     * Stores the aggregation data into arrays & calls function to display charts
+     * 
+     * @param data - aggregation data
+     * @param id - div id of the chart
+     */
+    function displayGraph(data, id) {
+      var labels = data.map(function(index) {
+        return index.key;
+    });
+
+      var count = data.map(function(index) {
+        return index.doc_count;
+      });
+
+      var ctx = document.getElementById(id);
+
+      var blues = [
+        '#0D47A1',
+        '#1565C0',
+        '#1976D2',
+        '#1E88E5',
+        '#2196F3',
+        '#42A5F5',
+        '#64B5F6',
+        '#90CAF9',
+        '#BBDEFB',
+        '#BBDEFB',
+        '#E3F2FD'
+      ];
+
+      var reds = [
+        '#B71C1C',
+        '#FF1919',
+        '#FF3232',
+        '#FF4C4C',
+        '#FF6666',
+        '#FF7F7F',
+        '#FF9999',
+        '#FFB2B2',
+        '#FFCCCC',
+        '#FFE5E5'
+      ];
+
+      var greens = [
+        '#1B5E20',
+        '#2E7D32',
+        '#388E3C',
+        '#43A047',
+        '#4CAF50',
+        '#66BB6A',
+        '#81C784',
+        '#A5D6A7',
+        '#C8E6C9',
+        '#E8F5E9'
+      ];
+
+      var oranges = [
+        '#E65100',
+        '#EF6C00',
+        '#F57C00',
+        '#FB8C00',
+        '#FF9800',
+        '#FFA726',
+        '#FFB74D',
+        '#FFCC80',
+        '#FFE0B2',
+        '#FFF3E0'
+      ];
+
+      var yellows = [
+        '#F57F17',
+        '#F9A825',
+        '#FBC02D',
+        '#FDD835',
+        '#FFEB3B',
+        '#FFEE58',
+        '#FFF176',
+        '#FFF59D',
+        '#ffff99',
+        '#ffffb2'
+      ];
+
+      var purples = [
+        '#4A148C',
+        '#6A1B9A',
+        '#7B1FA2',
+        '#8E24AA',
+        '#9C27B0',
+        '#AB47BC',
+        '#BA68C8',
+        '#CE93D8',
+        '#E1BEE7',
+        '#F3E5F5'
+      ];
+
+      if (id == 'Language') {
+        createPieChart(ctx, labels, count, reds);
+      }
+
+      if (id == 'Web') {
+        createPieChart(ctx, labels, count, oranges);
+      }
+
+      if (id == 'ETL') {
+        createPieChart(ctx, labels, count, yellows);
+      }
+
+      if (id == 'Mobile') {
+        createPieChart(ctx, labels, count, greens);
+      }
+
+      if (id == 'Databases') {
+        createPieChart(ctx, labels, count, blues);
+      }
+
+      if (id == 'Big') {
+        createPieChart(ctx, labels, count, purples);
+
+      }
+    }
+
+    /**
+     * Creates a pie chart using the chart.js library
+     *
+     * @param ctx - id of the chart
+     * @param labels - terms
+     * @param count - number of occurances
+     * @param color - color scheme of the chart
+     */
+    function createPieChart(ctx, labels, count, color) {
+      var chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: '# of Votes',
+            data: count,
+            backgroundColor: color,
+            borderColor: color,
+            borderWidth: 1
+          }]
+        }
+      });
     }
 
     /** 
