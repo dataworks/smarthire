@@ -3,7 +3,10 @@ package applicant.etl
 import org.apache.tika.metadata._
 import org.apache.tika.parser._
 import org.apache.tika.parser.pdf._
-import org.apache.tika.sax.WriteOutContentHandler
+import org.apache.tika.parser.pdf.PDFParserConfig
+import org.apache.tika.parser.ocr.TesseractOCRParser
+import org.apache.tika.parser.ocr.TesseractOCRConfig
+import org.apache.tika.sax.BodyContentHandler
 import java.io._
 import org.apache.commons.io.FilenameUtils
 import org.apache.commons.codec.binary.Base64
@@ -25,13 +28,21 @@ object TextExtractor {
    */
 
   def extractAll(data: InputStream): (String, Map[String, String]) = {
-    val handler : WriteOutContentHandler = new WriteOutContentHandler(-1)
+    //Needed if tesseract is not on system path
+    val handler : BodyContentHandler = new BodyContentHandler()
     val metadata : Metadata = new Metadata()
-    val context : ParseContext = new ParseContext()
     // Apache Tika parser object, auto detects file type
-    val myparser : AutoDetectParser = new AutoDetectParser()
+    val myparser : Parser = new AutoDetectParser()
     // Input stream for parser, from PortableDataStream data
     val stream : InputStream = data
+    val config : TesseractOCRConfig = new TesseractOCRConfig()
+    val pdfConfig : PDFParserConfig = new PDFParserConfig()
+    val context : ParseContext = new ParseContext()
+    //config.setTesseractPath("/usr/share/tesseract-ocr")
+    pdfConfig.setExtractInlineImages(true)
+    context.set(classOf[TesseractOCRConfig], config)
+    context.set(classOf[PDFParserConfig], pdfConfig)
+    context.set(classOf[Parser], myparser)
 
     try {
       // Parse text from file and store in hander object
