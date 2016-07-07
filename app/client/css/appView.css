@@ -677,3 +677,10 @@ input[type='text'] {
   margin-top: 2%;
 }
 
+.carousel {
+  transition: all linear 0.5s;
+}
+
+.carousel.ng-hide {
+  opacity: 0;
+}
