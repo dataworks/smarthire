@@ -8,7 +8,7 @@
   </select>
 
   <!-- code for search analytics -->
-<button><i id="stats" class="fa fa-pie-chart"></i><!-- <span id="stats" class="glyphicon glyphicon-stats"></span> --></button>
+<button><i id="stats" class="fa fa-pie-chart" ng-click="setGraphBool()"></i><!-- <span id="stats" class="glyphicon glyphicon-stats"></span> --></button>
 
 <div ng-repeat="skills in aggregations">
 {{skills.key}}
@@ -73,10 +73,14 @@
       </div>
     </div>
   </div>
+ 
+  <div id="carouselFormat" ng-show="showGraphs">
+    <br> <br> <br>
+  </div>
 
     <!-- Carousel
     ================================================== -->
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel" ng-show="showGraphs">
       <!-- Indicators -->
       <ol class="carousel-indicators">
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -123,8 +127,12 @@
         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
         <span class="sr-only">Next</span>
       </a>
+      <br> <br> <br>
     </div><!-- /.carousel -->
 
+  <div id="carouselFormat" ng-show="showGraphs">
+    <br> <br> <br>
+  </div>
 
 <div infinite-scroll="nextPage()" infinite-scroll-disabled="loadingData" infinite-scroll-check="false" infinite-scroll-distance="1">
   <div class="row-applicant-row" >

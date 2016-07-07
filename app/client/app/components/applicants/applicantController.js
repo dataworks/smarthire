@@ -22,6 +22,9 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
     // for expand button
     $scope.active = true;
 
+    //for search analytics
+    $scope.showGraphs = false;
+
     $('.openall').click(function(){
       if ($scope.active) {
         $scope.active = false;
@@ -58,6 +61,14 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
       sort: $scope.sort,
       order: $scope.sortOrder
     });
+
+    $scope.setGraphBool = function() {
+      if ($scope.showGraphs == false) {
+        $scope.showGraphs = true;
+      } else {
+        $scope.showGraphs = false;
+      }
+    }
 
     /**
      * sort by property name. function is called when column is clicked
