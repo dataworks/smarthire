@@ -328,6 +328,16 @@ td{
   width: 33%;
 }
 
+#stats{
+    font-size: 155%;
+    margin-left: 665%;
+    margin-top: 8%;
+    border: none;
+    color: #007ead;
+    background: none;
+    z-index: 2;
+}
+
 
 #hide{
   border-top:0 !important;
