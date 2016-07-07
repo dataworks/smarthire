@@ -68,8 +68,25 @@ exports.suggest = function(term, res) {
  * @param field - ES field
  */
 exports.aggregations = function(res, field, query) {
-  if(query)
-    esservice.aggregations(config.applicants, 'skills.language', query, res);
+  if(query) {
+    if(field === 'languages')
+     esservice.aggregations(config.applicants, 'skills.language', query, res);
+
+    if(field === 'etl')
+     esservice.aggregations(config.applicants, 'skills.etl', query, res);
+
+    if(field === 'web')
+     esservice.aggregations(config.applicants, 'skills.webapp', query, res);
+
+    if(field === 'mobile')
+     esservice.aggregations(config.applicants, 'skills.mobile', query, res);
+
+    if(field === 'db')
+     esservice.aggregations(config.applicants, 'skills.database', query, res);
+
+    if(field === 'bigData')
+      esservice.aggregations(config.applicants, 'skills.bigdata', query, res);
+  }
   else {
     if(field === 'languages')
      esservice.aggregations(config.applicants, 'skills.language', null, res);

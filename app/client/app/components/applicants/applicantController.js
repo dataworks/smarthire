@@ -309,7 +309,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
         query: $scope.searchText,
         field: fields[index]
       });
-
+      console.log(fields[index])
       $scope.queries[index].$promise.then(function(data) {
         displayGraph(data, ids[index]);
       });
