@@ -12,7 +12,7 @@ import scala.collection.JavaConversions._
 import org.apache.commons.lang3.text.WordUtils
 
 class ApplicantData {
-  var name, recentTitle, recentLocation, recentOrganization, degree, school, gpa, email, phone, linkedin, indeed, github, fullText, applicantid: String = ""
+  var name, recentTitle, recentLocation, recentOrganization, degree, school, email, phone, linkedin, indeed, github, fullText, applicantid: String = ""
 
   var languageList: ListBuffer[String] = new ListBuffer[String]()
   var bigDataList: ListBuffer[String] = new ListBuffer[String]()
@@ -27,6 +27,7 @@ class ApplicantData {
   var df: DecimalFormat = new DecimalFormat("#.##")
   var githubData = Map[String,String]()
   var score = -1.0
+  var gpa = 0.0
 
   def toMap(): Map[String, Any] = {
 
@@ -107,7 +108,7 @@ object ApplicantData {
         case ("webapp", _) => (app.webappList += pair._2)
         case ("mobile", _) => (app.mobileList += pair._2)
         case ("language", _) => (app.languageList += pair._2)
-        case ("gpa", _) if (app.gpa == notFound) => app.gpa = pair._2
+        case ("gpa", _) if (app.gpa == 0.0) => app.gpa = pair._2.toDouble
         case ("url", _) => (app.urlList += pair._2)
         case ("indeed", _) if (app.indeed == notFound && pair._2.startsWith("http")) => app.indeed = pair._2
         case ("indeed", _) if (app.indeed == notFound && pair._2.startsWith("www")) => app.indeed = "http://" + pair._2
@@ -136,10 +137,6 @@ object ApplicantData {
       else if (fullText.trim().startsWith("Indeed Resume")) {
         val textArr = fullText.trim().split("\\s+")
         app.name = textArr(2) + " " + textArr(3)
-      }
-      else {
-        val textArr = fullText.trim().split("\\s+")
-        app.name = textArr(0) + " " + textArr(1)
       }
     }
 
@@ -217,7 +214,7 @@ object ApplicantData {
         val eduMap = any.asInstanceOf[Map[String, String]]
         app.degree = getString(eduMap("degree"))
         app.school = getString(eduMap("school"))
-        app.gpa = getString(eduMap("gpa"))
+        app.gpa = getDouble(eduMap("gpa"))
       case None =>
     }
 

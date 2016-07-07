@@ -656,3 +656,9 @@ input[type='text'] {
   /*background-color: white;*/
   /*border-radius: 25px;*/
 }
+
+#searchGraph {
+  position: absolute;
+  left: 90%;
+  margin-top: 2%;
+}
