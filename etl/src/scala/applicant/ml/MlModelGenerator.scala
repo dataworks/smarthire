@@ -84,8 +84,6 @@ object MlModelGenerator {
         })
 
         val idfModel = IDFHelper.createModel(featureRDD)
-        println("The idfModel values are:")
-        println(idfModel.idf)
 
         //Make sure that the model is saved
         IDFHelper.saveModel(idfModel, options.idfModelDirectory)
@@ -106,8 +104,6 @@ object MlModelGenerator {
       else {
         println("The specified IDF folder location does not exist. Naive Bayes model not created.")
       }
-
-
     }
 
     //If the logistic regression flag was set
