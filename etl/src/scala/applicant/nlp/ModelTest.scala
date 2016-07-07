@@ -104,7 +104,10 @@ object ModelTest {
             // Build and clean entity
             var entity = sentence.slice(name.getStart(), name.getEnd()).mkString(" ")
             entity = entity.replaceAll("\\,$", "")
-
+            if (name.getType == "gpa") {
+              val onlyDouble = entity.replaceAll("[^0-9\\.]+", "")
+              entity = onlyDouble
+            }
             println(name.getType() + "->" + entity)
         }
     }

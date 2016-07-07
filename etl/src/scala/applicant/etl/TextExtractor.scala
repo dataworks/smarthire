@@ -38,7 +38,6 @@ object TextExtractor {
     val config : TesseractOCRConfig = new TesseractOCRConfig()
     val pdfConfig : PDFParserConfig = new PDFParserConfig()
     val context : ParseContext = new ParseContext()
-    //config.setTesseractPath("/usr/share/tesseract-ocr")
     pdfConfig.setExtractInlineImages(true)
     context.set(classOf[TesseractOCRConfig], config)
     context.set(classOf[PDFParserConfig], pdfConfig)
