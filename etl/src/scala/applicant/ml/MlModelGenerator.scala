@@ -29,7 +29,7 @@ object MlModelGenerator {
   case class Command(word2vecModel: String = "", sparkMaster: String = "",
     esNodes: String = "", esPort: String = "", esAppIndex: String = "",
     esLabelIndex: String ="", logisticModelDirectory: String = "",
-    naiveBayesModelDirectory: String = "")
+    naiveBayesModelDirectory: String = "", idfModelDirectory: String = "")
 
   def generateMLmodel(options: Command) {
     val archivedAppListBuff = scala.collection.mutable.ListBuffer.empty[ApplicantData]
@@ -74,17 +74,40 @@ object MlModelGenerator {
     //If the Naive Bayes flag was set
     if (options.naiveBayesModelDirectory != "") {
       println("Creating naive bayes model.")
-      //Turn the applicant objects into Labeled Points
-      applicantDataList.foreach { applicant =>
-        val applicantScore = labelsHashMap(applicant.applicantid)
-        modelData += LabeledPoint(applicantScore, NaiveBayesFeatureGenerator.getFeatureVec(applicant))
+      //First check if the idf folder option exists
+      val checkFolder = new File(options.idfModelDirectory)
+
+      if (checkFolder.exists()) {
+        //Now create the model out of raw TF vectors
+        val featureRDD = sc.parallelize(applicantDataList.map { applicant =>
+          NaiveBayesFeatureGenerator.getFeatureVec(applicant)
+        })
+
+        val idfModel = IDFHelper.createModel(featureRDD)
+        println("The idfModel values are:")
+        println(idfModel.idf)
+
+        //Make sure that the model is saved
+        IDFHelper.saveModel(idfModel, options.idfModelDirectory)
+
+        //Turn the applicant objects into Labeled Points
+        applicantDataList.foreach { applicant =>
+          val applicantScore = labelsHashMap(applicant.applicantid)
+          modelData += LabeledPoint(applicantScore, NaiveBayesFeatureGenerator.getAdjustedFeatureVec(applicant, idfModel))
+        }
+
+        //Create and save the NaiveBayes model
+        val bayesModel = NaiveBayesHelper.createModel(sc, modelData)
+        NaiveBayesHelper.saveModel(bayesModel, sc, options.naiveBayesModelDirectory)
+        modelData.clear()
+
+        println("Naive bayes model created.")
+      }
+      else {
+        println("The specified IDF folder location does not exist. Naive Bayes model not created.")
       }
 
-      //Create and save the NaiveBayes model
-      NaiveBayesHelper.createAndSaveModel(sc, options.naiveBayesModelDirectory, modelData)
-      modelData.clear()
 
-      println("Naive bayes model created.")
     }
 
     //If the logistic regression flag was set
@@ -98,24 +121,30 @@ object MlModelGenerator {
       }
 
       if (bayesModel != null) {
-        applicantDataList.foreach { applicant =>
-          val applicantScore = labelsHashMap(applicant.applicantid)
+        //Check the IDF model can be loaded
+        IDFHelper.loadModel(options.idfModelDirectory) match {
+          case Some(idfModel) =>
+            applicantDataList.foreach { applicant =>
+              val applicantScore = labelsHashMap(applicant.applicantid)
 
-          modelData += LabeledPoint(applicantScore, LogisticFeatureGenerator.getLogisticFeatureVec(w2vModel, bayesModel, applicant))
+              modelData += LabeledPoint(applicantScore, LogisticFeatureGenerator.getLogisticFeatureVec(w2vModel, bayesModel, idfModel, applicant))
+            }
+
+            //Create and save the logistic regression model
+            val logisticModel = LogisticRegressionHelper.createModel(sc, modelData)
+
+            println("Weights:")
+            println(logisticModel.weights)
+
+            LogisticRegressionHelper.saveModel(logisticModel, sc, options.logisticModelDirectory)
+
+            println("Logistic regression model created.")
+          case None =>
+            println("No IDF model could be load. Logistic model not created.")
         }
-
-        //Create and save the logistic regression model
-        val logisticModel = LogisticRegressionHelper.createModel(sc, modelData)
-
-        println("Weights:")
-        println(logisticModel.weights)
-
-        LogisticRegressionHelper.saveModel(logisticModel, sc, options.logisticModelDirectory)
-
-        println("Logistic regression model created.")
       }
       else {
-        println("The bayes model could not be loaded for generating the logistic regression model.")
+        println("The bayes model could not be loaded. No logistic regression model created.")
       }
     }
   }
@@ -152,7 +181,10 @@ object MlModelGenerator {
       } text("Path where the logistic regression model is to be saved")
       opt[String]("naivebayesmodeldirectory") valueName("<naivebayesmodeldirectory>") action { (x, c) =>
         c.copy(naiveBayesModelDirectory = x)
-      } text ("Path where the naive bayes model is to be saved")
+      } text ("Path where the naive bayes model is be saved")
+      opt[String]("idfmodeldirectory") valueName("<idfmodeldirectory>") action { (x, c) =>
+        c.copy(idfModelDirectory = x)
+      } text ("Path where the IDF model is to be saved")
 
       note ("Pulls labeled resumes from elasticsearch and generates a logistic regression model \n")
       help("help") text("Prints this usage text")

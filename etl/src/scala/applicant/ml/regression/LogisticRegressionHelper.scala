@@ -10,7 +10,6 @@ import org.apache.spark.mllib.evaluation.MulticlassMetrics
 import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.mllib.util.MLUtils
-import org.apache.commons.io.FileUtils
 import java.io.File
 
 object LogisticRegressionHelper {
