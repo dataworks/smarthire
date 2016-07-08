@@ -3,7 +3,7 @@
 
 /* Carousel base class */
 .carousel {
-  height: 45%;
+  height: 48%;
   border-bottom: solid rgb(0, 114, 198);
 }
 /* Since positioning the image, we need to help out the caption */
