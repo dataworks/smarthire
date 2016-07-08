@@ -108,7 +108,7 @@ object ApplicantData {
         case ("webapp", _) => (app.webappList += pair._2)
         case ("mobile", _) => (app.mobileList += pair._2)
         case ("language", _) => (app.languageList += pair._2)
-        case ("gpa", _) if (app.gpa == 0.0) => app.gpa = pair._2.toDouble
+        case ("gpa", _) if (app.gpa == 0.0) => app.gpa = if(pair._2.count(_ == '.') > 1) 0.0 else pair._2.toDouble
         case ("url", _) => (app.urlList += pair._2)
         case ("indeed", _) if (app.indeed == notFound && pair._2.startsWith("http")) => app.indeed = pair._2
         case ("indeed", _) if (app.indeed == notFound && pair._2.startsWith("www")) => app.indeed = "http://" + pair._2
