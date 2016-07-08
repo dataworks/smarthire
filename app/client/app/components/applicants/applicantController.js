@@ -53,7 +53,6 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
      */
 
     $scope.autoComplete = function(text) {
-      $scope.searchText = text;
       $scope.autoSuggest = Suggest.query({
         term: $scope.searchText
       });
@@ -133,6 +132,8 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
         sort: $scope.sort,
         order: $scope.sortOrder
       });
+
+      getAggregations(false);
     };
 
     /**
@@ -321,21 +322,37 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
         order: $scope.sortOrder
       });
 
-    for(var i = 0; i < charts.length; i++)
-      charts[i].destroy();
+      getAggregations(true);
+      //sets text in search bar to what user typed in, hides the query call
+      $scope.displayText = searchText;
+    }
 
-    $scope.queries.forEach(function(value, index) {
-      $scope.queries[index] = analysis.query({
-        query: $scope.searchText,
-        field: fields[index]
-      });
+    /*
+     ** Returns aggregation data for graphs
+     *
+     * @param search - boolean if it is for search or not
+     */
+    function getAggregations(search) {
+      for(var i = 0; i < charts.length; i++)
+        charts[i].destroy();
+
+      $scope.queries.forEach(function(value, index) {
+        if(search) {
+          $scope.queries[index] = analysis.query({
+            query: $scope.searchText,
+            field: fields[index]
+          });
+        }
+        else {
+          $scope.queries[index] = analysis.query({
+            field: fields[index]
+          });
+        }
 
       $scope.queries[index].$promise.then(function(data) {
         displayGraph(data, ids[index]);
+        });
       });
-    });
-      //sets text in search bar to what user typed in, hides the query call
-      $scope.displayText = searchText;
     }
 
     /**
