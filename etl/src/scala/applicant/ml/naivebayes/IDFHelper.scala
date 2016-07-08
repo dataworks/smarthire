@@ -22,7 +22,7 @@ object IDFHelper {
    * @return The created model
    */
   def createModel(data: RDD[Vector]): IDFModel = {
-    return new IDF(minDocFreq = 0).fit(data)
+    return new IDF(minDocFreq = 2).fit(data)
   }
 
   /*
