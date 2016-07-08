@@ -4,7 +4,7 @@
 /* Carousel base class */
 .carousel {
   height: 48%;
-  border-bottom: solid #CFD8DC;
+  border-bottom: solid #ddd;
 }
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
