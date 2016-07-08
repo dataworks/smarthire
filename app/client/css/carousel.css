@@ -3,8 +3,8 @@
 
 /* Carousel base class */
 .carousel {
-  height: 50%;
-  border-bottom: dotted rgb(0, 114, 198);
+  height: 45%;
+  border-bottom: solid rgb(0, 114, 198);
 }
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
