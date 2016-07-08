@@ -336,6 +336,7 @@ td{
     color: #689f38;
     background: none;
     z-index: 5;
+    outline: none;
 }
 
 #stats:hover{

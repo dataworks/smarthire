@@ -5,7 +5,6 @@
 .carousel {
   height: 500px;
   margin-bottom: 60px;
-  background-color: white;
 }
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
@@ -18,12 +17,14 @@
     text-align: center;
     text-shadow: 0 1px 2px rgba(35, 3, 3, 0.25);
     border-radius: 25px;
+    z-index: 1;
 }
 
 /* Declare heights because of positioning of img element */
 .carousel .item {
   height: 500px;
-  background-color: #777;
+  background: none;
+
 }
 .carousel-inner > .item > img {
   position: absolute;
@@ -31,6 +32,12 @@
   left: 0;
   min-width: 100%;
   height: 500px;
+  border-radius: 25px;
+  background: none;
+}
+
+#myCarousel{
+  border-radius: 25px;
 }
 
 .carousel-control.left {
@@ -53,6 +60,7 @@
 
 #slide{
   border-radius: 25px;
+  background-color: none;
 }
 
 /* RESPONSIVE CSS
