@@ -4,7 +4,6 @@
 /* Carousel base class */
 .carousel {
   height: 50%;
-  margin-bottom: 60px;
   border-bottom: dotted rgb(0, 114, 198);
 }
 /* Since positioning the image, we need to help out the caption */
