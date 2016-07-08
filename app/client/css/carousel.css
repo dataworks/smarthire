@@ -3,8 +3,9 @@
 
 /* Carousel base class */
 .carousel {
-  height: 500px;
+  height: 80%;
   margin-bottom: 60px;
+  border-bottom: dotted rgb(0, 114, 198);
 }
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
@@ -26,36 +27,30 @@
   background: none;
 
 }
-.carousel-inner > .item > img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  min-width: 100%;
-  height: 500px;
-  border-radius: 25px;
-  background: none;
-}
-
-#myCarousel{
-  border-radius: 25px;
+.carousel-inner{
+  height: 100%;
 }
 
 .carousel-control.left {
-    background-image: -webkit-linear-gradient(left,rgb(0, 114, 198) 0,rgba(255, 255, 255, 0) 100%);
+    /*background-image: -webkit-linear-gradient(left,rgb(0, 114, 198) 0,rgba(255, 255, 255, 0) 100%);
     background-image: -o-linear-gradient(left,rgb(0, 114, 198) 0,rgba(255, 255, 255, 0) 100%);
     background-image: -webkit-gradient(linear,left top,right top,from(rgb(0, 114, 198)),to(rgba(255, 255, 255, 0)));
-    background-image: linear-gradient(to right,rgb(0, 114, 198) 0,rgba(255, 255, 255, 0) 100%);
+    background-image: linear-gradient(to right,rgb(0, 114, 198) 0,rgba(255, 255, 255, 0) 100%);*/
     border-radius: 25px;
+    color: black;
+    background: none;
 }
 
 .carousel-control.right{
     right: 0;
     left: auto;
     border-radius: 25px;
-    background-image: -webkit-linear-gradient(left,rgba(0,0,0,0) 0,rgba(0, 114, 198) 100%);
+    color: black;
+    background: none;
+    /*background-image: -webkit-linear-gradient(left,rgba(0,0,0,0) 0,rgba(0, 114, 198) 100%);
     background-image: -o-linear-gradient(left,rgba(0,0,0,0) 0,rgba(0, 114, 198) 100%);
     background-image: -webkit-gradient(linear,left top,right top,from(rgba(0,0,0,0)),to(rgba(0, 114, 198)));
-    background-image: linear-gradient(to right,rgba(0, 0, 0, 0) 0,rgb(0, 114, 198) 100%);
+    background-image: linear-gradient(to right,rgba(0, 0, 0, 0) 0,rgb(0, 114, 198) 100%);*/
 }
 
 #slide{
@@ -119,7 +114,7 @@ div > #charts12, div > #charts22, div > #charts32 {
   display: flex;
   position: relative;
   left: 5%;
-  padding-bottom: 5%;
+  bottom: 125px;
   height: 100%;
   width: auto;
 }
