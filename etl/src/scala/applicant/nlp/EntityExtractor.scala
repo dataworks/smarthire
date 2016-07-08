@@ -93,14 +93,14 @@ class EntityExtractor(models: Seq[String], patterns: String) {
             val entityNames = nameSample.getNames()
 
             for (name <- entityNames) {
-                // Build and clean entity
-                var entity = sentence.slice(name.getStart(), name.getEnd()).mkString(" ")
-                entity = entity.replaceAll("\\,$", "")
-                if (name.getType == "gpa") {
-                  val onlyDouble = entity.replaceAll("[^0-9\\.]+", "")
-                  entity = onlyDouble
-                }
-                entitySet += ((name.getType().toLowerCase, entity.toLowerCase) -> (name.getType(), entity))
+              // Build and clean entity
+              var entity = sentence.slice(name.getStart(), name.getEnd()).mkString(" ")
+              entity = entity.replaceAll("\\,$", "")
+              if (name.getType == "gpa") {
+                val onlyDouble = entity.replaceAll("[^0-9\\.]+", "")
+                entity = onlyDouble
+              }
+              entitySet += ((name.getType().toLowerCase, entity.toLowerCase) -> (name.getType(), entity))
             }
           }
         }
