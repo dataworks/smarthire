@@ -97,18 +97,6 @@ object MlModelGenerator {
         //Create and save the NaiveBayes model
         val bayesModel = NaiveBayesHelper.createModel(sc, modelData)
 
-        var count = 0
-        for (item <- bayesModel.theta) {
-          val first = item(0)
-          for (mo <- item) {
-            if (mo != first) {
-              print(mo + " ")
-            }
-            count += 1
-          }
-          println()
-        }
-
         NaiveBayesHelper.saveModel(bayesModel, sc, options.naiveBayesModelDirectory)
         modelData.clear()
 
@@ -141,6 +129,10 @@ object MlModelGenerator {
 
             //Create and save the logistic regression model
             val logisticModel = LogisticRegressionHelper.createModel(sc, modelData)
+
+            applicantDataList.foreach { applicant =>
+              val applicantScore = labelsHashMap(applicant.applicantid)
+            }
 
             println("Weights:")
             println(logisticModel.weights)
