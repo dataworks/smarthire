@@ -24,11 +24,8 @@
 .carousel .item {
   height: 500px;
   background: none;
+}
 
-}
-.carousel-inner{
-  height: 115%;
-}
 
 .carousel-control.left {
     /*background-image: -webkit-linear-gradient(left,rgb(0, 114, 198) 0,rgba(255, 255, 255, 0) 100%);
