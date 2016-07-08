@@ -53,9 +53,9 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
      */
 
     $scope.autoComplete = function(text) {
-      $scope.searchText = text;
+      $scope.displayText = text;
       $scope.autoSuggest = Suggest.query({
-        term: $scope.searchText
+        term: $scope.displayText
       });
     }
 
