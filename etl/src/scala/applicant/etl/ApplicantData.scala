@@ -134,9 +134,9 @@ object ApplicantData {
       else if (app.githubData != collection.mutable.Map() && app.githubData("login") != null && app.githubData("login") != "") {
         app.name = app.githubData("login")
       }
-      else if (fullText.trim().startsWith("Indeed Resume")) {
+      else {
         val textArr = fullText.trim().split("\\s+")
-        app.name = textArr(2) + " " + textArr(3)
+        app.name = textArr(0) + " " + textArr(1)
       }
     }
 
