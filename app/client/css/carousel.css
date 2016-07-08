@@ -3,7 +3,7 @@
 
 /* Carousel base class */
 .carousel {
-  height: 80%;
+  height: 50%;
   margin-bottom: 60px;
   border-bottom: dotted rgb(0, 114, 198);
 }
@@ -28,7 +28,7 @@
 
 }
 .carousel-inner{
-  height: 100%;
+  height: 115%;
 }
 
 .carousel-control.left {
@@ -94,7 +94,7 @@
 }
 
 #da2{
-  width: 38%;
+  width: 35%;
   height: auto;
   margin-right: 15%;
   font-size: 225%;
@@ -103,7 +103,7 @@
 }
 
 #b2{
-  width: 40%;
+  width: 38%;
   height: auto;
   font-size: 225%;
   text-align: center;
@@ -114,7 +114,7 @@ div > #charts12, div > #charts22, div > #charts32 {
   display: flex;
   position: relative;
   left: 5%;
-  bottom: 125px;
+  bottom: 135px;
   height: 100%;
   width: auto;
 }
