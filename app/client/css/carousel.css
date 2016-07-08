@@ -120,6 +120,8 @@ div > #charts12, div > #charts22, div > #charts32 {
   position: relative;
   left: 5%;
   padding-bottom: 5%;
+  height: 100%;
+  width: auto;
 }
 
 @media (max-width: 767px) {
