@@ -43,9 +43,9 @@ object LogisticFeatureGenerator {
    *  8) Measure of distance from recent location
    *  9) Density of contact info
    *  10) The length of the resume
-   *  11) The GPA
-   *  12) What type and how technical their degree
-   *  13) How technical their positions have been
+   *  --nixed 11) The GPA
+   *  --nixed 12) What type and how technical their degree
+   *  --nixed 13) How technical their positions have been
    *
    * @param model A word2VecModel uses to find synonyms
    * @param applicant The applicant whose features are needed
@@ -54,14 +54,14 @@ object LogisticFeatureGenerator {
   def getLogisticFeatureVec(wordModel: Word2VecModel, bayesModel: NaiveBayesModel, idfModel: IDFModel, applicant: ApplicantData): Vector = {
     val featureArray = scala.collection.mutable.ArrayBuffer.empty[Double]
     //NaiveBayesScore
-    featureArray += naiveBayesTest(bayesModel, idfModel, applicant)
+    //featureArray += naiveBayesTest(bayesModel, idfModel, applicant)
     // Core key words
-    featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Hadoop","Spark","HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS"), 0), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Oracle","Postgresql","Mysql"), 0), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Spark","Hadoop","HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS","HDFS","MapReduce","Yarn","Solr","Avro","Lucene","Kibana"), 0), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Oracle","Postgresql","Mysql","SQL"), 0), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Pentaho","Informatica","Streamsets","Syncsort"), 0), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("AngularJS","Grails","Spring","Hibernate","node.js"), 0), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("AngularJS","Javascript","Grails","Spring","Hibernate","node.js","bootstrap","Backbone","NodeJS","CSS","HTML","HTTP","DOM","Ajax","XML","jQuery","Django","REST","SOAP","NGINX","Rails"), 0), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Android","iOS","Ionic","Cordova","Phonegap"), 0), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Java","Javascript","Scala","Groovy","C#","C++","Python","Ruby"), 0), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Java","Scala","Groovy","C","Python","Ruby","Haskell"), 0), applicant.fullText)
 
     //distance from Reston VA
     if (applicant.recentLocation == "") {
