@@ -278,7 +278,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
     $scope.search = function(searchText) {
       $scope.index = 0;
       $scope.searchText = searchText;
-      $scope.searchText = $scope.searchText.replace(" ", " AND ");
+      $scope.searchText = $scope.searchText.replace("[\/s+]", " AND ");
 
 
       //sets a boolean based on which checkboxes are checked
