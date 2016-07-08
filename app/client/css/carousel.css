@@ -5,6 +5,7 @@
 .carousel {
   height: 48%;
   border-bottom: solid #ddd;
+  animation: none;
 }
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
@@ -18,12 +19,14 @@
     text-shadow: 0 1px 2px rgba(35, 3, 3, 0.25);
     border-radius: 25px;
     z-index: 1;
+    animation: none;
 }
 
 /* Declare heights because of positioning of img element */
 .carousel .item {
   height: 500px;
   background: none;
+  animation: none;
 }
 
 
@@ -52,6 +55,7 @@
 #slide{
   border-radius: 25px;
   background-color: none;
+  animation: none;
 }
 
 #l2{
@@ -113,21 +117,4 @@ div > #charts12, div > #charts22, div > #charts32 {
   bottom: 135px;
   height: 100%;
   width: auto;
-}
-
-@media (max-width: 767px) {
-  #da2, #e2, #m2, #l2, #w2, #b2{
-    width: 75% !important;
-  }
-
-/* RESPONSIVE CSS
--------------------------------------------------- */
-
-@media (min-width: 768px) {
-   /* Bump up size of carousel content */
-  .carousel-caption p {
-    margin-bottom: 20px;
-    font-size: 21px;
-    line-height: 1.4;
-  }
 }
