@@ -269,6 +269,22 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
       return "service/attachments?id=" + id + "&type=" + type;
     }
 
+    /**
+     * String function that uses regex to replace characters
+     *
+     * @param search - String to be replaced
+     * @param replace - String to be replaced
+     *
+     */
+    String.prototype.replaceAll = function(search, replace) {
+      //if replace is not sent, return original string otherwise it will
+      //replace search string with 'undefined'.
+      if (replace === undefined) {
+        return this.toString();
+      }
+      return this.replace(new RegExp('[' + search + ']', 'g'), replace);
+    };
+
     /** 
      * return query based on text that was input in search bar
      *
@@ -278,7 +294,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
     $scope.search = function(searchText) {
       $scope.index = 0;
       $scope.searchText = searchText;
-      $scope.searchText = $scope.searchText.replace(" ", " AND ");
+      $scope.searchText = $scope.searchText.replaceAll(" ", " AND ");
 
       //sets a boolean based on which checkboxes are checked
       var csChecked = document.getElementById("csCheck").checked;
