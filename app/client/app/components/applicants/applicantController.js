@@ -279,7 +279,6 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
       $scope.index = 0;
       $scope.searchText = searchText;
 
-
       //sets a boolean based on which checkboxes are checked
       var csChecked = document.getElementById("csCheck").checked;
       var cpeChecked = document.getElementById("cpeCheck").checked;

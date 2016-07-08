@@ -40,6 +40,7 @@ app.get("/service/applicants", function(req, res) {
   } else {
     type = req.query.type.toLowerCase();
   }
+  console.log(req.query)
   applicantService.listApplicants(req, res, type);
 });
 
