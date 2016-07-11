@@ -34,8 +34,6 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
     var ids = ['Language', 'ETL', 'Web', 'Mobile', 'Databases', 'Big'];
     var charts = [];
 
-    getAggregations(false, $scope.selection);
-
     /**
      * function that expands/collapses the rows for all applicants
      */
@@ -60,7 +58,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
 
     $scope.autoComplete = function(text) {
       $scope.displayText = text;
-      
+
       $scope.autoSuggest = Suggest.query({
         term: $scope.displayText
       });
@@ -164,6 +162,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
       }
 
       $scope.loadingData = false;
+      getAggregations(false, $scope.selection);
     };
 
     /**
@@ -385,7 +384,6 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
         return index.key;
       }); 
 
-      console.log(labels);
       var count = data.map(function(index) {
         return index.doc_count;
       });
@@ -471,27 +469,27 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
         '#F3E5F5'
       ];
 
-      if (id == 'Language') {
+      if (id === 'Language') {
         createPieChart(ctx, labels, count, reds);
       }
 
-      if (id == 'Web') {
+      if (id === 'Web') {
         createPieChart(ctx, labels, count, oranges);
       }
 
-      if (id == 'ETL') {
+      if (id === 'ETL') {
         createPieChart(ctx, labels, count, yellows);
       }
 
-      if (id == 'Mobile') {
+      if (id === 'Mobile') {
         createPieChart(ctx, labels, count, greens);
       }
 
-      if (id == 'Databases') {
+      if (id === 'Databases') {
         createPieChart(ctx, labels, count, blues);
       }
 
-      if (id == 'Big') {
+      if (id === 'Big') {
         createPieChart(ctx, labels, count, purples);
 
       }
