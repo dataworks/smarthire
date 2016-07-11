@@ -257,7 +257,7 @@ a{
 
   #select{
     margin-left: -1%;
-    padding-right: 6%;
+    padding-right: 5% !important;
   }
 
   #upload{
