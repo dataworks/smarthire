@@ -13,10 +13,11 @@ exports.listApplicants = function(req, res, type) {
   if (type !== 'new') {
     query = 'type: ' + type;
   }
-  if (req.query.query) {
+
+  if (req.query.query) { 
     esservice.query(config.applicants, req.query, res, req.query.query, null);
   }
-  else { 
+  else {
     esservice.query(config.labels, {size: 5000}, res, query, function(res, hits) {
       var labelQuery = buildQuery(res, hits, type);
       esservice.query(config.applicants, req.query, res, labelQuery, null);
@@ -24,7 +25,6 @@ exports.listApplicants = function(req, res, type) {
       console.log(error);
     });  
   }
-
 }
 
 /*
@@ -68,30 +68,22 @@ exports.suggest = function(term, res) {
  * @param field - ES field
  */
 exports.aggregations = function(res, type, field, query) {
-
   var q = "type: " + type;
 
-  if(type) {
-    esservice.query(config.labels, {size: 5000}, res, q, function(res, hits) {
-      var labelQuery = buildQuery(res, hits, type);
-      aggs(field, labelQuery, res);
-    },function (error, response) {
-      console.log(error);
-    }); 
-  } 
-  else {
-    aggs(field, query, res);
-  }
-
+  esservice.query(config.labels, {size: 5000}, res, q, function(res, hits) {
+    var labelQuery = buildQuery(res, hits, type);
+    aggs(field, labelQuery, res);
+  },function (error, response) {
+    console.log(error);
+  });  
 }
 
 /**
  * Private function for aggregation queries
  */
 function aggs(field, query, res) {
-  if(field === 'languages') {
+  if(field === 'languages') 
     esservice.aggregations(config.applicants, 'skills.language', query, res);
-  }
 
   if(field === 'etl')
     esservice.aggregations(config.applicants, 'skills.etl', query, res);
