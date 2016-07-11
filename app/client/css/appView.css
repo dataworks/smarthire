@@ -21,6 +21,10 @@
   right: 0;
 }
 
+#one{
+  cursor: unset;
+}
+
 #two{
   padding-right: 10%;
   cursor: unset;
@@ -76,16 +80,6 @@
   color: black;
 }
 
-/*@-moz-document url-prefix() {
-    .form-wrapper-2 button{
-      margin-top: 20px !important;
-      padding: 5.6px !important;
-    }
-    .form-wrapper-2 input{
-      margin-top: 20px !important;
-    }
-    
-}*/
 
 /*upload button*/
 .btn-primary {
@@ -262,10 +256,13 @@ a{
 
   #select{
     margin-left: -1%;
+    padding-right: 5%;
   }
 
   #upload{
     margin-right: -1%;
+    font-size: 100%;
+    /*padding: .5% 1%;*/
   }
 
   td > #valD{
@@ -340,7 +337,7 @@ td{
 }
 
 #stats:hover{
-  color: #E91E63;
+  color: #673AB7;
 }
 
 
