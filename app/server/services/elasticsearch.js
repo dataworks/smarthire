@@ -95,9 +95,8 @@ exports.suggest = function(config, term, field, res) {
     host: config.url
   });
 
-  term = term.split(" ");
-
-  var lastTerm = term.pop();
+  var firstTerm = term.split(" ");
+  var lastTerm = firstTerm.pop();
 
   client.search({
     index: config.index,
@@ -126,7 +125,7 @@ exports.suggest = function(config, term, field, res) {
   
   }).then(function(resp) {
     var hits = module.exports.getAutocompleteKeys(resp);
-    var prefix = term.join(" ");
+    var prefix = firstTerm.join(" ");
 
     for (var x in hits) {
       hits[x] = prefix + " " + hits[x];
