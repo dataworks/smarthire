@@ -16,7 +16,7 @@ exports.listApplicants = function(req, res, type) {
   if (req.query.query) {
     esservice.query(config.applicants, req.query, res, req.query.query, null);
   }
-  else {
+  else { 
     esservice.query(config.labels, {size: 5000}, res, query, function(res, hits) {
       var labelQuery = buildQuery(res, hits, type);
       esservice.query(config.applicants, req.query, res, labelQuery, null);
@@ -62,27 +62,49 @@ exports.suggest = function(term, res) {
 }
 
 /*
- * Calls the graph method in ES.js
+ * Aggregations for analyis
  *
  * @param res - HTTP response object 
  * @param field - ES field
  */
-exports.aggregations = function(res, field, query) {
-  if(field === 'languages')
-   esservice.aggregations(config.applicants, 'skills.language', query, res);
+exports.aggregations = function(res, type, field, query) {
 
- if(field === 'etl')
-   esservice.aggregations(config.applicants, 'skills.etl', query, res);
+  var q = "type: " + type;
 
- if(field === 'web')
-   esservice.aggregations(config.applicants, 'skills.webapp', query, res);
+  if(type) {
+    esservice.query(config.labels, {size: 5000}, res, q, function(res, hits) {
+      var labelQuery = buildQuery(res, hits, type);
+      aggs(field, labelQuery, res);
+    },function (error, response) {
+      console.log(error);
+    }); 
+  } 
+  else {
+    aggs(field, query, res);
+  }
 
- if(field === 'mobile')
-   esservice.aggregations(config.applicants, 'skills.mobile', query, res);
+}
 
- if(field === 'db')
-   esservice.aggregations(config.applicants, 'skills.database', query, res);
+/**
+ * Private function for aggregation queries
+ */
+function aggs(field, query, res) {
+  if(field === 'languages') {
+    esservice.aggregations(config.applicants, 'skills.language', query, res);
+  }
 
- if(field === 'bigData')
-  esservice.aggregations(config.applicants, 'skills.bigdata', query, res);
+  if(field === 'etl')
+    esservice.aggregations(config.applicants, 'skills.etl', query, res);
+
+  if(field === 'web')
+    esservice.aggregations(config.applicants, 'skills.webapp', query, res);
+
+  if(field === 'mobile')
+    esservice.aggregations(config.applicants, 'skills.mobile', query, res);
+
+  if(field === 'db')
+    esservice.aggregations(config.applicants, 'skills.database', query, res);
+
+  if(field === 'bigData')
+    esservice.aggregations(config.applicants, 'skills.bigdata', query, res);
 }

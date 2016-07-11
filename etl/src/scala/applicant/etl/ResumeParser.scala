@@ -11,7 +11,7 @@ import org.apache.commons.io.FilenameUtils
 import org.apache.commons.codec.binary.Base64
 import applicant.nlp._
 
-import scala.collection.mutable.{Map, LinkedHashMap}
+import scala.collection.mutable.{Map, HashMap, LinkedHashMap}
 
 object ResumeParser {
 
@@ -40,6 +40,24 @@ object ResumeParser {
     //Create Spark RDD using conf
     val sc = new SparkContext(conf)
 
+    //Query elasticsearch for the applicants who have an email. This will be used to ensure that duplicate resumes are not saved.
+    val emailRDD = sc.esRDD("applicants/applicant")
+
+    val emailArray = emailRDD.filter { applicantMap =>
+      val currentApplicant = ApplicantData(applicantMap._2)
+      currentApplicant.email != ""
+    }.map { applicantMap =>
+      val currentApplicant = ApplicantData(applicantMap._2)
+      (currentApplicant.email, currentApplicant.applicantid)
+    }.collect()
+
+    val emails = HashMap.empty[String, String]
+
+    for (emailPair <- emailArray) {
+      emails += emailPair
+    }
+
+
     val fileData = if (options.fromES) {
       sc.esRDD(options.uploadindex + "/upload", "?q=processed:false").values.map{ resume =>
         ResumeData(getString(resume("name")),Base64.decodeBase64(getString(resume("base64string"))), new DataInputStream(new ByteArrayInputStream(Base64.decodeBase64(getString(resume("base64string"))))),getString(resume("id")))
@@ -59,7 +77,8 @@ object ResumeParser {
 
     var fileCount = sc.accumulator(0)
 
-    fileData.map { resume =>
+    //Go through the set of pdfs and parse out info
+    val parsedData = fileData.map { resume =>
       println("Parsing applicant " + resume.esId + ", " + fileCount + " files parsed")
       fileCount += 1
 
@@ -69,18 +88,41 @@ object ResumeParser {
       }
 
       val app = ApplicantData(entitySet, resume.esId, resume.text)
-      app.toMap()
 
-    }.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
+      var specialOldHash: (String, String) = null
+      if (emails.contains(app.email)) {
+        //add the old and new applicantid to a pair so that it can be used later when saving the resume data
+        specialOldHash = (app.applicantid -> emails(app.email))
 
+        app.applicantid = emails(app.email)
+      }
+
+      (app.toMap() -> specialOldHash)
+    }
+
+    //Save the applicant maps to Elasticsearch
+    parsedData.map(_._1).saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
+
+    //Add the hashes of the applicants who are already in elasticsearch to a map
+    val oldHashMapping = HashMap.empty[String, String]
+    val oldHashes = parsedData.map(_._2).filter(_ != null).collect()
+
+    for (pair <- oldHashes) {
+      oldHashMapping += pair
+    }
+
+    //Upload the resumes to elasticsearch
     var pdfCount = sc.accumulator(0)
 
     fileData.map{ resume =>
       println("Parsing applicant " + resume.esId + ", " + pdfCount + " files parsed")
       pdfCount += 1
+
+      val newId = if (oldHashMapping.contains(resume.esId)) oldHashMapping(resume.esId) else resume.esId
+
       Map(
-        "hash" -> resume.esId,
-        "applicantid" -> resume.esId,
+        "hash" -> newId,
+        "applicantid" -> newId,
         "base64string" -> resume.base64string,
         "filename" -> resume.filename,
         "extension" -> resume.extension,

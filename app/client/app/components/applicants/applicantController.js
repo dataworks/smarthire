@@ -34,10 +34,11 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
     var ids = ['Language', 'ETL', 'Web', 'Mobile', 'Databases', 'Big'];
     var charts = [];
 
+    getAggregations(false, $scope.selection);
+
     /**
      * function that expands/collapses the rows for all applicants
      */
-
     $('.openall').click(function(){
       if ($scope.active) {
         $scope.active = false;
@@ -59,9 +60,9 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
 
     $scope.autoComplete = function(text) {
       $scope.displayText = text;
-
+      
       $scope.autoSuggest = Suggest.query({
-        term: $scope.displayText
+        term: $scope.searchText
       });
     }
 
@@ -140,7 +141,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
         order: $scope.sortOrder
       });
 
-      getAggregations(false);
+      getAggregations(false, type);
     };
 
     /**
@@ -350,7 +351,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
      *
      * @param search - boolean if it is for search or not
      */
-    function getAggregations(search) {
+    function getAggregations(search, type) {
       for(var i = 0; i < charts.length; i++)
         charts[i].destroy();
 
@@ -360,16 +361,16 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
             query: $scope.searchText,
             field: fields[index]
           });
-        }
-        else {
+        } else {
           $scope.queries[index] = analysis.query({
+            type: type,
             field: fields[index]
           });
         }
 
-      $scope.queries[index].$promise.then(function(data) {
-        displayGraph(data, ids[index]);
-        });
+        $scope.queries[index].$promise.then(function(data) {
+          displayGraph(data, ids[index]);
+          });
       });
     }
 
@@ -382,8 +383,9 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
     function displayGraph(data, id) {
       var labels = data.map(function(index) {
         return index.key;
-    });
+      }); 
 
+      console.log(labels);
       var count = data.map(function(index) {
         return index.doc_count;
       });
