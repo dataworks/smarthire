@@ -34,15 +34,17 @@ class LuceneTokenizer(analyzer: String = null) {
 }
 
 /**
- * A class with
+ * Some utilities surrounding Lucene Tokenizing
  */
 object LuceneTokenizer {
   def getTokens(tokenString: String): Iterator[Seq[String]] = {
+    return tokenize(tokenString).grouped(10)
+  }
+
+  def tokenize(tokenString: String): Seq[String] = {
     val tokenizer = new LuceneTokenizer("english")
-    var terms = tokenizer.tokenize(tokenString).filter { term =>
+    return tokenizer.tokenize(tokenString).filter { term =>
         term.length() > 2 && !term.matches("\\d+")
     }
-
-    return terms.grouped(10)
   }
 }
