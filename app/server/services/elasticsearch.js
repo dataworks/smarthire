@@ -104,7 +104,7 @@ exports.suggest = function(config, term, field, res) {
           terms: {
             size: 5,
             field: field,
-            include: term + ".*",
+            include: term,
             order: {
               _count: "desc"
             }
@@ -117,6 +117,7 @@ exports.suggest = function(config, term, field, res) {
         }
       }
     }
+  
   }).then(function(resp) {
     var hits = module.exports.getAutocompleteKeys(resp);
     module.exports.defaultHandler(res, hits, resp.hits.total, false);
