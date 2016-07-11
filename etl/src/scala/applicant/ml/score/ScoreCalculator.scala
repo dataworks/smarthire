@@ -8,6 +8,8 @@ import org.elasticsearch.spark._
 import org.apache.spark.mllib.feature.{Word2Vec, Word2VecModel}
 import org.apache.spark.mllib.linalg.{Vectors, Vector}
 
+import org.slf4j.{Logger, LoggerFactory}
+
 import applicant.ml.regression._
 import applicant.ml.naivebayes._
 import applicant.etl._
@@ -21,6 +23,9 @@ object ScoreCalculator {
     esNodes: String = "", esPort: String = "", esAppIndex: String = "",
     regressionModelDirectory: String = "", naiveBayesModelDirectory: String = "",
     idfModelDirectory: String = "")
+
+  //logger
+  val log: Logger = LoggerFactory.getLogger(getClass())
 
   def reloadScores(options: Command) {
     val conf = new SparkConf().setMaster(options.sparkMaster)
@@ -38,7 +43,7 @@ object ScoreCalculator {
     var idfModel = IDFHelper.loadModel(options.idfModelDirectory)
 
     if (regressionModel.isEmpty || naiveBayesModel.isEmpty || idfModel.isEmpty) {
-      println("There was a problem loading the machine learning models. Quitting now.")
+      log.error("There was a problem loading the machine learning models. Quitting now.")
       return
     }
 
@@ -55,7 +60,7 @@ object ScoreCalculator {
       val calculatedScore = LogisticRegressionHelper.predictSingleScore(regressionModel.get, features)
       app.score = Math.round(calculatedScore * 100.0) / 100.0
 
-      println("Scoring applicant number " + counter + " with id of " + app.applicantid + ". Score = " + app.score)
+      log.debug("Scoring applicant number " + counter + " with id of " + app.applicantid + ". Score = " + app.score)
       counter += 1
 
       app.toMap

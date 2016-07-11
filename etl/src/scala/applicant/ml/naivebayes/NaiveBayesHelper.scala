@@ -82,38 +82,6 @@ object NaiveBayesHelper {
     return None
   }
 
-
-  /**
-   * Will give predictions from a feature set using the given model.
-   * This method is especially useful for test as it returns pairs of
-   *  predicted results and actual results.
-   *
-   * @param model The model used to test the features against
-   * @param dataPoints An RDD of LabeledPoints
-   * @return A list of Double pairs. The first Double is the prediction and the second is the actual given label
-   */
-  def predictLabeledScores(model: NaiveBayesModel, dataPoints: RDD[LabeledPoint]): RDD[(Double, Double)] = {
-    return dataPoints.map { case LabeledPoint(label, features) =>
-      val prediction = model.predict(features)
-      (prediction, label)
-    }
-  }
-
-  /**
-   * Will give predictions from a feature set using the given model.
-   * This method is used for predicting data that has not been given
-   *  a label yet.
-   *
-   * @param model The model used to test the features against
-   * @param vectors An RDD of Vectors that hold the values of the features
-   * @return A list of predictions from each of the Vectors
-   */
-  def predictUnlabeledScores(model: NaiveBayesModel, vectors: RDD[Vector]): RDD[Double] = {
-    return vectors.map { features =>
-      model.predict(features)
-    }
-  }
-
   /**
    * Will give a prediction for a single set of features.
    *
@@ -123,8 +91,6 @@ object NaiveBayesHelper {
    */
   def predictSingleScore(model: NaiveBayesModel, feature: Vector): Double = {
     val prediction = model.predictProbabilities(feature).toArray
-    val result = if (model.labels(0) == 1.0) prediction(0) else prediction(1)
-    println("Adjusted score is " + result)
-    return result
+    return if (model.labels(0) == 1.0) prediction(0) else prediction(1)
   }
 }

@@ -1,6 +1,8 @@
 package applicant.nlp
 
 import java.io.StringReader
+import org.apache.lucene.analysis.Analyzer
+import org.apache.lucene.analysis.en.EnglishAnalyzer
 import org.apache.lucene.analysis.standard.StandardAnalyzer
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute
 import scala.collection.mutable.ListBuffer
@@ -8,7 +10,7 @@ import scala.collection.mutable.ListBuffer
 /**
  * Tokenizes text using Lucene Analyzers.
  */
-class LuceneTokenizer {
+class LuceneTokenizer(analyzer: String = null) {
     /**
      * Tokenizes a String.
      *
@@ -17,7 +19,7 @@ class LuceneTokenizer {
      */
     def tokenize(string: String): Seq[String] = {
         var result = new ListBuffer[String]()
-        var stream = new StandardAnalyzer().tokenStream(null, new StringReader(string))
+        var stream = getAnalyzer().tokenStream(null, new StringReader(string))
         stream.reset()
         while (stream.incrementToken()) {
             result += stream.getAttribute(classOf[CharTermAttribute]).toString()
@@ -25,4 +27,24 @@ class LuceneTokenizer {
 
         return result
     }
+
+    private def getAnalyzer(): Analyzer = {
+        return if (analyzer == "english") new EnglishAnalyzer() else new StandardAnalyzer()
+    }
+}
+
+/**
+ * Some utilities surrounding Lucene Tokenizing
+ */
+object LuceneTokenizer {
+  def getTokens(tokenString: String): Iterator[Seq[String]] = {
+    return tokenize(tokenString).grouped(10)
+  }
+
+  def tokenize(tokenString: String): Seq[String] = {
+    val tokenizer = new LuceneTokenizer("english")
+    return tokenizer.tokenize(tokenString).filter { term =>
+        term.length() > 2 && !term.matches("\\d+")
+    }
+  }
 }

@@ -8,6 +8,8 @@ import scala.util.Random
 
 import scopt.OptionParser
 
+import org.slf4j.{Logger, LoggerFactory}
+
 /**
  * Generates resume(s) from attribute files.
  */
@@ -21,6 +23,9 @@ class ResumeGenerator(attributeDir: String, json: String, coefficients: String, 
     private val degrees = readValues(attributeDir + "/degrees.txt")
     private val schools = readValues(attributeDir + "/schools.txt")
     val direc = saveDir
+
+    //logger
+    val log: Logger = LoggerFactory.getLogger(getClass())
 
     // Random index generator
     private val generator = if (json != null) {
@@ -100,16 +105,19 @@ object ResumeGenerator {
     // Command line arguments
     case class Command(attributeDir: String = "", json: String = "", coefficients: String = "", saveDir: String = "")
 
+    //logger
+    val log: Logger = LoggerFactory.getLogger(getClass())
+    
     /**
      * Main method
      */
     def main(args: Array[String]) {
 
         var nameGet = false
-        var name = "" 
+        var name = ""
         var finalDir = ""
         val pdfGenerator = new PDFGenerator()
-    
+
         val parser = new OptionParser[Command]("ResumeGenerator") {
             opt[String]('a', "attributeDir") required() valueName("<attributes dir>") action { (x, c) =>
                 c.copy(attributeDir = x)
@@ -135,18 +143,18 @@ object ResumeGenerator {
                 generator.generate().foreach { line =>
                     finalDir = generator.direc
                     if (line.endsWith("\n")) {
-                        print(line)
+                        log.info(line)
                         val trimLine = line.replace('\n', ' ')
                         pdfGenerator.addLine(trimLine)
                     }
                     else {
-                        println(line)
+                        log.info(line)
                         val trimLine2 = line.replace('\n', ' ')
                         pdfGenerator.addLine(trimLine2)
 
                         if (nameGet == false) {
                             name = trimLine2
-                            nameGet = true 
+                            nameGet = true
                         }
                     }
                 }
