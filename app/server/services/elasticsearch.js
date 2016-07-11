@@ -32,7 +32,8 @@ exports.query = function(config, params, res, query, handler) {
       sort: sort ? [sort] : null,
       query: {
         query_string: {
-          query: query
+          query: query,
+          default_operator: "AND"
         }
       }
     }
@@ -94,6 +95,10 @@ exports.suggest = function(config, term, field, res) {
     host: config.url
   });
 
+  term = term.split(" ");
+
+  var lastTerm = term.pop();
+
   client.search({
     index: config.index,
     type: config.type,
@@ -104,7 +109,7 @@ exports.suggest = function(config, term, field, res) {
           terms: {
             size: 5,
             field: field,
-            include: term,
+            include: lastTerm + ".*",
             order: {
               _count: "desc"
             }
@@ -113,13 +118,20 @@ exports.suggest = function(config, term, field, res) {
       },
       query: {
         query_string: {
-          query: term + "*"
+          query: term + "*",
+          default_operator: "AND"
         }
       }
     }
   
   }).then(function(resp) {
     var hits = module.exports.getAutocompleteKeys(resp);
+    var prefix = term.join(" ");
+
+    for (var x in hits) {
+      hits[x] = prefix + " " + hits[x];
+    }
+
     module.exports.defaultHandler(res, hits, resp.hits.total, false);
     client.close();
   }, function(err) {
