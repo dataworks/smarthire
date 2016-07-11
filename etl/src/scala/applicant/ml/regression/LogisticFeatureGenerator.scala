@@ -10,6 +10,8 @@ import org.apache.spark.mllib.feature.{Word2Vec, Word2VecModel, IDFModel}
 import org.apache.spark.mllib.linalg.{Vectors, Vector}
 import org.apache.spark.mllib.classification.{NaiveBayesModel, NaiveBayes}
 
+import org.slf4j.{Logger, LoggerFactory}
+
 /**
  * FeatureGenerator
  */
@@ -28,6 +30,9 @@ object LogisticFeatureGenerator {
 
     result
   }
+
+  //logger
+  val log: Logger = LoggerFactory.getLogger(getClass())
 
   /**
    * Calculates all of the feature scores and returns a vector of the scores
@@ -109,7 +114,7 @@ object LogisticFeatureGenerator {
       scores += score
 
       if (score < 0.95 && score > 0.05)
-        println("  Score = " + score + ", Tokens = " + tokens)
+        log.debug("  Score = " + score + ", Tokens = " + tokens)
     }
 
     // Filter overconfident scores. Model confidence with vary more with larger training sets.
@@ -122,7 +127,7 @@ object LogisticFeatureGenerator {
       result = scores.sum / scores.length
     }
 
-    println("---------Result = " + result)
+    log.debug("---------Result = " + result)
 
     return result
   }
@@ -376,8 +381,7 @@ object LogisticFeatureGenerator {
         }
       }
       catch {
-        //case ise: java.lang.IllegalStateException => println(term + " not found in w2v library")
-        case e: Exception => //println("An error occurred finding synonyms for " + term)
+        case e: Exception => 
       }
     }
     return map

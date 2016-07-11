@@ -11,6 +11,8 @@ import org.apache.commons.io.FilenameUtils
 import org.apache.commons.codec.binary.Base64
 import applicant.nlp._
 
+import org.slf4j.{Logger, LoggerFactory}
+
 import scala.collection.mutable.{Map, HashMap, LinkedHashMap}
 
 object ResumeParser {
@@ -20,6 +22,9 @@ object ResumeParser {
     esNodes: String = "", esPort: String = "", esAppIndex: String = "",
     nlpRegex: String = "", nlpModels: String = "", esAttIndex: String = "",
     fromES: Boolean = false, uploadindex: String = "")
+
+  //logger
+  val log: Logger = LoggerFactory.getLogger(getClass())
 
   /**
    * Will itialize the spark objects and pass off files to tika
@@ -79,7 +84,7 @@ object ResumeParser {
 
     //Go through the set of pdfs and parse out info
     val parsedData = fileData.map { resume =>
-      println("Parsing applicant " + resume.esId + ", " + fileCount + " files parsed")
+      log.info("Parsing applicant " + resume.esId + ", " + fileCount + " files parsed")
       fileCount += 1
 
       var entitySet: LinkedHashMap[(String, String),(String, String)] = null
@@ -115,7 +120,7 @@ object ResumeParser {
     var pdfCount = sc.accumulator(0)
 
     fileData.map{ resume =>
-      println("Parsing applicant " + resume.esId + ", " + pdfCount + " files parsed")
+      log.info("Parsing applicant " + resume.esId + ", " + pdfCount + " files parsed")
       pdfCount += 1
 
       val newId = if (oldHashMapping.contains(resume.esId)) oldHashMapping(resume.esId) else resume.esId

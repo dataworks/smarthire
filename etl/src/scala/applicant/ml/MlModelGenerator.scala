@@ -19,6 +19,8 @@ import org.apache.spark.mllib.linalg.{Vectors, Vector}
 import org.apache.spark.mllib.regression.LabeledPoint
 import scala.collection.mutable.{ListBuffer, Map, HashMap}
 
+import org.slf4j.{Logger, LoggerFactory}
+
 /**
  * MlModelGenerator is a class that will query elasticsearch for applicants who are favorited and
  *  archived and build various machine learning models out of their data
@@ -31,6 +33,9 @@ object MlModelGenerator {
     esLabelIndex: String = "", logisticModelDirectory: String = "",
     naiveBayesModelDirectory: String = "", idfModelDirectory: String = ""
     )
+
+  //logger
+  val log: Logger = LoggerFactory.getLogger(getClass())
 
   def generateMLmodel(options: Command) {
     val archivedAppListBuff = scala.collection.mutable.ListBuffer.empty[ApplicantData]
@@ -74,7 +79,7 @@ object MlModelGenerator {
 
     //If the Naive Bayes flag was set
     if (options.naiveBayesModelDirectory != "") {
-      println("Creating naive bayes model.")
+      log.info("Creating naive bayes model.")
       //First check if the idf folder option exists
       val checkFolder = new File(options.idfModelDirectory)
 
@@ -113,16 +118,16 @@ object MlModelGenerator {
         NaiveBayesHelper.saveModel(bayesModel, sc, options.naiveBayesModelDirectory)
         modelData.clear()
 
-        println("Naive bayes model created.")
+        log.info("Naive bayes model created.")
       }
       else {
-        println("The specified IDF folder location does not exist. Naive Bayes model not created.")
+        log.warn("The specified IDF folder location does not exist. Naive Bayes model not created.")
       }
     }
 
     //If the logistic regression flag was set
     if (options.logisticModelDirectory != "") {
-      println("Creating logistic regression model.")
+      log.info("Creating logistic regression model.")
       val bayesModel = NaiveBayesHelper.loadModel(sc, options.naiveBayesModelDirectory) match {
         case Some(model) =>
           model
@@ -137,7 +142,7 @@ object MlModelGenerator {
             applicantDataList.foreach { applicant =>
               val applicantScore = labelsHashMap(applicant.applicantid)
 
-              println("---------Label = " + applicantScore + ", id = " + applicant.applicantid)
+              log.debug("---------Label = " + applicantScore + ", id = " + applicant.applicantid)
 
               modelData += LabeledPoint(applicantScore, LogisticFeatureGenerator.getLogisticFeatureVec(w2vModel, bayesModel, idfModel, applicant))
             }
@@ -149,18 +154,18 @@ object MlModelGenerator {
               val applicantScore = labelsHashMap(applicant.applicantid)
             }
 
-            println("Weights:")
-            println(logisticModel.weights)
+            log.debug("Weights:")
+            log.debug(logisticModel.weights.toString())
 
             LogisticRegressionHelper.saveModel(logisticModel, sc, options.logisticModelDirectory)
 
-            println("Logistic regression model created.")
+            log.info("Logistic regression model created.")
           case None =>
-            println("No IDF model could be load. Logistic model not created.")
+            log.warn("No IDF model could be load. Logistic model not created.")
         }
       }
       else {
-        println("The bayes model could not be loaded. No logistic regression model created.")
+        log.warn("The bayes model could not be loaded. No logistic regression model created.")
       }
     }
   }

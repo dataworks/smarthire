@@ -13,6 +13,8 @@ import org.apache.commons.codec.binary.Hex
 
 import scala.collection.mutable.{LinkedHashMap, ListBuffer}
 
+import org.slf4j.{Logger, LoggerFactory}
+
 import java.net.{URL, HttpURLConnection}
 import java.io._
 
@@ -22,6 +24,9 @@ import java.io._
  */
 object PictureExtractor {
   case class Command(sparkMaster: String = "", esNodes: String = "", esPort: String = "", esAttIndex: String = "", picDirectories: String = "", githubPics: Boolean = false)
+
+  //logger
+  val log: Logger = LoggerFactory.getLogger(getClass())
 
   /**
    * Will download the profile picture from github
@@ -111,7 +116,7 @@ object PictureExtractor {
       }
     }
 
-    println(filteredProfiles.length + " github pics found")
+    log.info(filteredProfiles.length + " github pics found")
 
     sc.parallelize(filteredProfiles).saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
   }
@@ -161,18 +166,18 @@ object PictureExtractor {
 
     //Check to see if we need to load github pictures
     if (options.githubPics == true) {
-      println("Loading pictures from GitHub...")
+      log.info("Loading pictures from GitHub...")
       getGithubPictures(sc, options)
-      println("Github pictures loaded")
+      log.info("Github pictures loaded")
     }
 
     //Check to see if we need to load pictures from a directory
     if (options.picDirectories != "") {
       val directories = options.picDirectories.split(",")
       for (directory <- directories) {
-        println("Loading pictures from " + directory + "...")
+        log.info("Loading pictures from " + directory + "...")
         loadFromDirectory(sc, options, directory)
-        println("Directory pictures have finished loading")
+        log.info("Directory pictures have finished loading")
       }
     }
 

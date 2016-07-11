@@ -10,6 +10,8 @@ import scala.io.Source
 
 import scopt.OptionParser
 
+import org.slf4j.{Logger, LoggerFactory}
+
 /**
  * Searches and downloads a batch of resumes.
  */
@@ -19,6 +21,9 @@ object DownloadResumes {
 
     // Command line arguments
     case class Command(query: String = "", location: String = "", outputDir: String = "")
+
+    //Logger
+    val log: Logger = LoggerFactory.getLogger(getClass())
 
     /**
      * Builds a URLConnection and returns it's InputStream. InputStream must be closed.
@@ -41,7 +46,7 @@ object DownloadResumes {
      * @param file output file
      */
     def download(url: String, file: String) {
-        println("Downloading " + url)
+        log.info("Downloading " + url)
         val input = getConnection(url)
         val output = new BufferedOutputStream(new FileOutputStream(file))
         val buffer = new Array[Byte](8192)
@@ -74,7 +79,7 @@ object DownloadResumes {
      * @param options command line arguments
      */
     def search(options: Command) {
-        println("Searching resumes for " + options.query + " - "  + options.location)
+        log.info("Searching resumes for " + options.query + " - "  + options.location)
 
         val query = URLEncoder.encode(options.query, "UTF-8")
         val location = options.location.replace(" ", "-")
