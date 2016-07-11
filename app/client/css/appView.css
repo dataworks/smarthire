@@ -21,8 +21,9 @@
   right: 0;
 }
 
-#one{
+#four{
   cursor: unset;
+  padding-left: 0;
 }
 
 #two{
@@ -576,7 +577,7 @@ input[type='text'] {
     }
     .dropdown.dropdown-lg .dropdown-menu {
       margin-left: -1%;
-      width: 115%;
+      width: 150%;
     }
     .autocomplete{
       margin-left: 0 !important;
