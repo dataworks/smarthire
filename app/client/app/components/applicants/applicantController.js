@@ -12,6 +12,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
     $scope.pageSize = 25;
     $scope.loadingData = false;
     $scope.hasData = true;
+    $scope.scoreFinal = 0;
 
     //sorting table by column code
     $scope.propertyName = null;
@@ -32,6 +33,10 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
     var fields = ['languages', 'etl', 'web', 'mobile', 'db', 'bigData'];
     var ids = ['Language', 'ETL', 'Web', 'Mobile', 'Databases', 'Big'];
     var charts = [];
+
+    /**
+     * function that expands/collapses the rows for all applicants
+     */
 
     $('.openall').click(function(){
       if ($scope.active) {
@@ -258,6 +263,16 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
         });
 
       }
+    }
+
+    /** 
+     * converts score to an integer, score is now out of 100
+     *
+     * @param score - applicant.score from Elasticsearch, a decimal number 
+     */
+    $scope.scaleScore = function(score) {
+      $scope.scoreFinal = parseInt((score * 100), 10);
+      return $scope.scoreFinal;
     }
 
     /** 
