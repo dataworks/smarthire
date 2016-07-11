@@ -60,7 +60,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
       $scope.displayText = text;
 
       $scope.autoSuggest = Suggest.query({
-        term: $scope.searchText
+        term: $scope.displayText
       });
     }
 
