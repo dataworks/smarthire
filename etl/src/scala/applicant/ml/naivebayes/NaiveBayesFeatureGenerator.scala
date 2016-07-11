@@ -3,11 +3,11 @@ package applicant.ml.naivebayes
 import applicant.nlp.LuceneTokenizer
 import applicant.etl.ApplicantData
 import org.apache.spark.mllib.feature.{HashingTF, IDFModel}
-import org.apache.spark.mllib.linalg.{Vectors, Vector}
+import org.apache.spark.mllib.linalg.{Vectors, Vector, SparseVector}
 
 object NaiveBayesFeatureGenerator {
-  val htf = new HashingTF(1000000)
-  val tokenizer = new LuceneTokenizer()
+  val htf = new HashingTF(10000)
+  val tokenizer = new LuceneTokenizer("english")
 
   /**
    * Will return a vector of bucket size counts for the tokens from
@@ -16,8 +16,8 @@ object NaiveBayesFeatureGenerator {
    * @param applicant The data for the current applicant
    * @return A Vector of feature counts
    */
-  def getFeatureVec(applicant: ApplicantData): Vector = {
-    return htf.transform(tokenizer.tokenize(applicant.fullText))
+  def getFeatureVec(tokens: Seq[String]): Vector = {
+    return htf.transform(tokens)
   }
 
   /**
@@ -27,8 +27,7 @@ object NaiveBayesFeatureGenerator {
    * @param applicant The data for the current applicant
    * @return A Vector of feature counts
    */
-  def getAdjustedFeatureVec(applicant: ApplicantData, model: IDFModel): Vector = {
-    //println("The transformed score is " + model.transform(getFeatureVec(applicant)))
-    return model.transform(getFeatureVec(applicant))
+  def getAdjustedFeatureVec(tokens: Seq[String], model: IDFModel): Vector = {
+    return model.transform(getFeatureVec(tokens))
   }
 }

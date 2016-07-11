@@ -1,7 +1,7 @@
 package applicant.ml.regression
 
 import scala.util.Try
-import scala.collection.mutable.HashMap
+import scala.collection.mutable.{ListBuffer, HashMap}
 import applicant.nlp.LuceneTokenizer
 import applicant.etl._
 import applicant.ml.naivebayes._
@@ -54,12 +54,12 @@ object LogisticFeatureGenerator {
   def getLogisticFeatureVec(wordModel: Word2VecModel, bayesModel: NaiveBayesModel, idfModel: IDFModel, applicant: ApplicantData): Vector = {
     val featureArray = scala.collection.mutable.ArrayBuffer.empty[Double]
     //NaiveBayesScore
-    //featureArray += naiveBayesTest(bayesModel, idfModel, applicant)
+    featureArray += naiveBayesTest(bayesModel, idfModel, applicant)
     // Core key words
-    featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Spark","Hadoop","HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS","HDFS","MapReduce","Yarn","Solr","Avro","Lucene","Kibana"), 0), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Spark","Hadoop","HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS","HDFS","MapReduce","Yarn","Solr","Avro","Lucene","Kibana", "Kafka"), 0), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Oracle","Postgresql","Mysql","SQL"), 0), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Pentaho","Informatica","Streamsets","Syncsort"), 0), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("AngularJS","Javascript","Grails","Spring","Hibernate","node.js","bootstrap","Backbone","NodeJS","CSS","HTML","HTTP","DOM","Ajax","XML","jQuery","Django","REST","SOAP","NGINX","Rails"), 0), applicant.fullText)
+    featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("AngularJS","Javascript","Grails","Spring","Hibernate","node.js","CSS","HTML"), 0), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Android","iOS","Ionic","Cordova","Phonegap"), 0), applicant.fullText)
     featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Java","Scala","Groovy","C","Python","Ruby","Haskell"), 0), applicant.fullText)
 
@@ -70,23 +70,25 @@ object LogisticFeatureGenerator {
     else {
       featureArray += distanceFinder("Reston,VA", applicant.recentLocation)
     }
+
     //density of contact info
     featureArray += countContacts(applicant)
     //length of resume
     featureArray += resumeLength(applicant.fullText)
+
     //gpa value
-    if (applicant.gpa == 0.0) {
-      //featureArray += 3.0
+    /*if (applicant.gpa == 0.0) {
+      featureArray += 3.0
     }
     else {
-      //featureArray += gpaDouble(applicant.gpa)
+      featureArray += gpaDouble(applicant.gpa)
     }
 
     //Measure of degree score
-    //featureArray += degreeScore(applicant.degree)
+    featureArray += degreeScore(applicant.degree)
 
     //measure of past titles
-    //featureArray += pastTitles(applicant.recentTitle, applicant.otherTitleList.toList)
+    featureArray += pastTitles(applicant.recentTitle, applicant.otherTitleList.toList)*/
 
     return Vectors.dense(featureArray.toArray[Double])
   }
@@ -99,7 +101,29 @@ object LogisticFeatureGenerator {
    * @return The score from the test against the model
    */
   def naiveBayesTest(model: NaiveBayesModel, idfModel: IDFModel, applicant: ApplicantData): Double = {
-    val result = NaiveBayesHelper.predictSingleScore(model, NaiveBayesFeatureGenerator.getAdjustedFeatureVec(applicant, idfModel))
+    val tokenList = LuceneTokenizer.getTokens(applicant.fullText)
+    var scores = new ListBuffer[Double]()
+
+    tokenList.foreach { tokens =>
+      val score = NaiveBayesHelper.predictSingleScore(model, NaiveBayesFeatureGenerator.getAdjustedFeatureVec(tokens, idfModel))
+      scores += score
+
+      if (score < 0.95 && score > 0.05)
+        println("  Score = " + score + ", Tokens = " + tokens)
+    }
+
+    // Filter overconfident scores. Model confidence with vary more with larger training sets.
+    scores = scores.filter { score =>
+        score < 0.95 && score > 0.05
+    }
+
+    var result = 0.0
+    if (scores.length > 0) {
+      result = scores.sum / scores.length
+    }
+
+    println("---------Result = " + result)
+
     return result
   }
 

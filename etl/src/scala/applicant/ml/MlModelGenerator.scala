@@ -28,8 +28,9 @@ object MlModelGenerator {
   //Class to store command line options
   case class Command(word2vecModel: String = "", sparkMaster: String = "",
     esNodes: String = "", esPort: String = "", esAppIndex: String = "",
-    esLabelIndex: String ="", logisticModelDirectory: String = "",
-    naiveBayesModelDirectory: String = "", idfModelDirectory: String = "")
+    esLabelIndex: String = "", logisticModelDirectory: String = "",
+    naiveBayesModelDirectory: String = "", idfModelDirectory: String = ""
+    )
 
   def generateMLmodel(options: Command) {
     val archivedAppListBuff = scala.collection.mutable.ListBuffer.empty[ApplicantData]
@@ -64,7 +65,7 @@ object MlModelGenerator {
     val applicantsArray = appRDD.filter(applicantMap => labelsHashMap.contains(applicantMap("id").asInstanceOf[String])).collect()
 
     //Turn the applicant Map stuctures into a workable type
-    val applicantDataList = ListBuffer[ApplicantData]()
+    var applicantDataList = ListBuffer[ApplicantData]()
     for (app <- applicantsArray) {
       applicantDataList += ApplicantData(app)
     }
@@ -78,9 +79,17 @@ object MlModelGenerator {
       val checkFolder = new File(options.idfModelDirectory)
 
       if (checkFolder.exists()) {
+        val list: ListBuffer[Seq[String]] = new ListBuffer[Seq[String]]()
+        applicantDataList.foreach { applicant =>
+            val tokenList = LuceneTokenizer.getTokens(applicant.fullText)
+            tokenList.foreach { tokens =>
+                list += tokens
+            }
+        }
+
         //Now create the model out of raw TF vectors
-        val featureRDD = sc.parallelize(applicantDataList.map { applicant =>
-          NaiveBayesFeatureGenerator.getFeatureVec(applicant)
+        val featureRDD = sc.parallelize(list.map { tokens =>
+          NaiveBayesFeatureGenerator.getFeatureVec(tokens)
         })
 
         val idfModel = IDFHelper.createModel(featureRDD)
@@ -91,7 +100,11 @@ object MlModelGenerator {
         //Turn the applicant objects into Labeled Points
         applicantDataList.foreach { applicant =>
           val applicantScore = labelsHashMap(applicant.applicantid)
-          modelData += LabeledPoint(applicantScore, NaiveBayesFeatureGenerator.getAdjustedFeatureVec(applicant, idfModel))
+
+          val tokenList = LuceneTokenizer.getTokens(applicant.fullText)
+          tokenList.foreach { tokens =>
+            modelData += LabeledPoint(applicantScore, NaiveBayesFeatureGenerator.getAdjustedFeatureVec(tokens, idfModel))
+          }
         }
 
         //Create and save the NaiveBayes model
@@ -123,6 +136,8 @@ object MlModelGenerator {
           case Some(idfModel) =>
             applicantDataList.foreach { applicant =>
               val applicantScore = labelsHashMap(applicant.applicantid)
+
+              println("---------Label = " + applicantScore + ", id = " + applicant.applicantid)
 
               modelData += LabeledPoint(applicantScore, LogisticFeatureGenerator.getLogisticFeatureVec(w2vModel, bayesModel, idfModel, applicant))
             }
