@@ -16,7 +16,10 @@ exports.query = function(config, params, res, query, handler) {
 
   var sort = {};
   if (params && params.sort) {
-    sort[params.sort] = {"order" : (params ? params.order : null), "ignore_unmapped" : true}
+    sort[params.sort] = {
+      "order": (params ? params.order : null),
+      "ignore_unmapped": true
+    }
   }
 
   // Execute ES Query
@@ -46,7 +49,7 @@ exports.query = function(config, params, res, query, handler) {
     // Release client resources
     client.close();
   }, function(err) {
-      errorMessage(err, res)
+    errorMessage(err, res)
   });
 };
 
@@ -69,8 +72,11 @@ exports.parseSearchHits = function(resp, res) {
  * @param hits - Data in array format
  */
 exports.defaultHandler = function(res, hits, count, useCount) {
-  if(useCount)
-    res.json({"rows": hits, "size": count});
+  if (useCount)
+    res.json({
+      "rows": hits,
+      "size": count
+    });
   else
     res.json(hits);
 }
@@ -132,7 +138,7 @@ exports.aggregations = function(config, field, query, res) {
     host: config.url
   });
 
-  if(!query) {
+  if (!query) {
     client.search({
       index: config.index,
       type: config.type,
@@ -156,9 +162,8 @@ exports.aggregations = function(config, field, query, res) {
     }, function(err) {
       errorMessage(err, res);
     });
-  }
-  else {
-     client.search({
+  } else {
+    client.search({
       index: config.index,
       type: config.type,
       body: {
@@ -197,7 +202,7 @@ exports.aggregations = function(config, field, query, res) {
  */
 exports.getAutocompleteKeys = function(resp) {
   return resp.aggregations.autocomplete.buckets.map(function(hit) {
-      return hit.key;
+    return hit.key;
   });
 }
 
@@ -251,7 +256,7 @@ exports.index = function(config, params, res) {
 exports.indexUploads = function(config, params, res) {
   var client = new elasticsearch.Client({
     host: config.url
-});
+  });
 
   client.index({
     index: config.index,
@@ -293,7 +298,7 @@ exports.delete = function(config, params, res) {
     client.close();
     res.end();
   }, function(err) {
-      errorMessage(err, res);
+    errorMessage(err, res);
   });
 }
 
