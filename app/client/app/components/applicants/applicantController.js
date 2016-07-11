@@ -330,6 +330,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
       
       //calls the createQuery function in searchService.js
       $scope.searchText = $scope.searchText + advancedSearch.createQuery(csChecked, cpeChecked, itChecked, vaChecked, mdChecked, dcChecked, uvaChecked, jmuChecked, rpiChecked, devChecked, arcChecked, manChecked);
+ 
 
       $scope.applicants = Applicant.query({
         query: $scope.searchText,
