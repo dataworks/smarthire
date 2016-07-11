@@ -265,6 +265,11 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
       }
     }
 
+    /** 
+     * converts score to an integer, score is now out of 100
+     *
+     * @param score - applicant.score from Elasticsearch, a decimal number 
+     */
     $scope.scaleScore = function(score) {
       $scope.scoreFinal = parseInt((score * 100), 10);
       return $scope.scoreFinal;
