@@ -21,6 +21,10 @@
   right: 0;
 }
 
+#one{
+  cursor: unset;
+}
+
 #two{
   padding-right: 10%;
   cursor: unset;
