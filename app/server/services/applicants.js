@@ -42,9 +42,9 @@ function buildQuery(res, hits, type) {
     //same query logic * or NOT id ()
     if (ids && ids.length > 0) {
       if (type === 'new') {
-        return "NOT id:(" + ids.join(" ") + ")";
+        return "NOT id:(" + ids.join(" OR ") + ")";
       } else if (type === 'favorite' || type === 'archive' || type === 'review') {
-        return "id:(" + ids.join(" ") + ")";
+        return "id:(" + ids.join(" OR ") + ")";
       }
     }
   }
