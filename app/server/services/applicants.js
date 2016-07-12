@@ -68,14 +68,16 @@ exports.suggest = function(term, res) {
  * @param field - ES field
  */
 exports.aggregations = function(res, type, field, query) {
-  var q = "type: " + type;
+  var q = '*';
+  if(type !== 'new')
+    q = "type:" + type;
 
   esservice.query(config.labels, {size: 5000}, res, q, function(res, hits) {
     var labelQuery = buildQuery(res, hits, type);
     aggs(field, labelQuery, res);
   },function (error, response) {
     console.log(error);
-  });  
+  });
 }
 
 /**
