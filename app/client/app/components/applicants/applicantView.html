@@ -213,17 +213,17 @@
                     <thead>
                       <tr>
                         <th id="skill">Skills</th>
-                        <th id="ed" class="hidden-xs hidden-s">Education</th>
+                        <th id="ed" class="hidden-xs hidden-s">Education and Web links</th>
                         <th id="link" class="hidden-xs hidden-s">Summary</th>
                         <!-- get rid of the web links title and change it to summaries.  then combined the education and web links tabs -->
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td id='body'><b>ETL:</b><span id="valE"> {{applicant.skills.etl.join(', ')}}</span> <br> <b>Web App:</b> <span id="valW">{{applicant.skills.webapp.join(', ')}}</span> <br> <b>Languages:</b> <span id="valL">{{applicant.skills.language.join(', ')}}</span> <br> <b>Mobile:</b> <span id="valM">{{applicant.skills.mobile.join(', ')}}</span> <br> <b>Databases:</b> <span id="valD">{{applicant.skills.database.join(', ')}}</span><br> <b> Big Data:</b> <span id="valB">{{applicant.skills.bigdata.join(', ')}}</span></td>
-                        <td id='body' class="hidden-xs hidden-s"><b>School:</b> <span id="valS">{{applicant.education.school}}</span> <br> <b>GPA:</b> <span id="valGPA" ng-if="applicant.education.gpa === 0"></span><span id="valGPA" ng-if="applicant.education.gpa != 0">{{applicant.education.gpa}}</span> <br> <br> <span id="web"><b> Web Links:</b></span><br> <br>
-                         <b>Linked-in: </b><a ng-href="{{applicant.contact.linkedin}}" target="_blank">{{applicant.contact.linkedin}} </a> <br> <b> GitHub: </b><a ng-href="{{applicant.contact.github}}" target="_blank">{{applicant.contact.github}}</a> <br> <b>Indeed: </b><a ng-href="{{applicant.contact.indeed}}" target="_blank">{{applicant.contact.indeed}}</a></td>
-                         <td id='body'  class="hidden-xs hidden-s">{{applicant.summary}}</td>
+                        <td id='body'>{{applicant.summary}}</td>
+                        <td id='body' class="hidden-xs hidden-s"><b>ETL:</b><span id="valE"> {{applicant.skills.etl.join(', ')}}</span> <br> <b>Web App:</b> <span id="valW">{{applicant.skills.webapp.join(', ')}}</span> <br> <b>Languages:</b> <span id="valL">{{applicant.skills.language.join(', ')}}</span> <br> <b>Mobile:</b> <span id="valM">{{applicant.skills.mobile.join(', ')}}</span> <br> <b>Databases:</b> <span id="valD">{{applicant.skills.database.join(', ')}}</span><br> <b> Big Data:</b> <span id="valB">{{applicant.skills.bigdata.join(', ')}}</span></td>
+                        <td id='body' class="hidden-xs hidden-s"><b>School:</b> <span id="valS">{{applicant.education.school}}</span> <br> <b>GPA:</b> <span id="valGPA" ng-if="applicant.education.gpa === 0"></span><span id="valGPA" ng-if="applicant.education.gpa != 0">{{applicant.education.gpa}}</span> <br> <br> <b>Linked-in: </b><a ng-href="{{applicant.contact.linkedin}}" target="_blank">{{applicant.contact.linkedin}} </a> <br> <b> GitHub: </b><a ng-href="{{applicant.contact.github}}" target="_blank">{{applicant.contact.github}}</a> <br> <b>Indeed: </b><a ng-href="{{applicant.contact.indeed}}" target="_blank">{{applicant.contact.indeed}}</a></td>
+                         
                       </tr>
                     </tbody>
                   </table>
