@@ -202,6 +202,11 @@ a{
   width: 33% !important;
 }
 
+#web{
+  padding-left: 37%;
+  font-size: 118%;
+}
+
 /* valG, valLi, valI, valGPA, valS*/
 
   td > #valD{
