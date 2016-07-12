@@ -46,12 +46,9 @@ object ResumeParser {
     val sc = new SparkContext(conf)
 
     //Query elasticsearch for the applicants who have an email. This will be used to ensure that duplicate resumes are not saved.
-    val emailRDD = sc.esRDD("applicants/applicant")
+    val emailRDD = sc.esRDD("applicants/applicant", "?q=contact.email:*")
 
-    val emailArray = emailRDD.filter { applicantMap =>
-      val currentApplicant = ApplicantData(applicantMap._2)
-      currentApplicant.email != ""
-    }.map { applicantMap =>
+    val emailArray = emailRDD.map { applicantMap =>
       val currentApplicant = ApplicantData(applicantMap._2)
       (currentApplicant.email, currentApplicant.applicantid)
     }.collect()
@@ -62,7 +59,9 @@ object ResumeParser {
       emails += emailPair
     }
 
+    log.debug(emails.size + " emails were queried from elasticsearch")
 
+    //load the RDD of data from either the local drive or from elasticsearch
     val fileData = if (options.fromES) {
       sc.esRDD(options.uploadindex + "/upload", "?q=processed:false").values.map{ resume =>
         ResumeData(getString(resume("name")),Base64.decodeBase64(getString(resume("base64string"))), new DataInputStream(new ByteArrayInputStream(Base64.decodeBase64(getString(resume("base64string"))))),getString(resume("id")))
@@ -97,16 +96,18 @@ object ResumeParser {
       var specialOldHash: (String, String) = null
       if (emails.contains(app.email)) {
         //add the old and new applicantid to a pair so that it can be used later when saving the resume data
-        specialOldHash = (app.applicantid -> emails(app.email))
+        val oldApplicantId = emails(app.email)
+        specialOldHash = (app.applicantid -> oldApplicantId)
+        log.debug(app.applicantid + " already has an email in the system, their id will be changed to " + oldApplicantId)
 
-        app.applicantid = emails(app.email)
+        app.applicantid = oldApplicantId
       }
 
       (app.toMap() -> specialOldHash)
     }
 
     //Save the applicant maps to Elasticsearch
-    parsedData.map(_._1).saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
+    parsedData.map(_._1).collect()//.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
 
     //Add the hashes of the applicants who are already in elasticsearch to a map
     val oldHashMapping = HashMap.empty[String, String]
@@ -133,7 +134,7 @@ object ResumeParser {
         "extension" -> resume.extension,
         "metadata" -> resume.metaDataMap
         )
-    }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
+    }.collect()//.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
 
     // Set uploads processed to true after processing if we pulled from ES
     if (options.fromES) {
@@ -145,7 +146,7 @@ object ResumeParser {
           "base64string" -> resume.base64string,
           "processed" -> true
         )
-      }.saveToEs(options.uploadindex + "/upload", Map("es.mapping.id" -> "id"))
+      }.collect()//.saveToEs(options.uploadindex + "/upload", Map("es.mapping.id" -> "id"))
     }
 
     sc.stop()
