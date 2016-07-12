@@ -43,7 +43,9 @@ function buildQuery(res, hits, type) {
     if (ids && ids.length > 0) {
       if (type === 'new') {
         return "NOT id:(" + ids.join(" OR ") + ")";
-      } else if (type === 'favorite' || type === 'archive' || type === 'review') {
+      } 
+      // creates a query of all of the label types
+      else if (type === 'favorite' || type === 'archive' || type === 'review') {
         return "id:(" + ids.join(" OR ") + ")";
       }
     }
