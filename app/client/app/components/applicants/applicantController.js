@@ -309,7 +309,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
       var uvaChecked = document.getElementById("uvaCheck").checked;
       var jmuChecked = document.getElementById("jmuCheck").checked;
       var rpiChecked = document.getElementById("rpiCheck").checked;
-      var gmuChecked = document.getElementById("gmuChecked").checked;
+      var gmuChecked = document.getElementById("gmuCheck").checked;
       var devChecked = document.getElementById("devCheck").checked;
       var arcChecked = document.getElementById("arcCheck").checked;
       var manChecked = document.getElementById("manCheck").checked;
@@ -322,10 +322,24 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
       
       //calls the createQuery function in searchService.js
       $scope.searchText = $scope.searchText + advancedSearch.createQuery(csChecked, cpeChecked, itChecked, mathChecked, vaChecked, mdChecked, dcChecked, paChecked, uvaChecked, jmuChecked, rpiChecked, gmuChecked, devChecked, arcChecked, manChecked, engChecked);
-      $scope.typeChoice = 
+      
+      // if(newChecked){
+      //   $scope.typeChoice = "new";
+      // } 
+      // else if(favChecked){
+      //   $scope.typeChoice = "favorite";
+      // }
+      // else if(archChecked){
+      //   $scope.typeChoice = "archive";
+      // }
+      // else if(revChecked){
+      //   $scope.typeChoice = "review";
+      // }
+
+      // $scope.searchText = $scope.searchText + Applicant.query({type: $scope.typeChoice});
 
       $scope.applicants = Applicant.query({
-        type: $scope.selection,
+        // type: $scope.typeChoice,
         search: true,
         query: $scope.searchText,
         from: $scope.index,
