@@ -72,12 +72,16 @@ exports.aggregations = function(res, type, field, query) {
   if(type !== 'new')
     q = "type:" + type;
 
-  esservice.query(config.labels, {size: 5000}, res, q, function(res, hits) {
-    var labelQuery = buildQuery(res, hits, type);
-    aggs(field, labelQuery, res);
-  },function (error, response) {
-    console.log(error);
-  });
+  if(type) {
+    esservice.query(config.labels, {size: 5000}, res, q, function(res, hits) {
+      var labelQuery = buildQuery(res, hits, type);
+      aggs(field, labelQuery, res);
+    },function (error, response) {
+      console.log(error);
+    });
+  } else {
+      aggs(field, query, res);
+  }
 }
 
 /**
