@@ -314,11 +314,11 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
       var arcChecked = document.getElementById("arcCheck").checked;
       var manChecked = document.getElementById("manCheck").checked;
       var engChecked = document.getElementById("engCheck").checked;
-      var newChecked = document.getElementById("newCheck").checked;
-      var favChecked = document.getElementById("favCheck").checked;
-      var archChecked = document.getElementById("archCheck").checked;
-      var revChecked = document.getElementById("revCheck").checked;
-      var allChecked = document.getElementById("allCheck").checked;
+      // var newChecked = document.getElementById("newCheck").checked;
+      // var favChecked = document.getElementById("favCheck").checked;
+      // var archChecked = document.getElementById("archCheck").checked;
+      // var revChecked = document.getElementById("revCheck").checked;
+      // var allChecked = document.getElementById("allCheck").checked;
       
       //calls the createQuery function in searchService.js
       $scope.searchText = $scope.searchText + advancedSearch.createQuery(csChecked, cpeChecked, itChecked, mathChecked, vaChecked, mdChecked, dcChecked, paChecked, uvaChecked, jmuChecked, rpiChecked, gmuChecked, devChecked, arcChecked, manChecked, engChecked);
