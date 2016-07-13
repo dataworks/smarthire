@@ -160,6 +160,7 @@ exports.aggregations = function(config, field, query, res) {
         aggs: {
           aggs_name: {
             terms: {
+              size: 5,
               field: field,
               order: {
                 _count: "desc"
@@ -185,6 +186,7 @@ exports.aggregations = function(config, field, query, res) {
         aggs: {
           aggs_name: {
             terms: {
+              size: 5,
               field: field,
               order: {
                 _count: "desc"

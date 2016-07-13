@@ -339,8 +339,7 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
       // $scope.searchText = $scope.searchText + Applicant.query({type: $scope.typeChoice});
 
       $scope.applicants = Applicant.query({
-        // type: $scope.typeChoice,
-        search: true,
+        type: $scope.selection,
         query: $scope.searchText,
         from: $scope.index,
         size: $scope.pageSize,
