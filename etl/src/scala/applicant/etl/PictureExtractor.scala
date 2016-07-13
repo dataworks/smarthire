@@ -71,7 +71,9 @@ object PictureExtractor {
       ))
     }
     catch {
-      case ex: Exception => return None
+      case ex: Exception =>
+        log.warn("There was an error when trying to connect to the url " + urlStr)
+        return None
     }
   }
 

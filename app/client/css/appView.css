@@ -202,6 +202,7 @@ a{
   width: 33% !important;
 }
 
+
 /* valG, valLi, valI, valGPA, valS*/
 
   td > #valD{
@@ -567,6 +568,9 @@ input[type='text'] {
   #size{
     display: none;
     background-color: yellow;
+  }
+  body{
+    padding-top: 5.5%;
   }
 }
 

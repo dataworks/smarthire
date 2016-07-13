@@ -69,7 +69,8 @@ class ApplicantData {
         "url" -> urlList,
         "githubData" -> githubData,
         "resume" -> fullText
-      )
+      ),
+      "summary" -> ResumeSummarizer.summarize(fullText, 150)
     )
     return map
   }

@@ -67,6 +67,11 @@
   font-family: 'Gurajada', serif;
 }
 
+#Language{
+  width: 285px !important;
+  height: 273px !important;
+}
+
 #e2{
   width: 38%;
   height: auto;
@@ -74,6 +79,11 @@
   font-size: 225%;
   text-align: center;
   font-family: 'Gurajada', serif;
+}
+
+#ETL{
+  width: 285px !important;
+  height: 273px !important;
 }
 
 #w2{
@@ -85,12 +95,23 @@
   font-family: 'Gurajada', serif;
 }
 
+#Web{
+  font-size: 118%;
+  width: 300px !important;
+  height: 273px !important;
+}
+
 #m2{
   width: 38%;
   height: auto;
   font-size: 225%;
   text-align: center;
   font-family: 'Gurajada', serif;
+}
+
+#Mobile{
+  width: 285px !important;
+  height: 273px !important;
 }
 
 #da2{
@@ -102,6 +123,11 @@
   font-family: 'Gurajada', serif;
 }
 
+#Databases{
+  width: 285px !important;
+  height: 273px !important;
+}
+
 #b2{
   width: 38%;
   height: auto;
@@ -110,11 +136,16 @@
   font-family: 'Gurajada', serif;
 }
 
+#Big{
+  width: 300px !important;
+  height: 273px !important;
+}
+
 div > #charts12, div > #charts22, div > #charts32 {
   display: flex;
   position: relative;
-  left: 5%;
-  bottom: 135px;
+  left: 3.5%;
+  bottom: 170px;
   height: 100%;
   width: auto;
 }
