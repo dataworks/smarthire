@@ -10,6 +10,8 @@ import org.elasticsearch.spark._
 import org.apache.commons.io.FilenameUtils
 import org.apache.commons.codec.binary.Base64
 import applicant.nlp._
+import java.nio.file.{Files, Paths}
+import java.nio.charset.Charset
 
 import org.slf4j.{Logger, LoggerFactory}
 
@@ -21,7 +23,7 @@ object ResumeParser {
   case class Command(sourceDirectory: String = "", sparkMaster: String = "",
     esNodes: String = "", esPort: String = "", esAppIndex: String = "",
     nlpRegex: String = "", nlpModels: String = "", esAttIndex: String = "",
-    fromES: Boolean = false, uploadindex: String = "")
+    fromSource: Int = 1, uploadindex: String = "", accesskey: String = "")
 
   //logger
   val log: Logger = LoggerFactory.getLogger(getClass())
@@ -32,6 +34,10 @@ object ResumeParser {
   def parseResumes(options: Command) {
     //File path from the command line, uses wildcard to open all files
     val filesPath = options.sourceDirectory + "*"
+    // File path to AWS access key file
+    val keys = Files.readAllLines(Paths.get(options.accesskey), Charset.defaultCharset())
+    val accessKeyId = keys.get(0)
+    val secretAccessKey = keys.get(1)
     //Create Spark configuration object, with Elasticsearch configuration
     val conf = new SparkConf().setMaster(options.sparkMaster)
       .setAppName("ResumeParser").set("es.nodes", options.esNodes)
@@ -44,6 +50,9 @@ object ResumeParser {
 
     //Create Spark RDD using conf
     val sc = new SparkContext(conf)
+    sc.hadoopConfiguration.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
+    sc.hadoopConfiguration.set("fs.s3a.access.key", accessKeyId)
+    sc.hadoopConfiguration.set("fs.s3a.secret.key", secretAccessKey)
 
     //Query elasticsearch for the applicants who have an email. This will be used to ensure that duplicate resumes are not saved.
     val emailRDD = sc.esRDD("applicants/applicant", "?q=contact.email:*")
@@ -61,10 +70,16 @@ object ResumeParser {
 
     log.debug(emails.size + " emails were queried from elasticsearch")
 
+
     //load the RDD of data from either the local drive or from elasticsearch
-    val fileData = if (options.fromES) {
+    val fileData = if (options.fromSource == 2) {
       sc.esRDD(options.uploadindex + "/upload", "?q=processed:false").values.map{ resume =>
         ResumeData(getString(resume("name")),Base64.decodeBase64(getString(resume("base64string"))), new DataInputStream(new ByteArrayInputStream(Base64.decodeBase64(getString(resume("base64string"))))),getString(resume("id")))
+      }
+    }
+    else if (options.fromSource == 3) { // S3 URI hardcoded now, can add scopt later
+      sc.binaryFiles("s3a://resumes.interns.dataworks-inc.com/*").values.map{ resume =>
+        ResumeData(FilenameUtils.getName(resume.getPath()),resume.toArray,resume.open,"")
       }
     }
     else {
@@ -138,7 +153,7 @@ object ResumeParser {
     }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
 
     // Set uploads processed to true after processing if we pulled from ES
-    if (options.fromES) {
+    if (options.fromSource == 2) {
       fileData.map{ resume =>
         Map(
           "id" -> resume.uploadId,
@@ -149,7 +164,7 @@ object ResumeParser {
         )
       }.saveToEs(options.uploadindex + "/upload", Map("es.mapping.id" -> "id"))
     }
-
+ 
     sc.stop()
 
   }
@@ -196,9 +211,12 @@ object ResumeParser {
         opt[String]('u', "uploadindex") required() valueName("<uploadindex>") action { (x, c) =>
             c.copy(uploadindex = x)
         } text ("Name of the Elasticsearch upload index to pull resumes from")
-        opt[Unit]('f', "fromElasticsearch") action { (_, c) =>
-            c.copy(fromES = true)
-        } text("A flag used to specify loading resumes from elasticsearch uploads")
+        opt[Int]('f', "fromSource") action { (x, c) =>
+            c.copy(fromSource = x)
+        } text("Flag for data source:\n   1 - Local file system\n   2 - Elasticsearch\n   3 - AWS S3")
+        opt[String]('k', "accesskey") required() valueName("<accesskey>") action { (x, c) =>
+            c.copy(accesskey = x)
+        } text ("Path to AWS S3 Access Key file, DO NOT CHECK IN GIT")
 
         note ("Reades through a directory of resumes, parses the text from each, and saves the applicant data to Elasticsearch\n")
         help("help") text("Prints this usage text")
