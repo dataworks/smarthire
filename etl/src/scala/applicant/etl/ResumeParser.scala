@@ -72,6 +72,7 @@ object ResumeParser {
         ResumeData(FilenameUtils.getName(resume.getPath()),resume.toArray,resume.open,"")
       }
     }
+
     // Create EntityExtractor object
     val models = options.nlpModels.split(",")
     val patterns = options.nlpRegex
@@ -107,7 +108,7 @@ object ResumeParser {
     }
 
     //Save the applicant maps to Elasticsearch
-    parsedData.map(_._1).collect()//.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
+    parsedData.map(_._1).saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
 
     //Add the hashes of the applicants who are already in elasticsearch to a map
     val oldHashMapping = HashMap.empty[String, String]
@@ -134,7 +135,7 @@ object ResumeParser {
         "extension" -> resume.extension,
         "metadata" -> resume.metaDataMap
         )
-    }.collect()//.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
+    }.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
 
     // Set uploads processed to true after processing if we pulled from ES
     if (options.fromES) {
@@ -146,7 +147,7 @@ object ResumeParser {
           "base64string" -> resume.base64string,
           "processed" -> true
         )
-      }.collect()//.saveToEs(options.uploadindex + "/upload", Map("es.mapping.id" -> "id"))
+      }.saveToEs(options.uploadindex + "/upload", Map("es.mapping.id" -> "id"))
     }
 
     sc.stop()
