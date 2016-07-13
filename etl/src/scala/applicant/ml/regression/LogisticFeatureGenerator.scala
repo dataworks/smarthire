@@ -31,6 +31,12 @@ object LogisticFeatureGenerator {
     result
   }
 
+  //Position keywords used to add to experience
+  val titleKeywords : List[String] = List("technology", "computer", "information", "engineer", "developer", "software", "analyst", "application", "admin")
+
+  //Degree keywords used to scale the gpa
+  val degreeKeywords : List[String] = List("tech", "computer", "information", "engineer", "c.s.", "programming", "I.S.A.T.")
+
   //logger
   val log: Logger = LoggerFactory.getLogger(getClass())
 
@@ -48,9 +54,7 @@ object LogisticFeatureGenerator {
    *  8) Measure of distance from recent location
    *  9) Density of contact info
    *  10) The length of the resume
-   *  --nixed 11) The GPA
-   *  --nixed 12) What type and how technical their degree
-   *  --nixed 13) How technical their positions have been
+   *  11) Strength of previous history (positions, gpa, school)
    *
    * @param model A word2VecModel uses to find synonyms
    * @param applicant The applicant whose features are needed
@@ -61,12 +65,12 @@ object LogisticFeatureGenerator {
     //NaiveBayesScore
     featureArray += naiveBayesTest(bayesModel, idfModel, applicant)
     // Core key words
-    featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Spark","Hadoop","HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS","HDFS","MapReduce","Yarn","Solr","Avro","Lucene","Kibana", "Kafka"), 0), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Oracle","Postgresql","Mysql","SQL"), 0), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Pentaho","Informatica","Streamsets","Syncsort"), 0), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("AngularJS","Javascript","Grails","Spring","Hibernate","node.js","CSS","HTML"), 0), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Android","iOS","Ionic","Cordova","Phonegap"), 0), applicant.fullText)
-    featureArray += keywordSynonyms(w2vSynonymMapper(wordModel, List("Java","Scala","Groovy","C","Python","Ruby","Haskell"), 0), applicant.fullText)
+    featureArray += keywordSearch(List("Spark","Hadoop","HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS","HDFS","MapReduce","Yarn","Solr","Avro","Lucene","Kibana", "Kafka"), applicant.fullText)
+    featureArray += keywordSearch(List("Oracle","Postgresql","Mysql","SQL"), applicant.fullText)
+    featureArray += keywordSearch(List("Pentaho","Informatica","Streamsets","Syncsort"), applicant.fullText)
+    featureArray += keywordSearch(List("AngularJS","Javascript","Grails","Spring","Hibernate","node.js","CSS","HTML"), applicant.fullText)
+    featureArray += keywordSearch(List("Android","iOS","Ionic","Cordova","Phonegap"), applicant.fullText)
+    featureArray += keywordSearch(List("Java","Scala","Groovy","C","Python","Ruby","Haskell"), applicant.fullText)
 
     //distance from Reston VA
     if (applicant.recentLocation == "") {
@@ -81,19 +85,7 @@ object LogisticFeatureGenerator {
     //length of resume
     featureArray += resumeLength(applicant.fullText)
 
-    //gpa value
-    /*if (applicant.gpa == 0.0) {
-      featureArray += 3.0
-    }
-    else {
-      featureArray += gpaDouble(applicant.gpa)
-    }
-
-    //Measure of degree score
-    featureArray += degreeScore(applicant.degree)
-
-    //measure of past titles
-    featureArray += pastTitles(applicant.recentTitle, applicant.otherTitleList.toList)*/
+    featureArray += history(applicant)
 
     return Vectors.dense(featureArray.toArray[Double])
   }
@@ -136,23 +128,29 @@ object LogisticFeatureGenerator {
    * Will look through a the resume string seeing if the resume contains at
    *  least 2 of a set of keywords
    *
-   * @param w2vmap Word2Vec synonym map
+   * @param keywordList A list of terms that are searched
    * @param resume Full string of parsed resume
    * @return First feature score framed to 0-1
    */
-  def keywordSynonyms (w2vmap: HashMap[String,Int], resume: String): Double = {
+  def keywordSearch (keywordList: List[String], resume: String): Double = {
     val tokenizer = new LuceneTokenizer()
     val resumeArray = tokenizer.tokenize(resume) //Converts to lowercase
     var matches : Double = 0.0
 
+    val map = HashMap.empty[String, Int]
+
+    for (item <- keywordList) {
+      map += (item.toLowerCase -> 0)
+    }
+
     resumeArray.foreach { word =>
-      if (w2vmap.contains(word)){
-        val currentWordCount = w2vmap(word)
-        w2vmap += (word -> (currentWordCount + 1))
+      if (map.contains(word)){
+        val currentWordCount = map(word)
+        map += (word -> (currentWordCount + 1))
       }
     }
 
-    w2vmap.foreach{ case (k,v) =>
+    map.foreach{ case (k,v) =>
       if (v >= 2){
         if (v > 5) {
           matches += 5.0
@@ -163,11 +161,17 @@ object LogisticFeatureGenerator {
       }
     }
 
-    val rawScore = matches/(w2vmap.size*4.0)
+    val rawScore = matches/(map.size*4.0)
 
     return if (rawScore > 1.0) 1.0 else rawScore
   }
 
+  /**
+   * Will convert a location string into the city and state
+   *
+   * @param location The loaction string
+   * @return A pair of the city name and state name
+   */
   def locationToPair(location: String): (String, String) = {
     val tokens = location.split(",")
     if (tokens.length == 2) {
@@ -282,109 +286,77 @@ object LogisticFeatureGenerator {
   }
 
   /**
-   * Converts the GPA field stored in ApplicantData to a double
-   * (note: nlp gpa parser can be improved by changing gpa in regex.txt to omit the word "GPA")
-   * @param gpa gpa string from applicant
-   * @return gpa as a double
+   * Will look through a list of keywords and check if the search string contains
+   *  any of them
    */
-  def gpaDouble (gpa: Double) : Double = {
-    try {
-      if (gpa >= 4.0) {
-        return 1.0
-      }
-      else {
-        return gpa / 4.0
+  private def stringListContainment(search: String, lst: Seq[String]): Boolean = {
+    val check = search.toLowerCase
+    for (item <- lst) {
+      if (check.contains(item)) {
+        return true
       }
     }
-    catch {
-      case ex: Exception => return 0.0
-    }
+    return false
   }
 
   /**
-   * Will check what kind of degree the user has and assign score based
-   *  on its techiness
+   * Will check if a position string contains certain keywords
+   *  that indicate if it is a tech position
+   */
+  def checkPosition(currentScore: Double, pos: String): Double = {
+    if (stringListContainment(pos, titleKeywords)) {
+      return currentScore + 1.0
+    }
+    return currentScore
+  }
+
+  /**
+   * Will check if a degree string contains certain keywords
+   *  that indicate if it is a tech degree
+   */
+  def checkDegree(deg: String): Boolean = {
+    return stringListContainment(deg, degreeKeywords)
+  }
+
+  /**
+   * Will scale a GPA by a specified amount and adjust
+   *  it extra so that very low gpas do not give much credit
+   */
+  private def gpaScaler(gpa: Double, scale: Double): Double = {
+    return (gpa*gpa*scale)/4.0
+  }
+
+  /**
+   * Will take gpa, education, and past titles all into account
    *
-   * @param degree The degree field parsed out from the resume
-   * @return score of degree
-   */
-  def degreeScore (degree: String) : Double = {
-    var degreeVal = 0.0
-    val degreeKeywords : List[String] = List("tech", "computer", "information", "engineer", "c.s.", "program")
-    //give point if degree is parsed
-    if (degree != "") {
-      degreeVal += 1.0
-    }
-    //give point if degree is masters, else 0.5 for bachelors
-    if (degree.toLowerCase.contains("master")) {
-      degreeVal += 1.0
-    }
-    else if(degree.toLowerCase.contains("bachelor")) {
-      degreeVal += 0.5
-    }
-    //give 2 points if tech degreeVal
-    if (degreeKeywords.exists(degree.toLowerCase.contains)) {
-      degreeVal += 2.0
-    }
-    return degreeVal / 4.5
-  }
-
-  /**
-   * Will look through the past positions the user has had and
-   *  whether they were tech related
+   * Since gpa is often not included once experience is gained,
+   *  a score for gpa is calculated, and a score for experience is
+   *    calculated, and the higher score is the one that is chosen.
    *
-   * @param recentTitle Current position
-   * @param pastTitles List of previous positions
-   * @return Double representing number of titles and if tech related
+   * Because both education and gpa are both related to school,
+   *  the type of degree will scale the gpa
+   *
+   * @param applicant The applicant that is to be judged
+   * @return A double corresponding to the level of historical aptitutde
    */
-  def pastTitles (recentTitle: String, pastTitles: List[String]) : Double = {
-    var titleScore = 0.0
-    val titleKeywords : List[String] = List("tech", "computer", "information", "engineer", "developer", "software", "analyst")
-    if (recentTitle != "") {
-      titleScore += 1.0
+  def history(applicant: ApplicantData): Double = {
+    var rawGPA = applicant.gpa
+
+    //Scale the gpa by the type of degree
+    if (checkDegree(applicant.degree)) {
+      rawGPA = gpaScaler(rawGPA, 0.5)
+    } else {
+      rawGPA *= gpaScaler(rawGPA, 0.25)
     }
-    titleScore += pastTitles.length
-    for (title <- pastTitles) {
-      if (titleKeywords.exists(title.toLowerCase.contains)) {
-        titleScore += 1.0
-      }
+
+    var positionScore = 0.0
+    positionScore = checkPosition(positionScore, applicant.recentTitle)
+    for (position <- applicant.otherTitleList) {
+      positionScore = checkPosition(positionScore, applicant.recentTitle)
     }
-    if (titleScore >= 5.0) {
-      return 1.0
-    }
-    else {
-      return titleScore/5.0
-    }
+
+    val maxScore = Math.max(rawGPA, positionScore) / 4.0
+
+    return if (maxScore > 1.0) 1.0 else maxScore
   }
-
-  /**
-   * Creates a hash map of w2v synonyms and booleans
-   * @param model A w2v model generated from source data
-   * @param terms The search terms to find synonyms for
-   * @param synonymCount Number of synonyms to return per term
-   * @return A hash map of the synonyms as keys and booleans as values
-   */
-  def w2vSynonymMapper(model: Word2VecModel, terms: List[String], synonymCount: Int) : HashMap[String,Int] = {
-    val map = HashMap.empty[String,Int]
-    terms.foreach{ term =>
-      try {
-        map += (term.toLowerCase() -> 0)
-
-        if (synonymCount != 0) {
-          val synonyms = model.findSynonyms(term.toLowerCase(), synonymCount)
-          for((synonym, cosineSimilarity) <- synonyms) {
-            //Filter out numbers
-            if (!Character.isDigit(synonym.charAt(0))) {
-              map += (synonym.toLowerCase() -> 0)
-            }
-          }
-        }
-      }
-      catch {
-        case e: Exception => 
-      }
-    }
-    return map
-  }
-
 }
