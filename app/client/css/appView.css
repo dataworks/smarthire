@@ -569,6 +569,9 @@ input[type='text'] {
     display: none;
     background-color: yellow;
   }
+  body{
+    padding-top: 3.5%;
+  }
 }
 
 /*for phones*/
