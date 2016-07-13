@@ -96,9 +96,8 @@
 }
 
 #Web{
-  padding-left: 37%;
   font-size: 118%;
-  width: 400px !important;
+  width: 285px !important;
   height: 273px !important;
 }
 
@@ -125,7 +124,7 @@
 }
 
 #Databases{
-  width: 315px !important;
+  width: 285px !important;
   height: 273px !important;
 }
 
@@ -138,7 +137,7 @@
 }
 
 #Big{
-  width: 315px !important;
+  width: 300px !important;
   height: 273px !important;
 }
 
