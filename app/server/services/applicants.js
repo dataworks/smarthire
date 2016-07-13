@@ -15,10 +15,10 @@ exports.listApplicants = function(req, res, type) {
   }
 
   if (req.query.query) { 
-    esservice.query(config.applicants, req.query, res, req.query.query, null);
+    esservice.query(config.applicants, req.query, res, {query: { query_string: { query: req.query.query, default_operator: "AND" }}}, null);
   }
   else {
-    esservice.query(config.labels, {size: 5000}, res, query, function(res, hits) {
+    esservice.query(config.labels, {size: 5000}, res, {query: { query_string: { query: query, default_operator: "AND" }}}, function(res, hits) {
       var labelQuery = buildQuery(res, hits, type);
       esservice.query(config.applicants, req.query, res, labelQuery, null);
     },function (error, response) {
@@ -39,18 +39,24 @@ function buildQuery(res, hits, type) {
     var ids = hits.map(function(hit) {
       return hit.id;
     });
+
     //same query logic * or NOT id ()
     if (ids && ids.length > 0) {
       if (type === 'new') {
-        return "NOT id:(" + ids.join(" OR ") + ")";
+        return {query: {bool: { must_not: { ids: { values:  ids }}}}}
+        //return "NOT id:(" + ids.join(" OR ") + ")";
       } 
       // creates a query of all of the label types
       else if (type === 'favorite' || type === 'archive' || type === 'review') {
-        return "id:(" + ids.join(" OR ") + ")";
+        return {query: {bool: { must: { ids: { values:  ids }}}}}
+        //return "id:(" + ids.join(" OR ") + ")";
       }
     }
-  }
-  return type === 'new' ? '*' : ' ';
+  } 
+
+  //return type === 'new' ? '*' : ' ';
+  return {query: { query_string: { query: " ", default_operator: "AND" }}}
+  
 }
 
 /*
@@ -70,18 +76,20 @@ exports.suggest = function(term, res) {
  * @param field - ES field
  */
 exports.aggregations = function(res, type, field, query) {
+  console.log(type)
   var q = '*';
   if(type !== 'new')
     q = "type:" + type;
 
   if(type) {
-    esservice.query(config.labels, {size: 5000}, res, q, function(res, hits) {
+    esservice.query(config.labels, {size: 5000}, res, {query: { query_string: { query: q, default_operator: "AND" }}}, function(res, hits) {
       var labelQuery = buildQuery(res, hits, type);
       aggs(field, labelQuery, res);
     },function (error, response) {
       console.log(error);
     });
   } else {
+      console.log("hello")
       aggs(field, query, res);
   }
 }

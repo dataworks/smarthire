@@ -30,12 +30,13 @@ exports.query = function(config, params, res, query, handler) {
     size: params ? params.size : null,
     body: {
       sort: sort ? [sort] : null,
-      query: {
-        query_string: {
-          query: query,
-          default_operator: "AND"
-        }
-      }
+      query: query.query
+
+        // query_string: {
+        //   query: query,
+        //   default_operator: "AND"
+        // }
+      
     }
   }).then(function(resp) {
     // Parse ES response and send result back
@@ -180,11 +181,7 @@ exports.aggregations = function(config, field, query, res) {
       type: config.type,
       body: {
         size: 0,
-        query: {
-          query_string: {
-            query: query
-          }
-        },
+        query: query.query,
         aggs: {
           aggs_name: {
             terms: {
