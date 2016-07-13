@@ -144,8 +144,8 @@
 div > #charts12, div > #charts22, div > #charts32 {
   display: flex;
   position: relative;
-  left: 5%;
-  bottom: 135px;
+  left: 3.5%;
+  bottom: 170px;
   height: 100%;
   width: auto;
 }
