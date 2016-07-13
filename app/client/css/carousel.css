@@ -68,7 +68,8 @@
 }
 
 #Language{
-  width: 390px !important;
+  width: 285px !important;
+  height: 273px !important;
 }
 
 #e2{
@@ -81,7 +82,8 @@
 }
 
 #ETL{
-  width: 390px !important;
+  width: 285px !important;
+  height: 273px !important;
 }
 
 #w2{
@@ -96,7 +98,8 @@
 #Web{
   padding-left: 37%;
   font-size: 118%;
-  width: 390px !important;
+  width: 400px !important;
+  height: 273px !important;
 }
 
 #m2{
@@ -108,7 +111,8 @@
 }
 
 #Mobile{
-  width: 390px !important;
+  width: 285px !important;
+  height: 273px !important;
 }
 
 #da2{
@@ -121,7 +125,8 @@
 }
 
 #Databases{
-  width: 390px !important;
+  width: 315px !important;
+  height: 273px !important;
 }
 
 #b2{
@@ -133,7 +138,8 @@
 }
 
 #Big{
-  width: 390px !important;
+  width: 315px !important;
+  height: 273px !important;
 }
 
 div > #charts12, div > #charts22, div > #charts32 {
