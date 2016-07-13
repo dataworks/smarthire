@@ -72,6 +72,7 @@ object ResumeParser {
         ResumeData(FilenameUtils.getName(resume.getPath()),resume.toArray,resume.open,"")
       }
     }
+
     // Create EntityExtractor object
     val models = options.nlpModels.split(",")
     val patterns = options.nlpRegex
