@@ -275,6 +275,13 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
       return $scope.scoreFinal;
     }
 
+    $scope.parseString = function(object) {
+      var finalString = String(object);
+      var htmlObject = document.createElement('div');
+      htmlObject.innerHTML = finalString;
+      return htmlObject.innerHTML;
+    }
+
     /** 
      * return image from a link
      *
