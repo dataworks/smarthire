@@ -43,8 +43,8 @@ object LogisticFeatureGenerator {
    *
    * @return a map of features to 0.0
    */
-  def getEmptyFeatureMap(): Map[String, Double] = {
-    return Map(featureList.map ( feature => (feature, 0.0) ) : _*)
+  def getEmptyFeatureList(): ListBuffer[(String, Double)] = {
+    return featureList.map ( feature => (feature, 0.0) ).to[ListBuffer]
   }
 
   /**
@@ -54,9 +54,9 @@ object LogisticFeatureGenerator {
    *              with their feature names
    * @return A map of feature names with their score
    */
-  def getPopulatedFeatureMap(vec: Vector): Map[String, Double] = {
+  def getPopulatedFeatureList(vec: Vector): ListBuffer[(String, Double)] = {
     val featureVals = vec.toArray
-    return Map((featureList zip featureVals) : _*)
+    return (featureList zip featureVals).to[ListBuffer]
   }
 }
 
@@ -230,6 +230,20 @@ class LogisticFeatureGenerator {
       return (city, state)
     }
     return ("", "")
+  }
+
+
+  /**
+   * Will give a double from 0 - 1 based on distance
+   *
+   * @param meters the distance in meters
+   * @return a double from 0 to 1
+   *          0 signifies far away
+   *          1 signifies close by
+   */
+  def scaleDistance(meters: Double): Double = {
+    val maxDistance = 4500000.0
+    return if (meters >= maxDistance) 0.0 else (1 - (meters/maxDistance))
   }
 
   /**
