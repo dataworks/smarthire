@@ -88,7 +88,10 @@ exports.aggregations = function(res, type, field, query) {
       console.log(error);
     });
   } else {
-      aggs(field, { query_string: { query: query, default_operator: "AND" }}, res);
+      if(query)
+        aggs(field, { query_string: { query: query, default_operator: "AND" }}, res);
+      else
+        aggs(field, query, res);
   }
 }
 
