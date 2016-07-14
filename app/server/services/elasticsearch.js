@@ -30,7 +30,7 @@ exports.query = function(config, params, res, query, handler) {
     size: params ? params.size : null,
     body: {
       sort: sort ? [sort] : null,
-      query: query.query
+      query: query
 
         // query_string: {
         //   query: query,
@@ -182,7 +182,7 @@ exports.aggregations = function(config, field, query, res) {
       type: config.type,
       body: {
         size: 0,
-        query: query.query,
+        query: query,
         aggs: {
           aggs_name: {
             terms: {
