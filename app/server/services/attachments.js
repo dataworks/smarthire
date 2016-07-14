@@ -15,7 +15,7 @@ var config = require("./config.js");
     query = "applicantid:" + req.query.id + " NOT metadata.Content-Type:image";
   }
 
-  esservice.query(config.attachments, null, res, query, function(res, hits) {
+  esservice.query(config.attachments, null, res, { query_string: { query: query, default_operator: "AND" }}, function(res, hits) {
     if (hits.length > 0) {
       var source = hits[0];
       var buffer = new Buffer(source.base64string, 'base64');

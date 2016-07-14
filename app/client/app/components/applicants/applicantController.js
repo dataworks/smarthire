@@ -358,8 +358,7 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       $scope.searchText = $scope.searchText + advancedSearch.createQuery(csChecked, cpeChecked, itChecked, mathChecked, vaChecked, mdChecked, dcChecked, paChecked, uvaChecked, jmuChecked, rpiChecked, gmuChecked, devChecked, arcChecked, manChecked, engChecked);
 
       $scope.applicants = Applicant.query({
-        // type: $scope.typeChoice,
-        search: true,
+        type: $scope.selection,
         query: $scope.searchText,
         from: $scope.index,
         size: $scope.pageSize,

@@ -14,6 +14,8 @@ exports.query = function(config, params, res, query, handler) {
     host: config.url
   });
 
+  //console.log(query)
+
   var sort = {};
   if (params && params.sort) {
     sort[params.sort] = {
@@ -30,12 +32,14 @@ exports.query = function(config, params, res, query, handler) {
     size: params ? params.size : null,
     body: {
       sort: sort ? [sort] : null,
-      query: {
-        query_string: {
-          query: query,
-          default_operator: "AND"
-        }
-      }
+      query: query
+     // highlight: query.highlight
+     //  highlight: {
+     //  fields: {
+     //    "*": {}
+     //  },
+     //  require_field_match: false
+     // }
     }
   }).then(function(resp) {
     // Parse ES response and send result back
@@ -159,6 +163,7 @@ exports.aggregations = function(config, field, query, res) {
         aggs: {
           aggs_name: {
             terms: {
+              size: 5,
               field: field,
               order: {
                 _count: "desc"
@@ -180,14 +185,11 @@ exports.aggregations = function(config, field, query, res) {
       type: config.type,
       body: {
         size: 0,
-        query: {
-          query_string: {
-            query: query
-          }
-        },
+        query: query,
         aggs: {
           aggs_name: {
             terms: {
+              size: 5,
               field: field,
               order: {
                 _count: "desc"
