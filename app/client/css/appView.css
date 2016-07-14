@@ -692,3 +692,7 @@ input[type='text'] {
 .carousel.ng-hide {
   opacity: 0;
 }
+
+mark {
+  background-color: #FFFF00;
+}
