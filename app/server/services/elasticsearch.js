@@ -32,7 +32,7 @@ exports.query = function(config, params, res, query, handler) {
     size: params ? params.size : null,
     body: {
       sort: sort ? [sort] : null,
-      query: query
+      query: query.query
      // highlight: query.highlight
      //  highlight: {
      //  fields: {

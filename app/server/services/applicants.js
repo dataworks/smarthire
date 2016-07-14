@@ -15,11 +15,10 @@ exports.listApplicants = function(req, res, type) {
   }
 
   if (req.query.query) { 
-<<<<<<< HEAD
     esservice.query(config.applicants, req.query, res, {query_string: { query: req.query.query, default_operator: "AND" }, highlight: { fields: { "*":{}},require_field_match: false}}, null);
   }
   else {
-    esservice.query(config.labels, {size: 5000}, res, {query_string: { query: query, default_operator: "AND" }}, highlight: { fields: { "*":{}},require_field_match: false}}, function(res, hits) {
+    esservice.query(config.labels, {size: 5000}, res, {query_string: { query: query, default_operator: "AND" }, highlight: { fields: { "*":{}},require_field_match: false}}, function(res, hits) {
       var labelQuery = buildQuery(res, hits, type);
       esservice.query(config.applicants, req.query, res, labelQuery, null);
     },function (error, response) {
@@ -44,32 +43,19 @@ function buildQuery(res, hits, type) {
     //same query logic * or NOT id ()
     if (ids && ids.length > 0) {
       if (type === 'new') {
-<<<<<<< HEAD
-        return {query: {bool: { must_not: { ids: { values:  ids }}}}, highlight: { fields: { "*":{}},require_field_match: false}}
-=======
         return {bool: { must_not: { ids: { values:  ids }}}}
->>>>>>> c12367d79816a396b6caad86f6164a4b1d14235a
         //return "NOT id:(" + ids.join(" OR ") + ")";
       } 
       // creates a query of all of the label types
       else if (type === 'favorite' || type === 'archive' || type === 'review') {
-<<<<<<< HEAD
-        return {query: {bool: { must: { ids: { values:  ids }}}}, highlight: { fields: { "*":{}},require_field_match: false}}
-=======
         return {bool: { must: { ids: { values:  ids }}}}
->>>>>>> c12367d79816a396b6caad86f6164a4b1d14235a
         //return "id:(" + ids.join(" OR ") + ")";
       }
     }
   } 
 
   //return type === 'new' ? '*' : ' ';
-<<<<<<< HEAD
-  return {query: { query_string: { query: " ", default_operator: "AND" }}, highlight: { fields: { "*":{}},require_field_match: false}}
-=======
   return { query_string: { query: " ", default_operator: "AND" }}
->>>>>>> c12367d79816a396b6caad86f6164a4b1d14235a
-  
 }
 
 /*
@@ -101,12 +87,7 @@ exports.aggregations = function(res, type, field, query) {
       console.log(error);
     });
   } else {
-<<<<<<< HEAD
-     // console.log("hello")
-      aggs(field, query, res);
-=======
       aggs(field, { query_string: { query: query, default_operator: "AND" }}, res);
->>>>>>> c12367d79816a396b6caad86f6164a4b1d14235a
   }
 }
 
