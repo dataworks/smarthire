@@ -25,6 +25,7 @@ class ApplicantData {
   var otherLocationList: ListBuffer[String] = new ListBuffer[String]()
   var otherOrganizationList: ListBuffer[String] = new ListBuffer[String]()
   var df: DecimalFormat = new DecimalFormat("#.##")
+  var featureScores = Map[String, Double]()
   var githubData = Map[String,String]()
   var score = -1.0
   var gpa = 0.0
@@ -70,7 +71,8 @@ class ApplicantData {
         "githubData" -> githubData,
         "resume" -> fullText
       ),
-      "summary" -> ResumeSummarizer.summarize(fullText, 150)
+      "summary" -> ResumeSummarizer.summarize(fullText, 150),
+      "features" -> featureScores
     )
     return map
   }
@@ -188,6 +190,13 @@ object ApplicantData {
     app.applicantid = getString(elasticMap("id"))
     app.name = getString(elasticMap("name"))
     app.score = getDouble(elasticMap("score"))
+
+    elasticMap.get("features") match {
+      case Some(features) =>
+        app.featureScores = features.asInstanceOf[Map[String, Double]]
+      case None =>
+    }
+
     elasticMap.get("currentLocation") match {
       case Some(any) =>
         val locMap = any.asInstanceOf[Map[String, String]]
@@ -250,7 +259,6 @@ object ApplicantData {
           case Some(anyGit) =>
             app.githubData = (anyGit.asInstanceOf[Map[String, String]])
           case None =>
-            app.githubData = Map[String, String]()
         }
         app.fullText = getString(infoMap("resume"))
       case None =>
