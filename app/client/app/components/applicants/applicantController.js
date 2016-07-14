@@ -418,82 +418,54 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
 
       var blues = [
         '#0D47A1',
-        '#1565C0',
         '#1976D2',
-        '#1E88E5',
         '#2196F3',
-        '#42A5F5',
         '#64B5F6',
-        '#90CAF9',
-        '#BBDEFB',
-        '#BBDEFB',
-        '#E3F2FD'
+        '#BBDEFB'
       ];
+
 
       var reds = [
         '#B71C1C',
-        '#FF1919',
         '#FF3232',
-        '#FF4C4C',
         '#FF6666',
-        '#FF7F7F',
         '#FF9999',
-        '#FFB2B2',
-        '#FFCCCC',
-        '#FFE5E5'
+        '#FFCCCC'
       ];
 
       var greens = [
         '#1B5E20',
-        '#2E7D32',
         '#388E3C',
-        '#43A047',
         '#4CAF50',
-        '#66BB6A',
         '#81C784',
-        '#A5D6A7',
-        '#C8E6C9',
-        '#E8F5E9'
+        '#C8E6C9'
       ];
 
       var oranges = [
         '#E65100',
-        '#EF6C00',
         '#F57C00',
-        '#FB8C00',
         '#FF9800',
-        '#FFA726',
         '#FFB74D',
-        '#FFCC80',
-        '#FFE0B2',
-        '#FFF3E0'
+        '#FFE0B2'
       ];
+
 
       var yellows = [
         '#F57F17',
-        '#F9A825',
         '#FBC02D',
-        '#FDD835',
         '#FFEB3B',
-        '#FFEE58',
         '#FFF176',
-        '#FFF59D',
-        '#ffff99',
-        '#ffffb2'
+        '#ffff99'
       ];
 
       var purples = [
         '#4A148C',
-        '#6A1B9A',
         '#7B1FA2',
-        '#8E24AA',
         '#9C27B0',
-        '#AB47BC',
         '#BA68C8',
-        '#CE93D8',
-        '#E1BEE7',
-        '#F3E5F5'
+        '#E1BEE7'
       ];
+
 
       if (id === 'Language') {
         createPieChart(ctx, labels, count, reds);
