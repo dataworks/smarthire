@@ -12,12 +12,17 @@ import org.apache.spark.mllib.classification.{NaiveBayesModel, NaiveBayes}
 
 import org.slf4j.{Logger, LoggerFactory}
 
+/**
+ * Logistic Feature Generator is a class that will calculate feature scores from an applicant.
+ * It also has functions to zip feaure names
+ */
 object LogisticFeatureGenerator {
   private var generator: LogisticFeatureGenerator = null
 
   //Feature List
   val featureList = List("Relevance", "Big Data", "Database Engineering", "ETL Engineering", "Web App Development", "Mobile Development", "Common Programming Languages", "Distance from Job Site", "Amount of Contact Info", "Resume Length", "Education/Work Background")
 
+  //Will create a LogisticFeatureGenerator if one is needed and return it
   private def getGenerator(): LogisticFeatureGenerator = {
     if (this.generator == null) {
       this.generator = new LogisticFeatureGenerator()
@@ -25,6 +30,9 @@ object LogisticFeatureGenerator {
     return this.generator
   }
 
+  /**
+   * See getLogisticFeatureVec defined below
+   */
   def getLogisticFeatureVec(wordModel: Word2VecModel, bayesModel: NaiveBayesModel, idfModel: IDFModel, applicant: ApplicantData): Vector = {
     val generator = getGenerator()
     return generator.getLogisticFeatureVec(wordModel, bayesModel, idfModel, applicant)
