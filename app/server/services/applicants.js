@@ -15,10 +15,10 @@ exports.listApplicants = function(req, res, type) {
   }
 
   if (req.query.query) { 
-    esservice.query(config.applicants, req.query, res, {query: { query_string: { query: req.query.query, default_operator: "AND" }}}, null);
+    esservice.query(config.applicants, req.query, res, {query: { query_string: { query: req.query.query, default_operator: "AND" }}, highlight: { fields: { "*":{}},require_field_match: false}}, null);
   }
   else {
-    esservice.query(config.labels, {size: 5000}, res, {query: { query_string: { query: query, default_operator: "AND" }}}, function(res, hits) {
+    esservice.query(config.labels, {size: 5000}, res, {query: { query_string: { query: query, default_operator: "AND" }}, highlight: { fields: { "*":{}},require_field_match: false}}, function(res, hits) {
       var labelQuery = buildQuery(res, hits, type);
       esservice.query(config.applicants, req.query, res, labelQuery, null);
     },function (error, response) {
@@ -43,19 +43,19 @@ function buildQuery(res, hits, type) {
     //same query logic * or NOT id ()
     if (ids && ids.length > 0) {
       if (type === 'new') {
-        return {query: {bool: { must_not: { ids: { values:  ids }}}}}
+        return {query: {bool: { must_not: { ids: { values:  ids }}}}, highlight: { fields: { "*":{}},require_field_match: false}}
         //return "NOT id:(" + ids.join(" OR ") + ")";
       } 
       // creates a query of all of the label types
       else if (type === 'favorite' || type === 'archive' || type === 'review') {
-        return {query: {bool: { must: { ids: { values:  ids }}}}}
+        return {query: {bool: { must: { ids: { values:  ids }}}}, highlight: { fields: { "*":{}},require_field_match: false}}
         //return "id:(" + ids.join(" OR ") + ")";
       }
     }
   } 
 
   //return type === 'new' ? '*' : ' ';
-  return {query: { query_string: { query: " ", default_operator: "AND" }}}
+  return {query: { query_string: { query: " ", default_operator: "AND" }}, highlight: { fields: { "*":{}},require_field_match: false}}
   
 }
 
@@ -76,7 +76,6 @@ exports.suggest = function(term, res) {
  * @param field - ES field
  */
 exports.aggregations = function(res, type, field, query) {
-  console.log(type)
   var q = '*';
   if(type !== 'new')
     q = "type:" + type;
@@ -89,7 +88,7 @@ exports.aggregations = function(res, type, field, query) {
       console.log(error);
     });
   } else {
-      console.log("hello")
+     // console.log("hello")
       aggs(field, query, res);
   }
 }

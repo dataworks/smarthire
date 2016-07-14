@@ -14,6 +14,8 @@ exports.query = function(config, params, res, query, handler) {
     host: config.url
   });
 
+  console.log(query.query)
+
   var sort = {};
   if (params && params.sort) {
     sort[params.sort] = {
@@ -30,7 +32,14 @@ exports.query = function(config, params, res, query, handler) {
     size: params ? params.size : null,
     body: {
       sort: sort ? [sort] : null,
-      query: query.query
+      query: query.query 
+     // highlight: query.highlight
+     //  highlight: {
+     //  fields: {
+     //    "*": {}
+     //  },
+     //  require_field_match: false
+     // }
 
         // query_string: {
         //   query: query,
