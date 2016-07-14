@@ -15,10 +15,10 @@ exports.listApplicants = function(req, res, type) {
   }
 
   if (req.query.query) { 
-    esservice.query(config.applicants, req.query, res, {query_string: { query: req.query.query, default_operator: "AND" }, highlight: { fields: { "*":{}},require_field_match: false}}, null);
+    esservice.query(config.applicants, req.query, res, {query_string: { query: req.query.query, default_operator: "AND" }}, null);
   }
   else {
-    esservice.query(config.labels, {size: 5000}, res, {query_string: { query: query, default_operator: "AND" }, highlight: { fields: { "*":{}},require_field_match: false}}, function(res, hits) {
+    esservice.query(config.labels, {size: 5000}, res, {query_string: { query: query, default_operator: "AND" }}, function(res, hits) {
       var labelQuery = buildQuery(res, hits, type);
       esservice.query(config.applicants, req.query, res, labelQuery, null);
     },function (error, response) {
