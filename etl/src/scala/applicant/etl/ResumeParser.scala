@@ -34,10 +34,7 @@ object ResumeParser {
   def parseResumes(options: Command) {
     //File path from the command line, uses wildcard to open all files
     val filesPath = options.sourceDirectory + "*"
-    // File path to AWS access key file
-    val keys = Files.readAllLines(Paths.get(options.accesskey), Charset.defaultCharset())
-    val accessKeyId = keys.get(0)
-    val secretAccessKey = keys.get(1)
+
     //Create Spark configuration object, with Elasticsearch configuration
     val conf = new SparkConf().setMaster(options.sparkMaster)
       .setAppName("ResumeParser").set("es.nodes", options.esNodes)
@@ -50,9 +47,6 @@ object ResumeParser {
 
     //Create Spark RDD using conf
     val sc = new SparkContext(conf)
-    sc.hadoopConfiguration.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
-    sc.hadoopConfiguration.set("fs.s3a.access.key", accessKeyId)
-    sc.hadoopConfiguration.set("fs.s3a.secret.key", secretAccessKey)
 
     //Query elasticsearch for the applicants who have an email. This will be used to ensure that duplicate resumes are not saved.
     val emailRDD = sc.esRDD("applicants/applicant", "?q=contact.email:*")
@@ -78,6 +72,15 @@ object ResumeParser {
       }
     }
     else if (options.fromSource == 3) { // S3 URI hardcoded now, can add scopt later
+      // File path to AWS access key file
+      val keys = Files.readAllLines(Paths.get(options.accesskey), Charset.defaultCharset())
+      val accessKeyId = keys.get(0)
+      val secretAccessKey = keys.get(1)
+
+      sc.hadoopConfiguration.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
+      sc.hadoopConfiguration.set("fs.s3a.access.key", accessKeyId)
+      sc.hadoopConfiguration.set("fs.s3a.secret.key", secretAccessKey)
+
       sc.binaryFiles("s3a://resumes.interns.dataworks-inc.com/*").values.map{ resume =>
         ResumeData(FilenameUtils.getName(resume.getPath()),resume.toArray,resume.open,"")
       }
@@ -164,7 +167,7 @@ object ResumeParser {
         )
       }.saveToEs(options.uploadindex + "/upload", Map("es.mapping.id" -> "id"))
     }
- 
+
     sc.stop()
 
   }

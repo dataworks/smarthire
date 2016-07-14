@@ -32,11 +32,12 @@ exports.query = function(config, params, res, query, handler) {
       sort: sort ? [sort] : null,
       query: query, 
       highlight: {
-        encoder: "html",
         number_of_fragments: 0,
-      fields: {
-        "*": {}
-      },
+        pre_tags: ["<mark>"],
+        post_tags: ["</mark>"],
+        fields: {
+          "*": {}
+        },
       require_field_match: false
      
    }

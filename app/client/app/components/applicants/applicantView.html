@@ -36,13 +36,6 @@
               <label for="filter">Filter by</label>
               <div class="checkbox">
                 <!-- whenever a new search is added the id needs to be added to the pointer css in appView -->
-                <!-- <label id="four"><b>Type</b><br>
-                  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<input type="checkbox" id="allCheck"> All &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                  <input type="checkbox" id="newCheck"> New &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                  <input type="checkbox" id="favCheck"> Favorite <br>
-                  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<input type="checkbox" id="revCheck"> Review &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                  <input type="checkbox" id="archCheck"> Archive<br>
-                </label> <br> -->
                 <label id="two"><b>Major</b> <br>
                   <input type="checkbox" id="csCheck"> Computer Science<br>
                   <input type="checkbox" id="cpeCheck"> Computer Engineering<br>
@@ -170,11 +163,11 @@
           <tbody ng-repeat="applicant in applicants.rows track by applicant.id">
             <tr class="accordion-toggle">
               <td id="p"><a title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}"><img id = "profile" ng-src="{{getLink(applicant.id, 'image')}}" onerror="this.src='images/profile.png'"></a></td>
-              <td id="s"><span ng-if="applicant.score < 0">Not Ranked</span><span id="high" ng-if="applicant.score >= 0.7">{{scaleScore(applicant.score)}}</span>
+              <td id="s"><span ng-if="applicant.score < 0">Loading Score</span><span id="high" ng-if="applicant.score >= 0.7">{{scaleScore(applicant.score)}}</span>
                 <span id="mid" ng-if="applicant.score < 0.7 && applicant.score > 0.3">{{scaleScore(applicant.score)}}</span>
                 <span id="low" ng-if="applicant.score <= 0.3 && applicant.score > -1">{{scaleScore(applicant.score)}}</span> <br> <span id="star" class="glyphicon glyphicon-star" ng-if="applicant.score >= 0.9"></span>
               </td>
-              <td id="n"><span ng-if="applicant.name != ''"><a id="nl" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}">{{parseString(applicant.name)}}</a></span>
+              <td id="n" ng-bind-html="applicant.name"><span ng-if="applicant.name != ''"><a id="nl" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}"></a></span>
                 <span ng-if="applicant.name == ''"><a id="nl" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}">Name Not found</a></span></td>
                 <td id="ci" class="hidden-xs hidden-s">{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
                 <td id="d" class="hidden-xs hidden-s">{{applicant.education.degree}}</td>
@@ -220,7 +213,7 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td id='body'>{{applicant.summary}}</td>
+                        <td id='body' ng-bind-html="trustedHtml">{{highlightSkills(applicant.summary, applicant.skills.bigdata, applicant.skills.database, applicant.skills.etl, applicant.skills.webapp, applicant.skills.mobile, applicant.skills.language)}}</td>
                         <td id='body' class="hidden-xs hidden-s"><b>ETL:</b><span id="valE"> {{applicant.skills.etl.join(', ')}}</span> <br> <b>Web App:</b> <span id="valW">{{applicant.skills.webapp.join(', ')}}</span> <br> <b>Languages:</b> <span id="valL">{{applicant.skills.language.join(', ')}}</span> <br> <b>Mobile:</b> <span id="valM">{{applicant.skills.mobile.join(', ')}}</span> <br> <b>Databases:</b> <span id="valD">{{applicant.skills.database.join(', ')}}</span><br> <b> Big Data:</b> <span id="valB">{{applicant.skills.bigdata.join(', ')}}</span></td>
                         <td id='body' class="hidden-xs hidden-s"><b>School:</b> <span id="valS">{{applicant.education.school}}</span> <br> <b>GPA:</b> <span id="valGPA" ng-if="applicant.education.gpa === 0"></span><span id="valGPA" ng-if="applicant.education.gpa != 0">{{applicant.education.gpa}}</span> <br> <br> <b>Linked-in: </b><a ng-href="{{applicant.contact.linkedin}}" target="_blank">{{applicant.contact.linkedin}} </a> <br> <b> GitHub: </b><a ng-href="{{applicant.contact.github}}" target="_blank">{{applicant.contact.github}}</a> <br> <b>Indeed: </b><a ng-href="{{applicant.contact.indeed}}" target="_blank">{{applicant.contact.indeed}}</a></td>
                          
