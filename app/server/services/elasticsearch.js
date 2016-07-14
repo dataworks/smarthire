@@ -14,6 +14,8 @@ exports.query = function(config, params, res, query, handler) {
     host: config.url
   });
 
+  //console.log(query)
+
   var sort = {};
   if (params && params.sort) {
     sort[params.sort] = {
@@ -31,12 +33,13 @@ exports.query = function(config, params, res, query, handler) {
     body: {
       sort: sort ? [sort] : null,
       query: query
-
-        // query_string: {
-        //   query: query,
-        //   default_operator: "AND"
-        // }
-      
+     // highlight: query.highlight
+     //  highlight: {
+     //  fields: {
+     //    "*": {}
+     //  },
+     //  require_field_match: false
+     // }
     }
   }).then(function(resp) {
     // Parse ES response and send result back

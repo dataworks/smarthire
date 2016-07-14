@@ -2,6 +2,7 @@ package applicant.etl
 
 import applicant.nlp._
 import applicant.ml.score._
+import applicant.ml.regression._
 import java.text.DecimalFormat
 import java.net.{URL, HttpURLConnection}
 import scala.io._
@@ -142,6 +143,8 @@ object ApplicantData {
         app.name = textArr(0) + " " + textArr(1)
       }
     }
+
+    app.featureScores = LogisticFeatureGenerator.getEmptyFeatureMap()
 
     app.name = WordUtils.capitalizeFully(app.name)
     return app
