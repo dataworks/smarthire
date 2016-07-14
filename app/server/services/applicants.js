@@ -76,7 +76,6 @@ exports.suggest = function(term, res) {
  * @param field - ES field
  */
 exports.aggregations = function(res, type, field, query) {
-  console.log(type)
   var q = '*';
   if(type !== 'new')
     q = "type:" + type;
@@ -89,8 +88,7 @@ exports.aggregations = function(res, type, field, query) {
       console.log(error);
     });
   } else {
-      console.log("hello")
-      aggs(field, query, res);
+      aggs(field, {query: { query_string: { query: query, default_operator: "AND" }}}, res);
   }
 }
 
