@@ -72,7 +72,7 @@ object PictureExtractor {
     }
     catch {
       case ex: Exception =>
-        log.warn("There was an error when trying to connect to the url " + urlStr)
+        log.debug("There was an error when trying to connect to the url " + urlStr)
         return None
     }
   }
@@ -108,19 +108,14 @@ object PictureExtractor {
           }
         case None =>
       }
-    }.collect()
-
-    val filteredProfiles = ListBuffer[Map[String, Object]]()
-
-    for (item <- profiles) {
-      if (!item.getClass.toString.contains("BoxedUnit")) {
-        filteredProfiles += item.asInstanceOf[Map[String, Object]]
-      }
     }
 
-    log.info(filteredProfiles.length + " github pics found")
+    val filteredProfiles = profiles.filter { item =>
+      if (!item.getClass.toString.contains("BoxedUnit")) true else false
+    }
+    log.info("Github pictures downloaded")
 
-    sc.parallelize(filteredProfiles).saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
+    filteredProfiles.saveToEs(options.esAttIndex + "/attachment", Map("es.mapping.id" -> "hash"))
   }
 
   /**
