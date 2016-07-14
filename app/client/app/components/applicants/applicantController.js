@@ -1,5 +1,5 @@
-applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analysis', 'Applicant', 'Label', 'Suggest', 'Upload', '$window', 'ngToast', '$timeout', 'advancedSearch',
-  function($scope, $location, analysis, Applicant, Label, Suggest, Upload, $window, ngToast, $timeout, advancedSearch) {
+applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 'Analysis', 'Applicant', 'Label', 'Suggest', 'Upload', '$window', 'ngToast', '$timeout', 'advancedSearch',
+  function($sce, $scope, $location, analysis, Applicant, Label, Suggest, Upload, $window, ngToast, $timeout, advancedSearch) {
 
     //default dropdown menu to 'new' on page load
     $scope.selection = "new";
@@ -275,6 +275,45 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
       return $scope.scoreFinal;
     }
 
+    $scope.highlightSkills = function(summary, bd, d, etl, web, mobile, lang){
+      /*$scope.sum = summary;
+      $scope.terms = skills;
+      // this makes the summary into an array of items
+      $scope.sum = $scope.sum.split(" ");
+      $scope.old = summary.split(" ");
+      
+      for(i = 0; i < $scope.sum.length; i++){
+        $scope.sum[i] = $scope.sum[i].replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+        for(j = 0; j < $scope.terms.length; j++){
+          if($scope.sum[i] == $scope.terms[j] && (i < ($scope.sum.length-1))){
+            $scope.sum[i] = "blue, ";
+          }
+          else if($scope.sum[i] == $scope.terms[j] && (i == ($scope.sum.length-1))){
+            $scope.sum[i] = "blue.";
+          }
+          else{
+            $scope.sum[i] = $scope.old[i];
+          }
+        }
+      }
+      return $scope.sum.join(" ");*/
+
+      $scope.skills = bd;
+      $scope.skills = $scope.skills.concat(d);
+      $scope.skills = $scope.skills.concat(etl);
+      $scope.skills = $scope.skills.concat(web);
+      $scope.skills = $scope.skills.concat(mobile);
+      $scope.skills = $scope.skills.concat(lang);
+
+      for (i = 0; i < $scope.skills.length; i++){
+        summary = summary.replace($scope.skills[i], "<span style = 'font-style:italic;color:#FFA000;'>" + $scope.skills[i] + "</span>");
+      }
+
+      $scope.trustedHtml = $sce.trustAsHtml(summary);
+
+      return $scope.trustedHtml;
+    }
+
     /** 
      * return image from a link
      *
@@ -314,29 +353,9 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
       var arcChecked = document.getElementById("arcCheck").checked;
       var manChecked = document.getElementById("manCheck").checked;
       var engChecked = document.getElementById("engCheck").checked;
-      // var newChecked = document.getElementById("newCheck").checked;
-      // var favChecked = document.getElementById("favCheck").checked;
-      // var archChecked = document.getElementById("archCheck").checked;
-      // var revChecked = document.getElementById("revCheck").checked;
-      // var allChecked = document.getElementById("allCheck").checked;
-      
+
       //calls the createQuery function in searchService.js
       $scope.searchText = $scope.searchText + advancedSearch.createQuery(csChecked, cpeChecked, itChecked, mathChecked, vaChecked, mdChecked, dcChecked, paChecked, uvaChecked, jmuChecked, rpiChecked, gmuChecked, devChecked, arcChecked, manChecked, engChecked);
-      
-      // if(newChecked){
-      //   $scope.typeChoice = "new";
-      // } 
-      // else if(favChecked){
-      //   $scope.typeChoice = "favorite";
-      // }
-      // else if(archChecked){
-      //   $scope.typeChoice = "archive";
-      // }
-      // else if(revChecked){
-      //   $scope.typeChoice = "review";
-      // }
-
-      // $scope.searchText = $scope.searchText + Applicant.query({type: $scope.typeChoice});
 
       $scope.applicants = Applicant.query({
         // type: $scope.typeChoice,
