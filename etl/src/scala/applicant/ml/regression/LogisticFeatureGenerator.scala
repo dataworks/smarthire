@@ -1,7 +1,7 @@
 package applicant.ml.regression
 
 import scala.util.Try
-import scala.collection.mutable.{ListBuffer, HashMap}
+import scala.collection.mutable.{ListBuffer, Map, HashMap}
 import applicant.nlp.LuceneTokenizer
 import applicant.etl._
 import applicant.ml.naivebayes._
