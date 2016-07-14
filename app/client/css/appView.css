@@ -203,38 +203,49 @@ a{
 }
 
 
-/* valG, valLi, valI, valGPA, valS*/
+#title{
+  text-decoration: underline;
+}
 
   td > #valD{
-    padding-left: 5%;
+    /*padding-left: 5%;*/
+    text-align: right;
   }
 
   td > #valL{
-    padding-left: 5%;
+    /*padding-left: 5%;*/
+    text-align: right;
   }
 
   td > #valM{
-    padding-left: 13.5%;
+    /*padding-left: 13.5%;*/
+    text-align: right;
   }
 
   td > #valW{
-    padding-left: 8.5%;
+    /*padding-left: 8.5%;*/
+    text-align: right;
   }
 
   td > #valB{
-    padding-left: 9.25%;
+    /*padding-left: 9.25%;*/
+    text-align: right;
   }
 
   td > #valE{
-    padding-left: 20%;
+    /*padding-left: 20%;*/
+    display: table-cell;
+    word-wrap: break-word;
   }
 
   td > #valGPA{
-    padding-left: 10%;
+   /* padding-left: 10%;*/
+   text-align: right;
   }
 
   td > #valS{
-    padding-left: 5%;
+    /*padding-left: 5%;*/
+    text-align: right;
   }
 
 
