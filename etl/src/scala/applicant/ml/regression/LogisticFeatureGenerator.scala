@@ -12,10 +12,50 @@ import org.apache.spark.mllib.classification.{NaiveBayesModel, NaiveBayes}
 
 import org.slf4j.{Logger, LoggerFactory}
 
+object LogisticFeatureGenerator {
+  private var generator: LogisticFeatureGenerator = null
+
+  //Feature List
+  val featureList = List("Relevance", "Big Data", "Database Engineering", "ETL Engineering", "Web App Development", "Mobile Development", "Common Programming Languages", "Distance from Job Site", "Amount of Contact Info", "Resume Length", "Education/Work Background")
+
+  private def getGenerator(): LogisticFeatureGenerator = {
+    if (this.generator == null) {
+      this.generator = new LogisticFeatureGenerator()
+    }
+    return this.generator
+  }
+
+  def getLogisticFeatureVec(wordModel: Word2VecModel, bayesModel: NaiveBayesModel, idfModel: IDFModel, applicant: ApplicantData): Vector = {
+    val generator = getGenerator()
+    return generator.getLogisticFeatureVec(wordModel, bayesModel, idfModel, applicant)
+  }
+
+  /**
+   * Will return a map of feature names with zeros for scores
+   *
+   * @return a map of features to 0.0
+   */
+  def getEmptyFeatureMap(): Map[String, Double] = {
+    return Map(featureList.map ( feature => (feature, 0.0) ) : _*)
+  }
+
+  /**
+   * Will return a map of feature names with the provided values
+   *
+   * @param vec A vector of feature scores that are to be associated
+   *              with their feature names
+   * @return A map of feature names with their score
+   */
+  def getPopulatedFeatureMap(vec: Vector): Map[String, Double] = {
+    val featureVals = vec.toArray
+    return Map((featureList zip featureVals) : _*)
+  }
+}
+
 /**
  * FeatureGenerator
  */
-object LogisticFeatureGenerator {
+class LogisticFeatureGenerator {
 
   val locationMap: HashMap[(String, String), (Double, Double)] = {
     val cityFileLoc = "data/citylocations/UsData.txt"
@@ -40,29 +80,6 @@ object LogisticFeatureGenerator {
   //logger
   val log: Logger = LoggerFactory.getLogger(getClass())
 
-  //Feature List
-  val featureList = List("Relevance", "Big Data", "Database Engineering", "ETL Engineering", "Web App Development", "Mobile Development", "Common Programming Languages", "Distance from Job Site", "Amount of Contact Info", "Resume Length", "Education/Work Background")
-
-  /**
-   * Will return a map of feature names with zeros for scores
-   *
-   * @return a map of features to 0.0
-   */
-  def getEmptyFeatureMap(): Map[String, Double] = {
-    return Map(featureList.map ( feature => (feature, 0.0) ) : _*)
-  }
-
-  /**
-   * Will return a map of feature names with the provided values
-   *
-   * @param vec A vector of feature scores that are to be associated
-   *              with their feature names
-   * @return A map of feature names with their score
-   */
-  def getPopulatedFeatureMap(vec: Vector): Map[String, Double] = {
-    val featureVals = vec.toArray
-    return Map((featureList zip featureVals) : _*)
-  }
 
   /**
    * Calculates all of the feature scores and returns a vector of the scores
