@@ -14,7 +14,7 @@ exports.query = function(config, params, res, query, handler) {
     host: config.url
   });
 
-  console.log(query)
+  //console.log(query)
 
   var sort = {};
   if (params && params.sort) {
