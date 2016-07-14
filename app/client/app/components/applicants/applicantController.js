@@ -276,28 +276,6 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
     }
 
     $scope.highlightSkills = function(summary, bd, d, etl, web, mobile, lang){
-      /*$scope.sum = summary;
-      $scope.terms = skills;
-      // this makes the summary into an array of items
-      $scope.sum = $scope.sum.split(" ");
-      $scope.old = summary.split(" ");
-      
-      for(i = 0; i < $scope.sum.length; i++){
-        $scope.sum[i] = $scope.sum[i].replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
-        for(j = 0; j < $scope.terms.length; j++){
-          if($scope.sum[i] == $scope.terms[j] && (i < ($scope.sum.length-1))){
-            $scope.sum[i] = "blue, ";
-          }
-          else if($scope.sum[i] == $scope.terms[j] && (i == ($scope.sum.length-1))){
-            $scope.sum[i] = "blue.";
-          }
-          else{
-            $scope.sum[i] = $scope.old[i];
-          }
-        }
-      }
-      return $scope.sum.join(" ");*/
-
       $scope.skills = bd;
       $scope.skills = $scope.skills.concat(d);
       $scope.skills = $scope.skills.concat(etl);
