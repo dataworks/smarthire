@@ -168,26 +168,12 @@ object ResumeParser {
         )
       }.saveToEs(options.uploadindex + "/upload", Map("es.mapping.id" -> "id"))
     }
-    // If pulled from S3, delete from "new" folder and write base64 to "processed" folder
+    // If pulled from S3, delete from "new" folder
     else if (options.fromSource == 3) {
-      val filenameList = fileData.map{resume =>
-        val newId = if (oldHashMapping.contains(resume.esId)) oldHashMapping(resume.esId) else resume.esId
-        List[String](resume.filename, newId, resume.base64string)
-      }.collect()
+      val filenameArr = fileData.map(resume => resume.filename).collect()
       val fs = FileSystem.get(new URI(s3ResumeBucket), sc.hadoopConfiguration)
-      filenameList.foreach{ file =>
-        fs.delete(new Path(s3ResumeBucket + "new/" + file(0)),true)
-        val newPath : Path = new Path(s3ResumeBucket + "processed/" + file(1) + "/" + file(0))
-        if (fs.exists(newPath)) {
-          fs.delete(newPath,true)
-        }
-        val fsdot : FSDataOutputStream = fs.create(newPath,true)
-        fsdot.writeUTF(file(2))
-        fsdot.close()
-      }
-      fs.close()
+      filenameArr.foreach(file => fs.delete(new Path(s3ResumeBucket + "new/" + file(0)),true))
     }
-
     sc.stop()
 
   }
