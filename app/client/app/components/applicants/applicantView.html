@@ -174,7 +174,7 @@
                 <span id="mid" ng-if="applicant.score < 0.7 && applicant.score > 0.3">{{scaleScore(applicant.score)}}</span>
                 <span id="low" ng-if="applicant.score <= 0.3 && applicant.score > -1">{{scaleScore(applicant.score)}}</span> <br> <span id="star" class="glyphicon glyphicon-star" ng-if="applicant.score >= 0.9"></span>
               </td>
-              <td id="n"><span ng-if="applicant.name != ''"><a id="nl" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}">{{applicant.name}}</a></span>
+              <td id="n"><span ng-if="applicant.name != ''"><a id="nl" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}">{{applicant.name}}, {{applicant.type}}</a></span>
                 <span ng-if="applicant.name == ''"><a id="nl" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}">Name Not found</a></span></td>
                 <td id="ci" class="hidden-xs hidden-s">{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
                 <td id="d" class="hidden-xs hidden-s">{{applicant.education.degree}}</td>
