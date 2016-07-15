@@ -310,19 +310,20 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
     * @param applicant - current applicant
     * @return word in HTML format to replace matched word in summary for styling
     */
-   $scope.highlightSkills = function(applicant){
-     $scope.skills = applicant.skills.bigdata
-     $scope.skills = $scope.skills.concat(applicant.skills.database);
-     $scope.skills = $scope.skills.concat(applicant.skills.etl);
-     $scope.skills = $scope.skills.concat(applicant.skills.web);
-     $scope.skills = $scope.skills.concat(applicant.skills.mobile);
-     $scope.skills = $scope.skills.concat(applicant.skills.lang);
+    $scope.highlightSkills = function(applicant) {
+     var skills = applicant.skills.bigdata;
+     skills = skills.concat(applicant.skills.database);
+     skills = skills.concat(applicant.skills.etl);
+     skills = skills.concat(applicant.skills.webapp);
+     skills = skills.concat(applicant.skills.mobile);
+     skills = skills.concat(applicant.skills.language);
 
-     for (i = 0; i < $scope.skills.length; i++){
-       summary = summary.replace($scope.skills[i], "<span style = 'color:#673AB7 ;'>" + $scope.skills[i] + "</span>");
+     var summary = applicant.summary;
+     for (i = 0; i < skills.length; i++) {
+       summary = summary.replace(skills[i], "<span style = 'color:#673AB7 ;'>" + skills[i] + "</span>");
      }
 
-     return $sce.trustAsHtml(applicant.summary);
+     return $sce.trustAsHtml(summary);
    }
 
     /** 
