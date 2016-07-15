@@ -162,11 +162,12 @@
           <tbody ng-repeat="applicant in applicants.rows track by applicant.id">
             <tr class="accordion-toggle">
               <td id="p"><a title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}"><img id = "profile" ng-src="{{getLink(applicant.id, 'image')}}" onerror="this.src='images/profile.png'"></a></td>
-              <td id="s"><span ng-if="applicant.score < 0">Loading Score</span><span id="high" ng-if="applicant.score >= 0.7">{{scaleScore(applicant.score)}}</span>
+              <td id="s"><span ng-if="applicant.score < 0">Loading Score</span> <button id="feature" data-toggle="collapse" data-target="#scoreExpand-{{$index}}" title="Score Breakdown"> 
+              <span id="high" ng-if="applicant.score >= 0.7">{{scaleScore(applicant.score)}}</span>
                 <span id="mid" ng-if="applicant.score < 0.7 && applicant.score > 0.3">{{scaleScore(applicant.score)}}</span>
-                <span id="low" ng-if="applicant.score <= 0.3 && applicant.score > -1">{{scaleScore(applicant.score)}}</span> <br> <span id="star" class="glyphicon glyphicon-star" ng-if="applicant.score >= 0.9"></span>
+                <span id="low" ng-if="applicant.score <= 0.3 && applicant.score > -1">{{scaleScore(applicant.score)}}</span> <br> <span id="star" class="glyphicon glyphicon-star" ng-if="applicant.score >= 0.9"></span></button>
               </td>
-              <td id="n" ng-bind-html="applicant.name"><span ng-if="applicant.name != ''"><a id="nl" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}"></a></span>
+              <td id="n"><span ng-if="applicant.name != ''"><a id="nl" ng-bind-html="applicant.name" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}"></a></span>
                 <span ng-if="applicant.name == ''"><a id="nl" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}">Name Not found</a></span></td>
                 <td id="ci" class="hidden-xs hidden-s">{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
                 <td id="d" class="hidden-xs hidden-s">{{applicant.education.degree}}</td>
@@ -216,6 +217,24 @@
                         <td id='body' align="left" class="hidden-xs hidden-s"><span id="title"><b>ETL</b></span><span id="valE"> {{applicant.skills.etl.join(', ')}}</span> <br> <span id="title"><b>Web App</b></span> <span id="valE">{{applicant.skills.webapp.join(', ')}}</span> <br> <span id="title"><b>Languages</b></span> <span id="valE">{{applicant.skills.language.join(', ')}}</span> <br> <span id="title"><b>Mobile</b></span> <span id="valE">{{applicant.skills.mobile.join(', ')}}</span> <br> <span id="title"><b>Databases</b> </span><span id="valE">{{applicant.skills.database.join(', ')}}</span><br> <span id="title"> <b> Big Data</b></span> <span id="valE">{{applicant.skills.bigdata.join(', ')}}</span></td>
                         <td id='body' class="hidden-xs hidden-s"><span id="title"><b>School</b></span> <span id="valE">{{applicant.education.school}}</span> <br><span id="title"> <b>GPA</b></span> <span id="valE" ng-if="applicant.education.gpa === 0"></span><span id="valE" ng-if="applicant.education.gpa != 0">{{applicant.education.gpa}}</span> <br><span id="title"> <b>Linked-in </b></span><a id="valE" ng-href="{{applicant.contact.linkedin}}" target="_blank">{{applicant.contact.linkedin}} </a> <br><span id="title"> <b> GitHub </b></span><a id="valE" ng-href="{{applicant.contact.github}}" target="_blank">{{applicant.contact.github}}</a> <br><span id="title"> <b>Indeed </b></span><a id="valE"ng-href="{{applicant.contact.indeed}}" target="_blank">{{applicant.contact.indeed}}</a></td>
                          
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td  id="hide" colspan="12" class="hiddenRow">
+                <div class="accordian-body collapse {{active ? '' : 'in'}}" id="scoreExpand-{{$index}}">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th id="link">Score Breakdown</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td id='body'>goes here</td>
                       </tr>
                     </tbody>
                   </table>
