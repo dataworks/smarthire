@@ -10,13 +10,13 @@ SmartHire is powered by a number of dependencies. Npm and sbt help with managing
 
 #### Node.js
 
-SmartHire uses Node as its web server. The download page for Node can be found [here](https://nodejs.org/en/download/). For instructions on installing node via a package manger, see [here](https://nodejs.org/en/download/package-manager/).
+SmartHire uses Node as its web server. The download page for Node can be found [here](https://nodejs.org/en/download/). For instructions on installing node via a package manager, see [here](https://nodejs.org/en/download/package-manager/).
 
 Npm (node package manager) is used to install the dependencies for the server. The newer releases of Node come with npm, so be sure to check that it is included.
 
 #### Elasticsearch
 
-Elasticsearch is used to store and quickly serve resume data. Install instructions can be found on the elasticsearch website [here](https://www.elastic.co/downloads/elasticsearch).
+Elasticsearch is used to store and quickly serve resume data. Install instructions can be found on the Elasticsearch website [here](https://www.elastic.co/downloads/elasticsearch).
 
 #### Sbt
 
