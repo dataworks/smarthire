@@ -3,3 +3,8 @@ node_modules
 .project
 .settings
 **/npm-debug.log
+**/server.crt
+**/server.csr
+**/server.enc.key
+**/server.key
+
