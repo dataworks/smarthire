@@ -288,22 +288,42 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
      * @param lang- languages 
      * @return $scope.trustedHtml- word in HTML format to replace matched word in summary for styling
      */
-    $scope.highlightSkills = function(summary, bd, d, etl, web, mobile, lang){
-      $scope.skills = bd;
-      $scope.skills = $scope.skills.concat(d);
-      $scope.skills = $scope.skills.concat(etl);
-      $scope.skills = $scope.skills.concat(web);
-      $scope.skills = $scope.skills.concat(mobile);
-      $scope.skills = $scope.skills.concat(lang);
+    // $scope.highlightSkills = function(summary, bd, d, etl, web, mobile, lang){
+    //   $scope.skills = bd;
+    //   $scope.skills = $scope.skills.concat(d);
+    //   $scope.skills = $scope.skills.concat(etl);
+    //   $scope.skills = $scope.skills.concat(web);
+    //   $scope.skills = $scope.skills.concat(mobile);
+    //   $scope.skills = $scope.skills.concat(lang);
 
-      for (i = 0; i < $scope.skills.length; i++){
-        summary = summary.replace($scope.skills[i], "<span style = 'color:#673AB7;'>" + $scope.skills[i] + "</span>");
-      }
+    //   for (i = 0; i < $scope.skills.length; i++){
+    //     summary = summary.replace($scope.skills[i], "<span style = 'color:#673AB7;'>" + $scope.skills[i] + "</span>");
+    //   }
 
-      $scope.trustedHtml = $sce.trustAsHtml(summary);
+    //   $scope.trustedHtml = $sce.trustAsHtml(summary);
 
-      return $scope.trustedHtml;
-    }
+    //   return $scope.trustedHtml;
+    // }
+       /**
+    * styles words in an applicant's summary that matches a skill listed on his/her resume
+    *
+    * @param applicant - current applicant
+    * @return word in HTML format to replace matched word in summary for styling
+    */
+   $scope.highlightSkills = function(applicant){
+     $scope.skills = applicant.skills.bigdata
+     $scope.skills = $scope.skills.concat(applicant.skills.database);
+     $scope.skills = $scope.skills.concat(applicant.skills.etl);
+     $scope.skills = $scope.skills.concat(applicant.skills.web);
+     $scope.skills = $scope.skills.concat(applicant.skills.mobile);
+     $scope.skills = $scope.skills.concat(applicant.skills.lang);
+
+     for (i = 0; i < $scope.skills.length; i++){
+       summary = summary.replace($scope.skills[i], "<span style = 'color:#673AB7 ;'>" + $scope.skills[i] + "</span>");
+     }
+
+     return $sce.trustAsHtml(applicant.summary);
+   }
 
     /** 
      * return image from a link
