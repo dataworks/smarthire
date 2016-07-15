@@ -3,12 +3,13 @@ var request = require("request");
 var supertest = require("supertest");
 var should = require("should");
 
-var server = supertest.agent("http://localhost:8082/app");
+var server = supertest.agent("https://localhost:8082/app");
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 
 describe("Applicant Server", function() {
   describe("New List", function() {
-    var url = "http://localhost:8082/app/service/applicants";
+    var url = "https://localhost:8082/app/service/applicants";
 
     it("returns applicants from Elasticsearch", function(done) {
       request(url, function(error, response, body) {
@@ -23,7 +24,7 @@ describe("Applicant Server", function() {
   });
 
   describe("Autocomplete", function() {
-    var url = "http://localhost:8082/app/service/suggest?field=additionalInfo.resume&term=java";
+    var url = "https://localhost:8082/app/service/suggest?field=additionalInfo.resume&term=java";
 
     it("should be have a length of 5", function(done) {
       request(url, function(error, response, body) {
@@ -60,21 +61,4 @@ describe("Applicant Server", function() {
         });
     });
   });
-
-  // describe("Uploads POST", function() {
-  //   it("should POST dummy upload", function(done) {
-  //     server
-  //       .post('/service/uploads')
-  //       .send({"type" : "upload", "base64string" : "aGVsbG8gd29ybGQ="})
-  //       .expect("Content-type",/json/)
-  //       .expect(200)
-  //       .end(function(err,res){
-  //         res.status.should.equal(200);
-  //         done();
-  //       });
-  //   });
-  // });
-
-
-
 });

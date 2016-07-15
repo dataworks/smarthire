@@ -30,14 +30,17 @@ exports.query = function(config, params, res, query, handler) {
     size: params ? params.size : null,
     body: {
       sort: sort ? [sort] : null,
-      query: query
-     // highlight: query.highlight
-     //  highlight: {
-     //  fields: {
-     //    "*": {}
-     //  },
-     //  require_field_match: false
-     // }
+      query: query, 
+      highlight: {
+        number_of_fragments: 0,
+        pre_tags: ["<mark>"],
+        post_tags: ["</mark>"],
+        fields: {
+          "*": {}
+        },
+      require_field_match: false
+     
+   }
     }
   }).then(function(resp) {
     // Parse ES response and send result back
@@ -64,7 +67,16 @@ exports.query = function(config, params, res, query, handler) {
  */
 exports.parseSearchHits = function(resp, res) {
   return resp.hits.hits.map(function(hit) {
-    return hit._source;
+    // return hit._source;
+    var source = hit._source;
+
+    if (hit.highlight) {
+      for (var k in hit.highlight) {
+        source[k] = hit.highlight[k][0];
+      }
+    }
+    return source;
+    
   });
 }
 

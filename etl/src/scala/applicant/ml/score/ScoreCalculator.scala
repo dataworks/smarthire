@@ -63,6 +63,10 @@ object ScoreCalculator {
       log.debug("Scoring applicant number " + counter + " with id of " + app.applicantid + ". Score = " + app.score)
       counter += 1
 
+      //Make sure that each feature score is saved in the applicant
+      val scaledFeatures = LogisticRegressionHelper.weightifyFeatureScores(features, regressionModel.get)
+      app.featureScores = LogisticFeatureGenerator.getPopulatedFeatureList(scaledFeatures)
+
       app.toMap
     }.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
   }

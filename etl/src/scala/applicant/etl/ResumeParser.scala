@@ -1,20 +1,20 @@
 package applicant.etl
 
+import applicant.nlp._
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkContext._
 import org.apache.spark.SparkConf
 import org.apache.spark.rdd.RDD
-import java.io._
-import scopt.OptionParser
-import org.elasticsearch.spark._
+import org.apache.hadoop.fs.{FileSystem, Path, FSDataOutputStream}
 import org.apache.commons.io.FilenameUtils
 import org.apache.commons.codec.binary.Base64
-import applicant.nlp._
+import org.elasticsearch.spark._
+import org.slf4j.{Logger, LoggerFactory}
+import java.io._
 import java.nio.file.{Files, Paths}
 import java.nio.charset.Charset
-
-import org.slf4j.{Logger, LoggerFactory}
-
+import java.net.URI
+import scopt.OptionParser
 import scala.collection.mutable.{Map, HashMap, LinkedHashMap}
 
 object ResumeParser {
@@ -64,6 +64,7 @@ object ResumeParser {
 
     log.debug(emails.size + " emails were queried from elasticsearch")
 
+    val s3ResumeBucket : String = "s3a://resumes.interns.dataworks-inc.com/" //Can be added to options
 
     //load the RDD of data from either the local drive or from elasticsearch
     val fileData = if (options.fromSource == 2) {
@@ -81,7 +82,7 @@ object ResumeParser {
       sc.hadoopConfiguration.set("fs.s3a.access.key", accessKeyId)
       sc.hadoopConfiguration.set("fs.s3a.secret.key", secretAccessKey)
 
-      sc.binaryFiles("s3a://resumes.interns.dataworks-inc.com/*").values.map{ resume =>
+      sc.binaryFiles(s3ResumeBucket + "*").values.map{ resume =>
         ResumeData(FilenameUtils.getName(resume.getPath()),resume.toArray,resume.open,"")
       }
     }
@@ -167,9 +168,13 @@ object ResumeParser {
         )
       }.saveToEs(options.uploadindex + "/upload", Map("es.mapping.id" -> "id"))
     }
-
+    // If pulled from S3, delete from "new" folder
+    else if (options.fromSource == 3) {
+      val filenameArr = fileData.map(resume => resume.filename).collect()
+      val fs = FileSystem.get(new URI(s3ResumeBucket), sc.hadoopConfiguration)
+      filenameArr.foreach(file => fs.delete(new Path(s3ResumeBucket + "new/" + file(0)),true))
+    }
     sc.stop()
-
   }
 
   def main(args: Array[String]) {

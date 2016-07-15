@@ -1,5 +1,5 @@
-applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analysis', 'Applicant', 'Label', 'Suggest', 'Upload', '$window', 'ngToast', '$timeout', 'advancedSearch',
-  function($scope, $location, analysis, Applicant, Label, Suggest, Upload, $window, ngToast, $timeout, advancedSearch) {
+applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 'Analysis', 'Applicant', 'Label', 'Suggest', 'Upload', '$window', 'ngToast', '$timeout', 'advancedSearch',
+  function($sce, $scope, $location, analysis, Applicant, Label, Suggest, Upload, $window, ngToast, $timeout, advancedSearch) {
 
     //default dropdown menu to 'new' on page load
     $scope.selection = "new";
@@ -12,7 +12,6 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
     $scope.pageSize = 25;
     $scope.loadingData = false;
     $scope.hasData = true;
-    $scope.scoreFinal = 0;
 
     //sorting table by column code
     $scope.propertyName = null;
@@ -271,9 +270,30 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
      * @param score - applicant.score from Elasticsearch, a decimal number 
      */
     $scope.scaleScore = function(score) {
-      $scope.scoreFinal = parseInt((score * 100), 10);
-      return $scope.scoreFinal;
+      return parseInt((score * 100), 10);
     }
+
+   /**
+    * styles words in an applicant's summary that matches a skill listed on his/her resume
+    *
+    * @param applicant - current applicant
+    * @return word in HTML format to replace matched word in summary for styling
+    */
+    $scope.highlightSkills = function(applicant) {
+     var skills = applicant.skills.bigdata;
+     skills = skills.concat(applicant.skills.database);
+     skills = skills.concat(applicant.skills.etl);
+     skills = skills.concat(applicant.skills.webapp);
+     skills = skills.concat(applicant.skills.mobile);
+     skills = skills.concat(applicant.skills.language);
+
+     var summary = applicant.summary;
+     for (i = 0; i < skills.length; i++) {
+       summary = summary.replace(skills[i], "<span style = 'color:#673AB7 ;'>" + skills[i] + "</span>");
+     }
+
+     return $sce.trustAsHtml(summary);
+   }
 
     /** 
      * return image from a link
@@ -314,29 +334,9 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
       var arcChecked = document.getElementById("arcCheck").checked;
       var manChecked = document.getElementById("manCheck").checked;
       var engChecked = document.getElementById("engCheck").checked;
-      // var newChecked = document.getElementById("newCheck").checked;
-      // var favChecked = document.getElementById("favCheck").checked;
-      // var archChecked = document.getElementById("archCheck").checked;
-      // var revChecked = document.getElementById("revCheck").checked;
-      // var allChecked = document.getElementById("allCheck").checked;
-      
+
       //calls the createQuery function in searchService.js
       $scope.searchText = $scope.searchText + advancedSearch.createQuery(csChecked, cpeChecked, itChecked, mathChecked, vaChecked, mdChecked, dcChecked, paChecked, uvaChecked, jmuChecked, rpiChecked, gmuChecked, devChecked, arcChecked, manChecked, engChecked);
-      
-      // if(newChecked){
-      //   $scope.typeChoice = "new";
-      // } 
-      // else if(favChecked){
-      //   $scope.typeChoice = "favorite";
-      // }
-      // else if(archChecked){
-      //   $scope.typeChoice = "archive";
-      // }
-      // else if(revChecked){
-      //   $scope.typeChoice = "review";
-      // }
-
-      // $scope.searchText = $scope.searchText + Applicant.query({type: $scope.typeChoice});
 
       $scope.applicants = Applicant.query({
         type: $scope.selection,
@@ -399,82 +399,54 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
 
       var blues = [
         '#0D47A1',
-        '#1565C0',
         '#1976D2',
-        '#1E88E5',
         '#2196F3',
-        '#42A5F5',
         '#64B5F6',
-        '#90CAF9',
-        '#BBDEFB',
-        '#BBDEFB',
-        '#E3F2FD'
+        '#BBDEFB'
       ];
+
 
       var reds = [
         '#B71C1C',
-        '#FF1919',
         '#FF3232',
-        '#FF4C4C',
         '#FF6666',
-        '#FF7F7F',
         '#FF9999',
-        '#FFB2B2',
-        '#FFCCCC',
-        '#FFE5E5'
+        '#FFCCCC'
       ];
 
       var greens = [
         '#1B5E20',
-        '#2E7D32',
         '#388E3C',
-        '#43A047',
         '#4CAF50',
-        '#66BB6A',
         '#81C784',
-        '#A5D6A7',
-        '#C8E6C9',
-        '#E8F5E9'
+        '#C8E6C9'
       ];
 
       var oranges = [
         '#E65100',
-        '#EF6C00',
         '#F57C00',
-        '#FB8C00',
         '#FF9800',
-        '#FFA726',
         '#FFB74D',
-        '#FFCC80',
-        '#FFE0B2',
-        '#FFF3E0'
+        '#FFE0B2'
       ];
+
 
       var yellows = [
         '#F57F17',
-        '#F9A825',
         '#FBC02D',
-        '#FDD835',
         '#FFEB3B',
-        '#FFEE58',
         '#FFF176',
-        '#FFF59D',
-        '#ffff99',
-        '#ffffb2'
+        '#ffff99'
       ];
 
       var purples = [
         '#4A148C',
-        '#6A1B9A',
         '#7B1FA2',
-        '#8E24AA',
         '#9C27B0',
-        '#AB47BC',
         '#BA68C8',
-        '#CE93D8',
-        '#E1BEE7',
-        '#F3E5F5'
+        '#E1BEE7'
       ];
+
 
       if (id === 'Language') {
         createPieChart(ctx, labels, count, reds);
@@ -498,7 +470,25 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
 
       if (id === 'Big') {
         createPieChart(ctx, labels, count, purples);
+      }
 
+      var barData = {
+          labels: ["January", "February", "March", "April", "May", "June", "July"],
+          datasets: [
+              {
+                  label: "My First dataset",
+                  backgroundColor: "rgba(255,99,132,0.2)",
+                  borderColor: "rgba(255,99,132,1)",
+                  borderWidth: 1,
+                  hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                  hoverBorderColor: "rgba(255,99,132,1)",
+                  data: [65, 59, 80, 81, 56, 55, 40],
+              }
+          ]
+      };
+
+      if (id === "ScoreBD"){
+        createBarGraph(ctx, barData, reds);
       }
     }
 
@@ -525,6 +515,14 @@ applicantControllers.controller('ApplicantCtrl', ['$scope', '$location', 'Analys
         }
       });
       charts.push(chart);
+    }
+
+    function createBarGraph(ctx, data){
+      var BarChart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: options
+      });
     }
 
     /** 

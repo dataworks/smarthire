@@ -13,9 +13,57 @@ import org.apache.spark.mllib.classification.{NaiveBayesModel, NaiveBayes}
 import org.slf4j.{Logger, LoggerFactory}
 
 /**
- * FeatureGenerator
+ * Logistic Feature Generator is a class that will calculate feature scores from an applicant.
+ * It also has functions to zip feaure names
  */
 object LogisticFeatureGenerator {
+  private var generator: LogisticFeatureGenerator = null
+
+  //Feature List
+  val featureList = List("Relevance", "Big Data", "Database Engineering", "ETL Engineering", "Web App Development", "Mobile Development", "Common Programming Languages", "Distance from Job Site", "Amount of Contact Info", "Resume Length", "Education/Work Background")
+
+  //Will create a LogisticFeatureGenerator if one is needed and return it
+  private def getGenerator(): LogisticFeatureGenerator = {
+    if (this.generator == null) {
+      this.generator = new LogisticFeatureGenerator()
+    }
+    return this.generator
+  }
+
+  /**
+   * See getLogisticFeatureVec defined below
+   */
+  def getLogisticFeatureVec(wordModel: Word2VecModel, bayesModel: NaiveBayesModel, idfModel: IDFModel, applicant: ApplicantData): Vector = {
+    val generator = getGenerator()
+    return generator.getLogisticFeatureVec(wordModel, bayesModel, idfModel, applicant)
+  }
+
+  /**
+   * Will return a map of feature names with zeros for scores
+   *
+   * @return a map of features to 0.0
+   */
+  def getEmptyFeatureList(): ListBuffer[(String, Double)] = {
+    return featureList.map ( feature => (feature, 0.0) ).to[ListBuffer]
+  }
+
+  /**
+   * Will return a map of feature names with the provided values
+   *
+   * @param vec A vector of feature scores that are to be associated
+   *              with their feature names
+   * @return A map of feature names with their score
+   */
+  def getPopulatedFeatureList(vec: Vector): ListBuffer[(String, Double)] = {
+    val featureVals = vec.toArray
+    return (featureList zip featureVals).to[ListBuffer]
+  }
+}
+
+/**
+ * FeatureGenerator
+ */
+class LogisticFeatureGenerator {
 
   val locationMap: HashMap[(String, String), (Double, Double)] = {
     val cityFileLoc = "data/citylocations/UsData.txt"
@@ -40,29 +88,6 @@ object LogisticFeatureGenerator {
   //logger
   val log: Logger = LoggerFactory.getLogger(getClass())
 
-  //Feature List
-  val featureList = List("Relevance", "Big Data", "Database Engineering", "ETL Engineering", "Web App Development", "Mobile Development", "Common Programming Languages", "Distance from Job Site", "Amount of Contact Info", "Resume Length", "Education/Work Background")
-
-  /**
-   * Will return a map of feature names with zeros for scores
-   *
-   * @return a map of features to 0.0
-   */
-  def getEmptyFeatureMap(): Map[String, Double] = {
-    return Map(featureList.map ( feature => (feature, 0.0) ) : _*)
-  }
-
-  /**
-   * Will return a map of feature names with the provided values
-   *
-   * @param vec A vector of feature scores that are to be associated
-   *              with their feature names
-   * @return A map of feature names with their score
-   */
-  def getPopulatedFeatureMap(vec: Vector): Map[String, Double] = {
-    val featureVals = vec.toArray
-    return Map((featureList zip featureVals) : _*)
-  }
 
   /**
    * Calculates all of the feature scores and returns a vector of the scores
@@ -205,6 +230,20 @@ object LogisticFeatureGenerator {
       return (city, state)
     }
     return ("", "")
+  }
+
+
+  /**
+   * Will give a double from 0 - 1 based on distance
+   *
+   * @param meters the distance in meters
+   * @return a double from 0 to 1
+   *          0 signifies far away
+   *          1 signifies close by
+   */
+  def scaleDistance(meters: Double): Double = {
+    val maxDistance = 4500000.0
+    return if (meters >= maxDistance) 0.0 else (1 - (meters/maxDistance))
   }
 
   /**

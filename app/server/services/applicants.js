@@ -111,15 +111,21 @@ exports.aggregations = function(res, type, field, query) {
       console.log(error);
     });
   } else {
-      if(query)
+      if(query) {
         aggs(field, { query_string: { query: query, default_operator: "AND" }}, res);
-      else
+      }
+      else {
         aggs(field, query, res);
+      }
   }
 }
 
 /**
  * Private function for aggregation queries
+ *
+ * @param field - type of skill
+ * @param query - search term
+ * @param res - response 
  */
 function aggs(field, query, res) {
   if(field === 'languages') 

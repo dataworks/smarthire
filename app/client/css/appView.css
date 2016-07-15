@@ -84,14 +84,14 @@
 
 /*upload button*/
 .btn-primary {
-    color: white;
-    background-color: #689F38;
-    border: none;
-    float: right;
-    font-family: 'Ubuntu', sans-serif;
-    font-weight: bold;
-    font-size: 115%;
-    border-radius: 25px;
+  color: white;
+  background-color: #689F38;
+  border: none;
+  float: right;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: bold;
+  font-size: 115%;
+  border-radius: 25px;
 }
 
 .btn-primary:hover{
@@ -100,12 +100,12 @@
 }
 
 @-moz-document url-prefix() {
-    .well{
-      padding: 5px !important;
-    }
-    td{
-      height: 10px !important;
-    }
+  .well{
+    padding: 5px !important;
+  }
+  td{
+    height: 10px !important;
+  }
 }
 
 .well{
@@ -134,6 +134,34 @@ th > #expander:hover{
 }
 
 a{
+  outline: none;
+}
+
+.btn-circle {
+  width: 25%;
+  height: 70%;
+  text-align: center;
+  padding: 6px 0 !important;
+  font-size: 115% !important;
+  line-height: 1.428571429;
+  border-radius: 15px !important;
+  margin-left: 0 !important;
+  margin-top: 5% !important;
+  outline: none;
+  border: none;
+  font-style: none;
+}
+
+.btn-circle:hover {
+  background-color: #FFF59D!important;
+  border-color: #FFF59D!important;
+  outline: none;
+}
+
+.btn-circle:focus {
+  color: #333;
+  background-color: #FFF59D!important;
+  border-color: #FFF59D!important;
   outline: none;
 }
 
@@ -203,39 +231,86 @@ a{
 }
 
 
-/* valG, valLi, valI, valGPA, valS*/
+#title{
+  text-decoration: underline;
+}
 
-  td > #valD{
-    padding-left: 5%;
-  }
+td > #valD{
+  padding-bottom: 3.5%;
+  display: table-cell;
+  word-wrap: break-word;
+  white-space: pre-line;
+}
 
-  td > #valL{
-    padding-left: 5%;
-  }
+td > #valL{
+  padding-bottom: 3.5%;
+  display: table-cell;
+  word-wrap: break-word;
+  white-space: pre-line;
+}
 
-  td > #valM{
-    padding-left: 13.5%;
-  }
+td > #valM{
+  padding-bottom: 3.5%;
+  display: table-cell;
+  word-wrap: break-word;
+  white-space: pre-line;
+}
 
-  td > #valW{
-    padding-left: 8.5%;
-  }
+td > #valW{
+  padding-bottom: 3.5%;
+  display: table-cell;
+  word-wrap: break-word;
+  white-space: pre-line;
+}
 
-  td > #valB{
-    padding-left: 9.25%;
-  }
+td > #valB{
+  padding-bottom: 3.5%;
+  display: table-cell;
+  word-wrap: break-word;
+  white-space: pre-line;
+}
 
-  td > #valE{
-    padding-left: 20%;
-  }
+td > #valE{
+  padding-bottom: 3.5%;
+  display: table-cell;
+  word-wrap: break-word;
+  white-space: pre-line;
+}
 
-  td > #valGPA{
-    padding-left: 10%;
-  }
+td > #valGPA{
+ padding-bottom: 3.5%;
+ display: table-cell;
+ word-wrap: break-word;
+ white-space: pre-line;
+}
 
-  td > #valS{
-    padding-left: 5%;
-  }
+td > #valS{
+  padding-bottom: 3.5%;
+  display: table-cell;
+  word-wrap: break-word;
+  white-space: pre-line;
+}
+
+td > #valLI{
+  padding-bottom: 3.5%;
+  display: table-cell;
+  word-wrap: break-word;
+  white-space: pre-line;
+}
+
+td > #valGH{
+  padding-bottom: 3.5%;
+  display: table-cell;
+  word-wrap: break-word;
+  white-space: pre-line;
+}
+
+td > #valI{
+  padding-bottom: 3.5%;
+  display: table-cell;
+  word-wrap: break-word;
+  white-space: pre-line;
+}
 
 
 @media (max-width: 767px) {
@@ -268,7 +343,7 @@ a{
   }
 
   td > #valD{
-  padding: 4.75%;
+    padding: 4.75%;
   }
 
   td > #valL{
@@ -328,14 +403,14 @@ td{
 }
 
 #stats{
-    font-size: 155%;
-    margin-left: 13%;
-    margin-top: .25%;
-    border: none;
-    color: #689f38;
-    background: none;
-    z-index: 5;
-    outline: none;
+  font-size: 155%;
+  margin-left: 13%;
+  margin-top: .25%;
+  border: none;
+  color: #689f38;
+  background: none;
+  z-index: 5;
+  outline: none;
 }
 
 #stats:hover{
@@ -460,12 +535,12 @@ td{
 
 /*search dropdown*/
 .dropdown.dropdown-lg .dropdown-menu {
-    margin-top: 5%;
-    margin-left: 107%;
-    padding: 10px 24px;
-    width: 200%;
-    border: 1px solid #ababab;
-    border-radius: 10px;
+  margin-top: 5%;
+  margin-left: 107%;
+  padding: 10px 24px;
+  width: 200%;
+  border: 1px solid #ababab;
+  border-radius: 10px;
 }
 
 .btn-default{
@@ -534,8 +609,8 @@ input:focus, input:active {
 .right-addon input { padding-right: 25%; }
 
 input[type='text'] {
-      padding-left: 2.5%;
-      max-width : calc(100% - 2.5%);
+  padding-left: 2.5%;
+  max-width : calc(100% - 2.5%);
 }
 
 .btn-default:hover{
@@ -548,15 +623,15 @@ input[type='text'] {
 }
 
 #one{
-    padding: 2.5%;
+  padding: 2.5%;
 }
 
 /*for ipads*/
 @media (min-width: 768px) and (max-width: 991px){
-    .dropdown.dropdown-lg .dropdown-menu {
-      width: 325%;
-    }
-    #arrow{
+  .dropdown.dropdown-lg .dropdown-menu {
+    width: 325%;
+  }
+  #arrow{
     margin-left: 367%;
     margin-top: 6%;
   }
@@ -576,25 +651,25 @@ input[type='text'] {
 
 /*for phones*/
 @media (max-width: 767px) {
-    .dropdown.dropdown-lg {
-        position: static !important;
-    }
-    .dropdown.dropdown-lg .dropdown-menu {
-      margin-left: -1%;
-      width: 150%;
-    }
-    .autocomplete{
-      margin-left: 0 !important;
-    }
+  .dropdown.dropdown-lg {
+    position: static !important;
+  }
+  .dropdown.dropdown-lg .dropdown-menu {
+    margin-left: -1%;
+    width: 150%;
+  }
+  .autocomplete{
+    margin-left: 0 !important;
+  }
 
-    #two{
-      display: block;
-      padding-top: 2.5%;
-    }
+  #two{
+    display: block;
+    padding-top: 2.5%;
+  }
 
-    #three{
-      padding-bottom: 2.5%;
-    }
+  #three{
+    padding-bottom: 2.5%;
+  }
 }
 
 /* AUTOCOMPLETE */
@@ -691,4 +766,8 @@ input[type='text'] {
 
 .carousel.ng-hide {
   opacity: 0;
+}
+
+mark {
+  background-color: #FFFF00;
 }

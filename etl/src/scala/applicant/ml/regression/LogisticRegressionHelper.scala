@@ -88,7 +88,22 @@ object LogisticRegressionHelper {
    * @param features A single list of features
    * @return A prediction for the given Vector of features
    */
-  def predictSingleScore(model: LogisticRegressionModel, feature: Vector): Double = {
-    return model.predict(feature)
+  def predictSingleScore(model: LogisticRegressionModel, features: Vector): Double = {
+    return model.predict(features)
+  }
+
+  /**
+   * Will multiply the values in the features vector with their corresponding
+   *  weight from the model
+   *
+   * @param features The list of features to be scaled
+   * @param model The model whose weights will be used to do the scoring
+   */
+  def weightifyFeatureScores(features: Vector, model: LogisticRegressionModel): Vector = {
+    val weightsArray = model.weights.toArray
+    val featuresArray = features.toArray
+
+    val scaledArray = (weightsArray, featuresArray).zipped.map(_ * _)
+    return Vectors.dense(scaledArray)
   }
 }
