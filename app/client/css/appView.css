@@ -236,44 +236,80 @@ a{
 }
 
   td > #valD{
-    /*padding-left: 5%;*/
-    text-align: right;
+    padding-bottom: 3.5%;
+    display: table-cell;
+    word-wrap: break-word;
+    white-space: pre-line;
   }
 
   td > #valL{
-    /*padding-left: 5%;*/
-    text-align: right;
+    padding-bottom: 3.5%;
+    display: table-cell;
+    word-wrap: break-word;
+    white-space: pre-line;
   }
 
   td > #valM{
-    /*padding-left: 13.5%;*/
-    text-align: right;
+    padding-bottom: 3.5%;
+    display: table-cell;
+    word-wrap: break-word;
+    white-space: pre-line;
   }
 
   td > #valW{
-    /*padding-left: 8.5%;*/
-    text-align: right;
+    padding-bottom: 3.5%;
+    display: table-cell;
+    word-wrap: break-word;
+    white-space: pre-line;
   }
 
   td > #valB{
-    /*padding-left: 9.25%;*/
-    text-align: right;
+    padding-bottom: 3.5%;
+    display: table-cell;
+    word-wrap: break-word;
+    white-space: pre-line;
   }
 
   td > #valE{
-    /*padding-left: 20%;*/
+    padding-bottom: 3.5%;
     display: table-cell;
     word-wrap: break-word;
+    white-space: pre-line;
   }
 
   td > #valGPA{
-   /* padding-left: 10%;*/
-   text-align: right;
+   padding-bottom: 3.5%;
+   display: table-cell;
+    word-wrap: break-word;
+    white-space: pre-line;
   }
 
   td > #valS{
-    /*padding-left: 5%;*/
-    text-align: right;
+    padding-bottom: 3.5%;
+    display: table-cell;
+    word-wrap: break-word;
+    white-space: pre-line;
+  }
+
+  td > #valLI{
+    padding-bottom: 3.5%;
+    display: table-cell;
+    word-wrap: break-word;
+    white-space: pre-line;
+  }
+
+  td > #valGH{
+    padding-bottom: 3.5%;
+   display: table-cell;
+    word-wrap: break-word;
+    white-space: pre-line;
+  }
+
+  td > #valI{
+    padding-bottom: 3.5%;
+    display: table-cell;
+    word-wrap: break-word;
+    white-space: pre-line;
   }
 
 
