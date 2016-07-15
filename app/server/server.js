@@ -118,7 +118,6 @@ root.get("/", function(req, res) {
   res.redirect("/app");
 });
 
-
 /**
  * HTML5 mode, gets rid of the '#' in URLs
  *
@@ -130,7 +129,6 @@ app.all('/*', function(req, res) {
     root: __dirname + "/../client/"
   });
 });
-
 
 var options = {
   key  : fs.readFileSync(__dirname + '/server.key'),

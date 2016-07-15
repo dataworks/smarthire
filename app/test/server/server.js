@@ -4,6 +4,7 @@ var supertest = require("supertest");
 var should = require("should");
 
 var server = supertest.agent("https://localhost:8082/app");
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 
 describe("Applicant Server", function() {
