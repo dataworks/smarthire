@@ -12,7 +12,6 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
     $scope.pageSize = 25;
     $scope.loadingData = false;
     $scope.hasData = true;
-    $scope.scoreFinal = 0;
 
     //sorting table by column code
     $scope.propertyName = null;
@@ -271,40 +270,10 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
      * @param score - applicant.score from Elasticsearch, a decimal number 
      */
     $scope.scaleScore = function(score) {
-      $scope.scoreFinal = parseInt((score * 100), 10);
-      return $scope.scoreFinal;
+      return parseInt((score * 100), 10);
     }
 
-
-    /**
-     * styles words in an applicant's summary that matches a skill listed on his/her resume
-     *
-     * @param summary - summary of the applicant
-     * @param bd - big data skills
-     * @param d - databases skills
-     * @param etl -  etl skills
-     * @param web - web app skills
-     * @param mobile- mobile development skills
-     * @param lang- languages 
-     * @return $scope.trustedHtml- word in HTML format to replace matched word in summary for styling
-     */
-    // $scope.highlightSkills = function(summary, bd, d, etl, web, mobile, lang){
-    //   $scope.skills = bd;
-    //   $scope.skills = $scope.skills.concat(d);
-    //   $scope.skills = $scope.skills.concat(etl);
-    //   $scope.skills = $scope.skills.concat(web);
-    //   $scope.skills = $scope.skills.concat(mobile);
-    //   $scope.skills = $scope.skills.concat(lang);
-
-    //   for (i = 0; i < $scope.skills.length; i++){
-    //     summary = summary.replace($scope.skills[i], "<span style = 'color:#673AB7;'>" + $scope.skills[i] + "</span>");
-    //   }
-
-    //   $scope.trustedHtml = $sce.trustAsHtml(summary);
-
-    //   return $scope.trustedHtml;
-    // }
-       /**
+   /**
     * styles words in an applicant's summary that matches a skill listed on his/her resume
     *
     * @param applicant - current applicant
