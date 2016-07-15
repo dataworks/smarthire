@@ -137,6 +137,32 @@ a{
   outline: none;
 }
 
+.btn-circle {
+  width: 25%;
+  height: 70%;
+  text-align: center;
+  padding: 6px 0 !important;
+  font-size: 100%;
+  line-height: 1.428571429;
+  border-radius: 15px !important;
+  margin-left: 0 !important;
+  margin-top: 5% !important;
+  outline: none;
+}
+
+.btn-circle:hover {
+    background-color: #FFF59D!important;
+    border-color: #FFF59D!important;
+    outline: none;
+}
+
+.btn-circle:focus {
+    color: #333;
+    background-color: #FFF59D!important;
+    border-color: #FFF59D!important;
+    outline: none;
+}
+
 #s{
   width: 8% !important;
 }
