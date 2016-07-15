@@ -3,6 +3,8 @@ var bodyParser = require("body-parser");
 var elasticsearch = require("elasticsearch");
 var root = express();
 var app = express();
+var fs = require('fs');
+var https = require('https');
 
 var applicantService = require("./services/applicants.js");
 var labelService = require("./services/labels.js");
@@ -104,6 +106,8 @@ app.get("/service/analysis", function(req, res) {
   applicantService.aggregations(res, req.query.type, req.query.field, req.query.query);
 });
 
+root.use('/app', app);
+
 /**
  * HTTP GET request on the app root 
  *
@@ -114,7 +118,6 @@ root.get("/", function(req, res) {
   res.redirect("/app");
 });
 
-root.use('/app', app);
 
 /**
  * HTML5 mode, gets rid of the '#' in URLs
@@ -128,11 +131,15 @@ app.all('/*', function(req, res) {
   });
 });
 
-var server = root.listen(8082, function() {
+
+var options = {
+  key  : fs.readFileSync(__dirname + '/server.key'),
+  cert : fs.readFileSync(__dirname + '/server.crt')
+};
+
+var server = https.createServer(options, root).listen(8082, function() {
   var host = server.address().address
   var port = server.address().port
 
-  console.log("SmartHire listening at http://%s:%s", host, port)
-  
+  console.log("SmartHire listening at https://%s:%s", host, port);
 });
-
