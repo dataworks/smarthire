@@ -275,6 +275,19 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       return $scope.scoreFinal;
     }
 
+
+    /**
+     * styles words in an applicant's summary that matches a skill listed on his/her resume
+     *
+     * @param summary - summary of the applicant
+     * @param bd - big data skills
+     * @param d - databases skills
+     * @param etl -  etl skills
+     * @param web - web app skills
+     * @param mobile- mobile development skills
+     * @param lang- languages 
+     * @return $scope.trustedHtml- word in HTML format to replace matched word in summary for styling
+     */
     $scope.highlightSkills = function(summary, bd, d, etl, web, mobile, lang){
       $scope.skills = bd;
       $scope.skills = $scope.skills.concat(d);
