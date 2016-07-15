@@ -19,8 +19,7 @@ object ResumeSummarizer {
 
   def summarize(resume : String, charLimit : Int) : String = {
     val mostFreqWords : HashMap[String, Int] = getMostFreqWords(100, resume)
-    //o
-    val regEx = "(?m)((\\.|!|\\?)+(\\s|\\z))|(\n\n)|([→•●〓♦➢>○❾◆◦✓·°❖∗\\*])|(^-)|(^–)|((?=^[A-Z]))"
+    val regEx = "(?m)((\\.|!|\\?)+(\\s|\\z))|(\n\n)|([→•●〓♦➢>○❾◆◦✓·°❖∗\\|\\*])|(^-)|(^–)|((?=^[A-Z]))"
     val originalSentences = resume.split(regEx)
     val scoredSentences : HashMap[String, Int] = new HashMap()
     val outputSentences: ListBuffer[String] = new ListBuffer[String]

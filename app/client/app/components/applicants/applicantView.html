@@ -165,7 +165,7 @@
               <td id="s"><span ng-if="applicant.score < 0">Loading Score</span> <button id="feature" data-toggle="collapse" data-target="#scoreExpand-{{$index}}" title="Score Breakdown" type="button" class="btn btn-default btn-circle"><i>
               <span id="high" ng-if="applicant.score >= 0.7">{{scaleScore(applicant.score)}}</span>
                 <span id="mid" ng-if="applicant.score < 0.7 && applicant.score > 0.3">{{scaleScore(applicant.score)}}</span>
-                <span id="low" ng-if="applicant.score <= 0.3 && applicant.score > -1">{{scaleScore(applicant.score)}}</span> <br> <span id="star" class="glyphicon glyphicon-star" ng-if="applicant.score >= 0.9"></span></i></button>
+                <span id="low" ng-if="applicant.score <= 0.3 && applicant.score > -1">{{scaleScore(applicant.score)}}</span></i></button> <br> <span id="star" class="glyphicon glyphicon-star" ng-if="applicant.score >= 0.9"></span>
               </td>
               <td id="n"><span ng-if="applicant.name != ''"><a id="nl" ng-bind-html="applicant.name" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}"></a></span>
                 <span ng-if="applicant.name == ''"><a id="nl" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}">Name Not found</a></span></td>
@@ -213,10 +213,9 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td id='body' ng-bind-html="trustedHtml">{{highlightSkills(applicant.summary, applicant.skills.bigdata, applicant.skills.database, applicant.skills.etl, applicant.skills.webapp, applicant.skills.mobile, applicant.skills.language)}}</td>
+                        <td id='body' ng-bind-html="trustedHtml">{{highlightSkills(applicant)}}</td>
                         <td id='body' align="left" class="hidden-xs hidden-s"><span id="title"><b>ETL</b></span><span id="valE"> {{applicant.skills.etl.join(', ')}}</span> <br> <span id="title"><b>Web App</b></span> <span id="valE">{{applicant.skills.webapp.join(', ')}}</span> <br> <span id="title"><b>Languages</b></span> <span id="valE">{{applicant.skills.language.join(', ')}}</span> <br> <span id="title"><b>Mobile</b></span> <span id="valE">{{applicant.skills.mobile.join(', ')}}</span> <br> <span id="title"><b>Databases</b> </span><span id="valE">{{applicant.skills.database.join(', ')}}</span><br> <span id="title"> <b> Big Data</b></span> <span id="valE">{{applicant.skills.bigdata.join(', ')}}</span></td>
-                        <td id='body' class="hidden-xs hidden-s"><span id="title"><b>School</b></span> <span id="valE">{{applicant.education.school}}</span> <br><span id="title"> <b>GPA</b></span> <span id="valE" ng-if="applicant.education.gpa === 0"></span><span id="valE" ng-if="applicant.education.gpa != 0">{{applicant.education.gpa}}</span> <br><span id="title"> <b>Linked-in </b></span><a id="valE" ng-href="{{applicant.contact.linkedin}}" target="_blank">{{applicant.contact.linkedin}} </a> <br><span id="title"> <b> GitHub </b></span><a id="valE" ng-href="{{applicant.contact.github}}" target="_blank">{{applicant.contact.github}}</a> <br><span id="title"> <b>Indeed </b></span><a id="valE"ng-href="{{applicant.contact.indeed}}" target="_blank">{{applicant.contact.indeed}}</a></td>
-                         
+                        <td id='body' class="hidden-xs hidden-s"><span id="title"><b>School</b></span> <span id="valE">{{applicant.education.school}}</span> <br><span id="title"> <b>GPA</b></span> <span id="valE" ng-if="applicant.education.gpa === 0"></span><span id="valE" ng-if="applicant.education.gpa != 0">{{applicant.education.gpa}}</span> <br><span id="title"> <b>Linked-in </b></span><a id="valE" ng-href="{{applicant.contact.linkedin}}" target="_blank">{{applicant.contact.linkedin}} </a> <br><span id="title"> <b> GitHub </b></span><a id="valE" ng-href="{{applicant.contact.github}}" target="_blank">{{applicant.contact.github}}</a> <br><span id="title"> <b>Indeed </b></span><a id="valE"ng-href="{{applicant.contact.indeed}}" target="_blank">{{applicant.contact.indeed}}</a></td>  
                       </tr>
                     </tbody>
                   </table>
@@ -234,7 +233,11 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td id='body'>goes here</td>
+                        <td id='body'>
+                          <div id="sb">
+                            <canvas id="ScoreBD" width="100%" height="100%">{{displayGraph(applicant.feature, ScoreBD)}}</canvas>
+                          </div>
+                        </td>
                       </tr>
                     </tbody>
                   </table>

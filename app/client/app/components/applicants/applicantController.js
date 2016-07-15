@@ -288,22 +288,42 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
      * @param lang- languages 
      * @return $scope.trustedHtml- word in HTML format to replace matched word in summary for styling
      */
-    $scope.highlightSkills = function(summary, bd, d, etl, web, mobile, lang){
-      $scope.skills = bd;
-      $scope.skills = $scope.skills.concat(d);
-      $scope.skills = $scope.skills.concat(etl);
-      $scope.skills = $scope.skills.concat(web);
-      $scope.skills = $scope.skills.concat(mobile);
-      $scope.skills = $scope.skills.concat(lang);
+    // $scope.highlightSkills = function(summary, bd, d, etl, web, mobile, lang){
+    //   $scope.skills = bd;
+    //   $scope.skills = $scope.skills.concat(d);
+    //   $scope.skills = $scope.skills.concat(etl);
+    //   $scope.skills = $scope.skills.concat(web);
+    //   $scope.skills = $scope.skills.concat(mobile);
+    //   $scope.skills = $scope.skills.concat(lang);
 
-      for (i = 0; i < $scope.skills.length; i++){
-        summary = summary.replace($scope.skills[i], "<span style = 'font-style:italic;color:#FF5722;'>" + $scope.skills[i] + "</span>");
-      }
+    //   for (i = 0; i < $scope.skills.length; i++){
+    //     summary = summary.replace($scope.skills[i], "<span style = 'color:#673AB7;'>" + $scope.skills[i] + "</span>");
+    //   }
 
-      $scope.trustedHtml = $sce.trustAsHtml(summary);
+    //   $scope.trustedHtml = $sce.trustAsHtml(summary);
 
-      return $scope.trustedHtml;
-    }
+    //   return $scope.trustedHtml;
+    // }
+       /**
+    * styles words in an applicant's summary that matches a skill listed on his/her resume
+    *
+    * @param applicant - current applicant
+    * @return word in HTML format to replace matched word in summary for styling
+    */
+   $scope.highlightSkills = function(applicant){
+     $scope.skills = applicant.skills.bigdata
+     $scope.skills = $scope.skills.concat(applicant.skills.database);
+     $scope.skills = $scope.skills.concat(applicant.skills.etl);
+     $scope.skills = $scope.skills.concat(applicant.skills.web);
+     $scope.skills = $scope.skills.concat(applicant.skills.mobile);
+     $scope.skills = $scope.skills.concat(applicant.skills.lang);
+
+     for (i = 0; i < $scope.skills.length; i++){
+       summary = summary.replace($scope.skills[i], "<span style = 'color:#673AB7 ;'>" + $scope.skills[i] + "</span>");
+     }
+
+     return $sce.trustAsHtml(applicant.summary);
+   }
 
     /** 
      * return image from a link
@@ -480,7 +500,25 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
 
       if (id === 'Big') {
         createPieChart(ctx, labels, count, purples);
+      }
 
+      var barData = {
+          labels: ["January", "February", "March", "April", "May", "June", "July"],
+          datasets: [
+              {
+                  label: "My First dataset",
+                  backgroundColor: "rgba(255,99,132,0.2)",
+                  borderColor: "rgba(255,99,132,1)",
+                  borderWidth: 1,
+                  hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                  hoverBorderColor: "rgba(255,99,132,1)",
+                  data: [65, 59, 80, 81, 56, 55, 40],
+              }
+          ]
+      };
+
+      if (id === "ScoreBD"){
+        createBarGraph(ctx, barData, reds);
       }
     }
 
@@ -507,6 +545,14 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
         }
       });
       charts.push(chart);
+    }
+
+    function createBarGraph(ctx, data){
+      var BarChart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: options
+      });
     }
 
     /** 

@@ -142,12 +142,14 @@ a{
   height: 70%;
   text-align: center;
   padding: 6px 0 !important;
-  font-size: 100%;
+  font-size: 115% !important;
   line-height: 1.428571429;
   border-radius: 15px !important;
   margin-left: 0 !important;
   margin-top: 5% !important;
   outline: none;
+  border: none;
+  font-style: none;
 }
 
 .btn-circle:hover {

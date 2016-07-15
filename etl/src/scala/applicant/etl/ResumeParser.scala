@@ -175,7 +175,6 @@ object ResumeParser {
       filenameArr.foreach(file => fs.delete(new Path(s3ResumeBucket + "new/" + file(0)),true))
     }
     sc.stop()
-
   }
 
   def main(args: Array[String]) {
