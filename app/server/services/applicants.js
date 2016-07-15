@@ -31,6 +31,7 @@ exports.listApplicants = function(req, res, type) {
           if(!applicants[x].type)
             applicants[x].type = 'new';
         } 
+        
         res.json({
           "rows": applicants,
           "size": count
