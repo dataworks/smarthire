@@ -297,7 +297,7 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       $scope.skills = $scope.skills.concat(lang);
 
       for (i = 0; i < $scope.skills.length; i++){
-        summary = summary.replace($scope.skills[i], "<span style = 'font-style:italic;color:#FF5722;'>" + $scope.skills[i] + "</span>");
+        summary = summary.replace($scope.skills[i], "<span style = 'color:#673AB7;'>" + $scope.skills[i] + "</span>");
       }
 
       $scope.trustedHtml = $sce.trustAsHtml(summary);
