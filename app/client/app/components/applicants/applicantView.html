@@ -224,7 +224,7 @@
             </tr>
             <tr>
               <td  id="hide" colspan="12" class="hiddenRow">
-                <div class="accordian-body collapse {{active ? '' : 'in'}}" id="scoreExpand-{{$index}}">
+                <div class="accordian-body collapse {{active ? '' : 'in'}}" id="scoreExpand-{{$index}}" ng-if="applicant.score > -1">
                   <table class="table table-striped">
                     <thead>
                       <tr>
