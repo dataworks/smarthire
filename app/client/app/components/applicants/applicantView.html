@@ -236,8 +236,11 @@
                     <tbody>
                       <tr>
                         <td id='body'>
+                          <div id="appFeature">
+                            <span ng-bind-html="parseFeature(applicant.features)"></span>
+                          </div>
                           <div id="sb">
-                            <canvas id="ScoreBD" width="100%" height="100%">{{displayGraph(applicant.feature, ScoreBD)}}</canvas>
+                            <canvas id="ScoreBD" width="100%" height="100%">{{displayGraph(applicant.features, ScoreBD)}}</canvas>
                           </div>
                         </td>
                       </tr>
