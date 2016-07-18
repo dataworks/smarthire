@@ -1,7 +1,19 @@
 #!/bin/bash
 
 #script to create elasticsearch index with desired mappings
+curl -XPUT 'http://interns.dataworks-inc.com/elasticsearch/attachments/' -d '
+{
+  "settings": {
+    "index" : {
+        "number_of_shards" : 5,
+        "number_of_replicas" : 0
+    }
+  }
+}
+'
 
+if false
+then
 curl -XPUT 'http://interns.dataworks-inc.com/elasticsearch/attachments/attachment/_mapping' -d '
 {
   "attachment": {
@@ -14,3 +26,4 @@ curl -XPUT 'http://interns.dataworks-inc.com/elasticsearch/attachments/attachmen
   }
 }
 '
+fi
