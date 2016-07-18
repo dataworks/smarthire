@@ -169,12 +169,11 @@
               </td>
 
               <td id="n"><span ng-if="applicant.name != ''"><a id="nl" ng-bind-html="applicant.name" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}"></a></span>
-              {{applicant.type}}
                 <span ng-if="applicant.name == ''"><a id="nl" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}">Name Not found</a></span></td>
                 <td id="ci" class="hidden-xs hidden-s">{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
                 <td id="d" class="hidden-xs hidden-s">{{applicant.education.degree}}</td>
                 <td id="c" class="hidden-xs hidden-s"><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> </td>
-                <td id="o"><span ng-if="selection != 'favorite'"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite', applicant); showToast('Favorite')"> 
+                <td id="o"><span ng-if="selection != 'favorite' || selection !='favorite'"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite', applicant); showToast('Favorite')"> 
                   <span title="Add to Favorites" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
                 </button></span>
                 <span ng-if="selection != 'review'"><button id="question" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'review', applicant); showToast('Review')">
