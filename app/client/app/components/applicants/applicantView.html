@@ -21,7 +21,7 @@
   <div class="form-group col-xs-6">
     <div class="inner-addon right-addon">
       <i id="sb" class="glyphicon glyphicon-search" ng-click="search(displayText)"></i>
-      <autocomplete data="autoSuggest" type="text" ng-keyup="($event.keyCode == 13 && search(displayText)) || $event.keyCode == 13 &&isSearch(displayText)" id="search" ng-model="displayText" placeholder="Search here..." required></autocomplete>
+      <autocomplete data="autoSuggest" type="text" ng-keyup="($event.keyCode == 13 && search(displayText)); $event.keyCode == 13 && isSearch(displayText)" id="search" ng-model="displayText" placeholder="Search here..." required></autocomplete>
       <div class="input-group-btn">
         <div class="dropdown dropdown-lg">
           <button id="arrow" title="Advanced Search" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -175,18 +175,18 @@
                 <td id="ci" class="hidden-xs hidden-s">{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
                 <td id="d" class="hidden-xs hidden-s">{{applicant.education.degree}}</td>
                 <td id="c" class="hidden-xs hidden-s"><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> </td>
-                <td id="o"><span ng-if="selection != 'favorite'"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite', applicant); showToast('Favorite')"> 
+                <td id="o"><span ng-if="selection != 'favorite' && applicant.type != 'favorite'"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite', applicant); showToast('Favorite')"> 
                   <span title="Add to Favorites" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
                 </button></span>
-                <span ng-if="selection != 'review'"><button id="question" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'review', applicant); showToast('Review')">
+                <span ng-if="selection != 'review' && applicant.type != 'review'"><button id="question" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'review', applicant); showToast('Review')">
                   <span title="Add to Review" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
                   <a href="/archive"></a> 
                 </button></span>
-                <span ng-if="selection != 'archive'"><button id="down" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'archive', applicant); showToast('Archive')">
+                <span ng-if="selection != 'archive' && applicant.type != 'archive'"><button id="down" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'archive', applicant); showToast('Archive')">
                   <span title="Add to Archive" class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
                   <a href="/archive"></a> 
                 </button></span>
-                <span ng-if="selection != 'new'"><button id="back" type="button" class="btn btn-default" aria-label="Left Align" ng-click="remove(applicant.id, applicant); showToast('Back')">
+                <span ng-if="selection != 'new' && applicant.type != 'new'"><button id="back" type="button" class="btn btn-default" aria-label="Left Align" ng-click="remove(applicant.id, applicant); showToast('Back')">
                   <span title="Send back to New" class="glyphicon glyphicon-share-alt">
                   </span>
                 </button></span>    
