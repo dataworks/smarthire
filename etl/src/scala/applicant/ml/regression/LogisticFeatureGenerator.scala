@@ -242,8 +242,9 @@ class LogisticFeatureGenerator {
    *          1 signifies close by
    */
   def scaleDistance(meters: Double): Double = {
+    // f(x) = 2/(1 + 5000^((x/9000000)-.5)) - 1
     val maxDistance = 4500000.0
-    return if (meters >= maxDistance) 0.0 else (1 - (meters/maxDistance))
+    return if (meters >= maxDistance) 0.0 else ((2.0/(1.0 + Math.pow(5000.0,((meters/(maxDistance*2.0))-0.5)))) - 1)
   }
 
   /**
@@ -261,16 +262,8 @@ class LogisticFeatureGenerator {
       case Some(loc1Coords) =>
         locationMap.get(loc2Key) match {
           case Some(loc2Coords) =>
-
-            val result = GeoUtils.haversineEarthDistance(loc1Coords, loc2Coords)
-
-            if (result >= 1000000.0){
-              return 0.0
-            }
-            else {
-              return 1 - (result/1000000.0)
-            }
-
+            val rawResult = GeoUtils.haversineEarthDistance(loc1Coords, loc2Coords)
+            return scaleDistance(rawResult)
           case None =>
             return 0.25
         }
@@ -290,12 +283,7 @@ class LogisticFeatureGenerator {
     val distance = ApiMapper.googlemapsAPI(location1, location2)
     distance match {
       case Some(distance) =>
-        if (distance.toDouble >= 3000000.0){
-          return 0.0
-        }
-        else {
-          return 1 - (distance.toDouble/3000000.0)
-        }
+        return scaleDistance(distance)
       case None =>
       return backupDistanceFinder(location1, location2)
     }

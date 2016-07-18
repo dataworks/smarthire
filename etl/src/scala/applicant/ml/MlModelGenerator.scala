@@ -196,7 +196,7 @@ object MlModelGenerator {
       } text ("Name of the Elasticsearch index to read and write data.")
       opt[String]('l', "labelindex") required() valueName("<labelindex>") action { (x, c) =>
         c.copy(esLabelIndex = x)
-      } text ("Name of the Elasticsearch containing archived/favorited labes.")
+      } text ("Name of the Elasticsearch containing archived/favorited labels.")
       opt[String]("logisticmodeldirectory") valueName("<logisticmodeldirectory>") action { (x, c) =>
         c.copy(logisticModelDirectory = x)
       } text("Path where the logistic regression model is to be saved")
