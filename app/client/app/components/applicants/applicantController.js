@@ -25,6 +25,9 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
     //for search analytics
     $scope.showGraphs = false;
 
+    //for search dropdown
+    $scope.searchTab = false;
+
     $scope.queries = [$scope.languages, $scope.etl, $scope.web,
       $scope.mobile, $scope.db, $scope.bigData
     ];
@@ -314,6 +317,19 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
 
     $scope.getLink = function(id, type) {
       return "service/attachments?id=" + id + "&type=" + type;
+    }
+
+    $scope.isSearch = function(text){
+      if(text != ""){
+        $scope.searchTab = true;
+      }
+      else if(text == ""){
+        $scope.searchTab = false;
+      }
+    }
+
+    $scope.searched = function(){
+      return $scope.searchTab;
     }
 
     /** 
