@@ -41,7 +41,7 @@ export PATH=$PATH:$SPARK_HOME/bin
 Now that the arduous installation task is over, it is time to begin firing everything up. This will be accomplished in two main steps. The first is to set up all of the required servers. Details on how this can be done are located in the app directory [README](https://github.com/dataworks/internship-2016/tree/master/app/README.md). The second step is to load data for the app to use. This process is described in the etl directory [README](https://github.com/dataworks/internship-2016/tree/master/etl/README.md).
 
 ## About
-SmartHire was built by the DataWorks 2016 summer internship team in response to ... the hiring of the DataWorks 2016 summer internship team. While designed primarily for the task of filtering future DataWorks interns, it is hoped that the application is extensible enough to be useful to others as well.
+SmartHire was built by the Data Works 2016 summer internship team in response to ... the hiring of the Data Works 2016 summer internship team. While designed primarily for the task of filtering future Data Works interns, it is hoped that the application is extensible enough to be useful to others as well.
 
 ### The Team
 
