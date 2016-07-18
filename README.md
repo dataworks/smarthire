@@ -51,20 +51,4 @@ Dennis Huang
 Nitin Sudini  
 William Goubeaux
 
-## Technologies Used
-
-### Apache Spark
-
-#### What it was used for:
-
-[Apache Spark](http://spark.apache.org/) served as our distributed computing platform.  It alowed us to process resumes and extract data from them using several machines (called "nodes") rather than simply use a single, expensive machine requiring lots of memory and CPU.  Spark also comes with the machine learning library, [Spark MlLib](http://spark.apache.org/docs/latest/mllib-guide.html), that allowed us to incorporate several machine learing techniques into our applicant scoring algorithm, including logistic regression, naive Bayes, and term frequency–inverse document frequency.
-
-#### Pros:
-
-Spark is relatively high-level and less verbose compared to Hadoop MapReduce.  Primarily written in [Scala](http://www.scala-lang.org/), a JVM language that combines functional and object-oriented programming techniques, but also supports Java and Python.
-
-#### Cons:
-
-Often ran into issues with serialization, which is more of a general parallel-computing issue than a Spark issue.  Ran into some issues with different versions of different libraries being incompatible, such as the [Hadoop-AWS library being incompatible with Spark in more recent versions](https://issues.apache.org/jira/browse/HADOOP-12420).
-
 
