@@ -316,14 +316,6 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       return "service/attachments?id=" + id + "&type=" + type;
     }
 
-    // $scope.document.getElementById('profile').onerror = function() { 
-    //   $scope.document.getElementById('profile').src = "image/profile.png"; 
-    // }
-
-    $scope.pokemon = function(){
-      return "image/profile.png";
-    }
-
     /** 
      * return query based on text that was input in search bar
      *
