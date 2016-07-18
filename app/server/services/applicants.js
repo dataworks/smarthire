@@ -15,7 +15,25 @@ exports.listApplicants = function(req, res, type) {
   }
 
   if (req.query.query) { 
-    esservice.query(config.applicants, req.query, res, {query_string: { query: req.query.query, default_operator: "AND" }}, null);
+    esservice.query(config.applicants, req.query, res, {query_string: { query: req.query.query, default_operator: "AND" }}, function(res, hits, count) {
+      var applicants = hits;
+      var labelQuery = buildQuery(res, hits, type, query);
+      var count = count;
+      esservice.query(config.labels, applicants.length, res, labelQuery, function(res, hits) {
+        //double for loop inefficient probably should switch to hashmap
+        for(var x in applicants) {
+          for(var y in hits) {
+            if(applicants[x].id === hits[y].id) {
+              applicants[x].type = hits[y].type;
+              break;
+            }
+          }
+          if(!applicants[x].type)
+            applicants[x].type = 'new';
+        } 
+        esservice.defaultHandler(res, applicants, count, true);
+      });
+    });
   }
   else {
     esservice.query(config.labels, {size: 5000}, res, {query_string: { query: query, default_operator: "AND" }}, function(res, hits) {
@@ -34,7 +52,7 @@ exports.listApplicants = function(req, res, type) {
  * @param hits - Id's are extracted from hits and mapped to an array
  * @param type - type of the applicant 
  */
-function buildQuery(res, hits, type) {
+function buildQuery(res, hits, type, query) {
   if (hits && hits.length > 0) {
     var ids = hits.map(function(hit) {
       return hit.id;
@@ -42,7 +60,10 @@ function buildQuery(res, hits, type) {
 
     //same query logic * or NOT id ()
     if (ids && ids.length > 0) {
-      if (type === 'new') {
+      if(query) {
+        return {bool: { must: { ids: { values:  ids }}}}
+      }
+      else if (type === 'new') {
         return {bool: { must_not: { ids: { values:  ids }}}}
         //return "NOT id:(" + ids.join(" OR ") + ")";
       } 

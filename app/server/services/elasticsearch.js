@@ -44,10 +44,10 @@ exports.query = function(config, params, res, query, handler) {
     }
   }).then(function(resp) {
     // Parse ES response and send result back
-    var hits = module.exports.parseSearchHits(resp, res);
+    var hits = module.exports.parseSearchHits(resp, res); 
 
     if (handler) {
-      handler(res, hits);
+      handler(res, hits, resp.hits.total);
     } else {
       module.exports.defaultHandler(res, hits, resp.hits.total, true);
     }

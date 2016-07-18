@@ -273,6 +273,15 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       return parseInt((score * 100), 10);
     }
 
+    $scope.parseFeature = function(features) {
+      var featureString = "";
+
+      for (i = 0; i < features.length; i++) {
+        featureString += features[i]["_1"] + ": " + features[i]["_2"] + "<br>";
+      }
+      return featureString;
+    }
+
    /**
     * styles words in an applicant's summary that matches a skill listed on his/her resume
     *
