@@ -140,6 +140,9 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
         sort: $scope.sort,
         order: $scope.sortOrder
       });
+      if(type != 'search'){
+        $scope.searchTab = false;
+      }
 
       getAggregations(false, type);
     };
