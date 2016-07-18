@@ -10,6 +10,7 @@ var applicantService = require("./services/applicants.js");
 var labelService = require("./services/labels.js");
 var attachmentService = require("./services/attachments.js");
 var uploadService = require("./services/uploads.js");
+var options = require("./services/config.js");
 
 //used for serving static files (html, client js, images)
 app.use(express.static("client"));
@@ -130,14 +131,26 @@ app.all('/*', function(req, res) {
   });
 });
 
-// var options = {
-//   key  : fs.readFileSync(__dirname + '/server.key'),
-//   cert : fs.readFileSync(__dirname + '/server.crt')
-// };
+var readSsl = function(ssl) {
+  if (ssl.key.charAt(0) != '/') {
+    ssl.key = __dirname + '/' + ssl.key;
+  }
 
-var options = require("./services/config.js");
+  if (ssl.cert.charAt(0) != '/') {
+    ssl.cert = __dirname + '/' + ssl.cert;
+  }
 
-var server = https.createServer(options.ssl, root).listen(8082, function() {
+  completeSsl = {
+    key: fs.readFileSync(ssl.key),
+    cert: fs.readFileSync(ssl.cert)
+  }
+
+  return completeSsl;
+}
+
+finalSsl = readSsl(options.ssl);
+
+var server = https.createServer(finalSsl, root).listen(8082, function() {
   var host = server.address().address
   var port = server.address().port
 
