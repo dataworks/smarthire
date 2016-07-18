@@ -130,12 +130,14 @@ app.all('/*', function(req, res) {
   });
 });
 
-var options = {
-  key  : fs.readFileSync(__dirname + '/server.key'),
-  cert : fs.readFileSync(__dirname + '/server.crt')
-};
+// var options = {
+//   key  : fs.readFileSync(__dirname + '/server.key'),
+//   cert : fs.readFileSync(__dirname + '/server.crt')
+// };
 
-var server = https.createServer(options, root).listen(8082, function() {
+var options = require("./services/config.js");
+
+var server = https.createServer(options.ssl, root).listen(8082, function() {
   var host = server.address().address
   var port = server.address().port
 

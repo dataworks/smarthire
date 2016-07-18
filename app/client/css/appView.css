@@ -69,7 +69,7 @@
   padding: .5% 1%;
   -moz-appearance: none;
   padding-right: 2%;
-  background: #689F38 url(http://www.phytecs.com/wp-content/themes/phytec/images/drop-down-arrow-wh.png);
+  background: #689F38 url("../images/drop-down-arrow-wh.png");
   -webkit-appearance: none;
   background-repeat: no-repeat;
   background-position: 90% 45%;
