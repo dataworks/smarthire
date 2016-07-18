@@ -307,6 +307,14 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       return "service/attachments?id=" + id + "&type=" + type;
     }
 
+    // $scope.document.getElementById('profile').onerror = function() { 
+    //   $scope.document.getElementById('profile').src = "image/profile.png"; 
+    // }
+
+    $scope.pokemon = function(){
+      return "image/profile.png";
+    }
+
     /** 
      * return query based on text that was input in search bar
      *
@@ -472,20 +480,7 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
         createPieChart(ctx, labels, count, purples);
       }
 
-      var barData = {
-          labels: ["January", "February", "March", "April", "May", "June", "July"],
-          datasets: [
-              {
-                  label: "My First dataset",
-                  backgroundColor: "rgba(255,99,132,0.2)",
-                  borderColor: "rgba(255,99,132,1)",
-                  borderWidth: 1,
-                  hoverBackgroundColor: "rgba(255,99,132,0.4)",
-                  hoverBorderColor: "rgba(255,99,132,1)",
-                  data: [65, 59, 80, 81, 56, 55, 40],
-              }
-          ]
-      };
+      var barData = ["January", "February", "March", "April", "May", "June", "July"];
 
       if (id === "ScoreBD"){
         createBarGraph(ctx, barData, reds);
@@ -517,11 +512,21 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       charts.push(chart);
     }
 
-    function createBarGraph(ctx, data){
+    function createBarGraph(ctx, data, color){
       var BarChart = new Chart(ctx, {
         type: 'bar',
-        data: data,
-        options: options
+        data: {
+          labels: data,
+          datasets: [{
+                  label: '# of Votes',
+                  backgroundColor: color,
+                  borderColor: color,
+                  borderWidth: 1,
+                  data: [65, 59, 80, 81, 56, 55, 40],
+              }
+          ]
+        }
+        
       });
     }
 
