@@ -1,5 +1,6 @@
 var config = {};
 var host = "interns.dataworks-inc.com/elasticsearch";
+var fs = require('fs');
 
 config.labels = {
   url: host,
@@ -24,5 +25,10 @@ config.uploads = {
   index: "uploads",
   type: "upload"
 }
+
+config.ssl = {
+  key  : fs.readFileSync(__dirname + '/server.key'),
+  cert : fs.readFileSync(__dirname + '/server.crt')
+};
 
 module.exports = config;
