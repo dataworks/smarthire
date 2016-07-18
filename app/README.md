@@ -22,6 +22,8 @@ var host = "your-elasticsearch-index.com";
 ### Setting up SSL
 Although SSL is not completely necessary to run SmartHire, it is highly recommended, because the nature of this app is dealing with information that should not be public. To set up SSL, a key and certificate are required. These can be obtained by following the tutorial [here](https://www.sitepoint.com/how-to-use-ssltls-with-node-js/) (scroll down about halfway to **Generating Certificates**).
 
+Once the key and certificate have been obtained, navigate to ```/your-directory/server/``` and place the two files (server.key and server.crt) there. They should be in the same place as server.js. The code in server.js and config.js will handle the rest of setting up SSL, so no other steps are necessary. 
+
 
 ## Running the App Locally
 
@@ -48,8 +50,9 @@ https://localhost:8082/app/applicants
 
 If the ETL side has been configured, then the web app will be rendered and ready to go! Otherwise, see the other [README](https://github.com/dataworks/internship-2016/tree/master/etl/README.md), because the web application will throw errors. 
 
+***Note:*** When navigating to localhost for the first time, an untrusted webpage error may be encountered. This is expected as the certificate was generated on a local machine and not from an authorized entity (i.e. GoDaddy). Select the *continue to web page* option to go to the app. 
+
 ## Deploying the App on a Dedicated Server
 
 SmartHire was deployed to a dedicated server using [Jenkins](https://jenkins.io/), and that is what will be covered. This web app can easily be deployed using different technologies.  
-
 
