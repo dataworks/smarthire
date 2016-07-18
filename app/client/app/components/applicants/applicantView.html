@@ -175,16 +175,16 @@
                 <td id="d" class="hidden-xs hidden-s">{{applicant.education.degree}}</td>
                 <td id="c" class="hidden-xs hidden-s"><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> </td>
 
-                <td id="o"><span ng-if="applicant.type != 'favorite' || selection != 'favorite'"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite', applicant); showToast('Favorite')"> 
+                <td id="o"><span ng-if="selection != 'favorite'"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite', applicant); showToast('Favorite')"> 
                   <span title="Add to Favorites" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
                 </button></span>
 
-                <span ng-if="!applicant.type"><button id="question" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'review', applicant); showToast('Review')">
+                <span ng-if="selection != 'review'"><button id="question" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'review', applicant); showToast('Review')">
                   <span title="Add to Review" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
                   <a href="/archive"></a> 
                 </button></span>
 
-                <span ng-if="!applicant.type"><button id="down" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'archive', applicant); showToast('Archive')">
+                <span ng-if="selection != 'archive'"><button id="down" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'archive', applicant); showToast('Archive')">
                   <span title="Add to Archive" class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
                   <a href="/archive"></a> 
                 </button></span>
