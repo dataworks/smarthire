@@ -48,9 +48,9 @@ Now simply open a web browser and navigate to:
 https://localhost:8082/app/applicants
 ```
 
-If the ETL side has been configured, then the web app will be rendered and ready to go! Otherwise, see the other [README](https://github.com/dataworks/internship-2016/tree/master/etl/README.md), because the web application will throw errors. 
+If the ETL side has been configured, then the web app will be rendered and ready to go! Otherwise, see the ETL [README](https://github.com/dataworks/internship-2016/tree/master/etl/README.md), because the web application will throw errors. 
 
-***Note:*** When navigating to localhost for the first time, an untrusted webpage error may be encountered. This is expected as the certificate was generated on a local machine and not from an authorized entity (i.e. GoDaddy). Select the *continue to web page* option to go to the app. 
+***Note:*** When navigating to localhost for the first time, an untrusted webpage error may be encountered. This is expected as the certificate was generated on a local machine and was not from an authorized entity (i.e. GoDaddy). Select the *continue to web page* option to go to the app. 
 
 ## Deploying the App on a Dedicated Server
 
