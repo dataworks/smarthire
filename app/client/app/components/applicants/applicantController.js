@@ -142,6 +142,7 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       });
       if(type != 'search'){
         $scope.searchTab = false;
+
       }
 
       getAggregations(false, type);
@@ -325,8 +326,10 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
     $scope.isSearch = function(text){
       if(text != ""){
         $scope.searchTab = true;
+        $scope.selection = 'search';
       }
       else if(text == ""){
+        $scope.selection = 'new';
         $scope.searchTab = false;
       }
     }
