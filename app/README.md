@@ -1,6 +1,6 @@
 # SmartHire Web Application
 
-The SmartHire web app is a Node.js application to allow search and display of data. Setting up the front-end requires configuring Node.js to be able to connect to Elasticsearch or Amazon S3 and installing the required packages. 
+The SmartHire web app is a Node.js application to allow search and display of data. Setting up the server requires configuring Node.js to be able to connect to Elasticsearch or Amazon S3 and installing the required packages. 
 
 ## Server Set Up
 
