@@ -65,14 +65,17 @@ Apache OpenNLP (Natural Language Processing) was used to tag entities (names, lo
 
 #### What it was used for:
 
-abcdefghijklmnopqrstuvwxyz
+Elasticsearch is a search engine built on the Apache Lucene tokenizer project.  It was used as our main data storage, holding both our applicant profiles as well as the source PDF files and images encoded as base-64 strings.  The [elasticsearch-head plugin](https://mobz.github.io/elasticsearch-head/) was used to manage the Elasticsearch indices through a browser-based UI.
 
 #### Pros:
 
-* foo
-* bar
+* Universal language support through REST API, including JSON structured queries
+* Native Apache Spark support through [Elasticsearch-Hadoop](https://www.elastic.co/guide/en/elasticsearch/hadoop/current/spark.html) library
+* Works well as a distributed document-store, meaning it's scalable, flexible, and schema-free
 
 #### Cons:
 
-* foo
-* bar
+* Not intended to hold large objects such as image files.
+* Indexing adds a lot of overhead, so storage usage can grow quickly.
+* No relational structure, so all joins must be done outside database.
+* Distributed, so data is not always available immediately after writing to index.
