@@ -22,7 +22,7 @@ object ScoreCalculator {
   case class Command(word2vecModel: String = "", sparkMaster: String = "",
     esNodes: String = "", esPort: String = "", esAppIndex: String = "",
     regressionModelDirectory: String = "", naiveBayesModelDirectory: String = "",
-    idfModelDirectory: String = "")
+    idfModelDirectory: String = "", everyone: Boolean = false)
 
   //logger
   val log: Logger = LoggerFactory.getLogger(getClass())
@@ -47,8 +47,18 @@ object ScoreCalculator {
       return
     }
 
-    //Query elasticsearch for every applicant
-    val appRDD = sc.esRDD(options.esAppIndex + "/applicant").values
+    val appRDD = if (options.everyone) {
+      //Query elasticsearch for every applicant
+      sc.esRDD(options.esAppIndex + "/applicant").values
+    } else {
+      //Query elasticsearch for unscored applicants
+      sc.esRDD(options.esAppIndex + "/applicant", "?q=score:<0").values
+    }
+
+    if (!options.everyone && appRDD.isEmpty()) {
+      println("All applicants already scored, exiting process.")
+      System.exit(0)
+    }
 
     //accumulator
     val counter = sc.accumulator(0)
@@ -69,6 +79,7 @@ object ScoreCalculator {
 
       app.toMap
     }.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
+    sc.stop()
   }
 
 
@@ -99,6 +110,9 @@ object ScoreCalculator {
       opt[String]('i', "idfmodeldirectory") required() valueName("<idfmodeldirectory>") action { (x, c) =>
         c.copy(idfModelDirectory = x)
       } text ("The path to the idf model directory")
+      opt[Unit]('e', "everyone") action { (_, c) =>
+          c.copy(everyone = true)
+      } text("Flag that when set to true will recalculate all scores rather than just the applicants without scores")
 
       note ("Pulls labeled resumes from elasticsearch and generates a logistic regression model \n")
       help("help") text("Prints this usage text")

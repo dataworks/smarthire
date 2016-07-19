@@ -140,12 +140,12 @@ var readSsl = function(ssl) {
     ssl.cert = __dirname + '/' + ssl.cert;
   }
 
-  completeSsl = {
+  ssl = {
     key: fs.readFileSync(ssl.key),
     cert: fs.readFileSync(ssl.cert)
   }
 
-  return completeSsl;
+  return ssl;
 }
 
 finalSsl = readSsl(options.ssl);

@@ -12,8 +12,6 @@ curl -XPUT 'http://interns.dataworks-inc.com/elasticsearch/attachments/' -d '
 }
 '
 
-if false
-then
 curl -XPUT 'http://interns.dataworks-inc.com/elasticsearch/attachments/attachment/_mapping' -d '
 {
   "attachment": {
@@ -26,4 +24,3 @@ curl -XPUT 'http://interns.dataworks-inc.com/elasticsearch/attachments/attachmen
   }
 }
 '
-fi

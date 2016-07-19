@@ -15,7 +15,7 @@ div > #charts1, div > #charts2, div > #charts3 {
 }
 
 #l{
-	width: 32%;
+	width: 24%;
 	height: auto;
 	margin-right: 15%;
 	font-size: 225%;
@@ -24,7 +24,7 @@ div > #charts1, div > #charts2, div > #charts3 {
 }
 
 #e{
-	width: 32%;
+	width: 24%;
 	height: auto;
 	margin-right: 15%;
 	font-size: 225%;
@@ -33,7 +33,7 @@ div > #charts1, div > #charts2, div > #charts3 {
 }
 
 #w{
-	width: 32%;
+	width: 26%;
 	height: auto;
 	margin-right: 15%;
 	font-size: 225%;
@@ -42,7 +42,7 @@ div > #charts1, div > #charts2, div > #charts3 {
 }
 
 #m{
-	width: 32%;
+	width: 26%;
 	height: auto;
 	font-size: 225%;
 	text-align: center;
@@ -50,7 +50,7 @@ div > #charts1, div > #charts2, div > #charts3 {
 }
 
 #da{
-	width: 32%;
+	width: 24%;
 	height: auto;
 	margin-right: 15%;
 	font-size: 225%;
@@ -59,7 +59,7 @@ div > #charts1, div > #charts2, div > #charts3 {
 }
 
 #b{
-	width: 32%;
+	width: 26%;
 	height: auto;
 	font-size: 225%;
 	text-align: center;

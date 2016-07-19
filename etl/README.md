@@ -34,7 +34,7 @@ Then edit this file with a text editor, and delete the top line until only a lis
 
 Everything should now be properly set up to do some ETL. The relevant scripts are described below, but as a word of caution, these scripts were set up for Data Work's specific use case. Some configuration is required to change things such as the Elasticsearch IP. In order to help facilitate these changes, scripts with command line options all have a `--help` option that describes what the others do.
 
-#### Creating proper Elasticsearch mapings
+#### Creating proper Elasticsearch mappings
 
 The creation and mapping of the applicants and attachments index have been automated via the `create-elasticsearch-mappings.sh` and `create-elasticsearch-attachments-mappings.sh` scripts. It is also important to create a labels and uploads index via `curl` or a front end like [elasticsearch-head](https://github.com/mobz/elasticsearch-head).
 
