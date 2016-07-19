@@ -48,22 +48,6 @@ object ResumeParser {
     //Create Spark RDD using conf
     val sc = new SparkContext(conf)
 
-    //Query elasticsearch for the applicants who have an email. This will be used to ensure that duplicate resumes are not saved.
-    val emailRDD = sc.esRDD("applicants/applicant", "?q=contact.email:*")
-
-    val emailArray = emailRDD.map { applicantMap =>
-      val currentApplicant = ApplicantData(applicantMap._2)
-      (currentApplicant.email, currentApplicant.applicantid)
-    }.collect()
-
-    val emails = HashMap.empty[String, String]
-
-    for (emailPair <- emailArray) {
-      emails += emailPair
-    }
-
-    log.debug(emails.size + " emails were queried from elasticsearch")
-
     val s3ResumeBucket : String = "s3a://resumes.interns.dataworks-inc.com/" //Can be added to options
 
     //load the RDD of data from either the local drive or from elasticsearch
@@ -91,6 +75,27 @@ object ResumeParser {
         ResumeData(FilenameUtils.getName(resume.getPath()),resume.toArray,resume.open,"")
       }
     }
+
+    if (fileData.isEmpty()){
+      log.debug("No resumes were found, exiting process.")
+      System.exit(0)
+    }
+
+    //Query elasticsearch for the applicants who have an email. This will be used to ensure that duplicate resumes are not saved.
+    val emailRDD = sc.esRDD("applicants/applicant", "?q=contact.email:*")
+
+    val emailArray = emailRDD.map { applicantMap =>
+      val currentApplicant = ApplicantData(applicantMap._2)
+      (currentApplicant.email, currentApplicant.applicantid)
+    }.collect()
+
+    val emails = HashMap.empty[String, String]
+
+    for (emailPair <- emailArray) {
+      emails += emailPair
+    }
+
+    log.debug(emails.size + " emails were queried from elasticsearch")
 
     // Create EntityExtractor object
     val models = options.nlpModels.split(",")
