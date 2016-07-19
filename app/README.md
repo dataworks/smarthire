@@ -1,17 +1,17 @@
 # SmartHire Web Application
 
-The SmartHire web app is a Node.js application to allow search and display of data. Setting up the server requires configuring Node.js to be able to connect to Elasticsearch or Amazon S3 and installing the required packages. 
+The SmartHire web app is a Node.js application to allow search and display of data. Setting up the server requires configuring Node.js to be able to connect to Elasticsearch and installing the required packages. 
 
 ## Server Set Up
 
-### Creating and Linking an Elasticsearch index
+### Linking an Elasticsearch index
 
 Npm makes it easy to install all required dependencies. Simply navigate to the app folder,  ```/your-directory/app/```, and execute:
 
 ```
 npm install
 ```
-**make note of creating Elasticsearch/S3 here**
+SmartHire pulls data from Elasticsearch to display it. Instructions on creating an Elasticsearch index can be found in the ETL [README](https://github.com/dataworks/internship-2016/tree/master/etl/README.md). 
 
 Once an Elasticsearch index has been created, it can be linked to Node.js in config.js. This file can be found here: ```/your-directory/app/server/services```. In config.js, the variable ```host``` is set to the Elasticsearch index.
 
@@ -52,21 +52,17 @@ If the ETL side has been configured, then the web app will be rendered and ready
 
 ***Note:*** When navigating to localhost for the first time, an untrusted webpage error may be encountered. This is expected as the certificate was generated on a local machine and was not from an authorized entity (i.e. GoDaddy). Select the *continue to web page* option to go to the app. 
 
-## Deploying the App on a Dedicated Server
+## Continuous Integration
 
-SmartHire was deployed to a dedicated server using [Jenkins](https://jenkins.io/), and that is what will be covered. This web app can easily be deployed using different technologies.  
-
-***how to create Jenkins server and add app to it***
+SmartHire was deployed to a continuous integration service using [Jenkins](https://jenkins.io/). This web app can easily be deployed using different technologies.  
 
 Jenkins continually runs tests after code has been pushed to Github. The test file that has already been written can be found in ```/your-directory/test/server```. The frameworks used to write these unit tests are [Mocha](https://mochajs.org/) and [Chai](http://chaijs.com/). The URLs located in the test server.js file will need to be altered to match the server that SmartHire is running off of.
 
 The tests can easily be modified to suit different needs. See [Chai's API](http://chaijs.com/api/) for different unit tests that can be written. 
 
-***deploy app on jenkins***
-
 Once the app has been successfully deployed, open up a web browser and enter the URL where SmartHire is being hosted: 
 ```
-https://your-host-site/app/applicants
+https://your-host-site.com/app/applicants
 ```
 
 The app will then be loaded on a dedicated server. 
