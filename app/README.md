@@ -56,3 +56,17 @@ If the ETL side has been configured, then the web app will be rendered and ready
 
 SmartHire was deployed to a dedicated server using [Jenkins](https://jenkins.io/), and that is what will be covered. This web app can easily be deployed using different technologies.  
 
+***how to create Jenkins server and add app to it***
+
+Jenkins continually runs tests after code has been pushed to Github. The test file that has already been written can be found in ```/your-directory/test/server```. The frameworks used to write these unit tests are [Mocha](https://mochajs.org/) and [Chai](http://chaijs.com/). The URLs located in the test server.js file will need to be altered to match the server that SmartHire is running off of.
+
+The tests can easily be modified to suit different needs. See [Chai's API](http://chaijs.com/api/) for different unit tests that can be written. 
+
+***deploy app on jenkins***
+
+Once the app has been successfully deployed, open up a web browser and enter the URL where SmartHire is being hosted: 
+```
+https://your-host-site/app/applicants
+```
+
+The app will then be loaded on a dedicated server. 
