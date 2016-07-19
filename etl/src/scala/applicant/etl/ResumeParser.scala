@@ -231,7 +231,7 @@ object ResumeParser {
             c.copy(accesskey = x)
         } text ("Path to AWS S3 Access Key file, DO NOT CHECK IN GIT")
 
-        note ("Reades through a directory of resumes, parses the text from each, and saves the applicant data to Elasticsearch\n")
+        note ("Reads through a directory of resumes, parses the text from each, and saves the applicant data to Elasticsearch\n")
         help("help") text("Prints this usage text")
     }
 
