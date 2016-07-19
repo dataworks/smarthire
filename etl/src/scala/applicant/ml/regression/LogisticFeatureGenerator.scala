@@ -17,25 +17,75 @@ import org.slf4j.{Logger, LoggerFactory}
  * It also has functions to zip feaure names
  */
 object LogisticFeatureGenerator {
-  private var generator: LogisticFeatureGenerator = null
+  def apply(wordModel: Word2VecModel, bayesModel: NaiveBayesModel, idfModel: IDFModel, applicant: ApplicantData, settings: RegressionSettings, cityFileLoc: String) : LogisticFeatureGenerator = {
+    val generator = new LogisticFeatureGenerator()
 
-  //Feature List
-  val featureList = List("Relevance", "Big Data", "Database Engineering", "ETL Engineering", "Web App Development", "Mobile Development", "Common Programming Languages", "Distance from Job Site", "Amount of Contact Info", "Resume Length", "Education/Work Background")
+    generator.wordModel = wordModel
+    generator.bayesModel = bayesModel
+    generator.idfModel = idfModel
+    generator.applicant = applicant
+    generator.cityFileLoc = cityFileLoc
+    generator.settings = settings
+    generator.featureList = this.getFeatureList(settings)
+    generator.titleKeywords = settings.positionKeywords
+    generator.degreeKeywords = settings.degreeKeywords
 
-  //Will create a LogisticFeatureGenerator if one is needed and return it
-  private def getGenerator(): LogisticFeatureGenerator = {
-    if (this.generator == null) {
-      this.generator = new LogisticFeatureGenerator()
-    }
-    return this.generator
+    return generator
   }
 
-  /**
-   * See getLogisticFeatureVec defined below
-   */
-  def getLogisticFeatureVec(wordModel: Word2VecModel, bayesModel: NaiveBayesModel, idfModel: IDFModel, applicant: ApplicantData): Vector = {
-    val generator = getGenerator()
-    return generator.getLogisticFeatureVec(wordModel, bayesModel, idfModel, applicant)
+  def getFeatureList(settings : RegressionSettings) : List[String] = {
+    val featureList : ListBuffer[String] = new ListBuffer()
+    if (settings.wordRelevaceToggle) {
+      featureList += "Relevance"
+    }
+    if (settings.keywordsToggle) {
+      settings.keywordLists.keys.foreach{ x =>
+        featureList += x
+      }
+    }
+    if (settings.distanceToggle) {
+      featureList += "Distance from Job Site"
+    }
+    if (settings.contactInfoToggle) {
+      featureList += "Amount of Contact Info"
+    }
+    if (settings.resumeLengthToggle) {
+      featureList += "Resume Length"
+    }
+    if (settings.experienceToggle) {
+      featureList += "Education/Work Background"
+    }
+    return featureList.toList
+  }
+}
+
+/**
+ * FeatureGenerator
+ */
+class LogisticFeatureGenerator {
+  var settings : RegressionSettings = null
+  var featureList : List [String] = null
+  var wordModel : Word2VecModel = null
+  var bayesModel : NaiveBayesModel = null
+  var idfModel : IDFModel = null
+  var applicant : ApplicantData = null
+  var cityFileLoc : String = ""
+  //Position keywords used to add to experience
+  var titleKeywords : List[String] = null
+  //Degree keywords used to scale the gpa
+  var degreeKeywords : List[String] = null
+  //logger
+  val log: Logger = LoggerFactory.getLogger(getClass())
+  val locationMap: HashMap[(String, String), (Double, Double)] = {
+
+    val result = HashMap[(String, String), (Double, Double)]()
+    val lines = scala.io.Source.fromFile(cityFileLoc).getLines()
+
+    for (line <- lines) {
+      val splitVals = line.toLowerCase().split("#")//#split
+      result += ((splitVals(0), splitVals(1)) -> (splitVals(2).toDouble, splitVals(3).toDouble))
+    }
+    result
   }
 
   /**
@@ -58,36 +108,6 @@ object LogisticFeatureGenerator {
     val featureVals = vec.toArray
     return (featureList zip featureVals).to[ListBuffer]
   }
-}
-
-/**
- * FeatureGenerator
- */
-class LogisticFeatureGenerator {
-
-  val locationMap: HashMap[(String, String), (Double, Double)] = {
-    val cityFileLoc = "data/citylocations/UsData.txt"
-
-    val result = HashMap[(String, String), (Double, Double)]()
-    val lines = scala.io.Source.fromFile(cityFileLoc).getLines()
-
-    for (line <- lines) {
-      val splitVals = line.toLowerCase().split("#")//#split
-      result += ((splitVals(0), splitVals(1)) -> (splitVals(2).toDouble, splitVals(3).toDouble))
-    }
-
-    result
-  }
-
-  //Position keywords used to add to experience
-  val titleKeywords : List[String] = List("technology", "computer", "information", "engineer", "developer", "software", "analyst", "application", "admin")
-
-  //Degree keywords used to scale the gpa
-  val degreeKeywords : List[String] = List("tech", "computer", "information", "engineer", "c.s.", "programming", "I.S.A.T.")
-
-  //logger
-  val log: Logger = LoggerFactory.getLogger(getClass())
-
 
   /**
    * Calculates all of the feature scores and returns a vector of the scores
@@ -114,19 +134,16 @@ class LogisticFeatureGenerator {
     //NaiveBayesScore
     featureArray += naiveBayesTest(bayesModel, idfModel, applicant)
     // Core key words
-    featureArray += keywordSearch(List("Spark","Hadoop","HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS","HDFS","MapReduce","Yarn","Solr","Avro","Lucene","Kibana", "Kafka"), applicant.fullText)
-    featureArray += keywordSearch(List("Oracle","Postgresql","Mysql","SQL"), applicant.fullText)
-    featureArray += keywordSearch(List("Pentaho","Informatica","Streamsets","Syncsort"), applicant.fullText)
-    featureArray += keywordSearch(List("AngularJS","Javascript","Grails","Spring","Hibernate","node.js","CSS","HTML"), applicant.fullText)
-    featureArray += keywordSearch(List("Android","iOS","Ionic","Cordova","Phonegap"), applicant.fullText)
-    featureArray += keywordSearch(List("Java","Scala","Groovy","C","Python","Ruby","Haskell"), applicant.fullText)
+    settings.keywordLists.values.foreach{ keywords =>
+      featureArray += keywordSearch(keywords, applicant.fullText)
+    }
 
     //distance from Reston VA
     if (applicant.recentLocation == "") {
       featureArray += 0.0
     }
     else {
-      featureArray += distanceFinder("Reston,VA", applicant.recentLocation)
+      featureArray += distanceFinder(settings.jobLocation, applicant.recentLocation)
     }
 
     //density of contact info
