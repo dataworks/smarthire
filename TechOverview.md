@@ -61,6 +61,8 @@ Apache OpenNLP (Natural Language Processing) was used to tag entities (names, lo
 
 ---
 
+### [Elasticsearch](https://www.elastic.co/products/elasticsearch)
+
 #### What it was used for:
   		  
 Elasticsearch is a search engine built on the Apache Lucene tokenizer project.  It was used as our main data storage, holding both our applicant profiles as well as the source PDF files and images encoded as base-64 strings.  The [elasticsearch-head plugin](https://mobz.github.io/elasticsearch-head/) was used to manage the Elasticsearch indices through a browser-based UI.
