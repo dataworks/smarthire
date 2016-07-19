@@ -254,7 +254,7 @@ class LogisticFeatureGenerator {
    * @param location2 Second location
    * @return Distance between the two locations in meters
    */
-  def backupDistanceFinder (location1: String, location2: String): Double = {
+  def distanceFinder (location1: String, location2: String): Double = {
     val loc1Key = locationToPair(location1.toLowerCase())
     val loc2Key = locationToPair(location2.toLowerCase())
 
@@ -269,23 +269,6 @@ class LogisticFeatureGenerator {
         }
       case None =>
         return 0.25
-    }
-  }
-
-  /**
-   * Finds the distance between two locations using first google and second a list of cities
-   *
-   * @param location1 First location
-   * @param location2 Second location
-   * @return Distance between the two locations in meters
-   */
-  def distanceFinder (location1: String, location2: String): Double = {
-    val distance = ApiMapper.googlemapsAPI(location1, location2)
-    distance match {
-      case Some(distance) =>
-        return scaleDistance(distance)
-      case None =>
-      return backupDistanceFinder(location1, location2)
     }
   }
 

@@ -64,15 +64,105 @@ Apache OpenNLP (Natural Language Processing) was used to tag entities (names, lo
 ### [Elasticsearch](https://www.elastic.co/products/elasticsearch)
 
 #### What it was used for:
-
-abcdefghijklmnopqrstuvwxyz
+  		  
+Elasticsearch is a search engine built on the Apache Lucene tokenizer project.  It was used as our main data storage, holding both our applicant profiles as well as the source PDF files and images encoded as base-64 strings.  The [elasticsearch-head plugin](https://mobz.github.io/elasticsearch-head/) was used to manage the Elasticsearch indices through a browser-based UI.
 
 #### Pros:
+  		  
+* Universal language support through REST API, including JSON structured queries
+* Native Apache Spark support through [Elasticsearch-Hadoop](https://www.elastic.co/guide/en/elasticsearch/hadoop/current/spark.html) library
+* Works well as a distributed document-store since it is scalable, flexible, and schema-free
 
-* foo
-* bar
+#### Cons:
+  		  
+* Not intended to hold large objects such as image files.
+* Indexing adds a lot of overhead, so storage usage can grow quickly.
+* No relational structure, so all joins must be done outside database.
+* Distributed, so data is not always available immediately after writing to index.
+
+---
+
+### [Bootstrap](http://getbootstrap.com/getting-started/)
+
+#### What it was used for:
+
+Bootstrap is a framework that we used to help create the structure for the project.  The nice thing about bootstrap is that it has a ton of piece and parts that are provided within the frame work that help ease the prosess of building any webpage.
+#### Pros:
+
+* There is a ton of easy to use libraries. 
+* Provides templates to help start projects.
+* Well documented.
+* Easy to make a template your own.
 
 #### Cons:
 
-* foo
+* Small section of icons that can be used.
+* Doesn't work with Angular Material.
+
+
+---
+
+### [AngularJS](https://angularjs.org/)
+#### What it was used for:
+
+ljsdfadjfadjfaldfj
+#### Pros:
+
 * bar
+* foo
+
+#### Cons:
+
+* bar
+* foo
+
+---
+
+### [Node.js](https://nodejs.org/en/)
+#### What it was used for:
+
+alsdfjadslfjadlfkj
+#### Pros:
+
+* bar
+* foo
+
+
+#### Cons:
+
+* bar
+* foo
+
+---
+
+### [Express.js](https://expressjs.com/en/starter/installing.html)
+#### What it was used for:
+
+asdfadfadsfadsfadsfadfasdfad
+#### Pros:
+
+* bar
+* foo
+
+#### Cons:
+
+* bar
+* foo
+
+---
+
+### [Charts.js](http://www.chartjs.org/docs/)
+#### What it was used for:
+
+ad;fasdfasdfasdf
+#### Pros:
+
+* bar 
+* foo
+
+#### Cons:
+
+* bar
+* foo
+
+
