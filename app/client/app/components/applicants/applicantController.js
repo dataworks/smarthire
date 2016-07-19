@@ -280,13 +280,33 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       return parseInt((score * 100), 10);
     }
 
-    $scope.parseFeature = function(features) {
+    var test = 0;
+    $scope.parseFeature = function(applicant) {
       var featureString = "";
+      var labels = [];
+      var data = [];
+      var blues = [
+        '#0D47A1',
+        '#1976D2',
+        '#2196F3',
+        '#64B5F6',
+        '#BBDEFB'
+      ];
 
-      for (i = 0; i < features.length; i++) {
-        featureString += features[i]["_1"] + ": " + features[i]["_2"] + "<br>";
+      if(test < 2) {
+      var ctx = document.getElementById(applicant.id);
+      console.log(ctx);
+
+      for (var i = 0; i < applicant.features.length; i++) {
+        // featureString += features[i]["_1"] + ": " + features[i]["_2"] + "<br>";
+        labels.push(applicant.features[i]["_1"]);
+        data.push(applicant.features[i]["_2"]);
+
       }
-      return featureString;
+      test++;
+      createBarGraph(ctx, labels, data, blues);
+     }
+      // return featureString;
     }
 
    /**
@@ -367,7 +387,8 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       var engChecked = document.getElementById("engCheck").checked;
 
       //calls the createQuery function in searchService.js
-      $scope.searchText = $scope.searchText + advancedSearch.createQuery(csChecked, cpeChecked, itChecked, mathChecked, vaChecked, mdChecked, dcChecked, paChecked, uvaChecked, jmuChecked, rpiChecked, gmuChecked, devChecked, arcChecked, manChecked, engChecked);
+      $scope.searchText = $scope.searchText + 
+      advancedSearch.createQuery(csChecked, cpeChecked, itChecked, mathChecked, vaChecked, mdChecked, dcChecked, paChecked, uvaChecked, jmuChecked, rpiChecked, gmuChecked, devChecked, arcChecked, manChecked, engChecked);
 
       $scope.applicants = Applicant.query({
         type: $scope.selection,
@@ -417,14 +438,14 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
      * @param data - aggregation data
      * @param id - div id of the chart
      */
-    function displayGraph(data, id) {
+    function displayGraph(data, id, map) {
       var labels = data.map(function(index) {
         return index.key;
       }); 
 
       var count = data.map(function(index) {
         return index.doc_count;
-      });
+      }); 
 
       var ctx = document.getElementById(id);
 
@@ -535,17 +556,17 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       charts.push(chart);
     }
 
-    function createBarGraph(ctx, data, color){
+    function createBarGraph(ctx, labels, data, color){
       var BarChart = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: data,
+          labels: labels,
           datasets: [{
                   label: '# of Votes',
                   backgroundColor: color,
                   borderColor: color,
                   borderWidth: 1,
-                  data: [65, 59, 80, 81, 56, 55, 40],
+                  data: data
               }
           ]
         }

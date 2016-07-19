@@ -207,10 +207,10 @@
             <tr>
               <td  id="hide" colspan="12" class="hiddenRow">
                 <div class="accordian-body collapse {{active ? '' : 'in'}}" id="dataExpand-{{$index}}">
-                  <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th id="link">Summary</th>
+                                  <table class="table table-striped">
+                                    <thead>
+                                      <tr>
+                                        <th id="link">Summary</th>
                         <th id="skills" class="hidden-xs hidden-s">Skills</th>
                         <th id="ed" class="hidden-xs hidden-s">Education and Web links</th>
                         <!-- get rid of the web links title and change it to summaries.  then combined the education and web links tabs -->
@@ -222,9 +222,13 @@
                         <td id='body' align="left" class="hidden-xs hidden-s"><span id="title" ng-if="applicant.skills.etl.join(' ') != ''"><b>ETL</b></span><span id="valE" ng-if="applicant.skills.etl.join(' ') != ''"> {{applicant.skills.etl.join(', ')}}  </span><span id="title" ng-if="applicant.skills.webapp.join(' ') != ''"><b>Web App</b></span> <span id="valW" ng-if="applicant.skills.webapp.join(' ') != ''">{{applicant.skills.webapp.join(', ')}} </span> <span id="title" ng-if="applicant.skills.language.join(' ') != ''"><b>Languages</b></span> <span id="valL" ng-if="applicant.skills.language.join(' ') != ''">{{applicant.skills.language.join(', ')}} </span> <span id="title" ng-if="applicant.skills.mobile.join(' ') != ''"><b>Mobile</b></span> <span id="valM" ng-if="applicant.skills.mobile.join(' ') != ''">{{applicant.skills.mobile.join(', ')}}  </span><span id="title" ng-if="applicant.skills.database.join(' ') != ''"><b>Databases</b> </span><span id="valD" ng-if="applicant.skills.database.join(' ') != ''">{{applicant.skills.database.join(', ')}}</span> <span id="title" ng-if="applicant.skills.bigdata.join(' ') != ''"> <b> Big Data</b></span> <span id="valB" ng-if="applicant.skills.bigdata.join(' ') != ''">{{applicant.skills.bigdata.join(', ')}}</span></td>
                         <td id='body' class="hidden-xs hidden-s"><span id="title" ng-if="applicant.education.school != ''"><b>School</b></span> <span id="valS" ng-if="applicant.education.school != ''">{{applicant.education.school}}</span><span id="title" ng-if="applicant.education.gpa != ''"> <b>GPA</b></span><span id="valGPA" ng-if="applicant.education.gpa === 0"></span><span id="valGPA" ng-if="applicant.education.gpa != 0 && applicant.education.gpa != ''">{{applicant.education.gpa}}</span><span id="title" ng-if="applicant.contact.linkedin != ''"> <b>Linked-in </b></span><a id="valLI" ng-if="applicant.contact.linkedin != ''" ng-href="{{applicant.contact.linkedin}}" target="_blank">{{applicant.contact.linkedin}}</a><span id="title" ng-if="applicant.contact.github != ''"> <b> GitHub </b></span><a id="valGH" ng-if="applicant.contact.github != ''" ng-href="{{applicant.contact.github}}" target="_blank">{{applicant.contact.github}}</a><span id="title" ng-if="applicant.contact.indeed != ''"> <b>Indeed </b></span><a id="valI" ng-if="applicant.contact.indeed != ''"ng-href="{{applicant.contact.indeed}}" target="_blank">{{applicant.contact.indeed}}</a></td>  
                       </tr>
+                      <tr>
+                      <div id="ScoreBD">
+                                <canvas id="{{applicant.id}}" width="100%" height="100%">{{parseFeature(applicant)}}</canvas>
+                              </div>
+                      </tr>
                     </tbody>
-                    <tr>
-                      <table class="table table-striped">
+                   <!--  <tr>
                         <thead>
                           <tr>
                             <th id="link">Score Breakdown</th>
@@ -234,16 +238,15 @@
                           <tr>
                             <td id='body'>
                               <div id="appFeature">
-                                <span ng-bind-html="parseFeature(applicant.features)"></span>
+                                <span ng-bind-html="parseFeature(applicant.features, applicant.id)"></span>
                               </div>
-                              <div id="sb">
-                                <canvas id="ScoreBD" width="100%" height="100%">{{displayGraph(applicant.features, ScoreBD)}}</canvas>
+                              <div id="ScoreBD">
+                                <canvas id="{{applicant.id}}" ng-bind-html="parseFeature(applicant)" width="100%" height="100%"></canvas>
                               </div>
                             </td>
                           </tr>
                         </tbody>
-                      </table>
-                    </tr>
+                    </tr> -->
                   </table>
                 </div>
               </td>
