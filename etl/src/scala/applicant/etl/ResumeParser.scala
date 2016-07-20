@@ -1,6 +1,7 @@
 package applicant.etl
 
 import applicant.nlp._
+import applicant.ml.regression._
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkContext._
 import org.apache.spark.SparkConf
@@ -47,6 +48,7 @@ object ResumeParser {
 
     //Create Spark RDD using conf
     val sc = new SparkContext(conf)
+    val modelSettings = RegressionSettings(sc)
 
     val s3ResumeBucket : String = "s3a://resumes.interns.dataworks-inc.com/" //Can be added to options
 
@@ -116,7 +118,7 @@ object ResumeParser {
         entitySet = broadcastExtractor.value.extractEntities(resume.text)
       }
 
-      val app = ApplicantData(entitySet, resume.esId, resume.text)
+      val app = ApplicantData(entitySet, resume.esId, resume.text, modelSettings)
 
       var specialOldHash: (String, String) = null
       if (emails.contains(app.email)) {
@@ -231,7 +233,7 @@ object ResumeParser {
             c.copy(accesskey = x)
         } text ("Path to AWS S3 Access Key file, DO NOT CHECK IN GIT")
 
-        note ("Reades through a directory of resumes, parses the text from each, and saves the applicant data to Elasticsearch\n")
+        note ("Reads through a directory of resumes, parses the text from each, and saves the applicant data to Elasticsearch\n")
         help("help") text("Prints this usage text")
     }
 

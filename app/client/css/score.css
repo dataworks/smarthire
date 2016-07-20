@@ -1,30 +1,98 @@
-.chart { width: 100%; }
-
-.chart span li {
-  border-radius: 4px 4px 0 0; /* Remember vendor prefixes */
-  box-shadow: 0 1px 0 0 rgba(255,255,255,.6) inset; /* Remember vendor prefixes */
-  display: block;
-  height: 125px;
-  padding: 25px 0;
+.graph_fancy {
+  border-width: 0 0 1px 1px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, .25);
+  height: 200px;
+  margin: 0 0 55px 0;
   position: relative;
+  white-space: nowrap;
+
+  background: rgba(0, 0, 0, .1);
+  font-size: 0;
+}
+.graph_fancy:before { /* Y-axis label */
+  display: block;
+  padding: .5em;
+  position: absolute;
+  right: 100%;
+  top: 48%;
+
+  content: attr(data-y-label);
+  font-size: 14px;
+  line-height: 1;
   text-align: center;
-  vertical-align: bottom;
 }
-
-.chart .axis { 
-  /*display: none;*/
-  top: -25px;
-  width: 11%;
- }
-
-.chart .labelY {
-  background: white;
-  color: black;
-}
-
-.chart .scoreFeature {
-  font-size: 30px;
-  letter-spacing: -3px;
-  opacity: .4;
+.graph_fancy:after { /* X-axis label */
+  display: block;
+  left: 0;
+  margin: 1em 0 0 0;
+  padding: .75em 0;
+  position: absolute;
+  top: 100%;
   width: 100%;
+
+  content: attr(data-x-label);
+  font-size: 14px;
+  line-height: 1;
+  text-align: center;
 }
+.graph_fancy .bar {
+  display: inline-block;
+  margin: 0 0 0 2%;
+  vertical-align: bottom;
+  position: relative;
+  width: 8.12%;
+  bottom: -50%;
+
+  background: #fc4;
+  cursor: pointer;
+}
+.graph_fancy .bar:first-child {
+  height: 100%;
+  margin: 0;
+  width: 0;
+}
+.graph_fancy .bar:hover {
+  z-index: 100;
+
+  background: #fc0;
+
+  box-shadow: 0 0 10px rgba(0, 0, 0, .25);
+}
+.graph_fancy .bar:before { /* Bar label */
+  display: block;
+  left: 0;
+  padding: .15em 0;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+
+  content: attr(data-bar-label);
+  font-size: 12px;
+  opacity: .5;
+  text-align: center;
+    /* Safari */
+  -webkit-transform: rotate(-90deg);
+
+  /* Firefox */
+  -moz-transform: rotate(-90deg);
+
+  /* IE */
+  -ms-transform: rotate(-90deg);
+}
+.graph_fancy .bar:after { /* Bar data value */
+  bottom: 100%;
+  display: block;
+  left: 0;
+  position: absolute;
+  width: 100%;
+
+  content: attr(data-bar-value);
+  font-size: 12px;
+  opacity: .5;
+  text-align: center;
+}
+.graph_fancy .bar, .graph_fancy .bar:before, .graph_fancy .bar:after {
+  transition: background .25s ease-out, opacity .25s ease-out, box-shadow .25s ease-out;
+}
+.graph_fancy .bar:hover:before, .graph_fancy .bar:hover:after { opacity: 1; }

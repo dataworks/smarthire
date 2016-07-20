@@ -22,7 +22,8 @@ object ScoreCalculator {
   case class Command(word2vecModel: String = "", sparkMaster: String = "",
     esNodes: String = "", esPort: String = "", esAppIndex: String = "",
     regressionModelDirectory: String = "", naiveBayesModelDirectory: String = "",
-    idfModelDirectory: String = "", everyone: Boolean = false)
+    idfModelDirectory: String = "", everyone: Boolean = false,
+    cityfilelocation : String = "")
 
   //logger
   val log: Logger = LoggerFactory.getLogger(getClass())
@@ -41,6 +42,8 @@ object ScoreCalculator {
     val naiveBayesModel = NaiveBayesHelper.loadModel(sc, options.naiveBayesModelDirectory)
     var regressionModel = LogisticRegressionHelper.loadModel(sc, options.regressionModelDirectory)
     var idfModel = IDFHelper.loadModel(options.idfModelDirectory)
+    val settings = RegressionSettings(sc)
+    val generator = LogisticFeatureGenerator(w2vModel, naiveBayesModel.get, idfModel.get, settings, options.cityfilelocation)
 
     if (regressionModel.isEmpty || naiveBayesModel.isEmpty || idfModel.isEmpty) {
       log.error("There was a problem loading the machine learning models. Quitting now.")
@@ -66,7 +69,7 @@ object ScoreCalculator {
     //Create applicant data objects out of what was queried and find scores for each
     val appDataArray = appRDD.map { appMap =>
       val app = ApplicantData(appMap)
-      val features = LogisticFeatureGenerator.getLogisticFeatureVec(w2vModel, naiveBayesModel.get, idfModel.get, app)
+      val features = generator.getLogisticFeatureVec(app)
       val calculatedScore = LogisticRegressionHelper.predictSingleScore(regressionModel.get, features)
       app.score = Math.round(calculatedScore * 100.0) / 100.0
 
@@ -75,7 +78,7 @@ object ScoreCalculator {
 
       //Make sure that each feature score is saved in the applicant
       val scaledFeatures = LogisticRegressionHelper.weightifyFeatureScores(features, regressionModel.get)
-      app.featureScores = LogisticFeatureGenerator.getPopulatedFeatureList(scaledFeatures)
+      app.featureScores = LogisticFeatureGenerator.getPopulatedFeatureList(scaledFeatures, settings)
 
       app.toMap
     }.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))
@@ -111,9 +114,11 @@ object ScoreCalculator {
         c.copy(idfModelDirectory = x)
       } text ("The path to the idf model directory")
       opt[Unit]('e', "everyone") action { (_, c) =>
-          c.copy(everyone = true)
+        c.copy(everyone = true)
       } text("Flag that when set to true will recalculate all scores rather than just the applicants without scores")
-
+      opt[String]('c', "cityfilelocation") valueName("<cityfilelocation>") action { (x, c) =>
+        c.copy(cityfilelocation = x)
+      } text ("Path where the city file location data is saved")
       note ("Pulls labeled resumes from elasticsearch and generates a logistic regression model \n")
       help("help") text("Prints this usage text")
     }

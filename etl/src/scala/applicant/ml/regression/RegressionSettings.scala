@@ -1,6 +1,6 @@
 package applicant.ml.regression
 
-import scala.collection.mutable.{ListBuffer, Map}
+import scala.collection.mutable.Map
 import scala.collection.JavaConversions._
 
 import org.apache.spark.SparkContext
@@ -24,24 +24,24 @@ object RegressionSettings {
   /**
    * Will check if a list option is Some or None and set a list pointer accordingly
    */
-  private def getList(value: AnyRef): ListBuffer[String] = {
+  private def getList(value: AnyRef): List[String] = {
     if (value == None) {
-      return new ListBuffer[String]()
+      return List()
     }
-    return value.asInstanceOf[JListWrapper[String]].toList.to[ListBuffer]
+    return value.asInstanceOf[JListWrapper[String]].toList
   }
 
   /**
    * Will check if a list of pair of string and list is None and convert it accordingly
    */
-  private def getPairList(value: AnyRef): ListBuffer[(String, ListBuffer[String])] = {
+  private def getPairList(value: AnyRef): List[(String, List[String])] = {
     if (value == None) {
-      return new ListBuffer[(String, ListBuffer[String])]
+      return List()
     }
-    val intermediateList = value.asInstanceOf[JListWrapper[(String, JListWrapper[String])]].toList.to[ListBuffer]
+    val intermediateList = value.asInstanceOf[JListWrapper[(String, JListWrapper[String])]].toList
     return intermediateList.map { case (str, lst) =>
-      (str, lst.toList.to[ListBuffer])
-    }.to[ListBuffer]
+      (str, lst.toList)
+    }
   }
 
   def apply(elasticMap: scala.collection.Map[String, AnyRef]): RegressionSettings = {
@@ -51,7 +51,7 @@ object RegressionSettings {
     result.wordRelevaceToggle = getBool(elasticMap("wordRelevaceToggle"))
     result.keywordsToggle = getBool(elasticMap("keywordsToggle"))
     result.distanceToggle = getBool(elasticMap("distanceToggle"))
-    result.contanctInfoToggle = getBool(elasticMap("contanctInfoToggle"))
+    result.contactInfoToggle = getBool(elasticMap("contactInfoToggle"))
     result.resumeLengthToggle = getBool(elasticMap("resumeLengthToggle"))
     result.experienceToggle = getBool(elasticMap("experienceToggle"))
 
@@ -62,39 +62,63 @@ object RegressionSettings {
     return result
   }
 
+  def apply(sc: SparkContext): RegressionSettings = {
+    val settingsMap = sc.esRDD("mlsettings/settings").collect()(0)
+    return apply(settingsMap._2)
+  }
+
   /**
    * This is the default apply method to turn on every feature, use tech keywords,
    *  and use Reston VA as the job location.
    */
   def apply(): RegressionSettings = {
-    //In Progress
-    return new RegressionSettings()
+    val result = new RegressionSettings()
+    result.wordRelevaceToggle = true
+    result.keywordsToggle = true
+    result.distanceToggle = true
+    result.contactInfoToggle = true
+    result.resumeLengthToggle = true
+    result.experienceToggle = true
+
+    result.keywordLists = List(("Big Data", List("Spark","Hadoop","HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS","HDFS","MapReduce","Yarn","Solr","Avro","Lucene","Kibana", "Kafka")),
+    ("DatabaseEngineering", List("Oracle","Postgresql","Mysql","SQL")),
+    ("ETL Engineering", List("Pentaho","Informatica","Streamsets","Syncsort")),
+    ("Web App Development", List("AngularJS","Javascript","Grails","Spring","Hibernate","node.js","CSS","HTML")),
+    ("Mobile Development", List("Android","iOS","Ionic","Cordova","Phonegap")),
+    ("Common Programming Languages", List("Java","Scala","Groovy","C","Python","Ruby","Haskell")))
+
+    result.positionKeywords = List("technology", "computer", "information", "engineer", "developer", "software", "analyst", "application", "admin")
+
+    result.degreeKeywords = List("tech", "computer", "information", "engineer", "c.s.", "programming", "I.S.A.T.")
+
+    return result
   }
 
 }
 
 class RegressionSettings() {
   //Toggles to turn features on or off
-  var wordRelevaceToggle, keywordsToggle, distanceToggle, contanctInfoToggle, resumeLengthToggle, experienceToggle: Boolean = false
+  var wordRelevaceToggle, keywordsToggle, distanceToggle, contactInfoToggle, resumeLengthToggle, experienceToggle: Boolean = false
 
   //The location that you wish to measure distance from. Should be formatted similar to "Reston, VA"
   var jobLocation: String = ""
 
   //The set of keywords to look for
-  var keywordLists = ListBuffer[(String, ListBuffer[String])]()
+  var keywordLists = List[(String, List[String])]()
 
   //A list of words that relate to the required job opening
-  var positionKeywords = ListBuffer[String]()
+  var positionKeywords = List[String]()
 
   //A list of words that relate to the degrees that are relevant
-  var degreeKeywords = ListBuffer[String]()
+  var degreeKeywords = List[String]()
 
   def toMap(): Map[String, Any] = {
     return Map (
+      "id" -> "current",
       "wordRelevanceToggle" -> wordRelevaceToggle,
       "keywordsToggle" -> keywordsToggle,
       "distanceToggle" -> distanceToggle,
-      "contanctInfoToggle" -> contanctInfoToggle,
+      "contactInfoToggle" -> contactInfoToggle,
       "resumeLengthToggle" -> resumeLengthToggle,
       "experienceToggle" -> experienceToggle,
       "keywordLists" -> keywordLists,

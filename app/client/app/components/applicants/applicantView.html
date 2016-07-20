@@ -233,7 +233,7 @@
                           <tr>
                             <td id='body'>
                               <div id="appFeature">
-                                <ul class="chart">
+<!--                                 <ul class="chart">
                                   <li class="axis">
                                       <div class="labelY">5.0</div>
                                       <div class="labelY">4.5</div>
@@ -257,10 +257,13 @@
                                       <div class="labelY">-4.5</div>
                                       <div class="labelY">-5.0</div>
                                     </li>
-                                   <!--  {{parseFeatures(applicant)}} -->
+                             
                                   <span ng-bind-html="parseFeatures(applicant)">
                                   </span>
-                                </ul>
+                                </ul> -->
+                                  <div class="graph_fancy" data-x-label="Features" data-y-label="Score" ng-bind-html="parseFeatures(applicant)">
+                                    <!-- more bars here -->
+                                  </div>
                               </div>
                             </td>
                           </tr>

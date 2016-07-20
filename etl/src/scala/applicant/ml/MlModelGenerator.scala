@@ -31,8 +31,8 @@ object MlModelGenerator {
   case class Command(word2vecModel: String = "", sparkMaster: String = "",
     esNodes: String = "", esPort: String = "", esAppIndex: String = "",
     esLabelIndex: String = "", logisticModelDirectory: String = "",
-    naiveBayesModelDirectory: String = "", idfModelDirectory: String = ""
-    )
+    naiveBayesModelDirectory: String = "", idfModelDirectory: String = "",
+    cityfilelocation: String = "")
 
   //logger
   val log: Logger = LoggerFactory.getLogger(getClass())
@@ -139,12 +139,14 @@ object MlModelGenerator {
         //Check the IDF model can be loaded
         IDFHelper.loadModel(options.idfModelDirectory) match {
           case Some(idfModel) =>
+            val settings = RegressionSettings(sc)
+            val generator = LogisticFeatureGenerator(w2vModel, bayesModel, idfModel, settings, options.cityfilelocation)
             applicantDataList.foreach { applicant =>
               val applicantScore = labelsHashMap(applicant.applicantid)
 
               log.debug("---------Label = " + applicantScore + ", id = " + applicant.applicantid)
 
-              modelData += LabeledPoint(applicantScore, LogisticFeatureGenerator.getLogisticFeatureVec(w2vModel, bayesModel, idfModel, applicant))
+              modelData += LabeledPoint(applicantScore, generator.getLogisticFeatureVec(applicant))
             }
 
             //Create and save the logistic regression model
@@ -206,6 +208,9 @@ object MlModelGenerator {
       opt[String]("idfmodeldirectory") valueName("<idfmodeldirectory>") action { (x, c) =>
         c.copy(idfModelDirectory = x)
       } text ("Path where the IDF model is to be saved")
+      opt[String]("cityfilelocation") valueName("<cityfilelocation>") action { (x, c) =>
+        c.copy(cityfilelocation = x)
+      } text ("Path where the city file location data is saved")
 
       note ("Pulls labeled resumes from elasticsearch and generates a logistic regression model \n")
       help("help") text("Prints this usage text")
