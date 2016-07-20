@@ -26,7 +26,7 @@ class ApplicantData {
   var otherLocationList: ListBuffer[String] = new ListBuffer[String]()
   var otherOrganizationList: ListBuffer[String] = new ListBuffer[String]()
   var df: DecimalFormat = new DecimalFormat("#.##")
-  var featureScores = ListBuffer[(String, Double)]()
+  var featureScores = Map[String,Double]()
   var githubData = Map[String,String]()
   var score = -1.0
   var gpa = 0.0
@@ -196,7 +196,7 @@ object ApplicantData {
 
     elasticMap.get("features") match {
       case Some(features) =>
-        app.featureScores = features.asInstanceOf[JListWrapper[(String, Double)]].toList.to[ListBuffer]
+        app.featureScores = features.asInstanceOf[Map[String, Double]]
       case None =>
     }
 

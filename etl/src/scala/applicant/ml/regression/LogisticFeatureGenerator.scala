@@ -2,6 +2,7 @@ package applicant.ml.regression
 
 import scala.util.Try
 import scala.collection.mutable.{ListBuffer, Map, HashMap}
+import scala.collection.breakOut
 import applicant.nlp.LuceneTokenizer
 import applicant.etl._
 import applicant.ml.naivebayes._
@@ -61,8 +62,8 @@ object LogisticFeatureGenerator {
    *
    * @return a map of features to 0.0
    */
-  def getEmptyFeatureList(settings: RegressionSettings): ListBuffer[(String, Double)] = {
-    return this.getFeatureList(settings).map ( feature => (feature, 0.0) ).to[ListBuffer]
+  def getEmptyFeatureList(settings: RegressionSettings): Map[String, Double] = {
+    return this.getFeatureList(settings).map ( feature => (feature, 0.0) )(breakOut): Map[String,Double]
   }
 
   /**
@@ -72,9 +73,9 @@ object LogisticFeatureGenerator {
    *              with their feature names
    * @return A map of feature names with their score
    */
-  def getPopulatedFeatureList(vec: Vector, settings: RegressionSettings): ListBuffer[(String, Double)] = {
+  def getPopulatedFeatureList(vec: Vector, settings: RegressionSettings): Map[String, Double] = {
     val featureVals = vec.toArray
-    return (this.getFeatureList(settings) zip featureVals).to[ListBuffer]
+    return (this.getFeatureList(settings) zip featureVals)(breakOut): Map[String,Double]
   }
 
 }
