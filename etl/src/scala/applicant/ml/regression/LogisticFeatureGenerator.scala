@@ -2,6 +2,7 @@ package applicant.ml.regression
 
 import scala.util.Try
 import scala.collection.mutable.{ListBuffer, Map, HashMap}
+import scala.collection.breakOut
 import applicant.nlp.LuceneTokenizer
 import applicant.etl._
 import applicant.ml.naivebayes._
@@ -17,13 +18,11 @@ import org.slf4j.{Logger, LoggerFactory}
  * It also has functions to zip feaure names
  */
 object LogisticFeatureGenerator {
-  def apply(wordModel: Word2VecModel, bayesModel: NaiveBayesModel, idfModel: IDFModel, settings: RegressionSettings, cityFileLoc: String) : LogisticFeatureGenerator = {
-    val generator = new LogisticFeatureGenerator()
+  def apply(bayesModel: NaiveBayesModel, idfModel: IDFModel, settings: RegressionSettings, cityFileLoc: String) : LogisticFeatureGenerator = {
+    val generator = new LogisticFeatureGenerator(cityFileLoc)
 
-    generator.wordModel = wordModel
     generator.bayesModel = bayesModel
     generator.idfModel = idfModel
-    generator.cityFileLoc = cityFileLoc
     generator.settings = settings
     generator.featureList = this.getFeatureList(settings)
     generator.titleKeywords = settings.positionKeywords
@@ -62,8 +61,8 @@ object LogisticFeatureGenerator {
    *
    * @return a map of features to 0.0
    */
-  def getEmptyFeatureList(settings: RegressionSettings): ListBuffer[(String, Double)] = {
-    return this.getFeatureList(settings).map ( feature => (feature, 0.0) ).to[ListBuffer]
+  def getEmptyFeatureMap(settings: RegressionSettings): Map[String, Double] = {
+    return this.getFeatureList(settings).map ( feature => (feature, 0.0) )(breakOut): Map[String,Double]
   }
 
   /**
@@ -73,9 +72,9 @@ object LogisticFeatureGenerator {
    *              with their feature names
    * @return A map of feature names with their score
    */
-  def getPopulatedFeatureList(vec: Vector, settings: RegressionSettings): ListBuffer[(String, Double)] = {
+  def getPopulatedFeatureMap(vec: Vector, settings: RegressionSettings): Map[String, Double] = {
     val featureVals = vec.toArray
-    return (this.getFeatureList(settings) zip featureVals).to[ListBuffer]
+    return (this.getFeatureList(settings) zip featureVals)(breakOut): Map[String,Double]
   }
 
 }
@@ -83,13 +82,12 @@ object LogisticFeatureGenerator {
 /**
  * FeatureGenerator
  */
-class LogisticFeatureGenerator {
+class LogisticFeatureGenerator(cityFile: String) {
   var settings : RegressionSettings = null
   var featureList : List [String] = null
-  var wordModel : Word2VecModel = null
   var bayesModel : NaiveBayesModel = null
   var idfModel : IDFModel = null
-  var cityFileLoc : String = ""
+  var cityFileLoc : String = cityFile
   //Position keywords used to add to experience
   var titleKeywords : List[String] = null
   //Degree keywords used to scale the gpa

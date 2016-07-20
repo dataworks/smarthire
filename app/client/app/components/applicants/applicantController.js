@@ -292,7 +292,6 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
         // console.log(featureString);
 
       }
-
       return $sce.trustAsHtml(featureString);
     }
 

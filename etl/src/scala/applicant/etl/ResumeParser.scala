@@ -48,7 +48,6 @@ object ResumeParser {
 
     //Create Spark RDD using conf
     val sc = new SparkContext(conf)
-    val modelSettings = RegressionSettings(sc)
 
     val s3ResumeBucket : String = "s3a://resumes.interns.dataworks-inc.com/" //Can be added to options
 
@@ -118,7 +117,7 @@ object ResumeParser {
         entitySet = broadcastExtractor.value.extractEntities(resume.text)
       }
 
-      val app = ApplicantData(entitySet, resume.esId, resume.text, modelSettings)
+      val app = ApplicantData(entitySet, resume.esId, resume.text)
 
       var specialOldHash: (String, String) = null
       if (emails.contains(app.email)) {

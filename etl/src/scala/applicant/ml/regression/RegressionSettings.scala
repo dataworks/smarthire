@@ -34,12 +34,12 @@ object RegressionSettings {
   /**
    * Will check if a list of pair of string and list is None and convert it accordingly
    */
-  private def getPairList(value: AnyRef): List[(String, List[String])] = {
+  private def getMap(value: AnyRef): Map[String, List[String]] = {
     if (value == None) {
-      return List()
+      return Map.empty[String, List[String]]
     }
-    val intermediateList = value.asInstanceOf[JListWrapper[(String, JListWrapper[String])]].toList
-    return intermediateList.map { case (str, lst) =>
+    val intermediateMap = value.asInstanceOf[Map[String, JListWrapper[String]]]
+    return intermediateMap.map { case (str, lst) =>
       (str, lst.toList)
     }
   }
@@ -48,14 +48,14 @@ object RegressionSettings {
     val result = new RegressionSettings()
 
     //Go through the map from elasticsearch and populate the member fields
-    result.wordRelevaceToggle = getBool(elasticMap("wordRelevaceToggle"))
+    result.wordRelevaceToggle = getBool(elasticMap("wordRelevanceToggle"))
     result.keywordsToggle = getBool(elasticMap("keywordsToggle"))
     result.distanceToggle = getBool(elasticMap("distanceToggle"))
     result.contactInfoToggle = getBool(elasticMap("contactInfoToggle"))
     result.resumeLengthToggle = getBool(elasticMap("resumeLengthToggle"))
     result.experienceToggle = getBool(elasticMap("experienceToggle"))
 
-    result.keywordLists = getPairList(elasticMap("keywordLists"))
+    result.keywordLists = getMap(elasticMap("keywordLists"))
     result.positionKeywords = getList(elasticMap("positionKeywords"))
     result.degreeKeywords = getList(elasticMap("degreeKeywords"))
 
@@ -80,12 +80,12 @@ object RegressionSettings {
     result.resumeLengthToggle = true
     result.experienceToggle = true
 
-    result.keywordLists = List(("Big Data", List("Spark","Hadoop","HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS","HDFS","MapReduce","Yarn","Solr","Avro","Lucene","Kibana", "Kafka")),
-    ("DatabaseEngineering", List("Oracle","Postgresql","Mysql","SQL")),
-    ("ETL Engineering", List("Pentaho","Informatica","Streamsets","Syncsort")),
-    ("Web App Development", List("AngularJS","Javascript","Grails","Spring","Hibernate","node.js","CSS","HTML")),
-    ("Mobile Development", List("Android","iOS","Ionic","Cordova","Phonegap")),
-    ("Common Programming Languages", List("Java","Scala","Groovy","C","Python","Ruby","Haskell")))
+    result.keywordLists = Map(("Big Data" -> List("Spark","Hadoop","HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS","HDFS","MapReduce","Yarn","Solr","Avro","Lucene","Kibana", "Kafka")),
+    ("DatabaseEngineering" -> List("Oracle","Postgresql","Mysql","SQL")),
+    ("ETL Engineering" -> List("Pentaho","Informatica","Streamsets","Syncsort")),
+    ("Web App Development" -> List("AngularJS","Javascript","Grails","Spring","Hibernate","node.js","CSS","HTML")),
+    ("Mobile Development" -> List("Android","iOS","Ionic","Cordova","Phonegap")),
+    ("Common Programming Languages" -> List("Java","Scala","Groovy","C","Python","Ruby","Haskell")))
 
     result.positionKeywords = List("technology", "computer", "information", "engineer", "developer", "software", "analyst", "application", "admin")
 
@@ -104,7 +104,7 @@ class RegressionSettings() {
   var jobLocation: String = ""
 
   //The set of keywords to look for
-  var keywordLists = List[(String, List[String])]()
+  var keywordLists = Map.empty[String, List[String]]
 
   //A list of words that relate to the required job opening
   var positionKeywords = List[String]()

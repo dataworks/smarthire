@@ -86,10 +86,10 @@ Elasticsearch is a search engine built on the Apache Lucene tokenizer project.  
 
 #### What it was used for:
 
-Bootstrap is a framework that we used to help create the structure for the project.  The nice thing about bootstrap is that it has a ton of piece and parts that are provided within the frame work that help ease the prosess of building any webpage.
+Bootstrap is a framework that we used to help create the structure for the project.  The nice thing about Bootstrap is that it has a ton of pieces and parts that are provided within the framework that help ease the prosess of building any webpage.
 #### Pros:
 
-* There is a ton of easy to use libraries. 
+* There are a ton of easy to use libraries. 
 * Provides templates to help start projects.
 * Well documented.
 * Easy to make a template your own.
@@ -105,64 +105,67 @@ Bootstrap is a framework that we used to help create the structure for the proje
 ### [AngularJS](https://angularjs.org/)
 #### What it was used for:
 
-ljsdfadjfadjfaldfj
+AngularJS is a JavaScript based framework that extends upon HTML for more dynamic web applications that follows the [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) architecture. The framework's ability to bind data and inject dependencies eliminate the need to write a huge chunk of code. It was used to create many of the functionalities seen on the client side, and it also connected the front-end to the server components. 
 #### Pros:
 
-* bar
-* foo
+* Improves server performance by supporting caching 
+* Many libraries that can be implemented
+* Extends upon HTML base
+* Easy to test
 
 #### Cons:
 
-* bar
-* foo
+* Hard to debug scopes 
+* Lack of configuration if used with Bootstrap
+* Steep learning curve after mastering the basics
 
 ---
 
 ### [Node.js](https://nodejs.org/en/)
 #### What it was used for:
 
-alsdfjadslfjadlfkj
+Node.js is an open-source runtime environment that is used to develop the server-side of a web application. Many of its modules are written in JavaScript, which makes it ideal to use it with another JavaScript based web application development framework, such as AngularJS. It was used to link Elasticsearch to the application and load up the data in a back-end call for the front-end to grab and display. 
 #### Pros:
 
-* bar
-* foo
+* Dynamic language (JavaScript) makes it much faster than other server-side environments
+* Lots of great libraries that are easy to install with [npm](https://www.npmjs.com/)
+* Scalable to thousands of active connections
 
 
 #### Cons:
 
-* bar
-* foo
+* Nested callbacks make it hard to go through and debug
+* Not suited for CPU intensive tasks
+* Hard to use with a relational database system
 
 ---
 
 ### [Express.js](https://expressjs.com/en/starter/installing.html)
 #### What it was used for:
 
-asdfadfadsfadsfadsfadfasdfad
+Express.js is a Node.js framework that helps organize a web application's routing and templating in a MVC format. Express.js does this so that minimal effort is needed, and it is very simple to use. It was used to make sure that code was not repeated unnecessarily on the server side. 
 #### Pros:
 
-* bar
-* foo
+* Saves a lot of time and eliminates need to write a lot of code for server routing
+* Extends Node.js capability for web development
+* Allows generation of complex apps quickly
 
 #### Cons:
 
-* bar
-* foo
+* Not many well written middlewares for usage
+* JavaScript code bases are harder to maintain than other languages
 
 ---
 
 ### [Charts.js](http://www.chartjs.org/docs/)
 #### What it was used for:
 
-ad;fasdfasdfasdf
+Charts.js is an open-source library that creates HTML5 charts and graphs for a webpage. The charts are based off JavaScript, and they are easily modified to suit a user's liking. This library was used to create the pie charts seen in Analytics and in the carousel on the home page. 
 #### Pros:
 
-* bar 
-* foo
+* Based off JavaScript, easy to integrate with AngularJS 
+* Visually appealing, graphs are also interactive
 
 #### Cons:
 
-* bar
-* foo
-
-
+* Harder to work with Elasticsearch data, Kibana may have been easier

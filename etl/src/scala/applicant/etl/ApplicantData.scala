@@ -26,7 +26,7 @@ class ApplicantData {
   var otherLocationList: ListBuffer[String] = new ListBuffer[String]()
   var otherOrganizationList: ListBuffer[String] = new ListBuffer[String]()
   var df: DecimalFormat = new DecimalFormat("#.##")
-  var featureScores = ListBuffer[(String, Double)]()
+  var featureScores = Map[String,Double]()
   var githubData = Map[String,String]()
   var score = -1.0
   var gpa = 0.0
@@ -87,7 +87,7 @@ object ApplicantData {
    * @param applicantID A String to be used as the applicant's unique ID
    * @param fullText A String of the full parsed resume from extractText
    */
-  def apply(taggedEntities: LinkedHashMap[(String, String),(String,String)], applicantid: String, fullText: String, scoreSettings : RegressionSettings): ApplicantData = {
+  def apply(taggedEntities: LinkedHashMap[(String, String),(String,String)], applicantid: String, fullText: String): ApplicantData = {
 
     //degree, location, organization, person, school, title, bigdata, database, etl, webapp, mobile, language, gpa, email, phone, url
     val app = new ApplicantData()
@@ -144,8 +144,6 @@ object ApplicantData {
       }
     }
 
-    app.featureScores = LogisticFeatureGenerator.getEmptyFeatureList(scoreSettings)
-
     app.name = WordUtils.capitalizeFully(app.name)
     return app
   }
@@ -196,7 +194,7 @@ object ApplicantData {
 
     elasticMap.get("features") match {
       case Some(features) =>
-        app.featureScores = features.asInstanceOf[JListWrapper[(String, Double)]].toList.to[ListBuffer]
+        app.featureScores = features.asInstanceOf[Map[String, Double]]
       case None =>
     }
 
