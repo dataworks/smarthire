@@ -5,6 +5,7 @@ var root = express();
 var app = express();
 var fs = require('fs');
 var https = require('https');
+var passport = require('passport');
 
 var applicantService = require("./services/applicants.js");
 var labelService = require("./services/labels.js");
@@ -120,6 +121,41 @@ root.get("/", function(req, res) {
 });
 
 /**
+ * test for Oauth
+ */
+app.get("/service/test", function(req, res) {
+  // res.redirect("/app");
+  var html = "<ul>\
+    <li><a href='/app/service/auth'>GitHub</a></li>\
+    <li><a href='/app/service/logout'>logout</a></li>\
+  </ul>";
+
+  // dump the user for debugging
+if (req.isAuthenticated()) {
+  html += "<p>authenticated as user:</p>"
+  html += "<pre>" + JSON.stringify(req.user, null, 4) + "</pre>";
+}
+
+  res.send(html);
+});
+
+app.get('/service/logout', function(req, res){
+  console.log('logging out');
+  req.logout();
+  res.redirect('/app/service/test');
+});
+
+// we will call this to start the GitHub Login process
+app.get('/service/auth', passport.authenticate('github'));
+
+// GitHub will call this URL
+app.get('/service/auth/callback', passport.authenticate('github', { failureRedirect: '/app/service/test' }),
+  function(req, res) {
+    res.redirect('/app/service/test');
+  }
+);
+
+/**
  * HTML5 mode, gets rid of the '#' in URLs
  *
  * @param route -
@@ -130,6 +166,45 @@ app.all('/*', function(req, res) {
     root: __dirname + "/../client/"
   });
 });
+
+
+
+var session = require('express-session');
+app.use(session({
+  secret: "no",
+  resave: false,
+  saveUninitialized:false,
+  name: "test"
+}));
+// app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user, done) {
+  // placeholder for custom user serialization
+  // null is for errors
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  // placeholder for custom user deserialization.
+  // maybe you are going to get the user from mongo by id?
+  // null is for errors
+  done(null, user);
+});
+
+var GithubStrategy = require('passport-github2').Strategy;
+
+passport.use(new GithubStrategy({
+    clientID: "659c02af0d706f9dee3a",
+    clientSecret: "902f7569aa3f08404c6fe591afa0aed80e20cd30",
+    callbackURL: "https://localhost:8082/app/service/auth/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    return done(null, profile);
+  }
+));
+
+
 
 var readSsl = function(ssl) {
   if (ssl.key.charAt(0) != '/') {
