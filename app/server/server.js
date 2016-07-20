@@ -176,7 +176,7 @@ app.use(session({
   saveUninitialized:false,
   name: "test"
 }));
-// app.use(passport.initialize());
+app.use(passport.initialize());
 app.use(passport.session());
 
 passport.serializeUser(function(user, done) {
@@ -195,9 +195,9 @@ passport.deserializeUser(function(user, done) {
 var GithubStrategy = require('passport-github2').Strategy;
 
 passport.use(new GithubStrategy({
-    clientID: "659c02af0d706f9dee3a",
-    clientSecret: "902f7569aa3f08404c6fe591afa0aed80e20cd30",
-    callbackURL: "https://localhost:8082/app/service/auth/callback"
+    clientID: "id here",
+    clientSecret: "secret here",
+    callbackURL: "URL here"
   },
   function(accessToken, refreshToken, profile, done) {
     return done(null, profile);

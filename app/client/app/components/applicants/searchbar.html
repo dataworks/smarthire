@@ -1,0 +1,51 @@
+ <!-- search bar -->
+  <div class="form-group col-xs-6">
+    <div class="inner-addon right-addon">
+      <i id="sb" class="glyphicon glyphicon-search" ng-click="search(displayText)"></i>
+      <autocomplete data="autoSuggest" type="text" ng-keyup="($event.keyCode == 13 && search(displayText)); $event.keyCode == 13 && isSearch(displayText)" id="search" ng-model="displayText" placeholder="Search here..." required></autocomplete>
+      <div class="input-group-btn">
+        <div class="dropdown dropdown-lg">
+          <button id="arrow" title="Advanced Search" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+           <div class="visible-sm visible-xs">
+             <span  class="caret"></span>
+           </div>
+           <span class="hidden-xs hidden-sm" id="word">Advanced</span>
+         </button>
+         <div class="dropdown-menu" role="menu">
+          <form class="form-horizontal" role="form">
+            <div class="form-group">
+              <label for="filter">Filter by</label>
+              <div class="checkbox">
+                <!-- whenever a new search is added the id needs to be added to the pointer css in appView -->
+                <label id="two"><b>Major</b> <br>
+                  <input type="checkbox" id="csCheck"> Computer Science<br>
+                  <input type="checkbox" id="cpeCheck"> Computer Engineering<br>
+                  <input type="checkbox" id="itCheck"> Information Technology<br>
+                  <input type="checkbox" id="mathCheck"> Mathematics<br>
+                </label>
+                <label id="two"><b>Location</b> <br>
+                  <input type="checkbox" id="vaCheck"> Virginia<br>
+                  <input type="checkbox" id="mdCheck"> Maryland<br>
+                  <input type="checkbox" id="dcCheck"> Washington D.C.<br>
+                  <input type="checkbox" id="paCheck"> Pennsylvania<br>
+                </label> <div id="one"></div>
+                <label id="three"><b>Education</b> <br>
+                  <input type="checkbox" id="uvaCheck"> UVa<br>
+                  <input type="checkbox" id="jmuCheck"> JMU<br>
+                  <input type="checkbox" id="rpiCheck"> RPI<br>
+                  <input type="checkbox" id="gmuCheck"> GMU<br>
+                </label>
+                <label id="two"><b>Job title</b><br>
+                  <input type="checkbox" id="devCheck"> Developer<br>
+                  <input type="checkbox" id="arcCheck"> Architect<br>
+                  <input type="checkbox" id="manCheck"> Manager<br>
+                  <input type="checkbox" id="engCheck"> Engineer<br>
+                </label>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -304,7 +304,7 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
 
       }
       test++;
-      searchAnalysis.createBarGraph(ctx, labels, data, blues);
+      //searchAnalysis.createBarGraph(ctx, labels, data, blues);
      }
       // return featureString;
     }

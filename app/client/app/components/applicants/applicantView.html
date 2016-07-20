@@ -17,7 +17,9 @@
   </label>
   <!-- code for search analytics -->
   <button class="hidden-xs hidden-sm" id="stats" ng-click="setGraphBool()"><i class="fa fa-pie-chart" ></i></button>
-  <!-- search bar -->
+<!--   <div ng-include src="'app/components/applicants/searchbar.html'"></div>
+<div ng-include src="'app/components/applicants/searchbar.html'"></div> -->
+ <!-- search bar -->
   <div class="form-group col-xs-6">
     <div class="inner-addon right-addon">
       <i id="sb" class="glyphicon glyphicon-search" ng-click="search(displayText)"></i>
@@ -68,11 +70,9 @@
     </div>
   </div>
 </div>
-
 <div id="carouselFormat" ng-show="showGraphs">
   <br> 
 </div>
-
     <!-- Carousel
     ================================================== -->
     <div id="myCarousel" class="carousel slide hidden-xs hidden-sm" ng-show="showGraphs" data-interval="false"> <!-- data-ride="carousel" -->
@@ -141,11 +141,9 @@
         <span class="sr-only">Next</span>
       </a>
     </div><!-- /.carousel -->
-
     <div id="carouselFormat" ng-show="showGraphs">
       <br>
     </div>
-
     <div infinite-scroll="nextPage()" infinite-scroll-disabled="loadingData" infinite-scroll-check="false" infinite-scroll-distance="1">
       <div class="row-applicant-row" >
         <table class="table table-condensed text-center">
