@@ -144,7 +144,7 @@ object ApplicantData {
       }
     }
 
-    app.featureScores = LogisticFeatureGenerator.getEmptyFeatureList(scoreSettings)
+    app.featureScores = LogisticFeatureGenerator.getEmptyFeatureMap(scoreSettings)
 
     app.name = WordUtils.capitalizeFully(app.name)
     return app

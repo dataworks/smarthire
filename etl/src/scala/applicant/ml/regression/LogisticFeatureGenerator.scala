@@ -62,7 +62,7 @@ object LogisticFeatureGenerator {
    *
    * @return a map of features to 0.0
    */
-  def getEmptyFeatureList(settings: RegressionSettings): Map[String, Double] = {
+  def getEmptyFeatureMap(settings: RegressionSettings): Map[String, Double] = {
     return this.getFeatureList(settings).map ( feature => (feature, 0.0) )(breakOut): Map[String,Double]
   }
 
@@ -73,7 +73,7 @@ object LogisticFeatureGenerator {
    *              with their feature names
    * @return A map of feature names with their score
    */
-  def getPopulatedFeatureList(vec: Vector, settings: RegressionSettings): Map[String, Double] = {
+  def getPopulatedFeatureMap(vec: Vector, settings: RegressionSettings): Map[String, Double] = {
     val featureVals = vec.toArray
     return (this.getFeatureList(settings) zip featureVals)(breakOut): Map[String,Double]
   }
