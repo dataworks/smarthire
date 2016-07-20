@@ -18,10 +18,9 @@ import org.slf4j.{Logger, LoggerFactory}
  * It also has functions to zip feaure names
  */
 object LogisticFeatureGenerator {
-  def apply(wordModel: Word2VecModel, bayesModel: NaiveBayesModel, idfModel: IDFModel, settings: RegressionSettings, cityFileLoc: String) : LogisticFeatureGenerator = {
+  def apply(bayesModel: NaiveBayesModel, idfModel: IDFModel, settings: RegressionSettings, cityFileLoc: String) : LogisticFeatureGenerator = {
     val generator = new LogisticFeatureGenerator(cityFileLoc)
 
-    generator.wordModel = wordModel
     generator.bayesModel = bayesModel
     generator.idfModel = idfModel
     generator.settings = settings
@@ -86,7 +85,6 @@ object LogisticFeatureGenerator {
 class LogisticFeatureGenerator(cityFile: String) {
   var settings : RegressionSettings = null
   var featureList : List [String] = null
-  var wordModel : Word2VecModel = null
   var bayesModel : NaiveBayesModel = null
   var idfModel : IDFModel = null
   var cityFileLoc : String = cityFile

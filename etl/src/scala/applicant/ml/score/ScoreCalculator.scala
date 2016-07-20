@@ -37,13 +37,12 @@ object ScoreCalculator {
     //create spark rdd using conf
     val sc = new SparkContext(conf)
 
-    //Load the w2v, naive bayes, logistic regression, and IDF models
-    val w2vModel = Word2VecModel.load(sc, options.word2vecModel)
+    //Load the naive bayes, logistic regression, and IDF models
     val naiveBayesModel = NaiveBayesHelper.loadModel(sc, options.naiveBayesModelDirectory)
     var regressionModel = LogisticRegressionHelper.loadModel(sc, options.regressionModelDirectory)
     var idfModel = IDFHelper.loadModel(options.idfModelDirectory)
     val settings = RegressionSettings(sc)
-    val generator = LogisticFeatureGenerator(w2vModel, naiveBayesModel.get, idfModel.get, settings, options.cityfilelocation)
+    val generator = LogisticFeatureGenerator(naiveBayesModel.get, idfModel.get, settings, options.cityfilelocation)
 
     if (regressionModel.isEmpty || naiveBayesModel.isEmpty || idfModel.isEmpty) {
       log.error("There was a problem loading the machine learning models. Quitting now.")

@@ -87,7 +87,7 @@ object ApplicantData {
    * @param applicantID A String to be used as the applicant's unique ID
    * @param fullText A String of the full parsed resume from extractText
    */
-  def apply(taggedEntities: LinkedHashMap[(String, String),(String,String)], applicantid: String, fullText: String, featureMap : Map[String,Double]): ApplicantData = {
+  def apply(taggedEntities: LinkedHashMap[(String, String),(String,String)], applicantid: String, fullText: String): ApplicantData = {
 
     //degree, location, organization, person, school, title, bigdata, database, etl, webapp, mobile, language, gpa, email, phone, url
     val app = new ApplicantData()
@@ -143,8 +143,6 @@ object ApplicantData {
         app.name = textArr(0) + " " + textArr(1)
       }
     }
-
-    app.featureScores = featureMap
 
     app.name = WordUtils.capitalizeFully(app.name)
     return app

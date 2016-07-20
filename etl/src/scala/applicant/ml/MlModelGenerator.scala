@@ -49,7 +49,6 @@ object MlModelGenerator {
     //Create Spark RDD using conf
     val sc = new SparkContext(conf)
     //Create Word2Vec model
-    val w2vModel = Word2VecModel.load(sc, options.word2vecModel)
     val labelsHashMap: HashMap[String,Double] = new HashMap[String,Double]()
     val archiveLabelsSeq = sc.esRDD(options.esLabelIndex + "/label").values.map{label =>
       if (label("type").asInstanceOf[String] == "archive") {
@@ -140,7 +139,7 @@ object MlModelGenerator {
         IDFHelper.loadModel(options.idfModelDirectory) match {
           case Some(idfModel) =>
             val settings = RegressionSettings(sc)
-            val generator = LogisticFeatureGenerator(w2vModel, bayesModel, idfModel, settings, options.cityfilelocation)
+            val generator = LogisticFeatureGenerator(bayesModel, idfModel, settings, options.cityfilelocation)
             applicantDataList.foreach { applicant =>
               val applicantScore = labelsHashMap(applicant.applicantid)
 
@@ -181,9 +180,6 @@ object MlModelGenerator {
 
     //Command line option parser
     val parser = new OptionParser[Command]("ResumeParser") {
-      opt[String]('w', "word2vecModel") required() valueName("<word2vecModel>") action { (x, c) =>
-        c.copy(word2vecModel = x)
-      } text ("Path to word2vec model (usually model/w2v)")
       opt[String]('m', "master") required() valueName("<master>") action { (x, c) =>
         c.copy(sparkMaster = x)
       } text ("Spark master argument.")
