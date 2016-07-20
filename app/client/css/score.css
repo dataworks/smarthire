@@ -1,0 +1,30 @@
+.chart { width: 100%; }
+
+.chart span li {
+  border-radius: 4px 4px 0 0; /* Remember vendor prefixes */
+  box-shadow: 0 1px 0 0 rgba(255,255,255,.6) inset; /* Remember vendor prefixes */
+  display: block;
+  height: 125px;
+  padding: 25px 0;
+  position: relative;
+  text-align: center;
+  vertical-align: bottom;
+}
+
+.chart .axis { 
+  /*display: none;*/
+  top: -25px;
+  width: 11%;
+ }
+
+.chart .labelY {
+  background: white;
+  color: black;
+}
+
+.chart .scoreFeature {
+  font-size: 30px;
+  letter-spacing: -3px;
+  opacity: .4;
+  width: 100%;
+}

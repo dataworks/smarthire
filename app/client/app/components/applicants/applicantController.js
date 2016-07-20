@@ -280,33 +280,19 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       return parseInt((score * 100), 10);
     }
 
-    var test = 0;
-    $scope.parseFeature = function(applicant) {
+
+    $scope.parseFeatures = function(applicant) {
       var featureString = "";
-      var labels = [];
-      var data = [];
-      var blues = [
-        '#0D47A1',
-        '#1976D2',
-        '#2196F3',
-        '#64B5F6',
-        '#BBDEFB'
-      ];
-
-      if(test < 2) {
-      var ctx = document.getElementById(applicant.id);
-      console.log(ctx);
-
+      var color = ['one','two','three','four','five','six','seven','eight','nine','ten','eleven'];
+    
       for (var i = 0; i < applicant.features.length; i++) {
-        // featureString += features[i]["_1"] + ": " + features[i]["_2"] + "<br>";
-        labels.push(applicant.features[i]["_1"]);
-        data.push(applicant.features[i]["_2"]);
-
+        // featureString += applicant.features[i]["_1"] + ": " + applicant.features[i]["_2"] + "<br>";
+        featureString += "<li class='bar " + color[i] + "' title='" + applicant.features[i]["_2"] + "'>";
+        featureString += "<div class='scoreFeature'>" + applicant.features[i]["_2"] + "</div>";
+        featureString += "<div class='nameFeature'>" + applicant.features[i]["_1"] + "</div></li>";
       }
-      test++;
-      createBarGraph(ctx, labels, data, blues);
-     }
-      // return featureString;
+
+      return featureString;
     }
 
    /**
