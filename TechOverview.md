@@ -143,31 +143,29 @@ Node.js is an open-source runtime environment that is used to develop the server
 ### [Express.js](https://expressjs.com/en/starter/installing.html)
 #### What it was used for:
 
-asdfadfadsfadsfadsfadfasdfad
+Express.js is a Node.js framework that helps organize a web application's routing and templating in a MVC format. Express.js does this so that minimal effort is needed, and it is very simple to use. It was used to make sure that code was not repeated unnecessarily on the server side. 
 #### Pros:
 
-* bar
-* foo
+* Saves a lot of time and eliminates need to write a lot of code for server routing
+* Extends Node.js capability for web development
+* Allows generation of complex apps quickly
 
 #### Cons:
 
-* bar
-* foo
+* Not many well written middlewares for usage
+* JavaScript code bases are harder to maintain than other languages
 
 ---
 
 ### [Charts.js](http://www.chartjs.org/docs/)
 #### What it was used for:
 
-ad;fasdfasdfasdf
+Charts.js is an open-source library that creates HTML5 charts and graphs for a webpage. The charts are based off JavaScript, and they are easily modified to suit a user's liking. This library was used to create the pie charts seen in Analytics and in the carousel on the home page. 
 #### Pros:
 
-* bar 
-* foo
+* Based off JavaScript, easy to integrate with AngularJS 
+* Visually appealing, graphs are also interactive
 
 #### Cons:
 
-* bar
-* foo
-
-
+* Harder to work with Elasticsearch data, Kibana may have been easier
