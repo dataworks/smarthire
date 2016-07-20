@@ -45,7 +45,7 @@ object RegressionSettings {
     result.wordRelevaceToggle = getBool(elasticMap("wordRelevaceToggle"))
     result.keywordsToggle = getBool(elasticMap("keywordsToggle"))
     result.distanceToggle = getBool(elasticMap("distanceToggle"))
-    result.contanctInfoToggle = getBool(elasticMap("contanctInfoToggle"))
+    result.contactInfoToggle = getBool(elasticMap("contactInfoToggle"))
     result.resumeLengthToggle = getBool(elasticMap("resumeLengthToggle"))
     result.experienceToggle = getBool(elasticMap("experienceToggle"))
 
@@ -65,7 +65,7 @@ object RegressionSettings {
     result.wordRelevaceToggle = true
     result.keywordsToggle = true
     result.distanceToggle = true
-    result.contanctInfoToggle = true
+    result.contactInfoToggle = true
     result.resumeLengthToggle = true
     result.experienceToggle = true
 
@@ -87,7 +87,7 @@ object RegressionSettings {
 
 class RegressionSettings() {
   //Toggles to turn features on or off
-  var wordRelevaceToggle, keywordsToggle, distanceToggle, contanctInfoToggle, resumeLengthToggle, experienceToggle: Boolean = false
+  var wordRelevaceToggle, keywordsToggle, distanceToggle, contactInfoToggle, resumeLengthToggle, experienceToggle: Boolean = false
 
   //The location that you wish to measure distance from. Should be formatted similar to "Reston, VA"
   var jobLocation: String = ""
@@ -107,7 +107,7 @@ class RegressionSettings() {
       "wordRelevanceToggle" -> wordRelevaceToggle,
       "keywordsToggle" -> keywordsToggle,
       "distanceToggle" -> distanceToggle,
-      "contanctInfoToggle" -> contanctInfoToggle,
+      "contactInfoToggle" -> contactInfoToggle,
       "resumeLengthToggle" -> resumeLengthToggle,
       "experienceToggle" -> experienceToggle,
       "keywordLists" -> keywordLists,

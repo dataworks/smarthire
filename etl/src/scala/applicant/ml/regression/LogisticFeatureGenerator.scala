@@ -39,8 +39,8 @@ object LogisticFeatureGenerator {
       featureList += "Relevance"
     }
     if (settings.keywordsToggle) {
-      settings.keywordLists.keys.foreach{ x =>
-        featureList += x
+      settings.keywordLists.foreach{ x =>
+        featureList += x._1
       }
     }
     if (settings.distanceToggle) {
@@ -134,8 +134,8 @@ class LogisticFeatureGenerator {
     //NaiveBayesScore
     featureArray += naiveBayesTest(bayesModel, idfModel, applicant)
     // Core key words
-    settings.keywordLists.values.foreach{ keywords =>
-      featureArray += keywordSearch(keywords, applicant.fullText)
+    settings.keywordLists.foreach{ keywords =>
+      featureArray += keywordSearch(keywords._2, applicant.fullText)
     }
 
     //distance from Reston VA
