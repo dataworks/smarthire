@@ -104,8 +104,6 @@ object ResumeParser {
     val extractor = new EntityExtractor(models, patterns)
 
     val broadcastExtractor = sc.broadcast(extractor)
-    val modelSettings = RegressionSettings(sc)
-    val featureMap = LogisticFeatureGenerator.getEmptyFeatureMap(modelSettings)
 
     var fileCount = sc.accumulator(0)
 
@@ -119,7 +117,7 @@ object ResumeParser {
         entitySet = broadcastExtractor.value.extractEntities(resume.text)
       }
 
-      val app = ApplicantData(entitySet, resume.esId, resume.text, featureMap)
+      val app = ApplicantData(entitySet, resume.esId, resume.text)
 
       var specialOldHash: (String, String) = null
       if (emails.contains(app.email)) {
