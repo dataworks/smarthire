@@ -3,6 +3,12 @@ package applicant.ml.regression
 import scala.collection.mutable.Map
 import scala.collection.JavaConversions._
 
+import org.apache.spark.SparkContext
+import org.apache.spark.SparkContext._
+import org.apache.spark.SparkConf
+import org.apache.spark.rdd.RDD
+import org.elasticsearch.spark._
+
 object RegressionSettings {
 
   /**
@@ -54,6 +60,11 @@ object RegressionSettings {
     result.degreeKeywords = getList(elasticMap("degreeKeywords"))
 
     return result
+  }
+
+  def apply(sc: SparkContext): RegressionSettings = {
+    val settingsMap = sc.esRDD("mlsettings/settings").collect()(0)
+    return apply(settingsMap._2)
   }
 
   /**
