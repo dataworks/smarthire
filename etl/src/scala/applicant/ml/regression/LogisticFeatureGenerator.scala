@@ -57,6 +57,28 @@ object LogisticFeatureGenerator {
     }
     return featureList.toList
   }
+
+  /**
+   * Will return a map of feature names with zeros for scores
+   *
+   * @return a map of features to 0.0
+   */
+  def getEmptyFeatureList(settings: RegressionSettings): ListBuffer[(String, Double)] = {
+    return this.getFeatureList(settings).map ( feature => (feature, 0.0) ).to[ListBuffer]
+  }
+
+  /**
+   * Will return a map of feature names with the provided values
+   *
+   * @param vec A vector of feature scores that are to be associated
+   *              with their feature names
+   * @return A map of feature names with their score
+   */
+  def getPopulatedFeatureList(vec: Vector, settings: RegressionSettings): ListBuffer[(String, Double)] = {
+    val featureVals = vec.toArray
+    return (this.getFeatureList(settings) zip featureVals).to[ListBuffer]
+  }
+
 }
 
 /**
@@ -88,26 +110,7 @@ class LogisticFeatureGenerator {
     result
   }
 
-  /**
-   * Will return a map of feature names with zeros for scores
-   *
-   * @return a map of features to 0.0
-   */
-  def getEmptyFeatureList(): ListBuffer[(String, Double)] = {
-    return featureList.map ( feature => (feature, 0.0) ).to[ListBuffer]
-  }
 
-  /**
-   * Will return a map of feature names with the provided values
-   *
-   * @param vec A vector of feature scores that are to be associated
-   *              with their feature names
-   * @return A map of feature names with their score
-   */
-  def getPopulatedFeatureList(vec: Vector): ListBuffer[(String, Double)] = {
-    val featureVals = vec.toArray
-    return (featureList zip featureVals).to[ListBuffer]
-  }
 
   /**
    * Calculates all of the feature scores and returns a vector of the scores
