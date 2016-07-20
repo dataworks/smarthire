@@ -23,10 +23,11 @@ object LogisticFeatureGenerator {
 
     generator.bayesModel = bayesModel
     generator.idfModel = idfModel
-    generator.settings = settings
     generator.featureList = this.getFeatureList(settings)
     generator.titleKeywords = settings.positionKeywords
     generator.degreeKeywords = settings.degreeKeywords
+    generator.keywordLists = settings.keywordLists
+    generator.jobLocation = settings.jobLocation
 
     return generator
   }
@@ -82,8 +83,7 @@ object LogisticFeatureGenerator {
 /**
  * FeatureGenerator
  */
-class LogisticFeatureGenerator(cityFile: String) {
-  var settings : RegressionSettings = null
+class LogisticFeatureGenerator(cityFile: String) extends Serializable {
   var featureList : List [String] = null
   var bayesModel : NaiveBayesModel = null
   var idfModel : IDFModel = null
@@ -92,6 +92,8 @@ class LogisticFeatureGenerator(cityFile: String) {
   var titleKeywords : List[String] = null
   //Degree keywords used to scale the gpa
   var degreeKeywords : List[String] = null
+  var keywordLists : Map[String, List[String]] = null
+  var jobLocation : String = null
   //logger
   val log: Logger = LoggerFactory.getLogger(getClass())
   val locationMap: HashMap[(String, String), (Double, Double)] = {
@@ -133,7 +135,7 @@ class LogisticFeatureGenerator(cityFile: String) {
     //NaiveBayesScore
     featureArray += naiveBayesTest(bayesModel, idfModel, applicant)
     // Core key words
-    settings.keywordLists.foreach{ keywords =>
+    keywordLists.foreach{ keywords =>
       featureArray += keywordSearch(keywords._2, applicant.fullText)
     }
 
@@ -142,7 +144,7 @@ class LogisticFeatureGenerator(cityFile: String) {
       featureArray += 0.0
     }
     else {
-      featureArray += distanceFinder(settings.jobLocation, applicant.recentLocation)
+      featureArray += distanceFinder(jobLocation, applicant.recentLocation)
     }
 
     //density of contact info

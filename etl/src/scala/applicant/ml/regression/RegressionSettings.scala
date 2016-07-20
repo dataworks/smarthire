@@ -96,7 +96,7 @@ object RegressionSettings {
 
 }
 
-class RegressionSettings() {
+class RegressionSettings() extends Serializable {
   //Toggles to turn features on or off
   var wordRelevaceToggle, keywordsToggle, distanceToggle, contactInfoToggle, resumeLengthToggle, experienceToggle: Boolean = false
 
