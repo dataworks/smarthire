@@ -17,13 +17,12 @@ import org.slf4j.{Logger, LoggerFactory}
  * It also has functions to zip feaure names
  */
 object LogisticFeatureGenerator {
-  def apply(wordModel: Word2VecModel, bayesModel: NaiveBayesModel, idfModel: IDFModel, applicant: ApplicantData, settings: RegressionSettings, cityFileLoc: String) : LogisticFeatureGenerator = {
+  def apply(wordModel: Word2VecModel, bayesModel: NaiveBayesModel, idfModel: IDFModel, settings: RegressionSettings, cityFileLoc: String) : LogisticFeatureGenerator = {
     val generator = new LogisticFeatureGenerator()
 
     generator.wordModel = wordModel
     generator.bayesModel = bayesModel
     generator.idfModel = idfModel
-    generator.applicant = applicant
     generator.cityFileLoc = cityFileLoc
     generator.settings = settings
     generator.featureList = this.getFeatureList(settings)
@@ -90,7 +89,6 @@ class LogisticFeatureGenerator {
   var wordModel : Word2VecModel = null
   var bayesModel : NaiveBayesModel = null
   var idfModel : IDFModel = null
-  var applicant : ApplicantData = null
   var cityFileLoc : String = ""
   //Position keywords used to add to experience
   var titleKeywords : List[String] = null
@@ -132,7 +130,7 @@ class LogisticFeatureGenerator {
    * @param applicant The applicant whose features are needed
    * @return A vector that corresponds to the feature scores
    */
-  def getLogisticFeatureVec(wordModel: Word2VecModel, bayesModel: NaiveBayesModel, idfModel: IDFModel, applicant: ApplicantData): Vector = {
+  def getLogisticFeatureVec(applicant: ApplicantData): Vector = {
     val featureArray = scala.collection.mutable.ArrayBuffer.empty[Double]
     //NaiveBayesScore
     featureArray += naiveBayesTest(bayesModel, idfModel, applicant)
