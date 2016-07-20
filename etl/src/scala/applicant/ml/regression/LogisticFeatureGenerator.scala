@@ -18,12 +18,11 @@ import org.slf4j.{Logger, LoggerFactory}
  */
 object LogisticFeatureGenerator {
   def apply(wordModel: Word2VecModel, bayesModel: NaiveBayesModel, idfModel: IDFModel, settings: RegressionSettings, cityFileLoc: String) : LogisticFeatureGenerator = {
-    val generator = new LogisticFeatureGenerator()
+    val generator = new LogisticFeatureGenerator(cityFileLoc)
 
     generator.wordModel = wordModel
     generator.bayesModel = bayesModel
     generator.idfModel = idfModel
-    generator.cityFileLoc = cityFileLoc
     generator.settings = settings
     generator.featureList = this.getFeatureList(settings)
     generator.titleKeywords = settings.positionKeywords
@@ -83,13 +82,13 @@ object LogisticFeatureGenerator {
 /**
  * FeatureGenerator
  */
-class LogisticFeatureGenerator {
+class LogisticFeatureGenerator(cityFile: String) {
   var settings : RegressionSettings = null
   var featureList : List [String] = null
   var wordModel : Word2VecModel = null
   var bayesModel : NaiveBayesModel = null
   var idfModel : IDFModel = null
-  var cityFileLoc : String = ""
+  var cityFileLoc : String = cityFile
   //Position keywords used to add to experience
   var titleKeywords : List[String] = null
   //Degree keywords used to scale the gpa
