@@ -17,13 +17,12 @@ import org.slf4j.{Logger, LoggerFactory}
  * It also has functions to zip feaure names
  */
 object LogisticFeatureGenerator {
-  def apply(wordModel: Word2VecModel, bayesModel: NaiveBayesModel, idfModel: IDFModel, applicant: ApplicantData, settings: RegressionSettings, cityFileLoc: String) : LogisticFeatureGenerator = {
+  def apply(wordModel: Word2VecModel, bayesModel: NaiveBayesModel, idfModel: IDFModel, settings: RegressionSettings, cityFileLoc: String) : LogisticFeatureGenerator = {
     val generator = new LogisticFeatureGenerator()
 
     generator.wordModel = wordModel
     generator.bayesModel = bayesModel
     generator.idfModel = idfModel
-    generator.applicant = applicant
     generator.cityFileLoc = cityFileLoc
     generator.settings = settings
     generator.featureList = this.getFeatureList(settings)
@@ -39,8 +38,8 @@ object LogisticFeatureGenerator {
       featureList += "Relevance"
     }
     if (settings.keywordsToggle) {
-      settings.keywordLists.keys.foreach{ x =>
-        featureList += x
+      settings.keywordLists.foreach{ x =>
+        featureList += x._1
       }
     }
     if (settings.distanceToggle) {
@@ -57,6 +56,28 @@ object LogisticFeatureGenerator {
     }
     return featureList.toList
   }
+
+  /**
+   * Will return a map of feature names with zeros for scores
+   *
+   * @return a map of features to 0.0
+   */
+  def getEmptyFeatureList(settings: RegressionSettings): ListBuffer[(String, Double)] = {
+    return this.getFeatureList(settings).map ( feature => (feature, 0.0) ).to[ListBuffer]
+  }
+
+  /**
+   * Will return a map of feature names with the provided values
+   *
+   * @param vec A vector of feature scores that are to be associated
+   *              with their feature names
+   * @return A map of feature names with their score
+   */
+  def getPopulatedFeatureList(vec: Vector, settings: RegressionSettings): ListBuffer[(String, Double)] = {
+    val featureVals = vec.toArray
+    return (this.getFeatureList(settings) zip featureVals).to[ListBuffer]
+  }
+
 }
 
 /**
@@ -68,7 +89,6 @@ class LogisticFeatureGenerator {
   var wordModel : Word2VecModel = null
   var bayesModel : NaiveBayesModel = null
   var idfModel : IDFModel = null
-  var applicant : ApplicantData = null
   var cityFileLoc : String = ""
   //Position keywords used to add to experience
   var titleKeywords : List[String] = null
@@ -88,26 +108,7 @@ class LogisticFeatureGenerator {
     result
   }
 
-  /**
-   * Will return a map of feature names with zeros for scores
-   *
-   * @return a map of features to 0.0
-   */
-  def getEmptyFeatureList(): ListBuffer[(String, Double)] = {
-    return featureList.map ( feature => (feature, 0.0) ).to[ListBuffer]
-  }
 
-  /**
-   * Will return a map of feature names with the provided values
-   *
-   * @param vec A vector of feature scores that are to be associated
-   *              with their feature names
-   * @return A map of feature names with their score
-   */
-  def getPopulatedFeatureList(vec: Vector): ListBuffer[(String, Double)] = {
-    val featureVals = vec.toArray
-    return (featureList zip featureVals).to[ListBuffer]
-  }
 
   /**
    * Calculates all of the feature scores and returns a vector of the scores
@@ -129,13 +130,13 @@ class LogisticFeatureGenerator {
    * @param applicant The applicant whose features are needed
    * @return A vector that corresponds to the feature scores
    */
-  def getLogisticFeatureVec(wordModel: Word2VecModel, bayesModel: NaiveBayesModel, idfModel: IDFModel, applicant: ApplicantData): Vector = {
+  def getLogisticFeatureVec(applicant: ApplicantData): Vector = {
     val featureArray = scala.collection.mutable.ArrayBuffer.empty[Double]
     //NaiveBayesScore
     featureArray += naiveBayesTest(bayesModel, idfModel, applicant)
     // Core key words
-    settings.keywordLists.values.foreach{ keywords =>
-      featureArray += keywordSearch(keywords, applicant.fullText)
+    settings.keywordLists.foreach{ keywords =>
+      featureArray += keywordSearch(keywords._2, applicant.fullText)
     }
 
     //distance from Reston VA
