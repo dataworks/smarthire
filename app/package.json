@@ -13,6 +13,7 @@
     "bootstrap": "^3.3.6",
     "chai": "^3.5.0",
     "chart.js": "^2.1.6",
+    "chartist.js": "^0.9.5",
     "ejs": ">= 0.0.0",
     "elasticsearch": "^11.0.1",
     "express": "^4.13.4",
