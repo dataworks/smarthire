@@ -1,8 +1,8 @@
  <!-- search bar -->
   <div class="form-group col-xs-6">
     <div class="inner-addon right-addon">
-      <i id="sb" class="glyphicon glyphicon-search" ng-click="search(displayText)"></i>
-      <autocomplete data="autoSuggest" type="text" ng-keyup="($event.keyCode == 13 && search(displayText)); $event.keyCode == 13 && isSearch(displayText)" id="search" ng-model="displayText" placeholder="Search here..." required></autocomplete>
+      <i id="sb" class="glyphicon glyphicon-search" ng-click="search($parent.displayText)"></i>
+      <autocomplete data="autoSuggest" type="text" ng-keyup="($event.keyCode == 13 && search($parent.displayText)); $event.keyCode == 13 && isSearch($parent.displayText)" id="search" ng-model="$parent.displayText" placeholder="Search here..." required></autocomplete>
       <div class="input-group-btn">
         <div class="dropdown dropdown-lg">
           <button id="arrow" title="Advanced Search" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
