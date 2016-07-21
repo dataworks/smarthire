@@ -294,36 +294,45 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       for(var key in keysSorted) {
         var value = applicant.features[keysSorted[key]];
        
-        if(key === "Distance from Job Site"){
+        if(keysSorted[key] === "Distance from Job Site"){
           key = "Distance";
         }
-        else if(key === "Web App Development"){
+        else if(keysSorted[key] === "Web App Development"){
           key = "Web App";
         }
-        else if(key === "Mobile Development"){
+        else if(keysSorted[key] === "Mobile Development"){
           key = "Mobile";
         }
-        else if(key === "Amount of Contact Info"){
+        else if(keysSorted[key] === "Amount of Contact Info"){
           key = "Contact Info";
         }
-        else if(key === "Common Programming Languages"){
+        else if(keysSorted[key] === "Common Programming Languages"){
           key = "Languages";
         }
-        else if(key === "ETL Engineering"){
+        else if(keysSorted[key] === "ETL Engineering"){
           key = "ETL";
         }
-        else if(key === "DatabaseEngineering"){
+        else if(keysSorted[key] === "DatabaseEngineering"){
           key = "Database";
         }
-        else if(key === "Education/Work Background"){
-          key = "Education/Work";
+        else if(keysSorted[key] === "Education/Work Background"){
+          key = "Edu/Work";
         }
-        if((value/5)*100 < 0){
-          featureString += "<span class='bar' id='" + color[count] + "' style='height:" + ((value/5)*10)*(-1) + "%; postion:relative; top:50%' title='" + value + "' data-bar-label='" + key + "'></span>";
+        else if(keysSorted[key] === "Resume Length"){
+          key = "Resume Size";
+        }
+        else if(keysSorted[key] === "Big Data"){
+          key = "Big Data";
+        }
+        else if(keysSorted[key] === "Relevance"){
+          key = "Relevance";
+        }
+        if((value/5)*50 < 0){
+          featureString += "<span class='bar' id='" + color[count] + "' style='height:" + ((value/5)*50)*(-1) + "%; position:relative; top:50%' title='" + value + "' data-bar-label='" + key + "'></span>";
           count++;
         }
         else{
-          featureString += "<span class='bar' id='" + color[count] + "' style='height:" + (value/5)*10 + "%' title='" + value + "' data-bar-label='" + key + "'></span>";
+          featureString += "<span class='bar' id='" + color[count] + "' style='height:" + (value/5)*50 + "%; position:relative; top:11%' title='" + value + "' data-bar-label='" + key + "'></span>";
           count++;
         }
       }
