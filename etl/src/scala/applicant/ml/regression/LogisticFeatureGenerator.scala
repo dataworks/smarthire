@@ -254,7 +254,6 @@ class LogisticFeatureGenerator(cityFile: String) extends Serializable {
     return ("", "")
   }
 
-
   /**
    * Will give a double from 0 - 1 based on distance
    *
@@ -264,9 +263,9 @@ class LogisticFeatureGenerator(cityFile: String) extends Serializable {
    *          1 signifies close by
    */
   def scaleDistance(meters: Double): Double = {
-    // f(x) = 2/(1 + 5000^((x/9000000)-.5)) - 1
+    //f(x) = 2.0/(1 + 100^(x/4500000))
     val maxDistance = 4500000.0
-    return if (meters >= maxDistance) 0.0 else ((2.0/(1.0 + Math.pow(5000.0,((meters/(maxDistance*2.0))-0.5)))) - 1)
+    return if (meters >= maxDistance) 0.0 else (2.0/(1 + Math.pow(100, meters/4500000)))
   }
 
   /**
