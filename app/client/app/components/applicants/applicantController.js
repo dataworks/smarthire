@@ -288,7 +288,7 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
 
       //sort from least to greatest, switch a & b for opposite
       var keysSorted = Object.keys(applicant.features).sort(function(a,b) {
-        return applicant.features[a]-applicant.features[b]});
+        return applicant.features[b]-applicant.features[a]});
 
 
       for(var key in keysSorted) {
