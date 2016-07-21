@@ -420,6 +420,10 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       $scope.searchText = $scope.searchText + 
       advancedSearch.createQuery(csChecked, cpeChecked, itChecked, mathChecked, vaChecked, mdChecked, dcChecked, paChecked, uvaChecked, jmuChecked, rpiChecked, gmuChecked, devChecked, arcChecked, manChecked, engChecked);
 
+      if ($scope.searchText.charAt(0) == " ") {
+        $scope.searchText = $scope.searchText.substring(5, $scope.searchText.length);
+      }
+      console.log($scope.searchText);
       $scope.applicants = Applicant.query({
         type: $scope.selection,
         query: $scope.searchText,

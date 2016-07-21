@@ -153,7 +153,7 @@ app.get("/service/login", function(req, res) {
 
 app.get('/service/logout', function(req, res){
   req.logout();
-  res.redirect('/app');
+  res.redirect('/app/service/');
 });
 
 // we will call this to start the GitHub Login process
@@ -204,8 +204,8 @@ passport.deserializeUser(function(user, done) {
 var GithubStrategy = require('passport-github2').Strategy;
 
 passport.use(new GithubStrategy({
-    clientID: "",
-    clientSecret: "",
+    clientID: "no",
+    clientSecret: "no",
     callbackURL: "https://localhost:8082/app/service/auth/callback"
   },
   function(accessToken, refreshToken, profile, done) {
