@@ -1,9 +1,11 @@
 #Scorebreakdown{
   height: 250%;
+  z-index: 2;
 }
 
-#Scorebreakdown > tbody{
+#Scorebreakdown > tbody, thead{
   background-color: white;
+  z-index: 2;
 }
 
 .graph_fancy {
@@ -15,6 +17,7 @@
   position: relative;
   white-space: nowrap;
   font-size: 0;
+  z-index: 2;
 }
 .graph_fancy:before { /* Y-axis label */
   display: block;
@@ -67,7 +70,6 @@
 .graph_fancy .bar:before { /* Bar label */
   display: block;
   left: 0;
-  padding: .15em 0;
   position: absolute;
   top: 100%;
   width: 100%;
@@ -78,7 +80,7 @@
   text-align: center;
 }
 
-span#tenC.bar::before {
+/*span#tenC.bar::before {
   position: relative;
   left: -33%;
 }
@@ -86,7 +88,7 @@ span#tenC.bar::before {
 span#elevenC.bar::before {
   position: relative;
   left: -15%;
-}
+}*/
 
 .graph_fancy .bar:after { /* Bar data value */
   bottom: 100%;
@@ -106,26 +108,19 @@ span#elevenC.bar::before {
 .graph_fancy .bar:hover:before, .graph_fancy .bar:hover:after { opacity: 1; }
 
 #ticks {
-  position: relative; 
-  top: -230px; 
-  left: 2px;
-  width: 596px; 
-  height: 300px; 
-  z-index: 1;
-  margin-bottom: -300px;
-  font-size: 10px;
-  font-family: "fira-sans-2", Verdana, sans-serif;
+    float: left;
+    font-size: 10px;
+    font-family: "fira-sans-2", Verdana, sans-serif;
+    position: relative;
+    left: 1%;
+    bottom: -23px;
+    z-index: 0;
 }
 
-#ticks .tick {
+ #ticks .tick p {
   position: relative; 
-  border-bottom: 1px dotted #C4C4C4; 
-  width: 189%;
-}
-
-#ticks .tick p {
-  position: absolute; 
   left: -3em; 
   top: -0.8em; 
-  margin: 0 0 0 0.5em;
+  margin: 2px 0 0 0.5px;
 }
+
