@@ -68,15 +68,18 @@
   font-size: 12px;
   opacity: .5;
   text-align: center;
-    /* Safari */
-  -webkit-transform: rotate(-90deg);
-
-  /* Firefox */
-  -moz-transform: rotate(-90deg);
-
-  /* IE */
-  -ms-transform: rotate(-90deg);
 }
+
+span#tenC.bar::before {
+  position: relative;
+  left: -33%;
+}
+
+span#elevenC.bar::before {
+  position: relative;
+  left: -15%;
+}
+
 .graph_fancy .bar:after { /* Bar data value */
   bottom: 100%;
   display: block;
