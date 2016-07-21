@@ -39,16 +39,16 @@ object LogisticFeatureGenerator {
       }
     }
     if (settings.distanceToggle) {
-      featureList += "Distance from Job Site"
+      featureList += "Proximity"
     }
     if (settings.contactInfoToggle) {
-      featureList += "Amount of Contact Info"
+      featureList += "Contact Info"
     }
     if (settings.resumeLengthToggle) {
-      featureList += "Resume Length"
+      featureList += "Resume Size"
     }
     if (settings.experienceToggle) {
-      featureList += "Education/Work Background"
+      featureList += "Edu/Work"
     }
     return featureList.toList
   }
