@@ -83,7 +83,7 @@ object RegressionSettings {
    *  creates a RegressionSettings out of the results.
    */
   def apply(sc: SparkContext): RegressionSettings = {
-    val settingsMap = sc.esRDD("mlsettings/settings").first()(0)
+    val settingsMap = sc.esRDD("mlsettings/settings").first()
     return apply(settingsMap._2)
   }
 
