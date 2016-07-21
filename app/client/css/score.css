@@ -14,7 +14,7 @@
   display: block;
   padding: .5em;
   position: absolute;
-  right: 100%;
+  right: 104%;
   top: 48%;
 
   content: attr(data-y-label);
@@ -96,3 +96,28 @@ span#elevenC.bar::before {
   transition: background .25s ease-out, opacity .25s ease-out, box-shadow .25s ease-out;
 }
 .graph_fancy .bar:hover:before, .graph_fancy .bar:hover:after { opacity: 1; }
+
+#ticks {
+  position: relative; 
+  top: -300px; 
+  left: 2px;
+  width: 596px; 
+  height: 300px; 
+  z-index: 1;
+  margin-bottom: -300px;
+  font-size: 10px;
+  font-family: "fira-sans-2", Verdana, sans-serif;
+}
+
+#ticks .tick {
+  position: relative; 
+  border-bottom: 1px dotted #C4C4C4; 
+  width: 189%;
+}
+
+#ticks .tick p {
+  position: absolute; 
+  left: -3em; 
+  top: -0.8em; 
+  margin: 0 0 0 0.5em;
+}
