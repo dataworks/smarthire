@@ -44,6 +44,10 @@ object RegressionSettings {
     }
   }
 
+
+  /**
+   * Will check if a string is None and cast it accordingly
+   */
   private def getString(value: AnyRef): String = {
     if (value == None) {
       return ""
@@ -51,11 +55,15 @@ object RegressionSettings {
     return value.asInstanceOf[String]
   }
 
+  /**
+   * Constructor for the map that is returned from the mlsettings index in elasticsearch.
+   * The map is parsed into the RegressionSettings object.
+   */
   def apply(elasticMap: scala.collection.Map[String, AnyRef]): RegressionSettings = {
     val result = new RegressionSettings()
 
     //Go through the map from elasticsearch and populate the member fields
-    result.wordRelevaceToggle = getBool(elasticMap("wordRelevanceToggle"))
+    result.wordRelevanceToggle = getBool(elasticMap("wordRelevanceToggle"))
     result.keywordsToggle = getBool(elasticMap("keywordsToggle"))
     result.distanceToggle = getBool(elasticMap("distanceToggle"))
     result.contactInfoToggle = getBool(elasticMap("contactInfoToggle"))
@@ -70,8 +78,12 @@ object RegressionSettings {
     return result
   }
 
+  /**
+   * Constructor that automatically queries elasticsearch for the settings and
+   *  creates a RegressionSettings out of the results.
+   */
   def apply(sc: SparkContext): RegressionSettings = {
-    val settingsMap = sc.esRDD("mlsettings/settings").collect()(0)
+    val settingsMap = sc.esRDD("mlsettings/settings").first()
     return apply(settingsMap._2)
   }
 
@@ -81,7 +93,7 @@ object RegressionSettings {
    */
   def apply(): RegressionSettings = {
     val result = new RegressionSettings()
-    result.wordRelevaceToggle = true
+    result.wordRelevanceToggle = true
     result.keywordsToggle = true
     result.distanceToggle = true
     result.contactInfoToggle = true
@@ -107,7 +119,7 @@ object RegressionSettings {
 
 class RegressionSettings() extends Serializable {
   //Toggles to turn features on or off
-  var wordRelevaceToggle, keywordsToggle, distanceToggle, contactInfoToggle, resumeLengthToggle, experienceToggle: Boolean = false
+  var wordRelevanceToggle, keywordsToggle, distanceToggle, contactInfoToggle, resumeLengthToggle, experienceToggle: Boolean = false
 
   //The location that you wish to measure distance from. Should be formatted similar to "Reston, VA"
   var jobLocation: String = ""
@@ -121,10 +133,14 @@ class RegressionSettings() extends Serializable {
   //A list of words that relate to the degrees that are relevant
   var degreeKeywords = List[String]()
 
+  /**
+   * Returns a map of the internal data.
+   * This map can be directly uploaded into the mlsettings elasticsearch index
+   */
   def toMap(): Map[String, Any] = {
     return Map (
       "id" -> "current",
-      "wordRelevanceToggle" -> wordRelevaceToggle,
+      "wordRelevanceToggle" -> wordRelevanceToggle,
       "keywordsToggle" -> keywordsToggle,
       "distanceToggle" -> distanceToggle,
       "contactInfoToggle" -> contactInfoToggle,
