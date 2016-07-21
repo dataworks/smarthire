@@ -37,7 +37,9 @@ libraryDependencies ++= Seq(
     "commons-codec" % "commons-codec" % "1.10",
     "org.json4s" %% "json4s-native" % "3.3.0",
     "com.twelvemonkeys.imageio" % "imageio-core" % "3.2.1",
-    "org.apache.pdfbox" % "pdfbox" % "2.0.2"
+    "org.apache.pdfbox" % "pdfbox" % "2.0.2",
+    "com.amazonaws" % "aws-java-sdk" % "1.7.4",
+    "org.apache.hadoop" % "hadoop-aws" %"2.7.2"
 
 )
 
