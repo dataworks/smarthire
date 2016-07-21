@@ -312,11 +312,14 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
         else if(key === "Education/Work Background"){
           key = "Education/Work";
         }
-        else if(key === "Resume Length"){
-          key = "Resume Length";
+        if((value/5)*100 < 0){
+          featureString += "<span class='bar' id='" + color[count] + "' style='height:" + ((value/5)*100)*(-1) + "%; postion:relative; top:50%' title='" + value + "' data-bar-label='" + key + "' data-bar-value='" + (parseFloat(value)).toFixed(2) + "'></span>";
+          count++;
         }
-        featureString += "<span class='bar' id='" + color[count] + "' style='height:" + (value/5)*100 + "%' title='" + value + "' data-bar-label='" + key + "' data-bar-value='" + (parseFloat(value)).toFixed(2) + "'></span>";
-        count++;
+        else{
+          featureString += "<span class='bar' id='" + color[count] + "' style='height:" + (value/5)*100 + "%' title='" + value + "' data-bar-label='" + key + "' data-bar-value='" + (parseFloat(value)).toFixed(2) + "'></span>";
+          count++;
+        }
       }
       return $sce.trustAsHtml(featureString);
     }
