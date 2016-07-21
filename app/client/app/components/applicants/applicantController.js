@@ -284,13 +284,13 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
     $scope.parseFeatures = function(applicant) {
       var featureString = "";
       var color = ['oneC','twoC','threeC','fourC','fiveC','sixC','sevenC','eightC','nineC','tenC','elevenC'];
+      var count = 0;
 
       for(var key in applicant.features) {
         var value = applicant.features[key];
         console.log(applicant.features);
-        featureString += "<span class='bar' id='" + color[i] + "' style='height:50%' title='" + value + "' data-bar-label='" + key + "' data-bar-value='" + value + "'></span>";
-        // console.log(featureString);
-
+        featureString += "<span class='bar' id='" + color[count] + "' style='height:" + (value/5)*100 + "%' title='" + value + "' data-bar-label='" + key + "' data-bar-value='" + value + "'></span>";
+        count++;
       }
       return $sce.trustAsHtml(featureString);
     }

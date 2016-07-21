@@ -38,19 +38,16 @@
 }
 .graph_fancy .bar {
   display: inline-block;
-  margin: 0 0 0 2%;
+  margin: 0 0 0 4%;
   vertical-align: bottom;
   position: relative;
-  width: 8.12%;
-  bottom: -50%;
+  width: 4.5%;
 
   background: #fc4;
   cursor: pointer;
 }
 .graph_fancy .bar:first-child {
-  height: 100%;
   margin: 0;
-  width: 0;
 }
 .graph_fancy .bar:hover {
   z-index: 100;
