@@ -20,7 +20,6 @@ import org.slf4j.{Logger, LoggerFactory}
 object LogisticFeatureGenerator {
   def apply(bayesModel: NaiveBayesModel, idfModel: IDFModel, settings: RegressionSettings, cityFileLoc: String) : LogisticFeatureGenerator = {
     val generator = new LogisticFeatureGenerator(cityFileLoc)
-
     generator.bayesModel = bayesModel
     generator.idfModel = idfModel
     generator.featureList = this.getFeatureList(settings)
@@ -28,6 +27,9 @@ object LogisticFeatureGenerator {
     generator.degreeKeywords = settings.degreeKeywords
     generator.keywordLists = settings.keywordLists
     generator.jobLocation = settings.jobLocation
+    println(cityFileLoc)
+    println(generator.cityFileLoc)
+    println(generator.jobLocation)
 
     return generator
   }

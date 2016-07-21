@@ -44,6 +44,13 @@ object RegressionSettings {
     }
   }
 
+  private def getString(value: AnyRef): String = {
+    if (value == None) {
+      return ""
+    }
+    return value.asInstanceOf[String]
+  }
+
   def apply(elasticMap: scala.collection.Map[String, AnyRef]): RegressionSettings = {
     val result = new RegressionSettings()
 
@@ -58,6 +65,7 @@ object RegressionSettings {
     result.keywordLists = getMap(elasticMap("keywordLists"))
     result.positionKeywords = getList(elasticMap("positionKeywords"))
     result.degreeKeywords = getList(elasticMap("degreeKeywords"))
+    result.jobLocation = getString(elasticMap("jobLocation"))
 
     return result
   }
@@ -80,17 +88,18 @@ object RegressionSettings {
     result.resumeLengthToggle = true
     result.experienceToggle = true
 
-    result.keywordLists = Map(("Big Data" -> List("Spark","Hadoop","HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS","HDFS","MapReduce","Yarn","Solr","Avro","Lucene","Kibana", "Kafka")),
+    result.keywordLists = Map(("BigData" -> List("Spark","Hadoop","HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS","HDFS","MapReduce","Yarn","Solr","Avro","Lucene","Kibana", "Kafka")),
     ("DatabaseEngineering" -> List("Oracle","Postgresql","Mysql","SQL")),
-    ("ETL Engineering" -> List("Pentaho","Informatica","Streamsets","Syncsort")),
-    ("Web App Development" -> List("AngularJS","Javascript","Grails","Spring","Hibernate","node.js","CSS","HTML")),
-    ("Mobile Development" -> List("Android","iOS","Ionic","Cordova","Phonegap")),
-    ("Common Programming Languages" -> List("Java","Scala","Groovy","C","Python","Ruby","Haskell")))
+    ("EtlEngineering" -> List("Pentaho","Informatica","Streamsets","Syncsort")),
+    ("WebAppDevelopment" -> List("AngularJS","Javascript","Grails","Spring","Hibernate","node.js","CSS","HTML")),
+    ("MobileDevelopment" -> List("Android","iOS","Ionic","Cordova","Phonegap")),
+    ("CommonProgrammingLanguages" -> List("Java","Scala","Groovy","C","Python","Ruby","Haskell")))
 
     result.positionKeywords = List("technology", "computer", "information", "engineer", "developer", "software", "analyst", "application", "admin")
 
     result.degreeKeywords = List("tech", "computer", "information", "engineer", "c.s.", "programming", "I.S.A.T.")
 
+    result.jobLocation = "Reston, VA"
     return result
   }
 
@@ -123,7 +132,8 @@ class RegressionSettings() extends Serializable {
       "experienceToggle" -> experienceToggle,
       "keywordLists" -> keywordLists,
       "positionKeywords" -> positionKeywords,
-      "degreeKeywords" -> degreeKeywords
+      "degreeKeywords" -> degreeKeywords,
+      "jobLocation" -> jobLocation
     )
   }
 }
