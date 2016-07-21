@@ -313,11 +313,11 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
           key = "Education/Work";
         }
         if((value/5)*100 < 0){
-          featureString += "<span class='bar' id='" + color[count] + "' style='height:" + ((value/5)*100)*(-1) + "%; postion:relative; top:50%' title='" + value + "' data-bar-label='" + key + "' data-bar-value='" + (parseFloat(value)).toFixed(2) + "'></span>";
+          featureString += "<span class='bar' id='" + color[count] + "' style='height:" + ((value/5)*10)*(-1) + "%; postion:relative; top:50%' title='" + value + "' data-bar-label='" + key + "'></span>";
           count++;
         }
         else{
-          featureString += "<span class='bar' id='" + color[count] + "' style='height:" + (value/5)*100 + "%' title='" + value + "' data-bar-label='" + key + "' data-bar-value='" + (parseFloat(value)).toFixed(2) + "'></span>";
+          featureString += "<span class='bar' id='" + color[count] + "' style='height:" + (value/5)*10 + "%' title='" + value + "' data-bar-label='" + key + "'></span>";
           count++;
         }
       }

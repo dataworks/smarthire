@@ -222,7 +222,7 @@
                       </tr>
                     </tbody>
                     <tr>
-                      <table>
+                      <table id="Scorebreakdown">
                         <thead>
                           <tr>
                             <th id="link">Score Breakdown</th>
@@ -232,34 +232,6 @@
                           <tr>
                             <td id='body'>
                               <div id="appFeature">
-<!--                                 <ul class="chart">
-                                  <li class="axis">
-                                      <div class="labelY">5.0</div>
-                                      <div class="labelY">4.5</div>
-                                      <div class="labelY">4.0</div>
-                                      <div class="labelY">3.5</div>
-                                      <div class="labelY">3.0</div>
-                                      <div class="labelY">2.5</div>
-                                      <div class="labelY">2.0</div>
-                                      <div class="labelY">1.5</div>
-                                      <div class="labelY">1.0</div>
-                                      <div class="labelY">0.5</div>
-                                      <div class="labelY">0</div>
-                                      <div class="labelY">-.5</div>
-                                      <div class="labelY">-1</div>
-                                      <div class="labelY">-1.5</div>
-                                      <div class="labelY">-2.0</div>
-                                      <div class="labelY">-2.5</div>
-                                      <div class="labelY">-3.0</div>
-                                      <div class="labelY">-3.5</div>
-                                      <div class="labelY">-4.0</div>
-                                      <div class="labelY">-4.5</div>
-                                      <div class="labelY">-5.0</div>
-                                    </li>
-                             
-                                  <span ng-bind-html="parseFeatures(applicant)">
-                                  </span>
-                                </ul> -->
                                 <div class="graph_fancy" data-x-label="Features" data-y-label="Score" ng-bind-html="parseFeatures(applicant)">
                                   <!-- more bars here -->
                                 </div>
@@ -269,17 +241,18 @@
                         </tbody>
                       </table>
                       <div id="ticks">
-                        <div class="tick" style="height: 10%;"><p>5</p></div>
-                        <div class="tick" style="height: 10%;"><p>4</p></div>
-                        <div class="tick" style="height: 10%;"><p>3</p></div>
-                        <div class="tick" style="height: 10%;"><p>2</p></div>
-                        <div class="tick" style="height: 10%;"><p>1</p></div>
-                        <div class="tick" style="height: 10%;"><p>0</p></div>
-                        <div class="tick" style="height: 10%;"><p>-1</p></div>
-                        <div class="tick" style="height: 10%;"><p>-2</p></div>
-                        <div class="tick" style="height: 10%;"><p>-3</p></div>
-                        <div class="tick" style="height: 10%;"><p>-4</p></div>
-                        <div class="tick" style="height: 10%;"><p>-5</p></div>
+                        <div class="tick" style="height: 0%;"></div>
+                        <div class="tick" style="height: 5%;"><p>5</p></div>
+                        <div class="tick" style="height: 5%;"><p>4</p></div>
+                        <div class="tick" style="height: 5%;"><p>3</p></div>
+                        <div class="tick" style="height: 5%;"><p>2</p></div>
+                        <div class="tick" style="height: 5%;"><p>1</p></div>
+                        <div class="tick" style="height: 5%;"><p>0</p></div>
+                        <div class="tick" style="height: 5%;"><p>-1</p></div>
+                        <div class="tick" style="height: 5%;"><p>-2</p></div>
+                        <div class="tick" style="height: 5%;"><p>-3</p></div>
+                        <div class="tick" style="height: 5%;"><p>-4</p></div>
+                        <div class="tick" style="height: 0%"><p>-5</p></div>
                       </div>
                     </tr>
                   </table>

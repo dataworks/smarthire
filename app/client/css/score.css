@@ -1,3 +1,11 @@
+#Scorebreakdown{
+  height: 250%;
+}
+
+#Scorebreakdown > tbody{
+  background-color: white;
+}
+
 .graph_fancy {
   border-width: 0 0 1px 1px;
   border-style: solid;
@@ -6,8 +14,6 @@
   margin: 0 0 55px 0;
   position: relative;
   white-space: nowrap;
-
-  background: rgba(0, 0, 0, .1);
   font-size: 0;
 }
 .graph_fancy:before { /* Y-axis label */
@@ -39,6 +45,8 @@
 .graph_fancy .bar {
   display: inline-block;
   margin: 0 0 0 4%;
+  bottom: -42%;
+  z-index: 2;
   vertical-align: bottom;
   position: relative;
   width: 4.5%;
@@ -99,7 +107,7 @@ span#elevenC.bar::before {
 
 #ticks {
   position: relative; 
-  top: -300px; 
+  top: -230px; 
   left: 2px;
   width: 596px; 
   height: 300px; 
