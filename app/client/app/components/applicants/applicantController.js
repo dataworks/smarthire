@@ -289,6 +289,7 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       for(var key in applicant.features) {
         var value = applicant.features[key];
         console.log(applicant.features);
+        
         featureString += "<span class='bar' id='" + color[count] + "' style='height:" + (value/5)*100 + "%' title='" + value + "' data-bar-label='" + key + "' data-bar-value='" + value + "'></span>";
         count++;
       }
