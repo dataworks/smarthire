@@ -100,12 +100,12 @@ object RegressionSettings {
     result.resumeLengthToggle = true
     result.experienceToggle = true
 
-    result.keywordLists = Map(("BigData" -> List("Spark","Hadoop","HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS","HDFS","MapReduce","Yarn","Solr","Avro","Lucene","Kibana", "Kafka")),
-    ("DatabaseEngineering" -> List("Oracle","Postgresql","Mysql","SQL")),
-    ("EtlEngineering" -> List("Pentaho","Informatica","Streamsets","Syncsort")),
-    ("WebAppDevelopment" -> List("AngularJS","Javascript","Grails","Spring","Hibernate","node.js","CSS","HTML")),
-    ("MobileDevelopment" -> List("Android","iOS","Ionic","Cordova","Phonegap")),
-    ("CommonProgrammingLanguages" -> List("Java","Scala","Groovy","C","Python","Ruby","Haskell")))
+    result.keywordLists = Map(("Big Data" -> List("Spark","Hadoop","HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS","HDFS","MapReduce","Yarn","Solr","Avro","Lucene","Kibana", "Kafka")),
+    ("Databases" -> List("Oracle","Postgresql","Mysql","SQL")),
+    ("Etl" -> List("Pentaho","Informatica","Streamsets","Syncsort")),
+    ("WebApp" -> List("AngularJS","Javascript","Grails","Spring","Hibernate","node.js","CSS","HTML")),
+    ("Mobile" -> List("Android","iOS","Ionic","Cordova","Phonegap")),
+    ("Languages" -> List("Java","Scala","Groovy","C","Python","Ruby","Haskell")))
 
     result.positionKeywords = List("technology", "computer", "information", "engineer", "developer", "software", "analyst", "application", "admin")
 

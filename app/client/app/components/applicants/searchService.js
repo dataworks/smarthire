@@ -7,9 +7,26 @@
   */
 applicantServices.factory('advancedSearch', function() {
   return {
-    createQuery: function(check1, check2, check3, check4, check5, check6, check7, check8, check9, check10, check11, check12, check13, check14, check15, check16) {
+    createQuery: function(document) {
       var initial = "";
       var final = "";
+      //sets a boolean based on which checkboxes are checked
+      var check1 = document.getElementById("csCheck").checked;
+      var check2 = document.getElementById("cpeCheck").checked;
+      var check3 = document.getElementById("itCheck").checked;
+      var check4 = document.getElementById("mathCheck").checked;
+      var check5 = document.getElementById("vaCheck").checked;
+      var check6 = document.getElementById("mdCheck").checked;
+      var check7 = document.getElementById("dcCheck").checked;
+      var check8 = document.getElementById("paCheck").checked;
+      var check9 = document.getElementById("uvaCheck").checked;
+      var check10 = document.getElementById("jmuCheck").checked;
+      var check11 = document.getElementById("rpiCheck").checked;
+      var check12 = document.getElementById("gmuCheck").checked;
+      var check13 = document.getElementById("devCheck").checked;
+      var check14 = document.getElementById("arcCheck").checked;
+      var check15 = document.getElementById("manCheck").checked;
+      var check16 = document.getElementById("engCheck").checked;
 
       if (check1) {
         initial = initial + "'computer science'";

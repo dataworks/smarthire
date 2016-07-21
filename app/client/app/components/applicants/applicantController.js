@@ -371,30 +371,14 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
      */
     $scope.search = function(searchText) {
       $scope.index = 0;
-      $scope.searchText = searchText;
-
-      //sets a boolean based on which checkboxes are checked
-      var csChecked = document.getElementById("csCheck").checked;
-      var cpeChecked = document.getElementById("cpeCheck").checked;
-      var itChecked = document.getElementById("itCheck").checked;
-      var mathChecked = document.getElementById("mathCheck").checked;
-      var vaChecked = document.getElementById("vaCheck").checked;
-      var mdChecked = document.getElementById("mdCheck").checked;
-      var dcChecked = document.getElementById("dcCheck").checked;
-      var paChecked = document.getElementById("paCheck").checked;
-      var uvaChecked = document.getElementById("uvaCheck").checked;
-      var jmuChecked = document.getElementById("jmuCheck").checked;
-      var rpiChecked = document.getElementById("rpiCheck").checked;
-      var gmuChecked = document.getElementById("gmuCheck").checked;
-      var devChecked = document.getElementById("devCheck").checked;
-      var arcChecked = document.getElementById("arcCheck").checked;
-      var manChecked = document.getElementById("manCheck").checked;
-      var engChecked = document.getElementById("engCheck").checked;
 
       //calls the createQuery function in searchService.js
-      $scope.searchText = $scope.searchText + 
-      advancedSearch.createQuery(csChecked, cpeChecked, itChecked, mathChecked, vaChecked, mdChecked, dcChecked, paChecked, uvaChecked, jmuChecked, rpiChecked, gmuChecked, devChecked, arcChecked, manChecked, engChecked);
+      $scope.searchText = searchText + advancedSearch.createQuery(document);
 
+      if ($scope.searchText.charAt(0) == " ") {
+        $scope.searchText = $scope.searchText.substring(5, $scope.searchText.length);
+      }
+      
       $scope.applicants = Applicant.query({
         type: $scope.selection,
         query: $scope.searchText,

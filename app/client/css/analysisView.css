@@ -23,6 +23,14 @@ div > #charts1, div > #charts2, div > #charts3 {
 	font-family: 'Gurajada', serif;
 }
 
+#login{
+	width: 24%;
+	height: auto;
+	font-size: 100%;
+	text-align: center;
+	font-family: 'Gurajada', serif;
+}
+
 #e{
 	width: 24%;
 	height: auto;

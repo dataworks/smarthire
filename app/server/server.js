@@ -22,6 +22,17 @@ app.use(express.static("node_modules"));
 //max file size for uploads
 app.use(bodyParser.json({limit: '50mb'}));
 
+//code for login/login authentication
+var session = require('express-session');
+app.use(session({
+  secret: "no",
+  resave: false,
+  saveUninitialized:false,
+  name: "test"
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
 //parses the text as url encoded data and exposes the resulting object on req.body
 app.use(bodyParser.urlencoded({ 
   extended: true
@@ -123,26 +134,26 @@ root.get("/", function(req, res) {
 /**
  * test for Oauth
  */
-app.get("/service/test", function(req, res) {
-  // res.redirect("/app");
+app.get("/service/login", function(req, res) {
   var html = "<ul>\
     <li><a href='/app/service/auth'>GitHub</a></li>\
     <li><a href='/app/service/logout'>logout</a></li>\
+    <li><a href='/app'>home</a></li>\
+    <li><a href='/app/service/admin'>admin page</a></li>\
   </ul>";
 
   // dump the user for debugging
-if (req.isAuthenticated()) {
-  html += "<p>authenticated as user:</p>"
-  html += "<pre>" + JSON.stringify(req.user, null, 4) + "</pre>";
-}
+  if (req.isAuthenticated()) {
+    html += "<p>authenticated as user:</p>"
+    html += "<pre>" + JSON.stringify(req.user, null, 4) + "</pre>";
+  }
 
   res.send(html);
 });
 
 app.get('/service/logout', function(req, res){
-  console.log('logging out');
   req.logout();
-  res.redirect('/app/service/test');
+  res.redirect('/app/service/');
 });
 
 // we will call this to start the GitHub Login process
@@ -151,9 +162,18 @@ app.get('/service/auth', passport.authenticate('github'));
 // GitHub will call this URL
 app.get('/service/auth/callback', passport.authenticate('github', { failureRedirect: '/app/service/test' }),
   function(req, res) {
-    res.redirect('/app/service/test');
+    res.redirect('/app/service/admin');
   }
 );
+
+app.get('/service/admin', ensureAuthenticated, function(req, res) {
+  var html = "<ul>\
+    <li><a href='/app/service/logout'>logout</a></li>\
+    <li><a href='/app'>home</a></li>\
+  </ul>";
+  html += "<p>access granted. admin stuff here.</p>";
+  res.send(html);
+});
 
 /**
  * HTML5 mode, gets rid of the '#' in URLs
@@ -167,17 +187,6 @@ app.all('/*', function(req, res) {
   });
 });
 
-
-
-var session = require('express-session');
-app.use(session({
-  secret: "no",
-  resave: false,
-  saveUninitialized:false,
-  name: "test"
-}));
-app.use(passport.initialize());
-app.use(passport.session());
 
 passport.serializeUser(function(user, done) {
   // placeholder for custom user serialization
@@ -195,17 +204,35 @@ passport.deserializeUser(function(user, done) {
 var GithubStrategy = require('passport-github2').Strategy;
 
 passport.use(new GithubStrategy({
-    clientID: "id here",
-    clientSecret: "secret here",
-    callbackURL: "URL here"
+    clientID: "no",
+    clientSecret: "no",
+    callbackURL: "https://localhost:8082/app/service/auth/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     return done(null, profile);
   }
 ));
 
+// Simple middleware to ensure user is authenticated.
+// Use this middleware on any resource that needs to be protected.
+// If the request is authenticated (typically via a persistent login session),
+// the request will proceed.  Otherwise, the user will be redirected to the
+// login page.
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    // req.user is available for use here
+    return next(); }
 
+  // denied. redirect to login
+  res.send("access denied. please login.");
+  //res.redirect('/app/service/test');
+}
 
+/**
+ * function that reads in SSL key and certificate and serializes it
+ *
+ * @param ssl - ssl group that is read in from a file
+ */
 var readSsl = function(ssl) {
   if (ssl.key.charAt(0) != '/') {
     ssl.key = __dirname + '/' + ssl.key;
