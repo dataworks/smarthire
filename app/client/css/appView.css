@@ -176,10 +176,12 @@ a{
 
 #ci{
   width: 12% !important;
+  max-width: 270px !important;
 }
 
 #d{
   width: 10% !important;
+  max-width: 240px !important;
 }
 
 #p{
@@ -188,15 +190,17 @@ a{
 
 #o{
   width: 6% !important;
+  max-width: 115px !important;
 }
 
 #n{
   width: 10% !important;
-  max-width: 240px !important;
+  max-width: 250px !important;
 }
 
 #c{
   width: 10% !important;
+  max-width: 225px !important;
 }
 
 #skill, #ed, #link{
@@ -493,10 +497,6 @@ td{
   color: #E91E63;
 }
 
-#star{
-  color: #ffd700; 
-  font-size: 150%;
-}
 
 /*toast messages*/
 #toastContainer {

@@ -1,126 +1,15 @@
-#Scorebreakdown{
-  height: 250%;
-  z-index: 2;
+#barChart{
+  padding-left: 4.5%;
+  margin-bottom: -10%;
 }
 
-#Scorebreakdown > tbody, thead{
-  background-color: white;
-  z-index: 2;
+.ct-series-a .ct-bar{
+  stroke: #673AB7;
+  stroke-width: 35px;
 }
 
-.graph_fancy {
-  border-width: 0 0 1px 1px;
-  border-style: solid;
-  border-color: rgba(0, 0, 0, .25);
-  height: 200px;
-  margin: 0 0 55px 0;
-  position: relative;
-  white-space: nowrap;
-  font-size: 0;
-  z-index: 2;
-}
-.graph_fancy:before { /* Y-axis label */
-  display: block;
-  padding: .5em;
-  position: absolute;
-  right: 104%;
-  top: 48%;
-
-  content: attr(data-y-label);
-  font-size: 14px;
-  line-height: 1;
-  text-align: center;
-}
-.graph_fancy:after { /* X-axis label */
-  display: block;
-  left: 0;
-  margin: 1em 0 0 0;
-  padding: .75em 0;
-  position: absolute;
-  top: 100%;
-  width: 100%;
-
-  content: attr(data-x-label);
-  font-size: 14px;
-  line-height: 1;
-  text-align: center;
-}
-.graph_fancy .bar {
-  display: inline-block;
-  margin: 0 0 0 4%;
-  bottom: -42%;
-  z-index: 2;
-  vertical-align: bottom;
-  position: relative;
-  width: 4.5%;
-
-  background: #fc4;
-  cursor: pointer;
-}
-.graph_fancy .bar:first-child {
-  margin: 0;
-}
-.graph_fancy .bar:hover {
-  z-index: 100;
-
-  background: #fc0;
-
-  box-shadow: 0 0 10px rgba(0, 0, 0, .25);
-}
-.graph_fancy .bar:before { /* Bar label */
-  display: block;
-  left: 0;
-  position: absolute;
-  top: 100%;
-  width: 100%;
-
-  content: attr(data-bar-label);
-  font-size: 12px;
-  opacity: .5;
-  text-align: center;
+.ct-label.ct-vertical.ct-start, .ct-label.ct-horizontal.ct-end {
+  font-size: 75%;
 }
 
-/*span#tenC.bar::before {
-  position: relative;
-  left: -33%;
-}
-
-span#elevenC.bar::before {
-  position: relative;
-  left: -15%;
-}*/
-
-.graph_fancy .bar:after { /* Bar data value */
-  bottom: 100%;
-  display: block;
-  left: 0;
-  position: absolute;
-  width: 100%;
-
-  content: attr(data-bar-value);
-  font-size: 12px;
-  opacity: .5;
-  text-align: center;
-}
-.graph_fancy .bar, .graph_fancy .bar:before, .graph_fancy .bar:after {
-  transition: background .25s ease-out, opacity .25s ease-out, box-shadow .25s ease-out;
-}
-.graph_fancy .bar:hover:before, .graph_fancy .bar:hover:after { opacity: 1; }
-
-#ticks {
-    float: left;
-    font-size: 10px;
-    font-family: "fira-sans-2", Verdana, sans-serif;
-    position: relative;
-    left: 1%;
-    bottom: -23px;
-    z-index: 0;
-}
-
- #ticks .tick p {
-  position: relative; 
-  left: -3em; 
-  top: -0.8em; 
-  margin: 2px 0 0 0.5px;
-}
 

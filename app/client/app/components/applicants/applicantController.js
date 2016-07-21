@@ -280,11 +280,10 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       return parseInt((score * 100), 10);
     }
 
-    var test = 0;
-    $scope.parseFeatures = function(applicant) {
-      var featureString = "";
-      var color = ['oneC','twoC','threeC','fourC','fiveC','sixC','sevenC','eightC','nineC','tenC','elevenC'];
-      var count = 0;
+    $scope.createScoreChart = function(applicant) {
+      var keys = [];
+      var values = [];
+      var finalValues = [];
 
       //sort from least to greatest, switch a & b for opposite
       var keysSorted = Object.keys(applicant.features).sort(function(a,b) {
@@ -292,51 +291,27 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
 
 
       for(var key in keysSorted) {
-        var value = applicant.features[keysSorted[key]];
-       
-        if(keysSorted[key] === "Distance from Job Site"){
-          key = "Distance";
-        }
-        else if(keysSorted[key] === "Web App Development"){
-          key = "Web App";
-        }
-        else if(keysSorted[key] === "Mobile Development"){
-          key = "Mobile";
-        }
-        else if(keysSorted[key] === "Amount of Contact Info"){
-          key = "Contact Info";
-        }
-        else if(keysSorted[key] === "Common Programming Languages"){
-          key = "Languages";
-        }
-        else if(keysSorted[key] === "ETL Engineering"){
-          key = "ETL";
-        }
-        else if(keysSorted[key] === "DatabaseEngineering"){
-          key = "Database";
-        }
-        else if(keysSorted[key] === "Education/Work Background"){
-          key = "Edu/Work";
-        }
-        else if(keysSorted[key] === "Resume Length"){
-          key = "Resume Size";
-        }
-        else if(keysSorted[key] === "Big Data"){
-          key = "Big Data";
-        }
-        else if(keysSorted[key] === "Relevance"){
-          key = "Relevance";
-        }
-        if((value/5)*50 < 0){
-          featureString += "<span class='bar' id='" + color[count] + "' style='height:" + ((value/5)*50)*(-1) + "%; position:relative; top:50%' title='" + value + "' data-bar-label='" + key + "'></span>";
-          count++;
-        }
-        else{
-          featureString += "<span class='bar' id='" + color[count] + "' style='height:" + (value/5)*50 + "%; position:relative; top:11%' title='" + value + "' data-bar-label='" + key + "'></span>";
-          count++;
-        }
+        keys.push(keysSorted[key]);
+        values.push((parseFloat(applicant.features[keysSorted[key]])).toFixed(2));
       }
-      return $sce.trustAsHtml(featureString);
+
+      finalValues.push(values);
+
+      var data = {
+        labels: keys,
+        series: finalValues,
+      };
+
+      var options = {
+        high: 5,
+        low: -5,
+        width: '1000%',
+        height: '275%',
+      };
+
+      var bar = new Chartist.Bar('.ct-chart', data, options);
+
+      // return bar;
     }
 
    /**
