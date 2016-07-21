@@ -286,9 +286,13 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       var color = ['oneC','twoC','threeC','fourC','fiveC','sixC','sevenC','eightC','nineC','tenC','elevenC'];
       var count = 0;
 
-      for(var key in applicant.features) {
-        var value = applicant.features[key];
-        console.log(applicant.features);
+      //sort from least to greatest, switch a & b for opposite
+      var keysSorted = Object.keys(applicant.features).sort(function(a,b) {
+        return applicant.features[a]-applicant.features[b]});
+
+
+      for(var key in keysSorted) {
+        var value = applicant.features[keysSorted[key]];
        
         if(key === "Distance from Job Site"){
           key = "Distance";
