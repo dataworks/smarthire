@@ -291,6 +291,34 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
         console.log(applicant.features);
         
         featureString += "<span class='bar' id='" + color[count] + "' style='height:" + (value/5)*100 + "%' title='" + value + "' data-bar-label='" + key + "' data-bar-value='" + value + "'></span>";
+        if(key === "Distance from Job Site"){
+          key = "Distance";
+        }
+        else if(key === "Web App Development"){
+          key = "Web App";
+        }
+        else if(key === "Mobile Development"){
+          key = "Mobile";
+        }
+        else if(key === "Amount of Contact Info"){
+          key = "Contact Info";
+        }
+        else if(key === "Common Programming Languages"){
+          key = "Languages";
+        }
+        else if(key === "ETL Engineering"){
+          key = "ETL";
+        }
+        else if(key === "DatabaseEngineering"){
+          key = "Database";
+        }
+        else if(key === "Education/Work Background"){
+          key = "Education/Work";
+        }
+        else if(key === "Resume Length"){
+          key = "Resume Length";
+        }
+        featureString += "<span class='bar' id='" + color[count] + "' style='height:" + (value/5)*100 + "%' title='" + value + "' data-bar-label='" + key + "' data-bar-value='" + (parseFloat(value)).toFixed(2) + "'></span>";
         count++;
       }
       return $sce.trustAsHtml(featureString);

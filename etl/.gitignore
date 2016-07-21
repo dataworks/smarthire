@@ -8,5 +8,4 @@ target
 .classpath
 .project
 .settings
-build.sbt
 .keyfile
