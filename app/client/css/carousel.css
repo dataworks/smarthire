@@ -18,8 +18,8 @@
     text-align: center;
     text-shadow: 0 1px 2px rgba(35, 3, 3, 0.25);
     border-radius: 25px;
-    z-index: 1;
     animation: none;
+    z-index: 0;
 }
 
 /* Declare heights because of positioning of img element */
@@ -31,10 +31,6 @@
 
 
 .carousel-control.left {
-    /*background-image: -webkit-linear-gradient(left,rgb(0, 114, 198) 0,rgba(255, 255, 255, 0) 100%);
-    background-image: -o-linear-gradient(left,rgb(0, 114, 198) 0,rgba(255, 255, 255, 0) 100%);
-    background-image: -webkit-gradient(linear,left top,right top,from(rgb(0, 114, 198)),to(rgba(255, 255, 255, 0)));
-    background-image: linear-gradient(to right,rgb(0, 114, 198) 0,rgba(255, 255, 255, 0) 100%);*/
     border-radius: 25px;
     color: black;
     background: none;
@@ -46,10 +42,6 @@
     border-radius: 25px;
     color: black;
     background: none;
-    /*background-image: -webkit-linear-gradient(left,rgba(0,0,0,0) 0,rgba(0, 114, 198) 100%);
-    background-image: -o-linear-gradient(left,rgba(0,0,0,0) 0,rgba(0, 114, 198) 100%);
-    background-image: -webkit-gradient(linear,left top,right top,from(rgba(0,0,0,0)),to(rgba(0, 114, 198)));
-    background-image: linear-gradient(to right,rgba(0, 0, 0, 0) 0,rgb(0, 114, 198) 100%);*/
 }
 
 #slide{

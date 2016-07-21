@@ -13,6 +13,11 @@
   cursor: pointer; 
 }
 
+#mainTable {
+  position: relative;
+  z-index: 1;
+}
+
 #size{
   font-size: 125%;
   font-weight: bold;

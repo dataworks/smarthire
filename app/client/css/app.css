@@ -6,6 +6,7 @@
 
 .container{
   height: 100%;
+  position: relative;
 }
 
  /*only for edge*/
