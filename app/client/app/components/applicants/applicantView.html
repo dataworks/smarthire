@@ -18,8 +18,8 @@
   <!-- code for search analytics -->
   <button class="hidden-xs hidden-sm" id="stats" ng-click="setGraphBool()"><i class="fa fa-pie-chart" ></i></button>
 <!--   <div ng-include src="'app/components/applicants/searchbar.html'"></div>
-<div ng-include src="'app/components/applicants/searchbar.html'"></div> -->
- <!-- search bar -->
+  <div ng-include src="'app/components/applicants/searchbar.html'"></div> -->
+  <!-- search bar -->
   <div class="form-group col-xs-6">
     <div class="inner-addon right-addon">
       <i id="sb" class="glyphicon glyphicon-search" ng-click="search(displayText)"></i>
@@ -205,10 +205,10 @@
             <tr>
               <td  id="hide" colspan="12" class="hiddenRow">
                 <div class="accordian-body collapse {{active ? '' : 'in'}}" id="dataExpand-{{$index}}">
-                                  <table class="table table-striped">
-                                    <thead>
-                                      <tr>
-                                        <th id="link">Summary</th>
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th id="link">Summary</th>
                         <th id="skills" class="hidden-xs hidden-s">Skills</th>
                         <th id="ed" class="hidden-xs hidden-s">Education and Web links</th>
                         <!-- get rid of the web links title and change it to summaries.  then combined the education and web links tabs -->
@@ -222,7 +222,7 @@
                       </tr>
                     </tbody>
                     <tr>
-                    <table>
+                      <table>
                         <thead>
                           <tr>
                             <th id="link">Score Breakdown</th>
@@ -260,14 +260,27 @@
                                   <span ng-bind-html="parseFeatures(applicant)">
                                   </span>
                                 </ul> -->
-                                  <div class="graph_fancy" data-x-label="Features" data-y-label="Score" ng-bind-html="parseFeatures(applicant)">
-                                    <!-- more bars here -->
-                                  </div>
+                                <div class="graph_fancy" data-x-label="Features" data-y-label="Score" ng-bind-html="parseFeatures(applicant)">
+                                  <!-- more bars here -->
+                                </div>
                               </div>
                             </td>
                           </tr>
                         </tbody>
-                        </table>
+                      </table>
+                      <div id="ticks">
+                        <div class="tick" style="height: 10%;"><p>5</p></div>
+                        <div class="tick" style="height: 10%;"><p>4</p></div>
+                        <div class="tick" style="height: 10%;"><p>3</p></div>
+                        <div class="tick" style="height: 10%;"><p>2</p></div>
+                        <div class="tick" style="height: 10%;"><p>1</p></div>
+                        <div class="tick" style="height: 10%;"><p>0</p></div>
+                        <div class="tick" style="height: 10%;"><p>-1</p></div>
+                        <div class="tick" style="height: 10%;"><p>-2</p></div>
+                        <div class="tick" style="height: 10%;"><p>-3</p></div>
+                        <div class="tick" style="height: 10%;"><p>-4</p></div>
+                        <div class="tick" style="height: 10%;"><p>-5</p></div>
+                      </div>
                     </tr>
                   </table>
                 </div>

@@ -23,20 +23,14 @@ object LogisticFeatureGenerator {
     generator.bayesModel = bayesModel
     generator.idfModel = idfModel
     generator.featureList = this.getFeatureList(settings)
-    generator.titleKeywords = settings.positionKeywords
-    generator.degreeKeywords = settings.degreeKeywords
-    generator.keywordLists = settings.keywordLists
-    generator.jobLocation = settings.jobLocation
-    println(cityFileLoc)
-    println(generator.cityFileLoc)
-    println(generator.jobLocation)
+    generator.settings = settings
 
     return generator
   }
 
   def getFeatureList(settings : RegressionSettings) : List[String] = {
     val featureList : ListBuffer[String] = new ListBuffer()
-    if (settings.wordRelevaceToggle) {
+    if (settings.wordRelevanceToggle) {
       featureList += "Relevance"
     }
     if (settings.keywordsToggle) {
@@ -86,16 +80,11 @@ object LogisticFeatureGenerator {
  * FeatureGenerator
  */
 class LogisticFeatureGenerator(cityFile: String) extends Serializable {
+  var cityFileLoc : String = cityFile
   var featureList : List [String] = null
   var bayesModel : NaiveBayesModel = null
   var idfModel : IDFModel = null
-  var cityFileLoc : String = cityFile
-  //Position keywords used to add to experience
-  var titleKeywords : List[String] = null
-  //Degree keywords used to scale the gpa
-  var degreeKeywords : List[String] = null
-  var keywordLists : Map[String, List[String]] = null
-  var jobLocation : String = null
+  var settings: RegressionSettings = null
   //logger
   val log: Logger = LoggerFactory.getLogger(getClass())
   val locationMap: HashMap[(String, String), (Double, Double)] = {
@@ -109,8 +98,6 @@ class LogisticFeatureGenerator(cityFile: String) extends Serializable {
     }
     result
   }
-
-
 
   /**
    * Calculates all of the feature scores and returns a vector of the scores
@@ -134,27 +121,42 @@ class LogisticFeatureGenerator(cityFile: String) extends Serializable {
    */
   def getLogisticFeatureVec(applicant: ApplicantData): Vector = {
     val featureArray = scala.collection.mutable.ArrayBuffer.empty[Double]
-    //NaiveBayesScore
-    featureArray += naiveBayesTest(bayesModel, idfModel, applicant)
-    // Core key words
-    keywordLists.foreach{ keywords =>
-      featureArray += keywordSearch(keywords._2, applicant.fullText)
+
+    if (settings.wordRelevanceToggle) {
+      //NaiveBayesScore
+      featureArray += naiveBayesTest(bayesModel, idfModel, applicant)
     }
 
-    //distance from Reston VA
-    if (applicant.recentLocation == "") {
-      featureArray += 0.0
-    }
-    else {
-      featureArray += distanceFinder(jobLocation, applicant.recentLocation)
+    if (settings.keywordsToggle) {
+      // Core key words
+      settings.keywordLists.foreach{ keywords =>
+        featureArray += keywordSearch(keywords._2, applicant.fullText)
+      }
     }
 
-    //density of contact info
-    featureArray += countContacts(applicant)
-    //length of resume
-    featureArray += resumeLength(applicant.fullText)
+    if (settings.distanceToggle) {
+      //distance from Reston VA
+      if (applicant.recentLocation == "") {
+        featureArray += 0.0
+      }
+      else {
+        featureArray += distanceFinder(settings.jobLocation, applicant.recentLocation)
+      }
+    }
 
-    featureArray += history(applicant)
+    if (settings.contactInfoToggle) {
+      //density of contact info
+      featureArray += countContacts(applicant)
+    }
+
+    if (settings.resumeLengthToggle) {
+      //length of resume
+      featureArray += resumeLength(applicant.fullText)
+    }
+
+    if (settings.experienceToggle) {
+      featureArray += history(applicant)
+    }
 
     return Vectors.dense(featureArray.toArray[Double])
   }
@@ -358,7 +360,7 @@ class LogisticFeatureGenerator(cityFile: String) extends Serializable {
    *  that indicate if it is a tech position
    */
   def checkPosition(currentScore: Double, pos: String): Double = {
-    if (stringListContainment(pos, titleKeywords)) {
+    if (stringListContainment(pos, settings.positionKeywords)) {
       return currentScore + 1.0
     }
     return currentScore
@@ -369,7 +371,7 @@ class LogisticFeatureGenerator(cityFile: String) extends Serializable {
    *  that indicate if it is a tech degree
    */
   def checkDegree(deg: String): Boolean = {
-    return stringListContainment(deg, degreeKeywords)
+    return stringListContainment(deg, settings.degreeKeywords)
   }
 
   /**
