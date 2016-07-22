@@ -20,116 +20,119 @@
   <ng-include src="'app/components/applicants/searchbar.html'"></ng-include>
   <ng-include src="'app/components/applicants/carousel.html'"></ng-include>
   
-    <div infinite-scroll="nextPage()" infinite-scroll-disabled="loadingData" infinite-scroll-check="false" infinite-scroll-distance="1">
-      <div class="row-applicant-row" >
-        <table class="table table-condensed text-center">
-          <thead id="head">
-            <tr>
-              <th id="p"><a id="expander" title="Toggle Open/Close" href="#" class="openall"><i class="glyphicon glyphicon-plus-sign"></i></a></th>
-              <th id="s"><a title="Click to Sort Score." ng-click="sortColumn('score')">Score</a><span class="sortorder" ng-class="{reverse: reverse}" ng-hide="sortBool"></span></th>
-              <th id="n"><a title="Click to sort Name." ng-click="sortColumn('name.raw')">Name</a><span class="sortorder" ng-class="{reverse: reverse}" ng-show="sortBool"></span></th></th>
-              <th id="ci" class="hidden-xs hidden-s">Current Info</th>
-              <th id="d" class="hidden-xs hidden-s">Degree</th>
-              <th id="c" class="hidden-xs hidden-s">Contact</th>
-              <th id="o">Options</th>
-            </tr>
-          </thead>
-          <tbody ng-repeat="applicant in applicants.rows track by applicant.id">
-            <tr class="accordion-toggle">
-              <td id="p"><a title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}"><img id = "profile" ng-src="{{getLink(applicant.id, 'image')}}" onerror="this.src='images/profile.png'"></a></td>
-              <td id="s"><span ng-if="applicant.score < 0">Loading Score</span>
-                <span id="high" ng-if="applicant.score >= 0.7">{{scaleScore(applicant.score)}}</span>
-                <span id="mid" ng-if="applicant.score < 0.7 && applicant.score > 0.3">{{scaleScore(applicant.score)}}</span>
-                <span id="low" ng-if="applicant.score <= 0.3 && applicant.score > -1">{{scaleScore(applicant.score)}}</span>
-              </td>
+  <div infinite-scroll="nextPage()" infinite-scroll-disabled="loadingData" infinite-scroll-check="false" infinite-scroll-distance="1">
+    <div class="row-applicant-row" >
+      <table class="table table-condensed text-center">
+        <thead id="head">
+          <tr>
+            <th id="p"><a id="expander" title="Toggle Open/Close" href="#" class="openall"><i class="glyphicon glyphicon-plus-sign"></i></a></th>
+            <th id="s"><a title="Click to Sort Score." ng-click="sortColumn('score')">Score</a><span class="sortorder" ng-class="{reverse: reverse}" ng-hide="sortBool"></span></th>
+            <th id="n"><a title="Click to sort Name." ng-click="sortColumn('name.raw')">Name</a><span class="sortorder" ng-class="{reverse: reverse}" ng-show="sortBool"></span></th></th>
+            <th id="ci" class="hidden-xs hidden-s">Current Info</th>
+            <th id="d" class="hidden-xs hidden-s">Degree</th>
+            <th id="c" class="hidden-xs hidden-s">Contact</th>
+            <th id="o">Options</th>
+          </tr>
+        </thead>
+        <tbody ng-repeat="applicant in applicants.rows track by applicant.id">
+          <tr class="accordion-toggle">
+            <td id="p"><a title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}"><img id = "profile" ng-src="{{getLink(applicant.id, 'image')}}" onerror="this.src='images/profile.png'"></a></td>
+            <td id="s"><span ng-if="applicant.score < 0">Loading Score</span>
+              <span id="high" ng-if="applicant.score >= 0.7">{{scaleScore(applicant.score)}}</span>
+              <span id="mid" ng-if="applicant.score < 0.7 && applicant.score > 0.3">{{scaleScore(applicant.score)}}</span>
+              <span id="low" ng-if="applicant.score <= 0.3 && applicant.score > -1">{{scaleScore(applicant.score)}}</span>
+            </td>
 
-              <td id="n"><span ng-if="applicant.name != ''"><a id="nl" ng-bind-html="applicant.name" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}"></a></span>
-                <span ng-if="applicant.name == ''"><a id="nl" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}">Name Not found</a></span></td>
-                <td id="ci" class="hidden-xs hidden-s">{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
-                <td id="d" class="hidden-xs hidden-s">{{applicant.education.degree}}</td>
-                <td id="c" class="hidden-xs hidden-s"><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> </td>
+            <td id="n"><span ng-if="applicant.type == 'favorite' && selection == 'search'" id="favoritesIndicator"  title="In Favorites" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+              <span ng-if="applicant.type == 'archive' && selection == 'search'"><span id="archiveIndicator"  title="In Archive" class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span></span>
+              <span ng-if="applicant.type == 'review' && selection == 'search'"><span id="reviewIndicator"  title="In Review" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></span>
+              <span ng-if="applicant.name != ''"><a id="nl" ng-bind-html="applicant.name" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}"></a></span>
+              <span ng-if="applicant.name == ''"><a id="nl" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}">Name Not found</a></span></td>
+              <td id="ci" class="hidden-xs hidden-s">{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
+              <td id="d" class="hidden-xs hidden-s">{{applicant.education.degree}}</td>
+              <td id="c" class="hidden-xs hidden-s"><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> </td>
 
-                <td id="o"><span ng-if="selection != 'favorite' && applicant.type != 'favorite'"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite', applicant); showToast('Favorite')"> 
-                  <span title="Add to Favorites" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-                </button></span>
-                <span ng-if="selection != 'review' && applicant.type != 'review'"><button id="question" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'review', applicant); showToast('Review')">
-                  <span title="Add to Review" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-                  <a href="/archive"></a> 
-                </button></span>
-                <span ng-if="selection != 'archive' && applicant.type != 'archive'"><button id="down" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'archive', applicant); showToast('Archive')">
-                  <span title="Add to Archive" class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
-                  <a href="/archive"></a> 
-                </button></span>
-                <span ng-if="selection != 'new' && applicant.type != 'new'"><button id="back" type="button" class="btn btn-default" aria-label="Left Align" ng-click="remove(applicant.id, applicant); showToast('Back')">
-                  <span title="Send back to New" class="glyphicon glyphicon-share-alt">
-                  </span>
-                </button></span> 
+              <td id="o"><span ng-if="selection != 'favorite' && applicant.type != 'favorite'"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite', applicant); showToast('Favorite')"> 
+                <span title="Add to Favorites" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+              </button></span>
+              <span ng-if="selection != 'review' && applicant.type != 'review'"><button id="question" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'review', applicant); showToast('Review')">
+                <span title="Add to Review" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+                <a href="/archive"></a> 
+              </button></span>
+              <span ng-if="selection != 'archive' && applicant.type != 'archive'"><button id="down" type="button" class="btn btn-default" aria-label="Left Align" ng-click="mark(applicant.id, 'archive', applicant); showToast('Archive')">
+                <span title="Add to Archive" class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                <a href="/archive"></a> 
+              </button></span>
+              <span ng-if="selection != 'new' && applicant.type != 'new'"><button id="back" type="button" class="btn btn-default" aria-label="Left Align" ng-click="remove(applicant.id, applicant); showToast('Back')">
+                <span title="Send back to New" class="glyphicon glyphicon-share-alt">
+                </span>
+              </button></span> 
 
-                <button id="eye" class="btn btn-default btn-xs eye" data-toggle="collapse" data-target="#dataExpand-{{$index}}">
-                  <span title="View more" class="glyphicon glyphicon-eye-open">
+              <button id="eye" class="btn btn-default btn-xs eye" data-toggle="collapse" data-target="#dataExpand-{{$index}}">
+                <span title="View more" class="glyphicon glyphicon-eye-open">
+                </span>
+              </button>
+
+              <a id="viewFile" target="_blank" href="{{getLink(applicant.id, 'document')}}">
+                <button id="file" type="button" class="btn btn-default" aria-label="Left Align" ng-click="">
+                  <span title="View resume" class="glyphicon glyphicon-file">
                   </span>
                 </button>
-
-                <a id="viewFile" target="_blank" href="{{getLink(applicant.id, 'document')}}">
-                  <button id="file" type="button" class="btn btn-default" aria-label="Left Align" ng-click="">
-                    <span title="View resume" class="glyphicon glyphicon-file">
-                    </span>
-                  </button>
-                </a>
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <td  id="hide" colspan="12" class="hiddenRow">
+              <div class="accordian-body collapse {{active ? '' : 'in'}}" id="dataExpand-{{$index}}">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th id="link">Summary</th>
+                      <th id="skills" class="hidden-xs hidden-s">Skills</th>
+                      <th id="ed" class="hidden-xs hidden-s">Education and Web links</th>
+                      <!-- get rid of the web links title and change it to summaries.  then combined the education and web links tabs -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td id='body' ng-bind-html="highlightSkills(applicant)"></td>
+                      <td id='body' align="left" class="hidden-xs hidden-s"><span id="title" ng-if="applicant.skills.etl.join(' ') != ''"><b>ETL</b></span><span id="valE" ng-if="applicant.skills.etl.join(' ') != ''"> {{applicant.skills.etl.join(', ')}}  </span><span id="title" ng-if="applicant.skills.webapp.join(' ') != ''"><b>Web App</b></span> <span id="valW" ng-if="applicant.skills.webapp.join(' ') != ''">{{applicant.skills.webapp.join(', ')}} </span> <span id="title" ng-if="applicant.skills.language.join(' ') != ''"><b>Languages</b></span> <span id="valL" ng-if="applicant.skills.language.join(' ') != ''">{{applicant.skills.language.join(', ')}} </span> <span id="title" ng-if="applicant.skills.mobile.join(' ') != ''"><b>Mobile</b></span> <span id="valM" ng-if="applicant.skills.mobile.join(' ') != ''">{{applicant.skills.mobile.join(', ')}}  </span><span id="title" ng-if="applicant.skills.database.join(' ') != ''"><b>Databases</b> </span><span id="valD" ng-if="applicant.skills.database.join(' ') != ''">{{applicant.skills.database.join(', ')}}</span> <span id="title" ng-if="applicant.skills.bigdata.join(' ') != ''"> <b> Big Data</b></span> <span id="valB" ng-if="applicant.skills.bigdata.join(' ') != ''">{{applicant.skills.bigdata.join(', ')}}</span></td>
+                      <td id='body' class="hidden-xs hidden-s"><span id="title" ng-if="applicant.education.school != ''"><b>School</b></span> <span id="valS" ng-if="applicant.education.school != ''">{{applicant.education.school}}</span><span id="title" ng-if="applicant.education.gpa != ''"> <b>GPA</b></span><span id="valGPA" ng-if="applicant.education.gpa === 0"></span><span id="valGPA" ng-if="applicant.education.gpa != 0 && applicant.education.gpa != ''">{{applicant.education.gpa}}</span><span id="title" ng-if="applicant.contact.linkedin != ''"> <b>Linked-in </b></span><a id="valLI" ng-if="applicant.contact.linkedin != ''" ng-href="{{applicant.contact.linkedin}}" target="_blank">{{applicant.contact.linkedin}}</a><span id="title" ng-if="applicant.contact.github != ''"> <b> GitHub </b></span><a id="valGH" ng-if="applicant.contact.github != ''" ng-href="{{applicant.contact.github}}" target="_blank">{{applicant.contact.github}}</a><span id="title" ng-if="applicant.contact.indeed != ''"> <b>Indeed </b></span><a id="valI" ng-if="applicant.contact.indeed != ''"ng-href="{{applicant.contact.indeed}}" target="_blank">{{applicant.contact.indeed}}</a></td>  
+                    </tr>
+                  </tbody>
+                  <tr>
+                    <table id="Scorebreakdown">
+                      <thead>
+                        <tr>
+                          <th id="link">Score Breakdown</th>
+                        </tr>
+                      </thead>
+                      <tr>
+                        <tbody>
+                          <td id='body'>
+                            <div id="appFeature">
+                              <div class="ct-chart" id="chart-{{applicant.id}}">{{createScoreChart(applicant)}}</div>
+                            </div>
+                          </td>
+                        </tbody>
+                      </tr>
+                    </table>
+                  </tr>
+                </div>
               </td>
             </tr>
-            <tr>
-              <td  id="hide" colspan="12" class="hiddenRow">
-                <div class="accordian-body collapse {{active ? '' : 'in'}}" id="dataExpand-{{$index}}">
-                  <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th id="link">Summary</th>
-                        <th id="skills" class="hidden-xs hidden-s">Skills</th>
-                        <th id="ed" class="hidden-xs hidden-s">Education and Web links</th>
-                        <!-- get rid of the web links title and change it to summaries.  then combined the education and web links tabs -->
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td id='body' ng-bind-html="highlightSkills(applicant)"></td>
-                        <td id='body' align="left" class="hidden-xs hidden-s"><span id="title" ng-if="applicant.skills.etl.join(' ') != ''"><b>ETL</b></span><span id="valE" ng-if="applicant.skills.etl.join(' ') != ''"> {{applicant.skills.etl.join(', ')}}  </span><span id="title" ng-if="applicant.skills.webapp.join(' ') != ''"><b>Web App</b></span> <span id="valW" ng-if="applicant.skills.webapp.join(' ') != ''">{{applicant.skills.webapp.join(', ')}} </span> <span id="title" ng-if="applicant.skills.language.join(' ') != ''"><b>Languages</b></span> <span id="valL" ng-if="applicant.skills.language.join(' ') != ''">{{applicant.skills.language.join(', ')}} </span> <span id="title" ng-if="applicant.skills.mobile.join(' ') != ''"><b>Mobile</b></span> <span id="valM" ng-if="applicant.skills.mobile.join(' ') != ''">{{applicant.skills.mobile.join(', ')}}  </span><span id="title" ng-if="applicant.skills.database.join(' ') != ''"><b>Databases</b> </span><span id="valD" ng-if="applicant.skills.database.join(' ') != ''">{{applicant.skills.database.join(', ')}}</span> <span id="title" ng-if="applicant.skills.bigdata.join(' ') != ''"> <b> Big Data</b></span> <span id="valB" ng-if="applicant.skills.bigdata.join(' ') != ''">{{applicant.skills.bigdata.join(', ')}}</span></td>
-                        <td id='body' class="hidden-xs hidden-s"><span id="title" ng-if="applicant.education.school != ''"><b>School</b></span> <span id="valS" ng-if="applicant.education.school != ''">{{applicant.education.school}}</span><span id="title" ng-if="applicant.education.gpa != ''"> <b>GPA</b></span><span id="valGPA" ng-if="applicant.education.gpa === 0"></span><span id="valGPA" ng-if="applicant.education.gpa != 0 && applicant.education.gpa != ''">{{applicant.education.gpa}}</span><span id="title" ng-if="applicant.contact.linkedin != ''"> <b>Linked-in </b></span><a id="valLI" ng-if="applicant.contact.linkedin != ''" ng-href="{{applicant.contact.linkedin}}" target="_blank">{{applicant.contact.linkedin}}</a><span id="title" ng-if="applicant.contact.github != ''"> <b> GitHub </b></span><a id="valGH" ng-if="applicant.contact.github != ''" ng-href="{{applicant.contact.github}}" target="_blank">{{applicant.contact.github}}</a><span id="title" ng-if="applicant.contact.indeed != ''"> <b>Indeed </b></span><a id="valI" ng-if="applicant.contact.indeed != ''"ng-href="{{applicant.contact.indeed}}" target="_blank">{{applicant.contact.indeed}}</a></td>  
-                      </tr>
-                    </tbody>
-                    <tr>
-                      <table id="Scorebreakdown">
-                        <thead>
-                          <tr>
-                            <th id="link">Score Breakdown</th>
-                          </tr>
-                        </thead>
-                        <tr>
-                          <tbody>
-                            <td id='body'>
-                              <div id="appFeature">
-                                <div class="ct-chart" id="chart-{{applicant.id}}">{{createScoreChart(applicant)}}</div>
-                              </div>
-                            </td>
-                          </tbody>
-                        </tr>
-                      </table>
-                    </tr>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          </tbody>
+        </table>
 
-          <div id="loadMask" ng-show="loadingData">
-            <style type='text/css'>@-webkit-keyframes uil-default-anim { 0% { opacity: 1} 100% {opacity: 0} }@keyframes uil-default-anim { 0% { opacity: 1} 100% {opacity: 0} }.uil-default-css > div:nth-of-type(1){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: -0.5s;animation-delay: -0.5s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(2){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: -0.4166666666666667s;animation-delay: -0.4166666666666667s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(3){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: -0.33333333333333337s;animation-delay: -0.33333333333333337s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(4){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: -0.25s;animation-delay: -0.25s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(5){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: -0.16666666666666669s;animation-delay: -0.16666666666666669s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(6){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: -0.08333333333333331s;animation-delay: -0.08333333333333331s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(7){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: 0s;animation-delay: 0s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(8){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: 0.08333333333333337s;animation-delay: 0.08333333333333337s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(9){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: 0.16666666666666663s;animation-delay: 0.16666666666666663s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(10){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: 0.25s;animation-delay: 0.25s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(11){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: 0.33333333333333337s;animation-delay: 0.33333333333333337s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(12){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: 0.41666666666666663s;animation-delay: 0.41666666666666663s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}</style><div class='uil-default-css' style='transform:scale(0.66);'><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(0deg) translate(0,-60px);transform:rotate(0deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(30deg) translate(0,-60px);transform:rotate(30deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(60deg) translate(0,-60px);transform:rotate(60deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(90deg) translate(0,-60px);transform:rotate(90deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(120deg) translate(0,-60px);transform:rotate(120deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(150deg) translate(0,-60px);transform:rotate(150deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(180deg) translate(0,-60px);transform:rotate(180deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(210deg) translate(0,-60px);transform:rotate(210deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(240deg) translate(0,-60px);transform:rotate(240deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(270deg) translate(0,-60px);transform:rotate(270deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(300deg) translate(0,-60px);transform:rotate(300deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(330deg) translate(0,-60px);transform:rotate(330deg) translate(0,-60px);border-radius:10px;position:absolute;'></div></div>
+        <div id="loadMask" ng-show="loadingData">
+          <style type='text/css'>@-webkit-keyframes uil-default-anim { 0% { opacity: 1} 100% {opacity: 0} }@keyframes uil-default-anim { 0% { opacity: 1} 100% {opacity: 0} }.uil-default-css > div:nth-of-type(1){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: -0.5s;animation-delay: -0.5s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(2){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: -0.4166666666666667s;animation-delay: -0.4166666666666667s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(3){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: -0.33333333333333337s;animation-delay: -0.33333333333333337s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(4){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: -0.25s;animation-delay: -0.25s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(5){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: -0.16666666666666669s;animation-delay: -0.16666666666666669s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(6){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: -0.08333333333333331s;animation-delay: -0.08333333333333331s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(7){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: 0s;animation-delay: 0s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(8){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: 0.08333333333333337s;animation-delay: 0.08333333333333337s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(9){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: 0.16666666666666663s;animation-delay: 0.16666666666666663s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(10){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: 0.25s;animation-delay: 0.25s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(11){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: 0.33333333333333337s;animation-delay: 0.33333333333333337s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}.uil-default-css > div:nth-of-type(12){-webkit-animation: uil-default-anim 1s linear infinite;animation: uil-default-anim 1s linear infinite;-webkit-animation-delay: 0.41666666666666663s;animation-delay: 0.41666666666666663s;}.uil-default-css { position: relative;background:none;width:200px;height:200px;}</style><div class='uil-default-css' style='transform:scale(0.66);'><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(0deg) translate(0,-60px);transform:rotate(0deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(30deg) translate(0,-60px);transform:rotate(30deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(60deg) translate(0,-60px);transform:rotate(60deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(90deg) translate(0,-60px);transform:rotate(90deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(120deg) translate(0,-60px);transform:rotate(120deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(150deg) translate(0,-60px);transform:rotate(150deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(180deg) translate(0,-60px);transform:rotate(180deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(210deg) translate(0,-60px);transform:rotate(210deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(240deg) translate(0,-60px);transform:rotate(240deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(270deg) translate(0,-60px);transform:rotate(270deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(300deg) translate(0,-60px);transform:rotate(300deg) translate(0,-60px);border-radius:10px;position:absolute;'></div><div style='top:80px;left:93px;width:14px;height:40px;background:#689f38;-webkit-transform:rotate(330deg) translate(0,-60px);transform:rotate(330deg) translate(0,-60px);border-radius:10px;position:absolute;'></div></div>
 
-          </div>
-        </div>
-        <!-- located on the bottom right -->
-        <div id="size" class="hidden-sm hidden-xs">
-          <span ng-if="(index == 0 && applicants.size >= 25)">Displaying<br>{{index+25}} of {{applicants.size}}</span>
-          <span ng-if="(index == 0 && applicants.size < 25)">Displaying<br>{{applicants.size}} of {{applicants.size}}</span>
-          <span ng-if="(index != 0 && applicants.size >= 25)">Displaying<br>{{index}} of {{applicants.size}}</span>
         </div>
       </div>
+      <!-- located on the bottom right -->
+      <div id="size" class="hidden-sm hidden-xs">
+        <span ng-if="(index == 0 && applicants.size >= 25)">Displaying<br>{{index+25}} of {{applicants.size}}</span>
+        <span ng-if="(index == 0 && applicants.size < 25)">Displaying<br>{{applicants.size}} of {{applicants.size}}</span>
+        <span ng-if="(index != 0 && applicants.size >= 25)">Displaying<br>{{index}} of {{applicants.size}}</span>
+      </div>
+    </div>

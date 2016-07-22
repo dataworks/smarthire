@@ -443,6 +443,13 @@ td{
   z-index: 2;
 }
 
+#favoritesIndicator{
+  font-size: 100%;
+  margin: 0;
+  border: none;
+  color: #4CAF50; 
+}
+
 #up:hover{
 	text-decoration: none;
   background: none;
@@ -459,6 +466,13 @@ td{
   z-index: 2;
 }
 
+#archiveIndicator{
+  font-size: 100%;
+  margin: 0;
+  border: none;
+  color: #D50000;   
+}
+
 #down:hover {
   text-decoration: none;
   background: none;
@@ -473,6 +487,13 @@ td{
   background: none;
   padding: 5%;
   z-index: 2;
+}
+
+#reviewIndicator{
+  font-size: 100%;
+  margin: 0;
+  border: none;
+  color: #FF5722; 
 }
 
 #question:hover {
