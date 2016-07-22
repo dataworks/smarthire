@@ -4,6 +4,7 @@ import applicant.etl.EsUtils
 
 import scala.collection.mutable.Map
 import scala.collection.JavaConversions._
+import scala.collection.mutable.ListBuffer
 
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkContext._
@@ -110,4 +111,10 @@ class RegressionSettings() extends Serializable {
       "jobLocation" -> jobLocation
     )
   }
+}
+
+class FeatureSetting(featureName: String, isEnabled: Boolean, featureValues: ListBufer[AnyRef]) {
+  val name: String = featureName
+  val enabled: Boolean = isEnabled
+  val values = featureValues
 }
