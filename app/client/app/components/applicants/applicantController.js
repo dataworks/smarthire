@@ -326,7 +326,7 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
           height: 175,
           axisX: {
             labelInterpolationFnc: function (value) {
-              return value[0];
+              return value[0]+value[1]+value[2];
             }
           }
         }]
