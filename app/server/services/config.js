@@ -30,4 +30,10 @@ config.ssl = {
  cert : 'server.crt'
 };
 
+config.settings = {
+  url: host, 
+  index: "settings",
+  type: "setting"
+}
+
 module.exports = config;

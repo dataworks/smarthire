@@ -11,6 +11,7 @@ var applicantService = require("./services/applicants.js");
 var labelService = require("./services/labels.js");
 var attachmentService = require("./services/attachments.js");
 var uploadService = require("./services/uploads.js");
+var adminService = require("./services/settings.js");
 var options = require("./services/config.js");
 
 //used for serving static files (html, client js, images)
@@ -117,6 +118,10 @@ app.get("/service/suggest", function(req, res) {
  */
 app.get("/service/analysis", function(req, res) {
   applicantService.aggregations(res, req.query.type, req.query.field, req.query.query);
+});
+
+app.get("/service/settings", function(req, res) {
+  adminService.buildQuery(req, res);
 });
 
 root.use('/app', app);
