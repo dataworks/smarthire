@@ -39,10 +39,6 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-//body-parser extracts the entire body portion of an incoming request stream 
-//and exposes it on req.body
-app.use(bodyParser.json());
-
 /**
  * HTTP GET request to retrieve applicants
  *

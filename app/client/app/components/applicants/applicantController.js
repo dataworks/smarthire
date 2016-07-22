@@ -359,6 +359,15 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
      return $sce.trustAsHtml(summary);
    }
 
+    $scope.getSkills = function(skills) {
+      return $sce.trustAsHtml(skills.join(", "));
+    }
+
+    $scope.getCurrentInfo = function(applicant) {
+       return $sce.trustAsHtml(applicant.currentLocation.organization + "<br>" + applicant.currentLocation.location +
+       "<br>"  + applicant.currentLocation.title);
+    }
+
     /** 
      * return image from a link
      *
