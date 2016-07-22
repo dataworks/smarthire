@@ -27,11 +27,11 @@ applicantApp.config(['$routeProvider', '$locationProvider', 'ngToastProvider',
       templateUrl: 'app/components/analysis/analysisView.html',
       controller: 'AnalysisCtrl'
     }).
-    when('/admin/success', {
+    when('/admin_success', {
       templateUrl: 'app/components/admin/adminView.html',
       controller: 'AdminCtrl'
     }).
-    when('/admin/failure', {
+    when('/admin_failure', {
       templateUrl: 'app/components/admin/adminReject.html',
       controller: 'AdminCtrl'
     }).
