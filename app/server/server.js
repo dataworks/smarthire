@@ -147,7 +147,7 @@ app.get('/service/auth', passport.authenticate('github'));
  * HTTP GET for trying to authenticate user. if authentication fails, redirect to failure page
  *
  */
-app.get('/service/auth/callback', passport.authenticate('github', { failureRedirect: '/app/admin/failure' }),
+app.get('/service/auth/callback', passport.authenticate('github', { failureRedirect: '/app/admin_failure' }),
   function(req, res) {
     res.redirect('/app/admin');
   }
@@ -163,7 +163,9 @@ app.get('/admin', ensureAuthenticated, function(req, res) {
   //   html += "<p>authenticated as user:</p>"
   //   html += "<pre>" + JSON.stringify(req.user, null, 4) + "</pre>";
   // }
-  res.redirect("/app/admin/success");
+  //res.send(JSON.stringify(req.user));
+  //adminServices.setStatus(true);
+  res.redirect("/app/admin_success");
 });
 
 /**
@@ -195,8 +197,8 @@ passport.deserializeUser(function(user, done) {
 var GithubStrategy = require('passport-github2').Strategy;
 
 passport.use(new GithubStrategy({
-    clientID:  "801b03371832eaa0effe",
-    clientSecret: "e837480daa6d35d316c3a432cf49b2fa0ddc4779",
+    clientID:  "no",
+    clientSecret: "no",
     callbackURL: "https://localhost:8082/app/service/auth/callback"
   },
   function(accessToken, refreshToken, profile, done) {
@@ -215,7 +217,7 @@ function ensureAuthenticated(req, res, next) {
     return next(); 
   }
 
-  res.redirect('/app/admin/failure');
+  res.redirect('/app/admin_failure');
 }
 
 /**
