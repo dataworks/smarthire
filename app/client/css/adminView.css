@@ -1,7 +1,14 @@
 #locToggle{
-
+	float: left;
+    margin-right: 1.5%;
+    margin-top: 1%;
 }
 
 #locationInput{
+	float: none;
+	border-radius: 0;
+}
 
+#location1, #location2{
+	padding-top: .5%;
 }
