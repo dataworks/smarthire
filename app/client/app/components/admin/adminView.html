@@ -5,9 +5,11 @@
 		<h2>Logged in. Admin stuff here </h2>
 
 	<h3>Locations</h3>
-	Toggle: <input type="checkbox" name="locToggle"> Location(city): <input type="text" name="city"> State: <input type="text" name="state">
+	Toggle: <input type="checkbox" name="locToggle" checked="checked"> 
+	Location(city): <input type="text" name="city" value="{{settings.rows[0].jobLocation.location1.values[0]}}"> 
+	State: <input type="text" name="state" value="{{settings.rows[0].jobLocation.location2.values[0]}}">
 
-<!-- 	{{settings.rows[0].experience}} -->
+	<h3>Keywords</h3>
 
 	
 
