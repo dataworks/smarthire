@@ -44,6 +44,9 @@
               </td>
 
               <td id="n"><span ng-if="applicant.name != ''"><a id="nl" ng-bind-html="applicant.name" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}"></a></span>
+              <span ng-if="applicant.type == 'favorite' && selection == 'search'" id="favoritesIndicator"  title="In Favorites" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+              <span ng-if="applicant.type == 'archive' && selection == 'search'"><span id="archiveIndicator"  title="In Archive" class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span></span>
+              <span ng-if="applicant.type == 'review' && selection == 'search'"><span id="reviewIndicator"  title="In Review" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></span>
                 <span ng-if="applicant.name == ''"><a id="nl" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}">Name Not found</a></span></td>
                 <td id="ci" class="hidden-xs hidden-s">{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
                 <td id="d" class="hidden-xs hidden-s">{{applicant.education.degree}}</td>
