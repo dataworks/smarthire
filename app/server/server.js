@@ -197,8 +197,8 @@ passport.deserializeUser(function(user, done) {
 var GithubStrategy = require('passport-github2').Strategy;
 
 passport.use(new GithubStrategy({
-    clientID:  "659c02af0d706f9dee3a",
-    clientSecret: "902f7569aa3f08404c6fe591afa0aed80e20cd30",
+    clientID:  "no",
+    clientSecret: "no",
     callbackURL: "https://localhost:8082/app/service/auth/callback"
   },
   function(accessToken, refreshToken, profile, done) {
