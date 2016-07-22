@@ -322,7 +322,7 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
         }],
         // phone
         ['screen and (max-width: 767px)', {
-          width: 450,
+          width: 420,
           height: 175,
           axisX: {
             labelInterpolationFnc: function (value) {
