@@ -3,8 +3,18 @@
 /*  margin-bottom: -10%;*/
 }
 
-.ct-series-a .ct-bar{
-  stroke: #689F38;
+#highChart .ct-series-a .ct-bar{
+  stroke: #558B2F;
+  stroke-width: 35px;
+}
+
+#midChart .ct-series-a .ct-bar{
+  stroke: #FFC107;
+  stroke-width: 35px;
+}
+
+#lowChart .ct-series-a .ct-bar{
+  stroke: #d50000;
   stroke-width: 35px;
 }
 
