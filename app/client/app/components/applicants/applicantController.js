@@ -305,8 +305,8 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       var options = {
         high: 5,
         low: -5,
-        width: '1000%',
-        height: '275%',
+        // width: '1000%',
+        // height: '275%',
       };
 
       var bar = new Chartist.Bar('.ct-chart', data, options);
