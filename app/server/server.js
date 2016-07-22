@@ -121,7 +121,7 @@ app.get("/service/analysis", function(req, res) {
 });
 
 app.get("/service/settings", function(req, res) {
-  adminService.buildQuery(req, res);
+  adminService.buildSetting(req, res);
 });
 
 root.use('/app', app);

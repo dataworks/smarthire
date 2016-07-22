@@ -302,27 +302,6 @@ exports.indexUploads = function(config, params, res) {
   });
 }
 
-exports.index = function(config, params, res) {
-  var client = new elasticsearch.Client({
-    host: config.url
-  });
-
-  client.index({
-    index: config.index,
-    type: config.type,
-    id: params.id,
-    body: {
-      jobLocation: location
-    },
-    refresh: true
-  }).then(function(response) {
-    client.close();
-    res.end();
-  }, function(err) {
-    errorMessage(err, res);
-  });
-}
-
 /**
  * Deletes an in index in ES
  *
