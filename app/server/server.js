@@ -11,6 +11,7 @@ var applicantService = require("./services/applicants.js");
 var labelService = require("./services/labels.js");
 var attachmentService = require("./services/attachments.js");
 var uploadService = require("./services/uploads.js");
+var adminService = require("./services/settings.js");
 var options = require("./services/config.js");
 
 //used for serving static files (html, client js, images)
@@ -119,6 +120,10 @@ app.get("/service/analysis", function(req, res) {
   applicantService.aggregations(res, req.query.type, req.query.field, req.query.query);
 });
 
+app.get("/service/settings", function(req, res) {
+  adminService.buildQuery(req, res);
+});
+
 root.use('/app', app);
 
 /**
@@ -147,7 +152,7 @@ app.get('/service/auth', passport.authenticate('github'));
  * HTTP GET for trying to authenticate user. if authentication fails, redirect to failure page
  *
  */
-app.get('/service/auth/callback', passport.authenticate('github', { failureRedirect: '/app/admin/failure' }),
+app.get('/service/auth/callback', passport.authenticate('github', { failureRedirect: '/app/admin_failure' }),
   function(req, res) {
     res.redirect('/app/admin');
   }
@@ -163,7 +168,9 @@ app.get('/admin', ensureAuthenticated, function(req, res) {
   //   html += "<p>authenticated as user:</p>"
   //   html += "<pre>" + JSON.stringify(req.user, null, 4) + "</pre>";
   // }
-  res.redirect("/app/admin/success");
+  //res.send(JSON.stringify(req.user));
+  //adminServices.setStatus(true);
+  res.redirect("/app/admin_success");
 });
 
 /**
@@ -215,7 +222,7 @@ function ensureAuthenticated(req, res, next) {
     return next(); 
   }
 
-  res.redirect('/app/admin/failure');
+  res.redirect('/app/admin_failure');
 }
 
 /**
