@@ -14,7 +14,19 @@ class ContactFeature(newName: String) extends BaseFeature {
    * @return The number of contact items found
    */
   def getFeatureScore(applicant: ApplicantData, values: ListBuffer[AnyRef]): Double = {
-    val sum = stringCounter(applicant.linkedin) + stringCounter(applicant.github) + stringCounter(applicant.indeed) + applicant.urlList.length + stringCounter(applicant.email) + stringCounter(applicant.phone)
+    var sum = 0
+    val contactTypes = values.asInstanceOf[ListBuffer[String]]
+    for (contactType <- contactTypes) {
+      contactType match {
+        case ("linkedin") => sum += stringCounter(applicant.linkedin)
+        case ("github") => sum += stringCounter(applicant.github)
+        case ("indeed") => sum += stringCounter(applicant.indeed)
+        case ("urls") => sum += applicant.urlList.length
+        case ("email") => sum += stringCounter(applicant.email)
+        case ("phone") => sum += stringCounter(applicant.phone)
+      }
+    }
+
     if (sum >= 5.0) {
       return 1.0
     }

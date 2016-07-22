@@ -8,8 +8,8 @@ import scala.collection.mutable.ListBuffer
 import org.apache.spark.mllib.classification.NaiveBayesModel
 import org.apache.spark.mllib.feature.IDFModel
 
-class RelevanceFeature(naiveBayesModel: NaiveBayesModel, tfIdfModel: IDFModel) extends BaseFeature {
-  val name: String = "relevance"
+class RelevanceFeature(newName : String, naiveBayesModel: NaiveBayesModel, tfIdfModel: IDFModel) extends BaseFeature {
+  val name: String = newName
   val bayesModel: NaiveBayesModel = naiveBayesModel
   val idfModel: IDFModel = tfIdfModel
 

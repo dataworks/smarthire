@@ -4,21 +4,9 @@ import applicant.etl.ApplicantData
 import applicant.etl.GeoUtils
 import scala.collection.mutable.{ListBuffer, HashMap}
 
-class ProximityFeature(cityFileLoc: String) extends BaseFeature {
-  val name: String = "jobLocation"
+class ProximityFeature(newName : String, locationMap: HashMap[(String, String), (Double, Double)]) extends BaseFeature {
+  val name: String = newName
 
-  val locationMap: HashMap[(String, String), (Double, Double)] = {
-
-    val result = HashMap[(String, String), (Double, Double)]()
-    val lines = scala.io.Source.fromFile(cityFileLoc).getLines()
-
-    for (line <- lines) {
-      val splitVals = line.toLowerCase().split("#")//#split
-      result += ((splitVals(0), splitVals(1)) -> (splitVals(2).toDouble, splitVals(3).toDouble))
-    }
-    result
-  }
-  
   /**
    * Will give a double from 0 - 1 based on distance
    *
