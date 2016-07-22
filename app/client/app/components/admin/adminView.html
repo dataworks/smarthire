@@ -2,12 +2,14 @@
 	<div>
 	    <li><a href='/app/service/logout'>logout</a></li>
 
-		<h2>Logged in. Admin stuff here </h2>
+		<h2>Logged in.</h2>
 
+	<div id="locations">
 	<h3>Locations</h3>
-	Toggle: <input type="checkbox" name="locToggle" checked="checked"> 
-	Location(city): <input type="text" name="city" value="{{settings.rows[0].jobLocation.location1.values[0]}}"> 
-	State: <input type="text" name="state" value="{{settings.rows[0].jobLocation.location2.values[0]}}">
+	<div>Toggle: <input type="checkbox" id="locToggle" checked="checked"></div>
+	<div>Location 1(City,State): <input type="text" id="locationInput" value="{{settings.rows[0].jobLocation.location1.values[0]}}"></div>
+	<div>Location 2(City,State): <input type="text" id="locationInput" value="{{settings.rows[0].jobLocation.location2.values[0]}}"></div>
+	</div>
 
 	<h3>Keywords</h3>
 

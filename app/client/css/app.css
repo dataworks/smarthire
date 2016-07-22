@@ -19,6 +19,13 @@
   
 }
 
+/*for firefox*/
+@-moz-document url-prefix() {
+  .nav{
+    width: 43% !important;
+  }
+}
+
 .applicant-row {
   padding: 0% 0% 2.5% 0%;
   /*outline: 1px solid black;*/
