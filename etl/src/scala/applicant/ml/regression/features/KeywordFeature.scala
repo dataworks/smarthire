@@ -8,6 +8,13 @@ import scala.collection.mutable.HashMap
 class KeywordFeature(newName: String) extends BaseFeature {
   val name = newName
 
+  /**
+   *  Will return a score of the number of keywords from values that applear
+   *    at least twice in the applican's resume
+   *
+   * @param applicant The applicant whose feature is checked
+   * @param values Any configurable options for the feature
+   */
   def getFeatureScore(applicant: ApplicantData, values: ListBuffer[AnyRef]): Double = {
     val keywordList: ListBuffer[String] = values.asInstanceOf[ListBuffer[String]]
 
