@@ -1,5 +1,7 @@
 package applicant.ml.regression
 
+import applicant.etl.EsUtils
+
 import scala.collection.mutable.Map
 import scala.collection.JavaConversions._
 
@@ -12,50 +14,6 @@ import org.elasticsearch.spark._
 object RegressionSettings {
 
   /**
-   * Will check if a boolean is None and
-   */
-  private def getBool(value: AnyRef): Boolean = {
-    if (value == None) {
-      return true
-    }
-    return value.asInstanceOf[Boolean]
-  }
-
-  /**
-   * Will check if a list option is Some or None and set a list pointer accordingly
-   */
-  private def getList(value: AnyRef): List[String] = {
-    if (value == None) {
-      return List()
-    }
-    return value.asInstanceOf[JListWrapper[String]].toList
-  }
-
-  /**
-   * Will check if a list of pair of string and list is None and convert it accordingly
-   */
-  private def getMap(value: AnyRef): Map[String, List[String]] = {
-    if (value == None) {
-      return Map.empty[String, List[String]]
-    }
-    val intermediateMap = value.asInstanceOf[Map[String, JListWrapper[String]]]
-    return intermediateMap.map { case (str, lst) =>
-      (str, lst.toList)
-    }
-  }
-
-
-  /**
-   * Will check if a string is None and cast it accordingly
-   */
-  private def getString(value: AnyRef): String = {
-    if (value == None) {
-      return ""
-    }
-    return value.asInstanceOf[String]
-  }
-
-  /**
    * Constructor for the map that is returned from the mlsettings index in elasticsearch.
    * The map is parsed into the RegressionSettings object.
    */
@@ -63,17 +21,17 @@ object RegressionSettings {
     val result = new RegressionSettings()
 
     //Go through the map from elasticsearch and populate the member fields
-    result.wordRelevanceToggle = getBool(elasticMap("wordRelevanceToggle"))
-    result.keywordsToggle = getBool(elasticMap("keywordsToggle"))
-    result.distanceToggle = getBool(elasticMap("distanceToggle"))
-    result.contactInfoToggle = getBool(elasticMap("contactInfoToggle"))
-    result.resumeLengthToggle = getBool(elasticMap("resumeLengthToggle"))
-    result.experienceToggle = getBool(elasticMap("experienceToggle"))
+    result.wordRelevanceToggle = EsUtils.getBool(elasticMap("wordRelevanceToggle"))
+    result.keywordsToggle = EsUtils.getBool(elasticMap("keywordsToggle"))
+    result.distanceToggle = EsUtils.getBool(elasticMap("distanceToggle"))
+    result.contactInfoToggle = EsUtils.getBool(elasticMap("contactInfoToggle"))
+    result.resumeLengthToggle = EsUtils.getBool(elasticMap("resumeLengthToggle"))
+    result.experienceToggle = EsUtils.getBool(elasticMap("experienceToggle"))
 
-    result.keywordLists = getMap(elasticMap("keywordLists"))
-    result.positionKeywords = getList(elasticMap("positionKeywords"))
-    result.degreeKeywords = getList(elasticMap("degreeKeywords"))
-    result.jobLocation = getString(elasticMap("jobLocation"))
+    result.keywordLists = collection.mutable.Map(EsUtils.getMap(elasticMap("keywordLists")).toSeq: _*)
+    result.positionKeywords = EsUtils.getList(elasticMap("positionKeywords")).toList
+    result.degreeKeywords = EsUtils.getList(elasticMap("degreeKeywords")).toList
+    result.jobLocation = EsUtils.getString(elasticMap("jobLocation"))
 
     return result
   }

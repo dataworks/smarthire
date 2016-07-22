@@ -149,38 +149,6 @@ object ApplicantData {
   }
 
   /**
-   * Will check if an option is Some or None and return a string accordingly
-   */
-  private def getString(value: AnyRef): String = {
-    if (value == None) {
-      return ""
-    }
-    return value.asInstanceOf[String]
-  }
-
-  /**
-   * Will check if an option is Some or None and return a double accordingly
-   */
-  private def getDouble(value: AnyRef): Double = {
-    if (value == None) {
-      return 0.0
-    }
-    return value.asInstanceOf[Double]
-  }
-
-  /**
-   * Will check if a list option is Some or None and set a list pointer accordingly
-   */
-  private def getList(value: JListWrapper[String]): ListBuffer[String] = {
-    if (value == None) {
-      return new ListBuffer[String]()
-    }
-    else {
-      return value.toList.to[ListBuffer]
-    }
-  }
-
-  /**
    * Creates a new ApplicantData object and loads variables
    *
    * @param elasticMap A map structure returned from querying on the elasticsearch applicant index
@@ -188,9 +156,9 @@ object ApplicantData {
   def apply(elasticMap: scala.collection.Map[String, AnyRef]): ApplicantData = {
     val app = new ApplicantData()
 
-    app.applicantid = getString(elasticMap("id"))
-    app.name = getString(elasticMap("name"))
-    app.score = getDouble(elasticMap("score"))
+    app.applicantid = EsUtils.getString(elasticMap("id"))
+    app.name = EsUtils.getString(elasticMap("name"))
+    app.score = EsUtils.getDouble(elasticMap("score"))
 
     elasticMap.get("features") match {
       case Some(features) =>
@@ -201,9 +169,9 @@ object ApplicantData {
     elasticMap.get("currentLocation") match {
       case Some(any) =>
         val locMap = any.asInstanceOf[Map[String, String]]
-        app.recentTitle = getString(locMap("title"))
-        app.recentLocation = getString(locMap("location"))
-        app.recentOrganization = getString(locMap("organization"))
+        app.recentTitle = EsUtils.getString(locMap("title"))
+        app.recentLocation = EsUtils.getString(locMap("location"))
+        app.recentOrganization = EsUtils.getString(locMap("organization"))
       case None =>
     }
 
@@ -211,32 +179,32 @@ object ApplicantData {
       case Some(any) =>
         val skillMap = any.asInstanceOf[Map[String, JListWrapper[String]]]
 
-        app.languageList = getList(skillMap("language"))
-        app.bigDataList = getList(skillMap("bigdata"))
-        app.etlList = getList(skillMap("etl"))
-        app.databaseList = getList(skillMap("database"))
-        app.webappList = getList(skillMap("webapp"))
-        app.mobileList = getList(skillMap("mobile"))
+        app.languageList = EsUtils.getList(skillMap("language"))
+        app.bigDataList = EsUtils.getList(skillMap("bigdata"))
+        app.etlList = EsUtils.getList(skillMap("etl"))
+        app.databaseList = EsUtils.getList(skillMap("database"))
+        app.webappList = EsUtils.getList(skillMap("webapp"))
+        app.mobileList = EsUtils.getList(skillMap("mobile"))
       case None =>
     }
 
     elasticMap.get("education") match {
       case Some(any) =>
         val eduMap = any.asInstanceOf[Map[String, String]]
-        app.degree = getString(eduMap("degree"))
-        app.school = getString(eduMap("school"))
-        app.gpa = getDouble(eduMap("gpa"))
+        app.degree = EsUtils.getString(eduMap("degree"))
+        app.school = EsUtils.getString(eduMap("school"))
+        app.gpa = EsUtils.getDouble(eduMap("gpa"))
       case None =>
     }
 
     elasticMap.get("contact") match {
       case Some(any) =>
         val contactMap = any.asInstanceOf[Map[String, String]]
-          app.indeed = getString(contactMap("indeed"))
-          app.linkedin = getString(contactMap("linkedin"))
-          app.github = getString(contactMap("github"))
-          app.email = getString(contactMap("email"))
-          app.phone = getString(contactMap("phone"))
+          app.indeed = EsUtils.getString(contactMap("indeed"))
+          app.linkedin = EsUtils.getString(contactMap("linkedin"))
+          app.github = EsUtils.getString(contactMap("github"))
+          app.email = EsUtils.getString(contactMap("email"))
+          app.phone = EsUtils.getString(contactMap("phone"))
       case None =>
     }
 
@@ -246,14 +214,14 @@ object ApplicantData {
         infoMap.get("pastPositions") match {
           case Some(anyPos) =>
             val pastPosMap = anyPos.asInstanceOf[Map[String, JListWrapper[String]]]
-            app.otherTitleList = getList(pastPosMap("title"))
-            app.otherLocationList = getList(pastPosMap("location"))
-            app.otherOrganizationList = getList(pastPosMap("organization"))
+            app.otherTitleList = EsUtils.getList(pastPosMap("title"))
+            app.otherLocationList = EsUtils.getList(pastPosMap("location"))
+            app.otherOrganizationList = EsUtils.getList(pastPosMap("organization"))
           case None =>
         }
         infoMap.get("url") match {
           case Some(any) =>
-            app.urlList = getList(any.asInstanceOf[JListWrapper[String]])
+            app.urlList = EsUtils.getList(any.asInstanceOf[JListWrapper[String]])
           case None =>
         }
         infoMap.get("githubData") match {
@@ -261,7 +229,7 @@ object ApplicantData {
             app.githubData = (anyGit.asInstanceOf[Map[String, String]])
           case None =>
         }
-        app.fullText = getString(infoMap("resume"))
+        app.fullText = EsUtils.getString(infoMap("resume"))
       case None =>
     }
 
