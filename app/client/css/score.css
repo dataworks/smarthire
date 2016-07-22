@@ -12,4 +12,18 @@
   font-size: 75%;
 }
 
+@media (max-width: 767px) {
+
+  #barChart{
+    padding: 0 !important;
+    position: relative;
+    right: 6%; 
+  }
+}
+
+@media (max-width: 991px) and (min-width: 768px){
+  #barChart{
+    padding: 0 !important;
+  }
+}
 

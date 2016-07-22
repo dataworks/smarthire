@@ -309,7 +309,30 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
         height: 275,
       };
 
-      var bar = new Chartist.Bar('.ct-chart', data, options);
+      var responsiveOptions = [
+      // ipad
+        ['screen and (min-width: 768px) and (max-width: 991px)', {
+          width: 760,
+          height: 175,
+          axisX: {
+            labelInterpolationFnc: function (value) {
+              return value;
+            }
+          }
+        }],
+        // phone
+        ['screen and (max-width: 767px)', {
+          width: 450,
+          height: 175,
+          axisX: {
+            labelInterpolationFnc: function (value) {
+              return value[0];
+            }
+          }
+        }]
+      ];
+
+      var bar = new Chartist.Bar('.ct-chart', data, options, responsiveOptions);
 
       // return bar;
     }
