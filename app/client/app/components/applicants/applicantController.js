@@ -326,13 +326,13 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
           height: 175,
           axisX: {
             labelInterpolationFnc: function (value) {
-              return value[0]+value[1]+value[2];
+              return value.substring(0,3);
             }
           }
         }]
       ];
 
-      var bar = new Chartist.Bar('.ct-chart', data, options, responsiveOptions);
+      var bar = new Chartist.Bar("#chart-" + applicant.id, data, options, responsiveOptions);
 
       // return bar;
     }

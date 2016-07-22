@@ -1,4 +1,4 @@
-#barChart{
+.ct-chart{
   padding-left: 6.5%;
 /*  margin-bottom: -10%;*/
 }
@@ -14,7 +14,7 @@
 
 @media (max-width: 767px) {
 
-  #barChart{
+  .ct-chart{
     padding: 0 !important;
     position: relative;
     right: 6%; 
@@ -22,7 +22,7 @@
 }
 
 @media (max-width: 991px) and (min-width: 768px){
-  #barChart{
+  .ct-chart{
     padding: 0 !important;
   }
 }
