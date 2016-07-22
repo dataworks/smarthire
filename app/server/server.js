@@ -132,47 +132,38 @@ root.get("/", function(req, res) {
 });
 
 /**
- * test for Oauth
+ * HTTP GET for logging out a user, redirects to home page
+ *
  */
-app.get("/service/login", function(req, res) {
-  var html = "<ul>\
-    <li><a href='/app/service/auth'>GitHub</a></li>\
-    <li><a href='/app/service/logout'>logout</a></li>\
-    <li><a href='/app'>home</a></li>\
-    <li><a href='/app/service/admin'>admin page</a></li>\
-  </ul>";
-
-  // dump the user for debugging
-  if (req.isAuthenticated()) {
-    html += "<p>authenticated as user:</p>"
-    html += "<pre>" + JSON.stringify(req.user, null, 4) + "</pre>";
-  }
-
-  res.send(html);
-});
-
 app.get('/service/logout', function(req, res){
   req.logout();
-  res.redirect('/app/service/');
+  res.redirect('/app');
 });
 
-// we will call this to start the GitHub Login process
+// start the GitHub Login process
 app.get('/service/auth', passport.authenticate('github'));
 
-// GitHub will call this URL
-app.get('/service/auth/callback', passport.authenticate('github', { failureRedirect: '/app/service/test' }),
+/**
+ * HTTP GET for trying to authenticate user. if authentication fails, redirect to failure page
+ *
+ */
+app.get('/service/auth/callback', passport.authenticate('github', { failureRedirect: '/app/admin/failure' }),
   function(req, res) {
-    res.redirect('/app/service/admin');
+    res.redirect('/app/admin');
   }
 );
 
-app.get('/service/admin', ensureAuthenticated, function(req, res) {
-  var html = "<ul>\
-    <li><a href='/app/service/logout'>logout</a></li>\
-    <li><a href='/app'>home</a></li>\
-  </ul>";
-  html += "<p>access granted. admin stuff here.</p>";
-  res.send(html);
+/**
+ * HTTP GET for ensuring user is authenticated then redirecting to admin page
+ *
+ */
+app.get('/admin', ensureAuthenticated, function(req, res) {
+  // show user info
+  // if (req.isAuthenticated()) {
+  //   html += "<p>authenticated as user:</p>"
+  //   html += "<pre>" + JSON.stringify(req.user, null, 4) + "</pre>";
+  // }
+  res.redirect("/app/admin/success");
 });
 
 /**
@@ -204,7 +195,7 @@ passport.deserializeUser(function(user, done) {
 var GithubStrategy = require('passport-github2').Strategy;
 
 passport.use(new GithubStrategy({
-    clientID: "no",
+    clientID:  "no",
     clientSecret: "no",
     callbackURL: "https://localhost:8082/app/service/auth/callback"
   },
@@ -221,11 +212,10 @@ passport.use(new GithubStrategy({
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     // req.user is available for use here
-    return next(); }
+    return next(); 
+  }
 
-  // denied. redirect to login
-  res.send("access denied. please login.");
-  //res.redirect('/app/service/test');
+  res.redirect('/app/admin/failure');
 }
 
 /**

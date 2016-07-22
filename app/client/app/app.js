@@ -27,6 +27,14 @@ applicantApp.config(['$routeProvider', '$locationProvider', 'ngToastProvider',
       templateUrl: 'app/components/analysis/analysisView.html',
       controller: 'AnalysisCtrl'
     }).
+    when('/admin/success', {
+      templateUrl: 'app/components/admin/adminView.html',
+      controller: 'AdminCtrl'
+    }).
+    when('/admin/failure', {
+      templateUrl: 'app/components/admin/adminReject.html',
+      controller: 'AdminCtrl'
+    }).
     otherwise({
       redirectTo: '/applicants'
     });
