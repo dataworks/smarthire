@@ -39,10 +39,6 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-//body-parser extracts the entire body portion of an incoming request stream 
-//and exposes it on req.body
-app.use(bodyParser.json());
-
 /**
  * HTTP GET request to retrieve applicants
  *
@@ -121,7 +117,7 @@ app.get("/service/analysis", function(req, res) {
 });
 
 app.get("/service/settings", function(req, res) {
-  adminService.buildQuery(req, res);
+  adminService.buildSetting(req, res);
 });
 
 root.use('/app', app);

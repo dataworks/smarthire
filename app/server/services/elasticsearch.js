@@ -72,7 +72,8 @@ exports.parseSearchHits = function(resp, res) {
 
     if (hit.highlight) {
       for (var k in hit.highlight) {
-        source[k] = hit.highlight[k][0];
+        // Merge key into source object
+        merge(source, k, hit.highlight[k][0], ["id"]);
       }
     }
     return source;
@@ -302,27 +303,6 @@ exports.indexUploads = function(config, params, res) {
   });
 }
 
-exports.index = function(config, params, res) {
-  var client = new elasticsearch.Client({
-    host: config.url
-  });
-
-  client.index({
-    index: config.index,
-    type: config.type,
-    id: params.id,
-    body: {
-      jobLocation: location
-    },
-    refresh: true
-  }).then(function(response) {
-    client.close();
-    res.end();
-  }, function(err) {
-    errorMessage(err, res);
-  });
-}
-
 /**
  * Deletes an in index in ES
  *
@@ -359,4 +339,31 @@ function errorMessage(err, res) {
   // Release client resources
   client.close();
   res.end();
+}
+
+function merge(object, key, value, excludes) {
+  // Merge value into object if it's not excluded
+  if (excludes.indexOf(key) == -1) {
+    key = key.split(".");
+
+    // Find child object
+    if (key.length > 1) {
+     for (var x = 0; x < key.length - 1; x++) {
+       object = object[key[x]];
+      }
+    }
+
+    // If the objects is an array, replace array element. Else replace entire value.
+    if (object[key[key.length - 1]] instanceof Array) {
+     var element = object[key[key.length - 1]];
+      for (var x = 0; x < element.length; x++) {
+       if (value.indexOf(element[x]) > -1) {
+          element[x] = value;
+        }
+      }
+   }
+    else {
+      object[key[key.length - 1]] = value;
+    }
+  }
 }

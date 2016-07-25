@@ -1,0 +1,26 @@
+#locToggle{
+	float: left;
+    margin-right: 1.5%;
+    margin-top: 1%;
+}
+
+#locationInput{
+	float: none;
+	border-radius: 0;
+}
+
+#location1, #location2{
+	padding-top: .5%;
+}
+
+#addLoc{
+    margin: 0;
+    float: left;
+    border: none;
+    padding-right: 2%;
+    background: none;
+}
+
+#addLoc:hover{
+	color: #673AB7;
+}

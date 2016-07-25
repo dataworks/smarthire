@@ -48,9 +48,12 @@
               <span ng-if="applicant.type == 'review' && selection == 'search'"><span id="reviewIndicator"  title="In Review" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></span>
               <span ng-if="applicant.name != ''"><a id="nl" ng-bind-html="applicant.name" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}"></a></span>
               <span ng-if="applicant.name == ''"><a id="nl" title="View more" data-toggle="collapse" data-target="#dataExpand-{{$index}}">Name Not found</a></span></td>
-              <td id="ci" class="hidden-xs hidden-s">{{applicant.currentLocation.organization}} <br> {{applicant.currentLocation.location}}<br> {{applicant.currentLocation.title}}</td>
-              <td id="d" class="hidden-xs hidden-s">{{applicant.education.degree}}</td>
-              <td id="c" class="hidden-xs hidden-s"><a ng-href="tel:{{applicant.contact.phone}}"> {{applicant.contact.phone}} </a> <a ng-href="mailto:{{applicant.contact.email}}"> {{applicant.contact.email}}</a> <br> </td>
+              <td id="ci" class="hidden-xs hidden-s" ng-bind-html="getCurrentInfo(applicant)"></td>
+              <td id="d" class="hidden-xs hidden-s" ng-bind-html="applicant.education.degree"></td>
+              <td id="c" class="hidden-xs hidden-s">
+               <a ng-href="tel:{{applicant.contact.phone}}" ng-bind-html="applicant.contact.phone"></a>
+               <a ng-href="mailto:{{applicant.contact.email}}" ng-bind-html="applicant.contact.email"></a> <br>
+              </td>
 
               <td id="o"><span ng-if="selection != 'favorite' && applicant.type != 'favorite'"><button id="up" type="button" class="btn btn-default" aria-label="Left Align"  ng-click="mark(applicant.id, 'favorite', applicant); showToast('Favorite')"> 
                 <span title="Add to Favorites" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
@@ -96,8 +99,30 @@
                   <tbody>
                     <tr>
                       <td id='body' ng-bind-html="highlightSkills(applicant)"></td>
-                      <td id='body' align="left" class="hidden-xs hidden-s"><span id="title" ng-if="applicant.skills.etl.join(' ') != ''"><b>ETL</b></span><span id="valE" ng-if="applicant.skills.etl.join(' ') != ''"> {{applicant.skills.etl.join(', ')}}  </span><span id="title" ng-if="applicant.skills.webapp.join(' ') != ''"><b>Web App</b></span> <span id="valW" ng-if="applicant.skills.webapp.join(' ') != ''">{{applicant.skills.webapp.join(', ')}} </span> <span id="title" ng-if="applicant.skills.language.join(' ') != ''"><b>Languages</b></span> <span id="valL" ng-if="applicant.skills.language.join(' ') != ''">{{applicant.skills.language.join(', ')}} </span> <span id="title" ng-if="applicant.skills.mobile.join(' ') != ''"><b>Mobile</b></span> <span id="valM" ng-if="applicant.skills.mobile.join(' ') != ''">{{applicant.skills.mobile.join(', ')}}  </span><span id="title" ng-if="applicant.skills.database.join(' ') != ''"><b>Databases</b> </span><span id="valD" ng-if="applicant.skills.database.join(' ') != ''">{{applicant.skills.database.join(', ')}}</span> <span id="title" ng-if="applicant.skills.bigdata.join(' ') != ''"> <b> Big Data</b></span> <span id="valB" ng-if="applicant.skills.bigdata.join(' ') != ''">{{applicant.skills.bigdata.join(', ')}}</span></td>
-                      <td id='body' class="hidden-xs hidden-s"><span id="title" ng-if="applicant.education.school != ''"><b>School</b></span> <span id="valS" ng-if="applicant.education.school != ''">{{applicant.education.school}}</span><span id="title" ng-if="applicant.education.gpa != ''"> <b>GPA</b></span><span id="valGPA" ng-if="applicant.education.gpa === 0"></span><span id="valGPA" ng-if="applicant.education.gpa != 0 && applicant.education.gpa != ''">{{applicant.education.gpa}}</span><span id="title" ng-if="applicant.contact.linkedin != ''"> <b>Linked-in </b></span><a id="valLI" ng-if="applicant.contact.linkedin != ''" ng-href="{{applicant.contact.linkedin}}" target="_blank">{{applicant.contact.linkedin}}</a><span id="title" ng-if="applicant.contact.github != ''"> <b> GitHub </b></span><a id="valGH" ng-if="applicant.contact.github != ''" ng-href="{{applicant.contact.github}}" target="_blank">{{applicant.contact.github}}</a><span id="title" ng-if="applicant.contact.indeed != ''"> <b>Indeed </b></span><a id="valI" ng-if="applicant.contact.indeed != ''"ng-href="{{applicant.contact.indeed}}" target="_blank">{{applicant.contact.indeed}}</a></td>  
+                      <td id='body' align="left" class="hidden-xs hidden-s">
+                       <span id="title" ng-if="applicant.skills.etl.join(' ') != ''"><b>ETL</b></span>
+                      <span id="valE" ng-if="applicant.skills.etl.join(' ') != ''" ng-bind-html="getSkills(applicant.skills.etl)"></span>
+                       <span id="title" ng-if="applicant.skills.webapp.join(' ') != ''"><b>Web App</b></span>
+                        <span id="valW" ng-if="applicant.skills.webapp.join(' ') != ''" ng-bind-html="getSkills(applicant.skills.webapp)"></span>
+                        <span id="title" ng-if="applicant.skills.language.join(' ') != ''"><b>Languages</b></span>
+                        <span id="valL" ng-if="applicant.skills.language.join(' ') != ''" ng-bind-html="getSkills(applicant.skills.language)"> </span>
+                        <span id="title" ng-if="applicant.skills.mobile.join(' ') != ''"><b>Mobile</b></span>
+                        <span id="valM" ng-if="applicant.skills.mobile.join(' ') != ''" ng-bind-html="getSkills(applicant.skills.mobile)"></span>
+                        <span id="title" ng-if="applicant.skills.database.join(' ') != ''"><b>Databases</b> </span>
+                        <span id="valD" ng-if="applicant.skills.database.join(' ') != ''" ng-bind-html="getSkills(applicant.skills.database)"></span>
+                        <span id="title" ng-if="applicant.skills.bigdata.join(' ') != ''"> <b> Big Data</b></span>
+                        <span id="valB" ng-if="applicant.skills.bigdata.join(' ') != ''" ng-bind-html="getSkills(applicant.skills.bigdata)"></span>
+                      </td>
+                      <td id='body' class="hidden-xs hidden-s"><span id="title" ng-if="applicant.education.school != ''"><b>School</b></span>
+                        <span id="valS" ng-if="applicant.education.school != ''" ng-bind-html="applicant.education.school"></span>
+                        <span id="title" ng-if="applicant.education.gpa != ''"> <b>GPA</b></span>
+                       <span id="valGPA" ng-if="applicant.education.gpa === 0"></span>
+                       <span id="valGPA" ng-if="applicant.education.gpa != 0 && applicant.education.gpa != ''" ng-bind-html="applicant.education.gpa"></span>
+                       <span id="title" ng-if="applicant.contact.linkedin != ''"> <b>Linked-in </b></span>
+                        <a id="valLI" ng-if="applicant.contact.linkedin != ''" ng-href="{{applicant.contact.linkedin}}" target="_blank" ng-bind-html="applicant.contact.linkedin"></a>
+                       <span id="title" ng-if="applicant.contact.github != ''"> <b> GitHub </b></span><a id="valGH" ng-if="applicant.contact.github != ''" ng-href="{{applicant.contact.github}}" target="_blank" ng-bind-html="applicant.contact.github"></a>
+                       <span id="title" ng-if="applicant.contact.indeed != ''"> <b>Indeed </b></span><a id="valI" ng-if="applicant.contact.indeed != ''"ng-href="{{applicant.contact.indeed}}" target="_blank" ng-bind-html="applicant.contact.indeed"></a>                    
+                       </td>  
                     </tr>
                   </tbody>
                   <tr>
