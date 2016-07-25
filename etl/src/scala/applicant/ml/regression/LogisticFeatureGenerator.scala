@@ -32,9 +32,22 @@ object LogisticFeatureGenerator {
    *  @return The list of feature names
    */
   def getFeatureList(settings : RegressionSettings) : List[String] = {
-    val featureList : ListBuffer[String] = new ListBuffer()
+    val featureNameList : ListBuffer[String] = new ListBuffer()
 
-    return featureList.toList
+    //For each FeatureType in settings (jobLocation, experience, etc.)
+    for (featureType <- settings.featureSettingMap) {
+      //For each feature in the feature type
+      for (featureInstanceTuple <- featureType._2) {
+        val featureInstance = featureInstanceTuple._2
+        //if the feature instance is turned on
+        if (featureInstance.enabled) {
+          //Add it to the feature list
+          featureNameList += featureInstance.name
+        }
+      }
+    }
+
+    return featureNameList.toList
   }
 
   /**
@@ -67,6 +80,7 @@ object LogisticFeatureGenerator {
 class LogisticFeatureGenerator(bayesModel: NaiveBayesModel, idfModel: IDFModel, settings: RegressionSettings, cityFileLoc: String) extends Serializable {
 
   val featuresList: ListBuffer[BaseFeature] = ListBuffer()
+  val featureSettings = settings
 
   {
     //Get the location map data so that the Location Features do not all recreate it
