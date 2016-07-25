@@ -115,7 +115,7 @@ class RegressionSettings() extends Serializable {
   }
 }
 
-class FeatureSetting(featureName: String, isEnabled: Boolean, featureValues: ListBuffer[AnyRef]) {
+class FeatureSetting(featureName: String, isEnabled: Boolean, featureValues: ListBuffer[AnyRef]) extends Serializable {
   val name: String = featureName
   val enabled: Boolean = isEnabled
   val values = featureValues

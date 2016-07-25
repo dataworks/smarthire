@@ -4,7 +4,7 @@ import applicant.etl.ApplicantData
 import applicant.ml.regression.FeatureSetting
 import scala.collection.mutable.ListBuffer
 
-abstract class BaseFeature {
+abstract class BaseFeature extends Serializable {
   //A setting to be used when getting the feature score
   val setting: FeatureSetting
 
