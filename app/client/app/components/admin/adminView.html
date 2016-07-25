@@ -3,12 +3,12 @@
 
 	<h2>Logged in.</h2>
 
-	<!-- <div id="locations">
+<!-- 	<div id="locations">
 	<button id="addLoc" type="button" class="btn btn-default" aria-label="Left Align"> 
     <span title="Add Another Location" class="glyphicon glyphicon-plus" aria-hidden="true"></span>
     </button><h3>Locations</h3>
-	<div id="toggle"><input type="checkbox" id="locToggle" checked="checked"></div><div id="location1">Location 1(City,State): <input type="text" id="locationInput" value="{{settings.rows[0].jobLocation.location1.values[0]}}"></div>
-	<div id="toggle"><input type="checkbox" id="locToggle" checked="checked"></div><div id='location2'>Location 2(City,State): <input type="text" id="locationInput" value="{{settings.rows[0].jobLocation.location2.values[0]}}"></div>
+	<div id="toggle"><input type="checkbox" id="locToggle" checked="checked"></div><div id="location1">Location 1(City,State): <input type="text" id="locationInput" value="{{settings.rows[0].jobLocation.reston.values[0]}}"></div>
+	<div id="toggle"><input type="checkbox" id="locToggle" checked="checked"></div><div id='location2'>Location 2(City,State): <input type="text" id="locationInput" value="{{settings.rows[0].experience.techExperience.values[0].positions[0]}}"></div>
 	</div>
 
 	<div id="keywords">
@@ -16,14 +16,14 @@
 	</div> -->
 	
 
-    <div class="container col-md-4 col-md-offset-4">
-<!-- example -->
-<form novalidate>
-    <h1>Rent-a-Car, eh?</h1>
-    <formly-form model="vm.rental" fields="vm.rentalFields" form="vm.rentalForm">
-        <button type="submit" class="btn btn-primary" ng-disabled="vm.rentalForm.$invalid">Submit</button>
-    </formly-form>
-</form>
+<div class="container col-md-4 col-md-offset-4">
+	<!-- example -->
+	<form novalidate>
+		<h1>Settings</h1>
+		<formly-form model="vm.settings" fields="vm.settingsFields" form="vm.settingsForm">
+			<button type="submit" class="btn btn-primary" ng-disabled="vm.settingsForm.$invalid">Submit</button>
+		</formly-form>
+	</form>
 </div>
 
 

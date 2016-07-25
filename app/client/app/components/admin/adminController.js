@@ -1,46 +1,89 @@
 applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
   function($scope, Admin) {
 
-  	$scope.settings = Admin.query();
+  	$scope.settings = Admin.query(function(settings) {
+    	var location = settings.rows[0].jobLocation.reston.values[0];
+    	console.log(location)
+	});
+  	
 
   	var vm = this;
-
   	// The model object that we reference
     // on the  element in index.html
-    vm.rental = {};
+    vm.settings = {};
     
     // An array of our form fields with configuration
     // and options set. We make reference to this in
     // the 'fields' attribute on the  element
-    vm.rentalFields = [
+    vm.settingsFields = [
         {
-            key: 'first_name',
+            key: 'job_location',
             type: 'input',
             templateOptions: {
                 type: 'text',
-                label: 'First Name',
-                placeholder: 'Enter your first name',
-                required: true
+                label: 'Location',
+                placeholder: 'Reston, VA',
+                required: false
             }
         },
         {
-            key: 'last_name',
+            key: 'resume_length',
             type: 'input',
             templateOptions: {
                 type: 'text',
-                label: 'Last Name',
-                placeholder: 'Enter your last name',
-                required: true
+                label: 'Resume length',
+                placeholder: '2000',
+                required: false
             }
         },
         {
-            key: 'email',
+            key: 'experience',
             type: 'input',
             templateOptions: {
-                type: 'email',
-                label: 'Email address',
-                placeholder: 'Enter email',
-                required: true
+                type: 'text',
+                label: 'Positions',
+                placeholder: 'engineer, developer, software architect',
+                required: false
+            }
+        },
+        {
+            key: 'experience',
+            type: 'input',
+            templateOptions: {
+                type: 'text',
+                label: 'Degrees',
+                placeholder: 'tech, computer science, programming',
+                required: false
+            }
+        },
+        {
+            key: 'contact',
+            type: 'input',
+            templateOptions: {
+                type: 'text',
+                label: 'Contact Information',
+                placeholder: 'Github, email, LinkedIn, phone',
+                required: false
+            }
+        },
+        {
+            key: 'key_words',
+            type: 'input',
+            templateOptions: {
+                type: 'text',
+                label: 'Tags',
+                placeholder: 'ETL, Big Data, Languages',
+                required: false
+            }
+        },
+        {
+            key: 'relevance',
+            type: 'input',
+            templateOptions: {
+                type: 'text',
+                label: 'Relevance',
+                placeholder: 'true, false',
+                required: false
             }
         },
     ];
