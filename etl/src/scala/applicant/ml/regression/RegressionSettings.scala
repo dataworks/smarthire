@@ -19,6 +19,7 @@ object RegressionSettings {
    * The map is parsed into the RegressionSettings object.
    */
   def apply(elasticMap: scala.collection.Map[String, AnyRef]): RegressionSettings = {
+
     val result = new RegressionSettings()
 
     val intermediateMap: Map[String, Map[String, Map[String, AnyRef]]] = elasticMap.asInstanceOf[Map[String, Map[String, Map[String, AnyRef]]]]
@@ -33,14 +34,14 @@ object RegressionSettings {
       for (featureInstanceMap <- featureTypeMap._2) {
 
         //Get the name, enabled field, and values
-        val currentFeatureName = EsUtils.checkSomeString(featureTypeMap._2.get("name"))
-        val currentFeatureToggle = EsUtils.checkSomeBool(featureTypeMap._2.get("enabled"))
-        val currentFeatureValues = EsUtils.checkSomeList(featureTypeMap._2.get("values"))
+        val currentFeatureName = EsUtils.checkSomeString(featureInstanceMap._2.get("name"))
+        val currentFeatureToggle = EsUtils.checkSomeBool(featureInstanceMap._2.get("enabled"))
+        val currentFeatureValues = EsUtils.checkSomeList(featureInstanceMap._2.get("values"))
 
         currentFeatureMap += (featureInstanceMap._1 -> new FeatureSetting(currentFeatureName, currentFeatureToggle, currentFeatureValues))
       }
 
-      //Add the current feature map to the featureSettingsMap
+      //Add the current feature map to the featureSettingMap
       result.featureSettingMap += (featureTypeMap._1 -> currentFeatureMap)
     }
 
