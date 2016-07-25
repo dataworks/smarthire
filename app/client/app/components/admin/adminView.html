@@ -1,10 +1,9 @@
 <body ng-controller="AdminCtrl">
-	<div>
-	    <li><a onclick="parent.location='/app/service/logout'; return false;">logout</a></li>
+	<li><a onclick="parent.location='/app/service/logout'; return false;">logout</a></li>
 
-		<h2>Logged in.</h2>
+	<h2>Logged in.</h2>
 
-	<div id="locations">
+	<!-- <div id="locations">
 	<button id="addLoc" type="button" class="btn btn-default" aria-label="Left Align"> 
     <span title="Add Another Location" class="glyphicon glyphicon-plus" aria-hidden="true"></span>
     </button><h3>Locations</h3>
@@ -14,8 +13,18 @@
 
 	<div id="keywords">
 	<h3>Keywords</h3>
-	</div>
+	</div> -->
 	
 
+    <div class="container col-md-4 col-md-offset-4">
+<!-- example -->
+<form novalidate>
+    <h1>Rent-a-Car, eh?</h1>
+    <formly-form model="vm.rental" fields="vm.rentalFields" form="vm.rentalForm">
+        <button type="submit" class="btn btn-primary" ng-disabled="vm.rentalForm.$invalid">Submit</button>
+    </formly-form>
+</form>
 </div>
+
+
 </body>
