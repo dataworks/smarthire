@@ -1,4 +1,4 @@
-applicantServices.factory('searchAnalysis', function() {
+applicantServices.factory('chartService', function() {
   return {
     /**
      * Stores the aggregation data into arrays & calls function to display charts

@@ -1,5 +1,5 @@
-applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 'Analysis', 'Applicant', 'Label', 'Suggest', 'Upload', '$window', 'ngToast', '$timeout', 'advancedSearch', 'searchAnalysis',
-  function($sce, $scope, $location, analysis, Applicant, Label, Suggest, Upload, $window, ngToast, $timeout, advancedSearch, searchAnalysis) {
+applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 'Analysis', 'Applicant', 'Label', 'Suggest', 'Upload', '$window', 'ngToast', '$timeout', 'advancedSearch', 'chartService',
+  function($sce, $scope, $location, analysis, Applicant, Label, Suggest, Upload, $window, ngToast, $timeout, advancedSearch, chartService) {
 
     //default dropdown menu to 'new' on page load
     $scope.selection = "new";
@@ -77,6 +77,9 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       order: $scope.sortOrder
     });
 
+    /**
+     * function that sets boolean that determines whether search pie charts are shown or not
+     */
     $scope.setGraphBool = function() {
       if ($scope.showGraphs == false) {
         $scope.showGraphs = true;
@@ -286,7 +289,7 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
      * @param applicant - id of applicant
      */
     $scope.showScoreChart = function(applicant) {
-      searchAnalysis.createScoreChart(applicant);
+      chartService.createScoreChart(applicant);
     }    
 
    /**
@@ -311,10 +314,20 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
      return $sce.trustAsHtml(summary);
    }
 
+  /**
+    * function that grabs applicants' skills and renders it as HTML for highlighting purposes
+    * @param skills - skills of the applicants in list format
+    * @return - returns skills in HTML format 
+    */
     $scope.getSkills = function(skills) {
       return $sce.trustAsHtml(skills.join(", "));
     }
 
+  /**
+    * function that grabs applicants' information and renders it as HTML for highlighting purposes
+    * @param skills - id of applicant
+    * @return - returns information in HTML format 
+    */
     $scope.getCurrentInfo = function(applicant) {
        return $sce.trustAsHtml(applicant.currentLocation.organization + "<br>" + applicant.currentLocation.location +
        "<br>"  + applicant.currentLocation.title);
@@ -332,6 +345,10 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       return "service/attachments?id=" + id + "&type=" + type;
     }
 
+  /**
+    * determines when a search query has been entered
+    * @param text - text entered in searchbar
+    */
     $scope.isSearch = function(text){
       if(text != ""){
         $scope.searchTab = true;
@@ -343,6 +360,9 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       }
     }
 
+  /**
+    * creates a temporary tab called 'Search' when a query is entered
+    */
     $scope.searched = function(){
       return $scope.searchTab;
     }
@@ -401,7 +421,7 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
         }
 
         $scope.queries[index].$promise.then(function(data) {
-          $scope.charts.push(searchAnalysis.displayGraph(data, $scope.ids[index]));
+          $scope.charts.push(chartService.displayGraph(data, $scope.ids[index]));
           });
       });
     }
