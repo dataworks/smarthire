@@ -196,11 +196,13 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
+//tokens for Oauth
+var tokens = fs.readFileSync(__dirname + '/' + 'oauth').toString().split("\n");
 var GithubStrategy = require('passport-github2').Strategy;
 
 passport.use(new GithubStrategy({
-    clientID:  "no",
-    clientSecret: "no",
+    clientID:  tokens[0],
+    clientSecret: tokens[1],
     callbackURL: "https://localhost:8082/app/service/auth/callback"
   },
   function(accessToken, refreshToken, profile, done) {
