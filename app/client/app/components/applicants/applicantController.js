@@ -280,62 +280,14 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       return parseInt((score * 100), 10);
     }
 
-    $scope.createScoreChart = function(applicant) {
-      var keys = [];
-      var values = [];
-      var finalValues = [];
-
-      //sort from least to greatest, switch a & b for opposite
-      var keysSorted = Object.keys(applicant.features).sort(function(a,b) {
-        return applicant.features[b]-applicant.features[a]});
-
-
-      for(var key in keysSorted) {
-        keys.push(keysSorted[key]);
-        values.push((parseFloat(applicant.features[keysSorted[key]])).toFixed(2));
-      }
-
-      finalValues.push(values);
-
-      var data = {
-        labels: keys,
-        series: finalValues,
-      };
-
-      var options = {
-        high: 5,
-        low: -5,
-        width: 900,
-        height: 275,
-      };
-
-      var responsiveOptions = [
-      // ipad
-        ['screen and (min-width: 768px) and (max-width: 991px)', {
-          width: 760,
-          height: 175,
-          axisX: {
-            labelInterpolationFnc: function (value) {
-              return value;
-            }
-          }
-        }],
-        // phone
-        ['screen and (max-width: 767px)', {
-          width: 420,
-          height: 175,
-          axisX: {
-            labelInterpolationFnc: function (value) {
-              return value.substring(0,3);
-            }
-          }
-        }]
-      ];
-
-      var bar = new Chartist.Bar("#chart-" + applicant.id, data, options, responsiveOptions);
-
-      // return bar;
-    }
+    /**
+     * calls logic in chartService to create a bar graph for the scoring breakdown
+     *
+     * @param applicant - id of applicant
+     */
+    $scope.showScoreChart = function(applicant) {
+      searchAnalysis.createScoreChart(applicant);
+    }    
 
    /**
     * styles words in an applicant's summary that matches a skill listed on his/her resume

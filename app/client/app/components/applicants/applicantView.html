@@ -136,9 +136,9 @@
                         <tbody>
                           <td id='body'>
                             <div id="appFeature">
-                            <span id="highChart" ng-if="applicant.score >= 0.7"><div class="ct-chart" id="chart-{{applicant.id}}">{{createScoreChart(applicant)}}</div></span>
-                            <span id="midChart" ng-if="applicant.score < 0.7 && applicant.score > 0.3"><div class="ct-chart" id="chart-{{applicant.id}}">{{createScoreChart(applicant)}}</div></span>
-                            <span id="lowChart" ng-if="applicant.score <= 0.3 && applicant.score > -1"><div class="ct-chart" id="chart-{{applicant.id}}">{{createScoreChart(applicant)}}</div></span>
+                            <span id="highChart" ng-if="applicant.score >= 0.7"><div class="ct-chart" id="chart-{{applicant.id}}">{{showScoreChart(applicant)}}</div></span>
+                            <span id="midChart" ng-if="applicant.score < 0.7 && applicant.score > 0.3"><div class="ct-chart" id="chart-{{applicant.id}}">{{showScoreChart(applicant)}}</div></span>
+                            <span id="lowChart" ng-if="applicant.score <= 0.3 && applicant.score > -1"><div class="ct-chart" id="chart-{{applicant.id}}">{{showScoreChart(applicant)}}</div></span>
                             </div>
                           </td>
                         </tbody>
