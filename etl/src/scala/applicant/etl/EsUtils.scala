@@ -39,7 +39,7 @@ object EsUtils {
    */
   def getBool(value: AnyRef): Boolean = {
     if (value == None) {
-      return true
+      return false
     }
     return value.asInstanceOf[Boolean]
   }
@@ -54,6 +54,50 @@ object EsUtils {
     val intermediateMap = value.asInstanceOf[Map[String, JListWrapper[String]]]
     return intermediateMap.map { case (str, lst) =>
       (str, lst.toList)
+    }
+  }
+
+  /**
+   * Will check if an option of a boolean is Some, and whether it
+   *  was ever there in the first place
+   */
+  def checkSomeBool(checkValue: Option[AnyRef]): Boolean = {
+    checkValue match {
+      case Some(value) =>
+        return getBool(value)
+      case None =>
+        return false
+    }
+  }
+
+  /**
+   * Will check if an option of a string is Some, and wheter it
+   *  was ever there in the first place
+   */
+  def checkSomeString(checkValue: Option[AnyRef]): String = {
+    checkValue match {
+      case Some(value) =>
+        return getString(value)
+      case None =>
+        return ""
+    }
+  }
+
+  /**
+   * Will check if an option of a listbuffer is Some and whether it
+   *  was ever there in the first place
+   */
+  def checkSomeList(checkValue: Option[AnyRef]): ListBuffer[AnyRef] = {
+    checkValue match {
+      case Some(value) =>
+        if (value == None) {
+          return ListBuffer()
+        }
+        else {
+          return value.asInstanceOf[JListWrapper[AnyRef]].toList.to[ListBuffer]
+        }
+      case None =>
+        return ListBuffer()
     }
   }
 }

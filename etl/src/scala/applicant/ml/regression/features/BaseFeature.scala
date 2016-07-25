@@ -6,7 +6,7 @@ import scala.collection.mutable.ListBuffer
 abstract class BaseFeature {
   //The name of the feature
   val name: String
-
+  
   /**
    *  Will return a score for the type of feature
    *
