@@ -61,6 +61,19 @@ object RegressionSettings {
    */
   def apply(): RegressionSettings = {
     val result = new RegressionSettings()
+    //Create a Feature Setting for all of the features that need to be included
+    val relevance = new FeatureSetting("Relevance", true, new ListBuffer[AnyRef])
+    val bigData = new FeatureSetting("BigData", true, ListBuffer("Spark","Hadoop","HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS","HDFS","MapReduce","Yarn","Solr","Avro","Lucene","Kibana", "Kafka"))
+    val databases = new FeatureSetting("Databases", true, ListBuffer("Oracle","Postgresql","Mysql","SQL"))
+    val etl = new FeatureSetting("ETL", true, ListBuffer("Pentaho","Informatica","Streamsets","Syncsort"))
+    val webApp = new FeatureSetting("WebApp", true, ListBuffer("AngularJS","Javascript","Grails","Spring","Hibernate","node.js","CSS","HTML"))
+    val mobile = new FeatureSetting("Mobile", true, ListBuffer("Android","iOS","Ionic","Cordova","Phonegap"))
+    val languages = new FeatureSetting("Languages", true, ListBuffer("Java","Scala","Groovy","C","Python","Ruby","Haskell"))
+    val proximity = new FeatureSetting("Proximity", true, ListBuffer("Reston, VA"))
+    val contact = new FeatureSetting("ContactInfo", true, ListBuffer("linkedin", "github", "indeed", "urls", "email", "phone"))
+    val length = new FeatureSetting("Resume Length", true, new ListBuffer[AnyRef])
+
+    val fullMap: Map[String, Map[String, FeatureSetting]] = Map()
 
     return result
   }
