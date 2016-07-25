@@ -94,7 +94,6 @@ object EsUtils {
           return ListBuffer()
         }
         else {
-          println(value.getClass())
           return value.asInstanceOf[JListWrapper[AnyRef]].toList.to[ListBuffer]
         }
       case None =>

@@ -19,7 +19,6 @@ object RegressionSettings {
    * The map is parsed into the RegressionSettings object.
    */
   def apply(elasticMap: scala.collection.Map[String, AnyRef]): RegressionSettings = {
-
     val result = new RegressionSettings()
 
     val intermediateMap: Map[String, Map[String, Map[String, AnyRef]]] = elasticMap.asInstanceOf[Map[String, Map[String, Map[String, AnyRef]]]]
@@ -32,8 +31,6 @@ object RegressionSettings {
 
       //for each instance of the feature type
       for (featureInstanceMap <- featureTypeMap._2) {
-
-        println(featureInstanceMap._1)
 
         //Get the name, enabled field, and values
         val currentFeatureName = EsUtils.checkSomeString(featureInstanceMap._2.get("name"))
@@ -66,7 +63,7 @@ object RegressionSettings {
   def apply(): RegressionSettings = {
     val result = new RegressionSettings()
     //Create a Feature Setting for all of the features that need to be included
-    val relevance = new FeatureSetting("Relevance", true, new ListBuffer[AnyRef])
+    val relevance = new FeatureSetting("Relevance", true, ListBuffer("yes"))
     val bigData = new FeatureSetting("BigData", true, ListBuffer("Spark","Hadoop","HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS","HDFS","MapReduce","Yarn","Solr","Avro","Lucene","Kibana", "Kafka"))
     val databases = new FeatureSetting("Databases", true, ListBuffer("Oracle","Postgresql","Mysql","SQL"))
     val etl = new FeatureSetting("ETL", true, ListBuffer("Pentaho","Informatica","Streamsets","Syncsort"))
@@ -75,7 +72,7 @@ object RegressionSettings {
     val languages = new FeatureSetting("Languages", true, ListBuffer("Java","Scala","Groovy","C","Python","Ruby","Haskell"))
     val proximity = new FeatureSetting("Proximity", true, ListBuffer("Reston, VA"))
     val contact = new FeatureSetting("ContactInfo", true, ListBuffer("linkedin", "github", "indeed", "urls", "email", "phone"))
-    val length = new FeatureSetting("Resume Length", true, new ListBuffer[AnyRef])
+    val length = new FeatureSetting("Resume Length", true, ListBuffer(3000.0: java.lang.Double))
     val experience = new FeatureSetting("Experience", true, ListBuffer(Map("positions" -> ListBuffer("technology", "computer", "information", "engineer", "developer", "software", "analyst", "application", "admin"), "degrees" -> ListBuffer("tech", "computer", "information", "engineer", "c.s.", "programming", "I.S.A.T."))))
 
     val fullMap: Map[String, Map[String, FeatureSetting]] = Map()

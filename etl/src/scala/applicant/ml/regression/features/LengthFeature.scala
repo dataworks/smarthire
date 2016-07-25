@@ -15,7 +15,8 @@ class LengthFeature(newSetting: FeatureSetting) extends BaseFeature {
    */
   def getFeatureScore(applicant: ApplicantData): Double = {
     val resumeLength = applicant.fullText.replaceAll("[^a-zA-Z0-9]+","").length()
-    val maxlength = setting.values.asInstanceOf[ListBuffer[Long]](0).toInt
+    var lengthArray = setting.values.asInstanceOf[ListBuffer[Double]]
+    var maxlength: Double = if(lengthArray.size > 0) lengthArray(0) else 3000.0
     if (resumeLength >= maxlength) {
       return 1.0
     }

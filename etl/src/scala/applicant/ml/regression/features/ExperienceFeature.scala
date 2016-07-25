@@ -65,7 +65,6 @@ class ExperienceFeature(newSetting: FeatureSetting) extends BaseFeature {
   def getFeatureScore(applicant: ApplicantData): Double = {
 
     val infoMap = setting.values(0).asInstanceOf[Map[String,JListWrapper[AnyRef]]]
-    println("position/degree map: " + infoMap)
     val positionKeywords: ListBuffer[String] = infoMap("positions").asInstanceOf[JListWrapper[String]].toList.to[ListBuffer]
     val degreeKeywords: ListBuffer[String] = infoMap("degrees").asInstanceOf[JListWrapper[String]].toList.to[ListBuffer]
     var rawGPA = applicant.gpa
