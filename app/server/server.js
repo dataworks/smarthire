@@ -203,7 +203,7 @@ var GithubStrategy = require('passport-github2').Strategy;
 passport.use(new GithubStrategy({
     clientID:  tokens[0],
     clientSecret: tokens[1],
-    callbackURL: "https://localhost:8082/app/service/auth/callback"
+    callbackURL: tokens[2],
   },
   function(accessToken, refreshToken, profile, done) {
     return done(null, profile);
