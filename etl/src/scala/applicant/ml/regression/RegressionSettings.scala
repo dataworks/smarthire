@@ -4,6 +4,7 @@ import applicant.etl.EsUtils
 
 import scala.collection.mutable.{ListBuffer, Map}
 import scala.collection.JavaConversions._
+import scala.collection.breakOut
 
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkContext._
@@ -72,8 +73,23 @@ object RegressionSettings {
     val proximity = new FeatureSetting("Proximity", true, ListBuffer("Reston, VA"))
     val contact = new FeatureSetting("ContactInfo", true, ListBuffer("linkedin", "github", "indeed", "urls", "email", "phone"))
     val length = new FeatureSetting("Resume Length", true, new ListBuffer[AnyRef])
+    val experience = new FeatureSetting("Experience", true, ListBuffer(Map("positions" -> ListBuffer("technology", "computer", "information", "engineer", "developer", "software", "analyst", "application", "admin"), "degrees" -> ListBuffer("tech", "computer", "information", "engineer", "c.s.", "programming", "I.S.A.T."))))
 
     val fullMap: Map[String, Map[String, FeatureSetting]] = Map()
+
+    val relevanceMap = Map("relevance" -> relevance)
+    val keywordsMap = Map("bigData" -> bigData, "dbms" -> databases, "etl" -> etl, "webApp" -> webApp, "mobile" -> mobile, "languages" -> languages)
+    val proximityMap = Map("reston" -> proximity)
+    val contactMap = Map("allInfo" -> contact)
+    val lengthMap = Map("standardLength" -> length)
+    val experienceMap = Map("techExperience" -> experience)
+
+    result.featureSettingMap += ("relevance" -> relevanceMap)
+    result.featureSettingMap += ("keywords" -> keywordsMap)
+    result.featureSettingMap += ("jobLocation" -> proximityMap)
+    result.featureSettingMap += ("contactInfo" -> contactMap)
+    result.featureSettingMap += ("resumeLength" -> lengthMap)
+    result.featureSettingMap += ("experience" -> experienceMap)
 
     return result
   }
@@ -87,8 +103,12 @@ class RegressionSettings() extends Serializable {
    * Returns a map of the internal data.
    * This map can be directly uploaded into the mlsettings elasticsearch index
    */
-  def toMap(): Map[String, Any] = {
-    return Map()
+  def toMap(): Map[String, Map[String, Map[String, Any]]] = {
+    return featureSettingMap.map { case (category, categoryMap) =>
+      (category, categoryMap.map{ case (instance, setting) =>
+        (instance, setting.toMap())
+      })
+    }
   }
 }
 
@@ -96,4 +116,8 @@ class FeatureSetting(featureName: String, isEnabled: Boolean, featureValues: Lis
   val name: String = featureName
   val enabled: Boolean = isEnabled
   val values = featureValues
+
+  def toMap(): Map[String, Any] = {
+    return Map("name" -> name, "enabled" -> enabled, "values" -> values)
+  }
 }
