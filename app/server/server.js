@@ -138,6 +138,7 @@ root.get("/", function(req, res) {
  */
 app.get('/service/logout', function(req, res){
   req.logout();
+  req.session.destroy();
   res.redirect('/app');
 });
 
