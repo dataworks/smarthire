@@ -139,6 +139,14 @@ object MlModelGenerator {
         IDFHelper.loadModel(options.idfModelDirectory) match {
           case Some(idfModel) =>
             val settings = RegressionSettings(sc)
+
+            println("The settings object holds these feature settings")
+            for (thing <- settings.featureSettingMap) {
+              for (othing <- thing._2) {
+                println(othing._2.toMap())
+              }
+            }
+
             val generator = LogisticFeatureGenerator(bayesModel, idfModel, settings, options.cityfilelocation)
             applicantDataList.foreach { applicant =>
               val applicantScore = labelsHashMap(applicant.applicantid)

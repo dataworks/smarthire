@@ -2,7 +2,8 @@ package applicant.ml.regression.features
 
 import applicant.etl.ApplicantData
 import applicant.ml.regression.FeatureSetting
-import scala.collection.mutable.ListBuffer
+import scala.collection.mutable.{ListBuffer, Map}
+import scala.collection.JavaConversions.JListWrapper
 
 class ExperienceFeature(newSetting: FeatureSetting) extends BaseFeature {
   val setting = newSetting
@@ -63,9 +64,9 @@ class ExperienceFeature(newSetting: FeatureSetting) extends BaseFeature {
    */
   def getFeatureScore(applicant: ApplicantData): Double = {
 
-    val infoMap: Map[String,ListBuffer[AnyRef]] = setting.values(0).asInstanceOf[Map[String,ListBuffer[AnyRef]]]
-    val positionKeywords = infoMap("positions").asInstanceOf[ListBuffer[String]]
-    val degreeKeywords = infoMap("degrees").asInstanceOf[ListBuffer[String]]
+    val infoMap = setting.values(0).asInstanceOf[Map[String,JListWrapper[AnyRef]]]
+    val positionKeywords: ListBuffer[String] = infoMap("positionKeywords").asInstanceOf[JListWrapper[String]].toList.to[ListBuffer]
+    val degreeKeywords: ListBuffer[String] = infoMap("degreeKeywords").asInstanceOf[JListWrapper[String]].toList.to[ListBuffer]
     var rawGPA = applicant.gpa
 
     //Scale the gpa by the type of degree

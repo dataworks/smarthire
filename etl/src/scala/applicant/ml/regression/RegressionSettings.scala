@@ -33,6 +33,8 @@ object RegressionSettings {
       //for each instance of the feature type
       for (featureInstanceMap <- featureTypeMap._2) {
 
+        println(featureInstanceMap._1)
+
         //Get the name, enabled field, and values
         val currentFeatureName = EsUtils.checkSomeString(featureInstanceMap._2.get("name"))
         val currentFeatureToggle = EsUtils.checkSomeBool(featureInstanceMap._2.get("enabled"))
