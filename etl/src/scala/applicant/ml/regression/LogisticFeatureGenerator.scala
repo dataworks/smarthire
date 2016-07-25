@@ -1,11 +1,13 @@
 package applicant.ml.regression
 
-import scala.util.Try
-import scala.collection.mutable.{ListBuffer, Map, HashMap}
-import scala.collection.breakOut
 import applicant.nlp.LuceneTokenizer
 import applicant.etl._
 import applicant.ml.naivebayes._
+import applicant.ml.regression.features._
+
+import scala.util.Try
+import scala.collection.mutable.{ListBuffer, Map, HashMap}
+import scala.collection.breakOut
 import java.util.regex
 import org.apache.spark.mllib.feature.{Word2Vec, Word2VecModel, IDFModel}
 import org.apache.spark.mllib.linalg.{Vectors, Vector}
@@ -19,8 +21,7 @@ import org.slf4j.{Logger, LoggerFactory}
  */
 object LogisticFeatureGenerator {
   def apply(bayesModel: NaiveBayesModel, idfModel: IDFModel, settings: RegressionSettings, cityFileLoc: String) : LogisticFeatureGenerator = {
-    val generator = new LogisticFeatureGenerator(bayesModel, idfModel, settings, cityFileLoc)
-
+    new LogisticFeatureGenerator(bayesModel, idfModel, settings, cityFileLoc)
   }
 
   /**
@@ -65,40 +66,49 @@ object LogisticFeatureGenerator {
  */
 class LogisticFeatureGenerator(bayesModel: NaiveBayesModel, idfModel: IDFModel, settings: RegressionSettings, cityFileLoc: String) extends Serializable {
 
-  //Get the location map data so that the Location Features do not all recreate it
-  val locationMap: HashMap[(String, String), (Double, Double)] = {
-
-    val result = HashMap[(String, String), (Double, Double)]()
-    val lines = scala.io.Source.fromFile(cityFileLoc).getLines()
-
-    for (line <- lines) {
-      val splitVals = line.toLowerCase().split("#")//#split
-      result += ((splitVals(0), splitVals(1)) -> (splitVals(2).toDouble, splitVals(3).toDouble))
-    }
-    result
-  }
-
   val featuresList: ListBuffer[BaseFeature] = ListBuffer()
 
-  //For each FeatureType in settings
-  for (featureType <- settings.featureSettingMap) {
+  {
+    //Get the location map data so that the Location Features do not all recreate it
+    val locationMap: HashMap[(String, String), (Double, Double)] = {
 
-    //For each feature in the feature type
-    for (featureInstanceTuple <- featureType) {
-      val featureInstance = featureInstanceTuple._2
+      val result = HashMap[(String, String), (Double, Double)]()
+      val lines = scala.io.Source.fromFile(cityFileLoc).getLines()
 
-      //if the feature instance is turned on
-      if (featureInstance.enabled) {
+      for (line <- lines) {
+        val splitVals = line.toLowerCase().split("#")//#split
+        result += ((splitVals(0), splitVals(1)) -> (splitVals(2).toDouble, splitVals(3).toDouble))
+      }
+      result
+    }
 
-        featureType._1 match {
-          case "jobLocation" =>
-            featureList += new ProximityFeature(featureInstance.name, locationMap)
-          case "experience" =>
-            featureList += new ExperienceFeature(featureInstance.name, )
+    //For each FeatureType in settings (jobLocation, experience, etc.)
+    for (featureType <- settings.featureSettingMap) {
+
+      //For each feature in the feature type
+      for (featureInstanceTuple <- featureType._2) {
+        val featureInstance = featureInstanceTuple._2
+
+        //if the feature instance is turned on
+        if (featureInstance.enabled) {
+
+          //Add it to the list of features
+          featureType._1 match {
+            case "jobLocation" =>
+              featuresList += new ProximityFeature(featureInstance, locationMap)
+            case "experience" =>
+              featuresList += new ExperienceFeature(featureInstance)
+            case "resumeLength" =>
+              featuresList += new LengthFeature(featureInstance)
+            case "contactInfo" =>
+              featuresList += new ContactFeature(featureInstance)
+            case "relevance" =>
+              featuresList += new RelevanceFeature(featureInstance, bayesModel, idfModel)
+            case "keywords" =>
+              featuresList += new KeywordFeature(featureInstance)
+            case _ =>
+          }
         }
-
-
-        //Add it to the list of features
       }
     }
   }
@@ -112,6 +122,10 @@ class LogisticFeatureGenerator(bayesModel: NaiveBayesModel, idfModel: IDFModel, 
    */
   def getLogisticFeatureVec(applicant: ApplicantData): Vector = {
     val featureArray = scala.collection.mutable.ArrayBuffer.empty[Double]
+
+    for (feature <- featuresList) {
+      featureArray += feature.getFeatureScore(applicant)
+    }
 
     return Vectors.dense(featureArray.toArray[Double])
   }

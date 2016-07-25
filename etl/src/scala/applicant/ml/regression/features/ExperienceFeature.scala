@@ -1,10 +1,12 @@
 package applicant.ml.regression.features
 
 import applicant.etl.ApplicantData
+import applicant.ml.regression.FeatureSetting
 import scala.collection.mutable.ListBuffer
 
-class ExperienceFeature(newName: String) extends BaseFeature {
-  val name = newName
+class ExperienceFeature(newSetting: FeatureSetting) extends BaseFeature {
+  val setting = newSetting
+
   /**
    * Will look through a list of keywords and check if the search string contains
    *  any of them
@@ -57,23 +59,26 @@ class ExperienceFeature(newName: String) extends BaseFeature {
    *  the type of degree will scale the gpa
    *
    * @param applicant The applicant that is to be judged
-   * @param values a map of degree keywords and position keywords
    * @return A double corresponding to the level of historical aptitutde
    */
-  def getFeatureScore(applicant: ApplicantData, values: ListBuffer[Map[String,ListBuffer[AnyRef]]]): Double = {
+  def getFeatureScore(applicant: ApplicantData): Double = {
+
+    val infoMap: Map[String,ListBuffer[AnyRef]] = setting.values(0).asInstanceOf[Map[String,ListBuffer[AnyRef]]]
+    val positionKeywords = infoMap.asInstanceOf[ListBuffer[String]]
+    val degreeKeywords = infoMap.asInstanceOf[ListBuffer[String]]
     var rawGPA = applicant.gpa
 
     //Scale the gpa by the type of degree
-    if (checkDegree(applicant.degree, values(0)("degreeKeywords").asInstanceOf[ListBuffer[String]])) {
+    if (checkDegree(applicant.degree, degreeKeywords)) {
       rawGPA = gpaScaler(rawGPA, 0.5)
     } else {
       rawGPA *= gpaScaler(rawGPA, 0.25)
     }
 
     var positionScore = 0.0
-    positionScore = checkPosition(positionScore, applicant.recentTitle, values(0)("positionKeywords").asInstanceOf[ListBuffer[String]])
+    positionScore = checkPosition(positionScore, applicant.recentTitle, positionKeywords)
     for (position <- applicant.otherTitleList) {
-      positionScore = checkPosition(positionScore, applicant.recentTitle, values(0)("degreeKeywords").asInstanceOf[ListBuffer[String]])
+      positionScore = checkPosition(positionScore, applicant.recentTitle, positionKeywords)
     }
 
     val maxScore = Math.max(rawGPA, positionScore) / 4.0

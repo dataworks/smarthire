@@ -2,10 +2,11 @@ package applicant.ml.regression.features
 
 import applicant.etl.ApplicantData
 import applicant.etl.GeoUtils
+import applicant.ml.regression.FeatureSetting
 import scala.collection.mutable.{ListBuffer, HashMap}
 
-class ProximityFeature(newName : String, locationMap: HashMap[(String, String), (Double, Double)]) extends BaseFeature {
-  val name: String = newName
+class ProximityFeature(newSetting: FeatureSetting, locationMap: HashMap[(String, String), (Double, Double)]) extends BaseFeature {
+  val setting: FeatureSetting = newSetting
 
   /**
    * Will give a double from 0 - 1 based on distance
@@ -42,10 +43,9 @@ class ProximityFeature(newName : String, locationMap: HashMap[(String, String), 
    *  Will return a score for the proximity of the applicant to the job location
    *
    * @param applicant The applicant whose feature is checked
-   * @param values Any configurable options for the feature
    */
-  def getFeatureScore(applicant: ApplicantData, values: ListBuffer[AnyRef]): Double = {
-    val location1 = values(0).asInstanceOf[String]
+  def getFeatureScore(applicant: ApplicantData): Double = {
+    val location1 = setting.values(0).asInstanceOf[String]
     val location2 = applicant.recentLocation
 
     //Sanity check

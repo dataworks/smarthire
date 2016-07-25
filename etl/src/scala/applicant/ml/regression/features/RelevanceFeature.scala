@@ -2,14 +2,15 @@ package applicant.ml.regression.features
 
 import applicant.etl.ApplicantData
 import applicant.nlp.LuceneTokenizer
+import applicant.ml.regression.FeatureSetting
 import applicant.ml.naivebayes.{NaiveBayesFeatureGenerator, NaiveBayesHelper}
 
 import scala.collection.mutable.ListBuffer
 import org.apache.spark.mllib.classification.NaiveBayesModel
 import org.apache.spark.mllib.feature.IDFModel
 
-class RelevanceFeature(newName : String, naiveBayesModel: NaiveBayesModel, tfIdfModel: IDFModel) extends BaseFeature {
-  val name: String = newName
+class RelevanceFeature(newSetting: FeatureSetting, naiveBayesModel: NaiveBayesModel, tfIdfModel: IDFModel) extends BaseFeature {
+  val setting: FeatureSetting = newSetting
   val bayesModel: NaiveBayesModel = naiveBayesModel
   val idfModel: IDFModel = tfIdfModel
 
@@ -17,9 +18,8 @@ class RelevanceFeature(newName : String, naiveBayesModel: NaiveBayesModel, tfIdf
    *  Will return a score of the word frequency relevance
    *
    * @param applicant The applicant whose feature is checked
-   * @param values Any configurable options for the feature
    */
-  def getFeatureScore(applicant: ApplicantData, values: ListBuffer[AnyRef]): Double = {
+  def getFeatureScore(applicant: ApplicantData): Double = {
     val tokenList = LuceneTokenizer.getTokens(applicant.fullText)
     var scores = new ListBuffer[Double]()
 
@@ -30,7 +30,7 @@ class RelevanceFeature(newName : String, naiveBayesModel: NaiveBayesModel, tfIdf
 
     // Filter overconfident scores. Model confidence with vary more with larger training sets.
     scores = scores.filter { score =>
-        score < 0.95 && score > 0.05
+      score < 0.95 && score > 0.05
     }
 
     var result = 0.0
