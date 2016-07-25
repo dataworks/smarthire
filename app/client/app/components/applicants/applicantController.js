@@ -28,6 +28,7 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
     //for search dropdown
     $scope.searchTab = false;
 
+    // for graphs 
     $scope.queries = [$scope.languages, $scope.etl, $scope.web,
       $scope.mobile, $scope.db, $scope.bigData
     ];
