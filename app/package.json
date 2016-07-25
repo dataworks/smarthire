@@ -6,6 +6,7 @@
   "dependencies": {
     "angular": "^1.5.6",
     "angular-animate": "^1.5.6",
+    "angular-formly": "^8.2.1",
     "angular-resource": "^1.5.6",
     "angular-route": "^1.5.6",
     "angular-sanitize": "^1.5.6",
