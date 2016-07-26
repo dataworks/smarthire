@@ -157,7 +157,7 @@ object MlModelGenerator {
             }
 
             log.debug("Weights:")
-            log.debug(LogisticFeatureGenerator.getEmptyFeatureMap(settings).toString())
+            log.debug(generator.getFeatureList().toString())
             log.debug(logisticModel.weights.toString())
 
             LogisticRegressionHelper.saveModel(logisticModel, sc, options.logisticModelDirectory)

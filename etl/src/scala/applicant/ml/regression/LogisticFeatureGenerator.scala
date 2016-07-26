@@ -24,54 +24,6 @@ object LogisticFeatureGenerator {
     new LogisticFeatureGenerator(bayesModel, idfModel, settings, cityFileLoc)
   }
 
-  /**
-   *  Will return a list of the names of all the features that
-   *    were given in settings and are toggled on
-   *
-   *  @param settings The settings whose features are to be extracted
-   *  @return The list of feature names
-   */
-  def getFeatureList(settings : RegressionSettings) : List[String] = {
-    val featureNameList : ListBuffer[String] = new ListBuffer()
-
-    //For each FeatureType in settings (jobLocation, experience, etc.)
-    for (featureType <- settings.featureSettingMap) {
-      //For each feature in the feature type
-      for (featureInstanceTuple <- featureType._2) {
-        val featureInstance = featureInstanceTuple._2
-        //if the feature instance is turned on
-        if (featureInstance.enabled) {
-          //Add it to the feature list
-          featureNameList += featureInstance.name
-        }
-      }
-    }
-
-    return featureNameList.toList
-  }
-
-  /**
-   * Will return a map of feature names with zeros for scores
-   *
-   * @param settings The settings whose features will be mapped to 0
-   * @return a map of features to 0.0
-   */
-  def getEmptyFeatureMap(settings: RegressionSettings): Map[String, Double] = {
-    return this.getFeatureList(settings).map ( feature => (feature, 0.0) )(breakOut): Map[String,Double]
-  }
-
-  /**
-   * Will return a map of feature names with the provided values
-   *
-   * @param vec A vector of feature scores that are to be associated
-   *              with their feature names
-   * @return A map of feature names with their score
-   */
-  def getPopulatedFeatureMap(vec: Vector, settings: RegressionSettings): Map[String, Double] = {
-    val featureVals = vec.toArray
-    return (this.getFeatureList(settings) zip featureVals)(breakOut): Map[String,Double]
-  }
-
 }
 
 /**
@@ -125,6 +77,45 @@ class LogisticFeatureGenerator(bayesModel: NaiveBayesModel, idfModel: IDFModel, 
         }
       }
     }
+  }
+
+  /**
+   *  Will return a list of the names of all the features that
+   *    were given in settings and are toggled on
+   *
+   *  @param settings The settings whose features are to be extracted
+   *  @return The list of feature names
+   */
+  def getFeatureList() : List[String] = {
+    val featureNameList : ListBuffer[String] = new ListBuffer()
+
+    for (feature <- featuresList) {
+      featureNameList += feature.name
+    }
+
+    return featureNameList.toList
+  }
+
+  /**
+   * Will return a map of feature names with zeros for scores
+   *
+   * @param settings The settings whose features will be mapped to 0
+   * @return a map of features to 0.0
+   */
+  def getEmptyFeatureMap(): Map[String, Double] = {
+    return this.getFeatureList().map ( feature => (feature, 0.0) )(breakOut): Map[String,Double]
+  }
+
+  /**
+   * Will return a map of feature names with the provided values
+   *
+   * @param vec A vector of feature scores that are to be associated
+   *              with their feature names
+   * @return A map of feature names with their score
+   */
+  def getPopulatedFeatureMap(vec: Vector): Map[String, Double] = {
+    val featureVals = vec.toArray
+    return (this.getFeatureList() zip featureVals)(breakOut): Map[String,Double]
   }
 
   /**
