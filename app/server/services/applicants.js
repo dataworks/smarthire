@@ -17,6 +17,7 @@ exports.listApplicants = function(req, res, type) {
   if (req.query.query) { 
     esservice.query(config.applicants, req.query, res, {query_string: { query: req.query.query, default_operator: "AND" }}, function(res, hits, count) {
       var applicants = hits;
+      console.log(req.query);
       var labelQuery = buildQuery(res, hits, type, query);
       esservice.query(config.labels, applicants.length, res, labelQuery, function(res, hits) {
         //double for loop inefficient probably should switch to hashmap
@@ -111,7 +112,7 @@ exports.aggregations = function(res, type, field, query) {
         aggs(field, { query_string: { query: query, default_operator: "AND" }}, res);
       }
       else {
-        aggs(field, query, res);
+        aggs(field, {match_all: {}}, res);
       }
   }
 }

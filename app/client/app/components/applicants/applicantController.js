@@ -402,7 +402,8 @@ applicantControllers.controller('ApplicantCtrl', ['$sce', '$scope', '$location',
             query: $scope.searchText,
             field: $scope.fields[index]
           });
-        } else {
+        } 
+        else {
           $scope.queries[index] = analysis.query({
             type: type,
             field: $scope.fields[index]

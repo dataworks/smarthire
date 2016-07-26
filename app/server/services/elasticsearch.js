@@ -9,7 +9,7 @@ var elasticsearch = require('elasticsearch');
  * @param query - the query string
  * @param handler - call back function 
  */
-exports.query = function(config, params, res, query, handler) {
+exports.query = function(config, params, res, query, handler, aggs) {
   var client = new elasticsearch.Client({
     host: config.url
   });
@@ -39,7 +39,10 @@ exports.query = function(config, params, res, query, handler) {
           "*": {}
         },
         require_field_match: false
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4515fa2a64cc70f99878d9cda9aecf90e34e069c
       }
     }
   }).then(function(resp) {
@@ -137,7 +140,6 @@ exports.suggest = function(config, term, field, res) {
         }
       }
     }
-
   }).then(function(resp) {
     var hits = module.exports.getAutocompleteKeys(resp);
     var prefix = firstTerm.join(" ");
@@ -164,59 +166,32 @@ exports.aggregations = function(config, field, query, res) {
   var client = new elasticsearch.Client({
     host: config.url
   });
-
-  if (!query) {
-    client.search({
-      index: config.index,
-      type: config.type,
-      body: {
-        size: 0,
-        aggs: {
-          aggs_name: {
-            terms: {
-              size: 5,
-              field: field,
-              order: {
-                _count: "desc"
-              }
+  
+  client.search({
+    index: config.index,
+    type: config.type,
+    body: {
+      size: 0,
+      query: query,
+      aggs: {
+        aggs_name: {
+          terms: {
+            size: 5,
+            field: field,
+            order: {
+              _count: "desc"
             }
           }
         }
       }
-    }).then(function(resp) {
-      var hits = module.exports.getAggregationHits(resp);
-      module.exports.defaultHandler(res, hits, resp.hits.total, false);
-      client.close();
-    }, function(err) {
-      errorMessage(err, res);
-    });
-  } else {
-    client.search({
-      index: config.index,
-      type: config.type,
-      body: {
-        size: 0,
-        query: query,
-        aggs: {
-          aggs_name: {
-            terms: {
-              size: 5,
-              field: field,
-              order: {
-                _count: "desc"
-              }
-            }
-          }
-        }
-      }
-    }).then(function(resp) {
-      var hits = module.exports.getAggregationHits(resp);
-      module.exports.defaultHandler(res, hits, resp.hits.total, false);
-      client.close();
-    }, function(err) {
-      errorMessage(err, res);
-    });
-  }
+    }
+  }).then(function(resp) {
+    var hits = module.exports.getAggregationHits(resp);
+    module.exports.defaultHandler(res, hits, resp.hits.total, false);
+    client.close();
+  }, function(err) {
+    errorMessage(err, res);
+  });
 }
 
 
