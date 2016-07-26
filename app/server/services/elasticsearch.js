@@ -39,10 +39,6 @@ exports.query = function(config, params, res, query, handler, aggs) {
           "*": {}
         },
         require_field_match: false
-<<<<<<< HEAD
-
-=======
->>>>>>> 4515fa2a64cc70f99878d9cda9aecf90e34e069c
       }
     }
   }).then(function(resp) {
