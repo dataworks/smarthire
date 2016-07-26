@@ -103,12 +103,15 @@ class RegressionSettings() extends Serializable {
    * Returns a map of the internal data.
    * This map can be directly uploaded into the mlsettings elasticsearch index
    */
-  def toMap(): Map[String, Map[String, Map[String, Any]]] = {
-    return featureSettingMap.map { case (category, categoryMap) =>
+  def toMap(): Map[String, AnyRef] = {
+    val result: Map[String, AnyRef] = featureSettingMap.map { case (category, categoryMap) =>
       (category, categoryMap.map{ case (instance, setting) =>
         (instance, setting.toMap())
       })
     }
+
+    result += ("id" -> "master")
+    return result
   }
 }
 
