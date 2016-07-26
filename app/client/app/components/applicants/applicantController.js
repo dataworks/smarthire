@@ -441,7 +441,8 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
             query: $scope.searchText,
             field: $scope.fields[index]
           });
-        } else {
+        } 
+        else {
           $scope.queries[index] = analysis.query({
             type: type,
             field: $scope.fields[index]
@@ -450,7 +451,7 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
 
         $scope.queries[index].$promise.then(function(data) {
           $scope.charts.push(searchAnalysis.displayGraph(data, $scope.ids[index]));
-          });
+        });
       });
     }
 
