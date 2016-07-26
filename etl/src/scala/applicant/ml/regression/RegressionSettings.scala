@@ -70,7 +70,7 @@ object RegressionSettings {
     val webApp = new FeatureSetting("WebApp", true, ListBuffer("AngularJS","Javascript","Grails","Spring","Hibernate","node.js","CSS","HTML"))
     val mobile = new FeatureSetting("Mobile", true, ListBuffer("Android","iOS","Ionic","Cordova","Phonegap"))
     val languages = new FeatureSetting("Languages", true, ListBuffer("Java","Scala","Groovy","C","Python","Ruby","Haskell"))
-    val proximity = new FeatureSetting("Proximity", true, ListBuffer("Reston, VA"))
+    val proximity = new FeatureSetting("Proximity", true, ListBuffer(Map("location" -> "Reston, VA", "maxDistance" -> 4500000.0)))
     val contact = new FeatureSetting("ContactInfo", true, ListBuffer("linkedin", "github", "indeed", "urls", "email", "phone"))
     val length = new FeatureSetting("Resume Length", true, ListBuffer(3000.0: java.lang.Double))
     val experience = new FeatureSetting("Experience", true, ListBuffer(Map("positions" -> ListBuffer("technology", "computer", "information", "engineer", "developer", "software", "analyst", "application", "admin"), "degrees" -> ListBuffer("tech", "computer", "information", "engineer", "c.s.", "programming", "I.S.A.T."))))
