@@ -83,10 +83,10 @@ app.directive('autocomplete', function() {
       // selecting a suggestion with RIGHT ARROW or ENTER
       $scope.select = function(suggestion){
         if(suggestion){
-          $scope.searchParam = suggestion;
-          $scope.searchFilter = suggestion;
+          $scope.searchParam = suggestion.trim();
+          $scope.searchFilter = suggestion.trim();
           if($scope.onSelect)
-            $scope.onSelect(suggestion);
+            $scope.onSelect(suggestion.trim());
         }
         watching = false;
         $scope.completing = false;
@@ -107,7 +107,7 @@ app.directive('autocomplete', function() {
 
       // Default atts
       scope.attrs = {
-        "placeholder": "start typing...",
+        "placeholder": "Search here...",
         "class": "",
         "id": "",
         "inputclass": "",

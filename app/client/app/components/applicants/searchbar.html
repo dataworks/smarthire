@@ -4,7 +4,7 @@
     <!-- this is the icon that is inside of the search bar -->
       <i id="sb" class="glyphicon glyphicon-search" ng-click="search($parent.displayText)"></i>
       <!-- this is the code for the autocomplete feature -->
-      <autocomplete data="autoSuggest" type="text" ng-keyup="($event.keyCode == 13 && search($parent.displayText)); $event.keyCode == 13 && isSearch($parent.displayText)" id="search" ng-model="$parent.displayText" placeholder="Search here..." required></autocomplete>
+      <autocomplete data="autoSuggest" type="text" ng-keyup="($event.keyCode == 13 && search($parent.displayText)); $event.keyCode == 13 && isSearch($parent.displayText)" id="search" ng-model="$parent.displayText"></autocomplete>
       <div class="input-group-btn">
       <!-- this is for the advanced search button and drop down -->
         <div class="dropdown dropdown-lg">

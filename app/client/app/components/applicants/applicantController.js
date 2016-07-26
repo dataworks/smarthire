@@ -398,8 +398,8 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       $scope.displayText = searchText;
     }
 
-    /*
-     ** Returns aggregation data for graphs
+    /**
+     * Returns aggregation data for graphs
      *
      * @param search - boolean if it is for search or not
      */
