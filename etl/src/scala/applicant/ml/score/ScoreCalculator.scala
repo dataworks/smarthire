@@ -58,7 +58,7 @@ object ScoreCalculator {
     }
 
     if (!options.everyone && appRDD.isEmpty()) {
-      println("All applicants already scored, exiting process.")
+      log.warn("All applicants already scored, exiting process.")
       System.exit(0)
     }
 
@@ -77,7 +77,7 @@ object ScoreCalculator {
 
       //Make sure that each feature score is saved in the applicant
       val scaledFeatures = LogisticRegressionHelper.weightifyFeatureScores(features, regressionModel.get)
-      app.featureScores = LogisticFeatureGenerator.getPopulatedFeatureMap(scaledFeatures, settings)
+      app.featureScores = generator.getPopulatedFeatureMap(scaledFeatures)
 
       app.toMap
     }.saveToEs(options.esAppIndex + "/applicant", Map("es.mapping.id" -> "id"))

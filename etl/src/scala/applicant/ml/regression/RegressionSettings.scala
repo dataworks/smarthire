@@ -1,7 +1,10 @@
 package applicant.ml.regression
 
-import scala.collection.mutable.Map
+import applicant.etl.EsUtils
+
+import scala.collection.mutable.{ListBuffer, Map}
 import scala.collection.JavaConversions._
+import scala.collection.breakOut
 
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkContext._
@@ -12,68 +15,34 @@ import org.elasticsearch.spark._
 object RegressionSettings {
 
   /**
-   * Will check if a boolean is None and
-   */
-  private def getBool(value: AnyRef): Boolean = {
-    if (value == None) {
-      return true
-    }
-    return value.asInstanceOf[Boolean]
-  }
-
-  /**
-   * Will check if a list option is Some or None and set a list pointer accordingly
-   */
-  private def getList(value: AnyRef): List[String] = {
-    if (value == None) {
-      return List()
-    }
-    return value.asInstanceOf[JListWrapper[String]].toList
-  }
-
-  /**
-   * Will check if a list of pair of string and list is None and convert it accordingly
-   */
-  private def getMap(value: AnyRef): Map[String, List[String]] = {
-    if (value == None) {
-      return Map.empty[String, List[String]]
-    }
-    val intermediateMap = value.asInstanceOf[Map[String, JListWrapper[String]]]
-    return intermediateMap.map { case (str, lst) =>
-      (str, lst.toList)
-    }
-  }
-
-
-  /**
-   * Will check if a string is None and cast it accordingly
-   */
-  private def getString(value: AnyRef): String = {
-    if (value == None) {
-      return ""
-    }
-    return value.asInstanceOf[String]
-  }
-
-  /**
    * Constructor for the map that is returned from the mlsettings index in elasticsearch.
    * The map is parsed into the RegressionSettings object.
    */
   def apply(elasticMap: scala.collection.Map[String, AnyRef]): RegressionSettings = {
     val result = new RegressionSettings()
 
-    //Go through the map from elasticsearch and populate the member fields
-    result.wordRelevanceToggle = getBool(elasticMap("wordRelevanceToggle"))
-    result.keywordsToggle = getBool(elasticMap("keywordsToggle"))
-    result.distanceToggle = getBool(elasticMap("distanceToggle"))
-    result.contactInfoToggle = getBool(elasticMap("contactInfoToggle"))
-    result.resumeLengthToggle = getBool(elasticMap("resumeLengthToggle"))
-    result.experienceToggle = getBool(elasticMap("experienceToggle"))
+    val intermediateMap: Map[String, Map[String, Map[String, AnyRef]]] = elasticMap.asInstanceOf[Map[String, Map[String, Map[String, AnyRef]]]]
 
-    result.keywordLists = getMap(elasticMap("keywordLists"))
-    result.positionKeywords = getList(elasticMap("positionKeywords"))
-    result.degreeKeywords = getList(elasticMap("degreeKeywords"))
-    result.jobLocation = getString(elasticMap("jobLocation"))
+    //for each general feature type
+    for (featureTypeMap <- intermediateMap) {
+
+      //Create a map that will store the feature instances with each of their settings
+      val currentFeatureMap: Map[String, FeatureSetting] = Map()
+
+      //for each instance of the feature type
+      for (featureInstanceMap <- featureTypeMap._2) {
+
+        //Get the name, enabled field, and values
+        val currentFeatureName = EsUtils.checkSomeString(featureInstanceMap._2.get("name"))
+        val currentFeatureToggle = EsUtils.checkSomeBool(featureInstanceMap._2.get("enabled"))
+        val currentFeatureValues = EsUtils.checkSomeList(featureInstanceMap._2.get("values"))
+
+        currentFeatureMap += (featureInstanceMap._1 -> new FeatureSetting(currentFeatureName, currentFeatureToggle, currentFeatureValues))
+      }
+
+      //Add the current feature map to the featureSettingMap
+      result.featureSettingMap += (featureTypeMap._1 -> currentFeatureMap)
+    }
 
     return result
   }
@@ -83,7 +52,7 @@ object RegressionSettings {
    *  creates a RegressionSettings out of the results.
    */
   def apply(sc: SparkContext): RegressionSettings = {
-    val settingsMap = sc.esRDD("mlsettings/settings").first()
+    val settingsMap = sc.esRDD("settings/setting").first()
     return apply(settingsMap._2)
   }
 
@@ -93,63 +62,65 @@ object RegressionSettings {
    */
   def apply(): RegressionSettings = {
     val result = new RegressionSettings()
-    result.wordRelevanceToggle = true
-    result.keywordsToggle = true
-    result.distanceToggle = true
-    result.contactInfoToggle = true
-    result.resumeLengthToggle = true
-    result.experienceToggle = true
+    //Create a Feature Setting for all of the features that need to be included
+    val relevance = new FeatureSetting("Relevance", true, ListBuffer())
+    val bigData = new FeatureSetting("BigData", true, ListBuffer("Spark","Hadoop","HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS","HDFS","MapReduce","Yarn","Solr","Avro","Lucene","Kibana", "Kafka"))
+    val databases = new FeatureSetting("Databases", true, ListBuffer("Oracle","Postgresql","Mysql","SQL"))
+    val etl = new FeatureSetting("ETL", true, ListBuffer("Pentaho","Informatica","Streamsets","Syncsort"))
+    val webApp = new FeatureSetting("WebApp", true, ListBuffer("AngularJS","Javascript","Grails","Spring","Hibernate","node.js","CSS","HTML"))
+    val mobile = new FeatureSetting("Mobile", true, ListBuffer("Android","iOS","Ionic","Cordova","Phonegap"))
+    val languages = new FeatureSetting("Languages", true, ListBuffer("Java","Scala","Groovy","C","Python","Ruby","Haskell"))
+    val proximity = new FeatureSetting("Proximity", true, ListBuffer(Map("location" -> "Reston, VA", "maxDistance" -> 4500000.0)))
+    val contact = new FeatureSetting("ContactInfo", true, ListBuffer("linkedin", "github", "indeed", "urls", "email", "phone"))
+    val length = new FeatureSetting("Resume Length", true, ListBuffer(3000.0: java.lang.Double))
+    val experience = new FeatureSetting("Experience", true, ListBuffer(Map("positions" -> ListBuffer("technology", "computer", "information", "engineer", "developer", "software", "analyst", "application", "admin"), "degrees" -> ListBuffer("tech", "computer", "information", "engineer", "c.s.", "programming", "I.S.A.T."))))
 
-    result.keywordLists = Map(("Big Data" -> List("Spark","Hadoop","HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS","HDFS","MapReduce","Yarn","Solr","Avro","Lucene","Kibana", "Kafka")),
-    ("Databases" -> List("Oracle","Postgresql","Mysql","SQL")),
-    ("Etl" -> List("Pentaho","Informatica","Streamsets","Syncsort")),
-    ("WebApp" -> List("AngularJS","Javascript","Grails","Spring","Hibernate","node.js","CSS","HTML")),
-    ("Mobile" -> List("Android","iOS","Ionic","Cordova","Phonegap")),
-    ("Languages" -> List("Java","Scala","Groovy","C","Python","Ruby","Haskell")))
+    val fullMap: Map[String, Map[String, FeatureSetting]] = Map()
 
-    result.positionKeywords = List("technology", "computer", "information", "engineer", "developer", "software", "analyst", "application", "admin")
+    val relevanceMap = Map("relevance" -> relevance)
+    val keywordsMap = Map("bigData" -> bigData, "dbms" -> databases, "etl" -> etl, "webApp" -> webApp, "mobile" -> mobile, "languages" -> languages)
+    val proximityMap = Map("reston" -> proximity)
+    val contactMap = Map("allInfo" -> contact)
+    val lengthMap = Map("standardLength" -> length)
+    val experienceMap = Map("techExperience" -> experience)
 
-    result.degreeKeywords = List("tech", "computer", "information", "engineer", "c.s.", "programming", "I.S.A.T.")
+    result.featureSettingMap += ("relevance" -> relevanceMap)
+    result.featureSettingMap += ("keywords" -> keywordsMap)
+    result.featureSettingMap += ("jobLocation" -> proximityMap)
+    result.featureSettingMap += ("contactInfo" -> contactMap)
+    result.featureSettingMap += ("resumeLength" -> lengthMap)
+    result.featureSettingMap += ("experience" -> experienceMap)
 
-    result.jobLocation = "Reston, VA"
     return result
   }
 
 }
 
 class RegressionSettings() extends Serializable {
-  //Toggles to turn features on or off
-  var wordRelevanceToggle, keywordsToggle, distanceToggle, contactInfoToggle, resumeLengthToggle, experienceToggle: Boolean = false
-
-  //The location that you wish to measure distance from. Should be formatted similar to "Reston, VA"
-  var jobLocation: String = ""
-
-  //The set of keywords to look for
-  var keywordLists = Map.empty[String, List[String]]
-
-  //A list of words that relate to the required job opening
-  var positionKeywords = List[String]()
-
-  //A list of words that relate to the degrees that are relevant
-  var degreeKeywords = List[String]()
+  val featureSettingMap: Map[String, Map[String, FeatureSetting]] = Map()
 
   /**
    * Returns a map of the internal data.
    * This map can be directly uploaded into the mlsettings elasticsearch index
    */
+  def toMap(): Map[String, AnyRef] = {
+    val result: Map[String, AnyRef] = featureSettingMap.map { case (category, categoryMap) =>
+      (category, categoryMap.map{ case (instance, setting) =>
+        (instance, setting.toMap())
+      })
+    }
+
+    result += ("id" -> "master")
+    return result
+  }
+}
+
+class FeatureSetting(featureName: String, isEnabled: Boolean, featureValues: ListBuffer[AnyRef]) extends Serializable {
+  val name: String = featureName
+  val enabled: Boolean = isEnabled
+  val values = featureValues
+
   def toMap(): Map[String, Any] = {
-    return Map (
-      "id" -> "current",
-      "wordRelevanceToggle" -> wordRelevanceToggle,
-      "keywordsToggle" -> keywordsToggle,
-      "distanceToggle" -> distanceToggle,
-      "contactInfoToggle" -> contactInfoToggle,
-      "resumeLengthToggle" -> resumeLengthToggle,
-      "experienceToggle" -> experienceToggle,
-      "keywordLists" -> keywordLists,
-      "positionKeywords" -> positionKeywords,
-      "degreeKeywords" -> degreeKeywords,
-      "jobLocation" -> jobLocation
-    )
+    return if (values.isEmpty) Map("name" -> name, "enabled" -> enabled) else Map("name" -> name, "enabled" -> enabled, "values" -> values)
   }
 }

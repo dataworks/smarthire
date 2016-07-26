@@ -37,7 +37,7 @@ object DefaultSettingsSetter {
 
     log.info("Created default RegressionSettings")
 
-    sc.parallelize(Seq(settings.toMap)).saveToEs(options.esSettingsIndex + "/settings", Map("es.mapping.id" -> "id"))
+    sc.parallelize(Seq(settings.toMap)).saveToEs(options.esSettingsIndex + "/setting", Map("es.mapping.id" -> "id", "es.mapping.exclude" -> "id"))
 
     log.info("RegressionSettings saved to Elasticsearch")
   }

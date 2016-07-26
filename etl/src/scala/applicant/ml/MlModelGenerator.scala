@@ -139,6 +139,7 @@ object MlModelGenerator {
         IDFHelper.loadModel(options.idfModelDirectory) match {
           case Some(idfModel) =>
             val settings = RegressionSettings(sc)
+
             val generator = LogisticFeatureGenerator(bayesModel, idfModel, settings, options.cityfilelocation)
             applicantDataList.foreach { applicant =>
               val applicantScore = labelsHashMap(applicant.applicantid)
@@ -156,6 +157,7 @@ object MlModelGenerator {
             }
 
             log.debug("Weights:")
+            log.debug(generator.getFeatureList().toString())
             log.debug(logisticModel.weights.toString())
 
             LogisticRegressionHelper.saveModel(logisticModel, sc, options.logisticModelDirectory)
