@@ -3,7 +3,7 @@ package applicant.ml.regression.features
 import applicant.etl.ApplicantData
 import applicant.etl.GeoUtils
 import applicant.ml.regression.FeatureSetting
-import scala.collection.mutable.{ListBuffer, HashMap}
+import scala.collection.mutable.{ListBuffer, HashMap, Map}
 
 class ProximityFeature(newSetting: FeatureSetting, locationMap: HashMap[(String, String), (Double, Double)]) extends BaseFeature {
   val setting: FeatureSetting = newSetting
