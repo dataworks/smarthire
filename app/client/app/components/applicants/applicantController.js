@@ -1,4 +1,4 @@
-applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 'Analysis', 'Applicant', 'Label', 'Suggest', 'Upload', '$window', 'ngToast', '$timeout', 'advancedSearch', 'chartService',
+applicantControllers.controller('ApplicantCtrl', ['$sce', '$scope', '$location', 'Analysis', 'Applicant', 'Label', 'Suggest', 'Upload', '$window', 'ngToast', '$timeout', 'advancedSearch', 'chartService',
   function($sce, $scope, $location, analysis, Applicant, Label, Suggest, Upload, $window, ngToast, $timeout, advancedSearch, chartService) {
 
     //default dropdown menu to 'new' on page load
@@ -40,13 +40,12 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
     /**
      * function that expands/collapses the rows for all applicants
      */
-    $('.openall').click(function(){
+    $('.openall').click(function() {
       if ($scope.active) {
         $scope.active = false;
         $('.accordian-body:not(".in")').collapse('show');
         $(this).find('i').toggleClass('glyphicon glyphicon-plus-sign').toggleClass('glyphicon glyphicon-minus-sign');
-      } 
-      else {
+      } else {
         $scope.active = true;
         $('.accordian-body.in').collapse('hide');
         $(this).find('i').toggleClass('glyphicon glyphicon-minus-sign').toggleClass('glyphicon glyphicon-plus-sign');
@@ -109,9 +108,7 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       if ($scope.sortOrder == "asc") {
         $scope.sortOrder = "desc";
         $scope.reverse = false;
-      } 
-
-      else if ($scope.sortOrder == "desc") {
+      } else if ($scope.sortOrder == "desc") {
         $scope.sortOrder = "asc";
         $scope.reverse = true;
       }
@@ -144,7 +141,7 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
         sort: $scope.sort,
         order: $scope.sortOrder
       });
-      if(type != 'search'){
+      if (type != 'search') {
         $scope.searchTab = false;
 
       }
@@ -183,7 +180,7 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       if ($scope.hasData) {
         $scope.loadingData = true;
         $scope.index += $scope.pageSize;
-        
+
         Applicant.query({
           query: $scope.searchText,
           type: $scope.selection,
@@ -244,29 +241,21 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
     $scope.showToast = function(type) {
       if (type == 'Favorite') {
         ngToast.create("Applicant added to Favorites");
-      }
-
-      else if (type == 'Review') {
+      } else if (type == 'Review') {
         ngToast.create({
           className: 'warning',
           content: 'Applicant added to Review'
         });
 
-      }
-
-      else if (type == 'Archive') {
+      } else if (type == 'Archive') {
         ngToast.create({
           className: 'danger',
           content: 'Applicant added to Archive'
         });
 
-      }
-
-      else if (type == 'Upload') {
+      } else if (type == 'Upload') {
         ngToast.create("Resume has been Uploaded");
-      }
-
-      else {
+      } else {
         ngToast.create({
           className: 'info',
           content: 'Applicant sent back to home page'
@@ -291,47 +280,47 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
      */
     $scope.showScoreChart = function(applicant) {
       chartService.createScoreChart(applicant);
-    }    
+    }
 
-   /**
-    * styles words in an applicant's summary that matches a skill listed on his/her resume
-    *
-    * @param applicant - current applicant
-    * @return word in HTML format to replace matched word in summary for styling
-    */
+    /**
+     * styles words in an applicant's summary that matches a skill listed on his/her resume
+     *
+     * @param applicant - current applicant
+     * @return word in HTML format to replace matched word in summary for styling
+     */
     $scope.highlightSkills = function(applicant) {
-     var skills = applicant.skills.bigdata;
-     skills = skills.concat(applicant.skills.database);
-     skills = skills.concat(applicant.skills.etl);
-     skills = skills.concat(applicant.skills.webapp);
-     skills = skills.concat(applicant.skills.mobile);
-     skills = skills.concat(applicant.skills.language);
+      var skills = applicant.skills.bigdata;
+      skills = skills.concat(applicant.skills.database);
+      skills = skills.concat(applicant.skills.etl);
+      skills = skills.concat(applicant.skills.webapp);
+      skills = skills.concat(applicant.skills.mobile);
+      skills = skills.concat(applicant.skills.language);
 
-     var summary = applicant.summary;
-     for (i = 0; i < skills.length; i++) {
-       summary = summary.replace(skills[i], "<span style = 'color:#673AB7 ;'>" + skills[i] + "</span>");
-     }
+      var summary = applicant.summary;
+      for (i = 0; i < skills.length; i++) {
+        summary = summary.replace(skills[i], "<span style = 'color:#673AB7 ;'>" + skills[i] + "</span>");
+      }
 
-     return $sce.trustAsHtml(summary);
-   }
+      return $sce.trustAsHtml(summary);
+    }
 
-  /**
-    * function that grabs applicants' skills and renders it as HTML for highlighting purposes
-    * @param skills - skills of the applicants in list format
-    * @return - returns skills in HTML format 
-    */
+    /**
+     * function that grabs applicants' skills and renders it as HTML for highlighting purposes
+     * @param skills - skills of the applicants in list format
+     * @return - returns skills in HTML format 
+     */
     $scope.getSkills = function(skills) {
       return $sce.trustAsHtml(skills.join(", "));
     }
 
-  /**
-    * function that grabs applicants' information and renders it as HTML for highlighting purposes
-    * @param skills - id of applicant
-    * @return - returns information in HTML format 
-    */
+    /**
+     * function that grabs applicants' information and renders it as HTML for highlighting purposes
+     * @param skills - id of applicant
+     * @return - returns information in HTML format 
+     */
     $scope.getCurrentInfo = function(applicant) {
-       return $sce.trustAsHtml(applicant.currentLocation.organization + "<br>" + applicant.currentLocation.location +
-       "<br>"  + applicant.currentLocation.title);
+      return $sce.trustAsHtml(applicant.currentLocation.organization + "<br>" + applicant.currentLocation.location +
+        "<br>" + applicant.currentLocation.title);
     }
 
     /** 
@@ -346,25 +335,24 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       return "service/attachments?id=" + id + "&type=" + type;
     }
 
-  /**
-    * determines when a search query has been entered
-    * @param text - text entered in searchbar
-    */
-    $scope.isSearch = function(text){
-      if(text != ""){
+    /**
+     * determines when a search query has been entered
+     * @param text - text entered in searchbar
+     */
+    $scope.isSearch = function(text) {
+      if (text != "") {
         $scope.searchTab = true;
         $scope.selection = 'search';
-      }
-      else if(text == ""){
+      } else if (text == "") {
         $scope.selection = 'new';
         $scope.searchTab = false;
       }
     }
 
-  /**
-    * creates a temporary tab called 'Search' when a query is entered
-    */
-    $scope.searched = function(){
+    /**
+     * creates a temporary tab called 'Search' when a query is entered
+     */
+    $scope.searched = function() {
       return $scope.searchTab;
     }
 
@@ -383,7 +371,7 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       if ($scope.searchText.charAt(0) == " ") {
         $scope.searchText = $scope.searchText.substring(5, $scope.searchText.length);
       }
-      
+
       $scope.applicants = Applicant.query({
         type: $scope.selection,
         query: $scope.searchText,
@@ -403,18 +391,19 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
      *
      * @param search - boolean if it is for search or not
      */
-    $scope.getAggregations = function (search, type) {
-      for(var i = 0; i < $scope.charts.length; i++) {
+    $scope.getAggregations = function(search, type) {
+      for (var i = 0; i < $scope.charts.length; i++) {
         $scope.charts[i].destroy();
       }
 
       $scope.queries.forEach(function(value, index) {
-        if(search) {
+        if (search) {
           $scope.queries[index] = analysis.query({
             query: $scope.searchText,
             field: $scope.fields[index]
           });
-        } else {
+        } 
+        else {
           $scope.queries[index] = analysis.query({
             type: type,
             field: $scope.fields[index]
@@ -423,7 +412,7 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
 
         $scope.queries[index].$promise.then(function(data) {
           $scope.charts.push(chartService.displayGraph(data, $scope.ids[index]));
-          });
+        });
       });
     }
 
@@ -433,15 +422,15 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
      */
     $scope.upload = function() {
       var files = document.querySelector('input[type=file]').files;
-      for(var i = 0; i < files.length; i++) {
+      for (var i = 0; i < files.length; i++) {
         (function(file) {
           var reader = new FileReader();
 
-          reader.addEventListener("load", function () {
+          reader.addEventListener("load", function() {
             var temp = reader.result.split(',');
             var base64string = temp[1];
             var hash = calcMD5(base64string);
-            
+
             var upload = new Upload({
               'id': hash,
               'type': 'upload',
@@ -453,7 +442,7 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
             upload.$save();
           }, false);
 
-          if(file)
+          if (file)
             reader.readAsDataURL(file);
         })(files[i]);
       }
@@ -489,20 +478,21 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       }
     });
 
-  }]);
+  }
+]);
 
 
 /**
-*
-* A custom directive to bind file upload
-* 
-* @param: The attributes name
-* @param: A callback function which binds the upload function to the attribute
-*/
+ *
+ * A custom directive to bind file upload
+ * 
+ * @param: The attributes name
+ * @param: A callback function which binds the upload function to the attribute
+ */
 applicantControllers.directive('customOnChange', function() {
   return {
     restrict: 'A',
-    link: function (scope, element, attrs) {
+    link: function(scope, element, attrs) {
       var onChangeFunc = scope.$eval(attrs.customOnChange);
       element.bind('change', onChangeFunc);
     }

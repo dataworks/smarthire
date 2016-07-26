@@ -21,21 +21,23 @@ app.use(express.static("client"));
 app.use(express.static("node_modules"));
 
 //max file size for uploads
-app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.json({
+  limit: '50mb'
+}));
 
 //code for login/login authentication
 var session = require('express-session');
 app.use(session({
   secret: "no",
   resave: false,
-  saveUninitialized:false,
+  saveUninitialized: false,
   name: "test"
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 
 //parses the text as url encoded data and exposes the resulting object on req.body
-app.use(bodyParser.urlencoded({ 
+app.use(bodyParser.urlencoded({
   extended: true
 }));
 
@@ -91,8 +93,8 @@ app.get("/service/attachments", function(req, res) {
  * @param route - Routes HTTP POST requests to the specified path
  * @param callback function - Calls a service method to index the attachments
  */
-app.post("/service/uploads", function(req,res) {
-  uploadService.indexUploads(req,res);
+app.post("/service/uploads", function(req, res) {
+  uploadService.indexUploads(req, res);
 });
 
 /**
@@ -136,7 +138,7 @@ root.get("/", function(req, res) {
  * HTTP GET for logging out a user, redirects to home page
  *
  */
-app.get('/service/logout', function(req, res){
+app.get('/service/logout', function(req, res) {
   req.logout();
   req.session.destroy();
   res.redirect('/app');
@@ -149,7 +151,9 @@ app.get('/service/auth', passport.authenticate('github'));
  * HTTP GET for trying to authenticate user. if authentication fails, redirect to failure page
  *
  */
-app.get('/service/auth/callback', passport.authenticate('github', { failureRedirect: '/app/admin_failure' }),
+app.get('/service/auth/callback', passport.authenticate('github', {
+    failureRedirect: '/app/admin_failure'
+  }),
   function(req, res) {
     res.redirect('/app/admin');
   }
@@ -201,7 +205,7 @@ var tokens = fs.readFileSync(__dirname + '/' + 'oauth').toString().split("\n");
 var GithubStrategy = require('passport-github2').Strategy;
 
 passport.use(new GithubStrategy({
-    clientID:  tokens[0],
+    clientID: tokens[0],
     clientSecret: tokens[1],
     callbackURL: tokens[2],
   },
@@ -218,7 +222,7 @@ passport.use(new GithubStrategy({
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     // req.user is available for use here
-    return next(); 
+    return next();
   }
 
   res.redirect('/app/admin_failure');
