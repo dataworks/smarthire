@@ -30,7 +30,7 @@ exports.query = function(config, params, res, query, handler) {
     size: params ? params.size : null,
     body: {
       sort: sort ? [sort] : null,
-      query: query, 
+      query: query,
       highlight: {
         number_of_fragments: 0,
         pre_tags: ["<mark>"],
@@ -38,13 +38,13 @@ exports.query = function(config, params, res, query, handler) {
         fields: {
           "*": {}
         },
-      require_field_match: false
-     
-   }
+        require_field_match: false
+
+      }
     }
   }).then(function(resp) {
     // Parse ES response and send result back
-    var hits = module.exports.parseSearchHits(resp, res); 
+    var hits = module.exports.parseSearchHits(resp, res);
 
     if (handler) {
       handler(res, hits, resp.hits.total);
@@ -77,7 +77,7 @@ exports.parseSearchHits = function(resp, res) {
       }
     }
     return source;
-    
+
   });
 }
 
@@ -137,7 +137,7 @@ exports.suggest = function(config, term, field, res) {
         }
       }
     }
-  
+
   }).then(function(resp) {
     var hits = module.exports.getAutocompleteKeys(resp);
     var prefix = firstTerm.join(" ");
@@ -348,21 +348,20 @@ function merge(object, key, value, excludes) {
 
     // Find child object
     if (key.length > 1) {
-     for (var x = 0; x < key.length - 1; x++) {
-       object = object[key[x]];
+      for (var x = 0; x < key.length - 1; x++) {
+        object = object[key[x]];
       }
     }
 
     // If the objects is an array, replace array element. Else replace entire value.
     if (object[key[key.length - 1]] instanceof Array) {
-     var element = object[key[key.length - 1]];
+      var element = object[key[key.length - 1]];
       for (var x = 0; x < element.length; x++) {
-       if (value.indexOf(element[x]) > -1) {
+        if (value.indexOf(element[x]) > -1) {
           element[x] = value;
         }
       }
-   }
-    else {
+    } else {
       object[key[key.length - 1]] = value;
     }
   }
