@@ -63,7 +63,7 @@ object RegressionSettings {
   def apply(): RegressionSettings = {
     val result = new RegressionSettings()
     //Create a Feature Setting for all of the features that need to be included
-    val relevance = new FeatureSetting("Relevance", true, ListBuffer("yes"))
+    val relevance = new FeatureSetting("Relevance", true, ListBuffer())
     val bigData = new FeatureSetting("BigData", true, ListBuffer("Spark","Hadoop","HBase","Hive","Cassandra","MongoDB","Elasticsearch","Docker","AWS","HDFS","MapReduce","Yarn","Solr","Avro","Lucene","Kibana", "Kafka"))
     val databases = new FeatureSetting("Databases", true, ListBuffer("Oracle","Postgresql","Mysql","SQL"))
     val etl = new FeatureSetting("ETL", true, ListBuffer("Pentaho","Informatica","Streamsets","Syncsort"))
@@ -121,6 +121,6 @@ class FeatureSetting(featureName: String, isEnabled: Boolean, featureValues: Lis
   val values = featureValues
 
   def toMap(): Map[String, Any] = {
-    return Map("name" -> name, "enabled" -> enabled, "values" -> values)
+    return if (values.isEmpty) Map("name" -> name, "enabled" -> enabled) else Map("name" -> name, "enabled" -> enabled, "values" -> values)
   }
 }
