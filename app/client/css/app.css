@@ -8,7 +8,7 @@
   height: 100%;
 }
 
- /*only for edge*/
+/*only for edge*/
 @supports ( -ms-accelerator:true ) {
   .container{
     height: 0%;
@@ -22,7 +22,7 @@
 /*for firefox*/
 @-moz-document url-prefix() {
   .nav{
-    width: 43% !important;
+    width: 44% !important;
   }
 }
 
@@ -33,42 +33,7 @@
 
 .page-header{
   border-bottom: 0;
-}
-
-@media (max-width: 767px) {
-  .navbar-header > p{
-    margin-left: 1.5%;
-    width: 200%;
-  }
-  .dwl{
-    padding-top: 1.5%;
-  }
-  .footer{
-    height: 80px;
-    width: 100%;
-  }
-
-
-  #fb{
-    padding-top: 1.5%;
-  }
-  #li{
-    padding-top: 1.5%;
-  }
-  #tw{
-    padding-top: 1.5%;
-  }
-  #gt{
-    padding-top: 1.5%;
-  }
-
-  .content{
-    padding-top: 25%; 
-  }
-
-  .nav{
-    float: left !important;
-  }
+  text-align: center;
 }
 
 #bb { 
@@ -112,7 +77,6 @@
   background-color: white;
 }
 
-
 .navbar-default {
   background-color: #0072c6;
   font-family: 'Gurajada', serif;
@@ -136,7 +100,6 @@
   padding-top: .5%;
 }
 
-
 .nav.navbar-nav li a {
   font-weight: bold;
   color: white;
@@ -146,9 +109,8 @@
 .nav.navbar-nav li a:hover, .nav.navbar-nav li a:focus{
   color: #fbfc00;
 }
- 
 
- .dropdown-menu li a{
+.dropdown-menu li a{
   color: black !important;
   font-size: 125% !important;
   font-family: 'Raleway', sans-serif !important;
@@ -161,6 +123,7 @@ body {
 }
 
 
+/*photos in the footer*/
 #dw {
 	margin-top: .5%;
   left: 5%;
@@ -215,12 +178,6 @@ body {
   width: auto;
   z-index: 10;
 }
-
-.page-header{
-  text-align: center;
-}
-
-
 
 /* Sticky footer styles
 -------------------------------------------------- */

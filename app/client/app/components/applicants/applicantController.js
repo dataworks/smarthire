@@ -1,5 +1,5 @@
-applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 'Analysis', 'Applicant', 'Label', 'Suggest', 'Upload', '$window', 'ngToast', '$timeout', 'advancedSearch', 'searchAnalysis',
-  function($sce, $scope, $location, analysis, Applicant, Label, Suggest, Upload, $window, ngToast, $timeout, advancedSearch, searchAnalysis) {
+applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 'Analysis', 'Applicant', 'Label', 'Suggest', 'Upload', '$window', 'ngToast', '$timeout', 'advancedSearch', 'chartService',
+  function($sce, $scope, $location, analysis, Applicant, Label, Suggest, Upload, $window, ngToast, $timeout, advancedSearch, chartService) {
 
     //default dropdown menu to 'new' on page load
     $scope.selection = "new";
@@ -28,6 +28,7 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
     //for search dropdown
     $scope.searchTab = false;
 
+    // for graphs 
     $scope.queries = [$scope.languages, $scope.etl, $scope.web,
       $scope.mobile, $scope.db, $scope.bigData
     ];
@@ -77,6 +78,9 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       order: $scope.sortOrder
     });
 
+    /**
+     * function that sets boolean that determines whether search pie charts are shown or not
+     */
     $scope.setGraphBool = function() {
       if ($scope.showGraphs == false) {
         $scope.showGraphs = true;
@@ -280,62 +284,14 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       return parseInt((score * 100), 10);
     }
 
-    $scope.createScoreChart = function(applicant) {
-      var keys = [];
-      var values = [];
-      var finalValues = [];
-
-      //sort from least to greatest, switch a & b for opposite
-      var keysSorted = Object.keys(applicant.features).sort(function(a,b) {
-        return applicant.features[b]-applicant.features[a]});
-
-
-      for(var key in keysSorted) {
-        keys.push(keysSorted[key]);
-        values.push((parseFloat(applicant.features[keysSorted[key]])).toFixed(2));
-      }
-
-      finalValues.push(values);
-
-      var data = {
-        labels: keys,
-        series: finalValues,
-      };
-
-      var options = {
-        high: 5,
-        low: -5,
-        width: 900,
-        height: 275,
-      };
-
-      var responsiveOptions = [
-      // ipad
-        ['screen and (min-width: 768px) and (max-width: 991px)', {
-          width: 760,
-          height: 175,
-          axisX: {
-            labelInterpolationFnc: function (value) {
-              return value;
-            }
-          }
-        }],
-        // phone
-        ['screen and (max-width: 767px)', {
-          width: 420,
-          height: 175,
-          axisX: {
-            labelInterpolationFnc: function (value) {
-              return value.substring(0,3);
-            }
-          }
-        }]
-      ];
-
-      var bar = new Chartist.Bar("#chart-" + applicant.id, data, options, responsiveOptions);
-
-      // return bar;
-    }
+    /**
+     * calls logic in chartService to create a bar graph for the scoring breakdown
+     *
+     * @param applicant - id of applicant
+     */
+    $scope.showScoreChart = function(applicant) {
+      chartService.createScoreChart(applicant);
+    }    
 
    /**
     * styles words in an applicant's summary that matches a skill listed on his/her resume
@@ -359,10 +315,20 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
      return $sce.trustAsHtml(summary);
    }
 
+  /**
+    * function that grabs applicants' skills and renders it as HTML for highlighting purposes
+    * @param skills - skills of the applicants in list format
+    * @return - returns skills in HTML format 
+    */
     $scope.getSkills = function(skills) {
       return $sce.trustAsHtml(skills.join(", "));
     }
 
+  /**
+    * function that grabs applicants' information and renders it as HTML for highlighting purposes
+    * @param skills - id of applicant
+    * @return - returns information in HTML format 
+    */
     $scope.getCurrentInfo = function(applicant) {
        return $sce.trustAsHtml(applicant.currentLocation.organization + "<br>" + applicant.currentLocation.location +
        "<br>"  + applicant.currentLocation.title);
@@ -380,6 +346,10 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       return "service/attachments?id=" + id + "&type=" + type;
     }
 
+  /**
+    * determines when a search query has been entered
+    * @param text - text entered in searchbar
+    */
     $scope.isSearch = function(text){
       if(text != ""){
         $scope.searchTab = true;
@@ -391,6 +361,9 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
       }
     }
 
+  /**
+    * creates a temporary tab called 'Search' when a query is entered
+    */
     $scope.searched = function(){
       return $scope.searchTab;
     }
@@ -450,7 +423,7 @@ applicantControllers.controller('ApplicantCtrl', ['$sce','$scope', '$location', 
         }
 
         $scope.queries[index].$promise.then(function(data) {
-          $scope.charts.push(searchAnalysis.displayGraph(data, $scope.ids[index]));
+          $scope.charts.push(chartService.displayGraph(data, $scope.ids[index]));
         });
       });
     }

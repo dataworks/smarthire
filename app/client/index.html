@@ -1,9 +1,13 @@
 <!--DOCTYPE html-->
 <html lang="en" ng-app="applicantApp">
 <head>
+
+<!-- view port is used for viewing on mobile devices -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=0.8"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- the below link tags are all of the files that need to be included to have to proper css -->
 	<link rel="stylesheet" href="normalize-css/normalize.css" />
 	<link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" />
@@ -15,10 +19,15 @@
 	<link rel="stylesheet" href="css/carousel.css" />
 	<link rel="stylesheet" href="css/score.css" />
 	<link rel="stylesheet" href="css/adminView.css" />
+	<link rel="stylesheet" href="css/mobile.css" />
+
+	<!-- this is the icon next to the title in the internet tab header -->
 	<link rel="icon" href="images/bb3.ico" type="image/x-icon">
 
 	<!--Google font -->
 	<link href='https://fonts.googleapis.com/css?family=Jaldi:700|Alegreya|Gurajada|Ubuntu:500|Raleway|Open+Sans:600|Lato' rel='stylesheet' type='text/css'>
+
+	<!-- used to keep the footer at the bottom of the page -->
 	<link href="sticky-footer.css" rel="stylesheet">
 
 	<!--ngToast dependencies -->
@@ -27,16 +36,15 @@
 
 	<!-- header code needed for fixed nav bar -->
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-	<meta name="description" content="">
-	<meta name="author" content="">
 
+	<!-- this is the title that is in the internet tabs -->
 	<title>SmartHire: Applicant Search</title>
 	<meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
 	<base href='/app/'>
 
 </head>
 
+<!-- this is used as our javascript controller for all of our methods -->
 <body ng-controller="ApplicantCtrl">
 
 	<div class="container">
@@ -44,15 +52,17 @@
 		<nav class="navbar navbar-default navbar-fixed-top">
 			<div class="container" id="nav-container">
 				<div class="navbar-header">
+					<!-- this is used when the screen size gets smaller/for mobile -->
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
 						<span class="sr-only">Toggle navigation</span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
+					<!-- logo -->
 					<p><a href="index.html"><img id="bb" src="images/brainbulb2.png" alt="">SmartHire</a></p>
 				</div>
-
+				<!-- used to like the folders to the different pages of the website.  Nav bar headers -->
 				<div id="navbar" class="collapse navbar-collapse">
 					<ul class="nav navbar-nav">
 						<li id="h"><a href="index.html">Home</a></li>
@@ -64,8 +74,11 @@
 			</div>
 		</nav>
 
+		<!-- ng-view is how we see all of the different linked webpages -->
 		<div class="content" ng-view></div>
 	</div>
+
+	<!-- this is the scroll to top button -->
 	<span id="top-link-block" class="hidden">
 		<a href="#top" class="well well-sm"  onclick="$('html,body').animate({scrollTop:0},'slow');return false;">
 			<i class="glyphicon glyphicon-chevron-up"></i> Back to Top
@@ -101,33 +114,46 @@
 	</footer>
 </div>
 
+<!-- this is where we import all of our javascript files -->
+<!-- Other files needed to run the page -->
+<script src="api-check/dist/api-check.js"></script>
 <script src="jquery/dist/jquery.min.js"></script>
 <script src="bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="angular/angular.min.js"></script>
 <script src="angular-resource/angular-resource.min.js"></script>
 <script src="angular-route/angular-route.min.js"></script>
+<!-- file that holds all of the file paths to direct the webpage -->
 <script src="app/app.js"></script>
-<script src="app/components/autocomplete/autocomplete.js"></script>
-<script src="app/components/md5/md5.js"></script>
+<!-- applicants view -->
 <script src="app/components/applicants/applicantController.js"></script>
 <script src="app/components/applicants/applicantService.js"></script>
 <script src="app/components/applicants/labelService.js"></script>
+<!-- uploads -->
 <script src="app/components/applicants/uploadService.js"></script>
+<script src="app/components/md5/md5.js"></script>
+<!-- search bar -->
+<script src="app/components/autocomplete/autocomplete.js"></script>
 <script src="app/components/applicants/suggestService.js"></script>
 <script src="app/components/applicants/searchService.js"></script>
-<script src="app/components/applicants/searchAnalysisService.js"></script>
+<!-- about page -->
 <script src="app/components/about/aboutController.js"></script>
+<!-- Analytics page -->
 <script src="app/components/analysis/analysisController.js"></script>
 <script src="app/components/analysis/analysisService.js"></script>
+<!-- admin page -->
 <script src="app/components/admin/adminController.js"></script>
 <script src="app/components/admin/adminService.js"></script>
 <script src="ng-infinite-scroll/build/ng-infinite-scroll.min.js"></script>
+<script src="angular-formly/dist/formly.js"></script>
+<script src="angular-formly-templates-bootstrap/dist/angular-formly-templates-bootstrap.js"></script>
+<!-- ng-toast -->
 <script src="ng-toast/dist/ngToast.min.js"></script>
 <script src="angular-sanitize/angular-sanitize.min.js"></script>
 <script src="angular-animate/angular-animate.min.js"></script>
 <!-- charts -->
 <script src="chart.js/dist/Chart.js"></script>
 <script src="chartist/dist/chartist.min.js"></script>
+<script src="app/components/applicants/chartService.js"></script>
 
 </body>
 </html>

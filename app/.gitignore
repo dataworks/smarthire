@@ -7,4 +7,5 @@ node_modules
 **/server.csr
 **/server.enc.key
 **/server.key
+**/oauth
 

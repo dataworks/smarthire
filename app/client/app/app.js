@@ -7,6 +7,8 @@ var applicantApp = angular.module('applicantApp', [
   'ngToast',
   'ngAnimate',
   'autocomplete',
+  'formly',
+  'formlyBootstrap',
 ]);
 
 var applicantControllers = angular.module('applicantControllers', []);
@@ -29,6 +31,7 @@ applicantApp.config(['$routeProvider', '$locationProvider', 'ngToastProvider',
     }).
     when('/admin_success', {
       templateUrl: 'app/components/admin/adminView.html',
+      controllerAs: 'vm',
       controller: 'AdminCtrl'
     }).
     when('/admin_failure', {

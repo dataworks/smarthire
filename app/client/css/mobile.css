@@ -1,0 +1,154 @@
+/*look in both the appView.css and the app.css files to see what these pieces are*/
+/*used for mobile size screens*/
+@media (max-width: 767px) {
+   .navbar-header > p{
+    margin-left: 1.5%;
+    width: 200%;
+  }
+  .dwl{
+    padding-top: 1.5%;
+  }
+  .footer{
+    height: 80px;
+    width: 100%;
+  }
+
+  #fb{
+    padding-top: 1.5%;
+  }
+  #li{
+    padding-top: 1.5%;
+  }
+  #tw{
+    padding-top: 1.5%;
+  }
+  #gt{
+    padding-top: 1.5%;
+  }
+
+  .content{
+    padding-top: 25%; 
+  }
+
+  .nav{
+    float: left !important;
+  } 
+
+  #o{
+    width: 5% !important;
+    vertical-align: center;
+  }
+
+  #p{
+    width: 6% !important;
+  }
+
+  #n{
+    width: 15% !important;
+  }
+
+  #s{
+    width: 5% !important;
+  }
+
+  #select{
+    margin-left: -1%;
+    padding-right: 5% !important;
+  }
+
+  #upload{
+    margin-right: -1%;
+    font-size: 100%;
+    /*padding: .5% 1%;*/
+  }
+
+  td > #valD{
+    padding: 4.75%;
+  }
+
+  td > #valL{
+    padding: 4%;
+  }
+
+  td > #valM{
+    padding: 9.1%;
+  }
+
+  td > #valW{
+    padding: 6%;
+  }
+
+  td > #valB{
+    padding: 7%;
+  }
+
+  td > #valE{
+    padding: 12%;
+  }
+
+  .alert{
+    margin-right: 200px !important;
+  }
+
+  #search{
+    float: left;
+  }
+
+  .btn-default{
+    float: left;
+  }
+
+  #arrow{
+    margin-left: 80%;
+    margin-top: -9%;
+  }
+
+  #sb{
+    margin-right: 40%;
+    margin-top: 1%;
+  }
+
+  .dropdown.dropdown-lg {
+    position: static !important;
+  }
+  .dropdown.dropdown-lg .dropdown-menu {
+    margin-left: -1%;
+    width: 150%;
+  }
+  .autocomplete{
+    margin-left: 0 !important;
+  }
+
+  #two{
+    display: block;
+    padding-top: 2.5%;
+  }
+
+  #three{
+    padding-bottom: 2.5%;
+  }
+
+}
+
+/*for ipads*/
+@media (min-width: 768px) and (max-width: 991px){
+  .dropdown.dropdown-lg .dropdown-menu {
+    width: 325%;
+  }
+  #arrow{
+    margin-left: 367%;
+    margin-top: 6%;
+  }
+
+  #sb{
+    margin-right: 4%;
+    margin-top: 0.75%;
+  }
+  #size{
+    display: none;
+    background-color: yellow;
+  }
+  body{
+    padding-top: 7.5%;
+  }
+}

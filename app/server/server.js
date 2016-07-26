@@ -138,6 +138,7 @@ root.get("/", function(req, res) {
  */
 app.get('/service/logout', function(req, res){
   req.logout();
+  req.session.destroy();
   res.redirect('/app');
 });
 
@@ -195,12 +196,14 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
+//tokens for Oauth
+var tokens = fs.readFileSync(__dirname + '/' + 'oauth').toString().split("\n");
 var GithubStrategy = require('passport-github2').Strategy;
 
 passport.use(new GithubStrategy({
-    clientID:  "no",
-    clientSecret: "no",
-    callbackURL: "https://localhost:8082/app/service/auth/callback"
+    clientID:  tokens[0],
+    clientSecret: tokens[1],
+    callbackURL: tokens[2],
   },
   function(accessToken, refreshToken, profile, done) {
     return done(null, profile);

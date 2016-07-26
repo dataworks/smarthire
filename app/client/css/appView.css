@@ -1,3 +1,4 @@
+/*this is used to display the triangle next the the name and score to indicate which direction it is being sorted*/
 .sortorder.reverse:after {
   content: '\25b2';   /*// BLACK UP-POINTING TRIANGLE*/
   font-size: 75%;
@@ -7,12 +8,14 @@
   font-size: 75%;
 }
 
+/*this is for the profile picture*/
 #profile{
   height: 70px;
   width: auto;
   cursor: pointer; 
 }
 
+/*this is the display size*/
 #size{
   font-size: 125%;
   font-weight: bold;
@@ -21,6 +24,7 @@
   right: 0;
 }
 
+/*these are used to format the advanced search options*/
 #four{
   cursor: unset;
   padding-left: 0;
@@ -40,6 +44,7 @@
   cursor: pointer;
 }
 
+/*this is used for the back to top button*/
 #top-link-block.affix-top {
   position: fixed; /* allows it to "slide" up into view, change to absolute to get it to slide */
   bottom: 25px; /* negative of the offset - height of link element */
@@ -52,9 +57,18 @@
   bottom: 25px; /* height of link element */
   left: 10px; /* padding from the left side of the window */
   z-index: 2;
-
 }
 
+.well{
+  background-color: #689F38;
+  color: white;
+  border-radius: 5px 20px 5px;
+  font-family: 'Gurajada', serif;
+  font-size: 160%;
+  padding: 0 8% 0 8%;
+}
+
+/*this is for the drop down view changer menu*/
 .block > #select{
   outline: none;
   float: left;
@@ -75,6 +89,7 @@
   background-position: 90% 45%;
 }
 
+
 #u{
   background: white;
   font-weight: bold;
@@ -83,7 +98,7 @@
 
 
 /*upload button*/
-.btn-primary {
+#upload {
   color: white;
   background-color: #689F38;
   border: none;
@@ -94,11 +109,12 @@
   border-radius: 25px;
 }
 
-.btn-primary:hover{
+#upload:hover{
   background: #1B5E20;
   border: none;
 }
 
+/*this is used to format firefox*/
 @-moz-document url-prefix() {
   .well{
     padding: 5px !important;
@@ -108,21 +124,12 @@
   }
 }
 
-.well{
-  background-color: #689F38;
-  color: white;
-  border-radius: 5px 20px 5px;
-  /*font-weight: bold;*/
-  font-family: 'Gurajada', serif;
-  font-size: 160%;
-  padding: 0 8% 0 8%;
-}
-
 table{
 	width:100%;
   font-family: 'Open Sans', sans-serif;
 }
 
+/*the expand all button*/
 th, th > #expander{
   text-align: center;
   font-size: 125%;
@@ -137,11 +144,13 @@ a{
   outline: none;
 }
 
+/*score column*/
 #s{
   width: 8% !important;
   font-size: 115%;
 }
 
+/*score and name headers*/
 #s > a:hover, #n > a:hover{
   text-decoration: none;
   color: #1976d2;
@@ -152,11 +161,13 @@ a{
   cursor: pointer;
 }
 
+/*the actual applicant name*/
 #nl{
   color: black;
   cursor: pointer;
 }
 
+/*used to determine which color the score should be*/
 #high{
   color: #558B2F;
   font-weight: bolder;
@@ -173,7 +184,7 @@ a{
 } 
 
 /*p = profile, s=score, n=name, ci= current info, d=degree, c=contact, and o = options*/
-
+/*these are the columns*/
 #ci{
   width: 12% !important;
   max-width: 270px !important;
@@ -203,15 +214,19 @@ a{
   max-width: 225px !important;
 }
 
+/*drop down menu columns*/
 #skill, #ed, #link{
   width: 33% !important;
 }
 
-
+/*the headers within the skills column*/
 #title{
   text-decoration: underline;
 }
 
+/*valD=database, valL=languages, valM=mobile, valW=web, valB=big data, valE=ETL, valGPA=GPA, valS=school,
+valGH=github, valI=indeed, and valLI=linkedIn*/
+/*these are the actual individual pieces of data in the drop down table*/
 td > #valD{
   padding-bottom: 3.5%;
   display: table-cell;
@@ -289,84 +304,7 @@ td > #valI{
   white-space: pre-line;
 }
 
-
-@media (max-width: 767px) {
-  #o{
-    width: 5% !important;
-    vertical-align: center;
-  }
-
-  #p{
-    width: 6% !important;
-  }
-
-  #n{
-    width: 15% !important;
-  }
-
-  #s{
-    width: 5% !important;
-  }
-
-  #select{
-    margin-left: -1%;
-    padding-right: 5% !important;
-  }
-
-  #upload{
-    margin-right: -1%;
-    font-size: 100%;
-    /*padding: .5% 1%;*/
-  }
-
-  td > #valD{
-    padding: 4.75%;
-  }
-
-  td > #valL{
-    padding: 4%;
-  }
-
-  td > #valM{
-    padding: 9.1%;
-  }
-
-  td > #valW{
-    padding: 6%;
-  }
-
-  td > #valB{
-    padding: 7%;
-  }
-
-  td > #valE{
-    padding: 12%;
-  }
-
-  .alert{
-    margin-right: 200px !important;
-  }
-
-  #search{
-    float: left;
-  }
-
-  .btn-default{
-    float: left;
-  }
-
-  #arrow{
-    margin-left: 80%;
-    margin-top: -9%;
-  }
-
-  #sb{
-    margin-right: 40%;
-    margin-top: 1%;
-  }
-
-}
-
+/*part of the table*/
 td{
   text-align: center;
   width: 15%;
@@ -374,11 +312,13 @@ td{
   z-index: 5;
 }
 
+/*the data in the table*/
 #body{
   text-align: left;
   width: 33%;
 }
 
+/*pie chart button by the search bar*/
 #stats{
   font-size: 155%;
   margin-left: 13%;
@@ -394,11 +334,12 @@ td{
   color: #673AB7;
 }
 
-
+/*the first drop down table*/
 #hide{
   border-top:0 !important;
 }
 
+/*view resume button*/
 #file{
   font-size: 100%;
   margin: 0;
@@ -416,6 +357,7 @@ td{
   color: #1DE9B6;
 }
 
+/*individual expand button*/
 #eye{
   font-size: 100%;
   margin: 0;
@@ -433,6 +375,7 @@ td{
   color: #FDD835;
 }
 
+/*the favorite button*/
 #up{
   font-size: 100%;
   margin: 0;
@@ -456,6 +399,7 @@ td{
   color: #4CAF50;
 }
 
+/*the archive button*/
 #down{
   font-size: 100%;
   margin: 0;
@@ -479,6 +423,7 @@ td{
   color: #D50000;
 }
 
+/*the review button*/
 #question{
   font-size: 100%;
   margin: 0;
@@ -502,6 +447,7 @@ td{
   color: #FF5722;
 }
 
+/*the send back button*/
 #back{
   font-size: 100%;
   margin: 0;
@@ -537,6 +483,7 @@ td{
   border-radius: 10px;
 }
 
+/*advanced search button*/
 .btn-default{
   border-radius: 25px;
   margin-left: 362%;
@@ -548,6 +495,7 @@ td{
   font-size: 75%;
 }
 
+/*seen on mobile*/
 #arrow{
   z-index: 5;
   outline: none;
@@ -618,52 +566,6 @@ input[type='text'] {
 
 #one{
   padding: 2.5%;
-}
-
-/*for ipads*/
-@media (min-width: 768px) and (max-width: 991px){
-  .dropdown.dropdown-lg .dropdown-menu {
-    width: 325%;
-  }
-  #arrow{
-    margin-left: 367%;
-    margin-top: 6%;
-  }
-
-  #sb{
-    margin-right: 4%;
-    margin-top: 0.75%;
-  }
-  #size{
-    display: none;
-    background-color: yellow;
-  }
-  body{
-    padding-top: 5.5%;
-  }
-}
-
-/*for phones*/
-@media (max-width: 767px) {
-  .dropdown.dropdown-lg {
-    position: static !important;
-  }
-  .dropdown.dropdown-lg .dropdown-menu {
-    margin-left: -1%;
-    width: 150%;
-  }
-  .autocomplete{
-    margin-left: 0 !important;
-  }
-
-  #two{
-    display: block;
-    padding-top: 2.5%;
-  }
-
-  #three{
-    padding-bottom: 2.5%;
-  }
 }
 
 /* AUTOCOMPLETE */
@@ -739,6 +641,7 @@ input[type='text'] {
   color: #fff;
 }
 
+/*loading icon*/
 #loadMask{
   position: fixed;
   bottom: 0;
@@ -754,14 +657,7 @@ input[type='text'] {
   margin-top: 2%;
 }
 
-.carousel {
-  transition: all linear 0.5s;
-}
-
-.carousel.ng-hide {
-  opacity: 0;
-}
-
+/*used for highlighting the text that matches the search term*/
 mark {
   background-color: #FFFF00;
 }

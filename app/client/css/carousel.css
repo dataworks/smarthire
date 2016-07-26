@@ -1,12 +1,17 @@
-/* CUSTOMIZE THE CAROUSEL
--------------------------------------------------- */
+/* this is the drop down that is attached to the stats icon next to the search bar*/
 
 /* Carousel base class */
 .carousel {
   height: 48%;
   border-bottom: solid #ddd;
   animation: none;
+  transition: all linear 0.5s;
 }
+
+.carousel.ng-hide {
+  opacity: 0;
+}
+
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
     position: absolute;
