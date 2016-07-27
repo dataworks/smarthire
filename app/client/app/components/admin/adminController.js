@@ -72,14 +72,10 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
     },
     {
       key: 'resume_length',
-      type: 'radio',
+      type: 'checkbox',
       templateOptions: {
         label: 'Resume length',
-        required: false,
-        options: [
-          {name: 'True', value: true},
-          {name: 'False', value: false}
-        ]
+        required: false
       }
     },
     {
@@ -287,18 +283,12 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
     },
     {
       key: 'relevance',
-      type: 'radio',
+      type: 'checkbox',
       templateOptions: {
         label: 'Relevance',
         required: false,
-        options: [
-          {name: 'True', value: true},
-          {name: 'False', value: false}
-        ]
       }
     },
     ];
-    
-
   }
   ]);
