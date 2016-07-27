@@ -5,9 +5,12 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
     $scope.settings = Admin.query(function(settings) {
       vm.settings = {
         job_location: $scope.settings.rows[0].jobLocation.reston.values[0].location,
+        resume_length: $scope.settings.rows[0].resumeLength.standardLength.enabled,
+        relevance: $scope.settings.rows[0].relevance.relevance.enabled,
+        experience: $scope.settings.rows[0].experience.techExperience.values[0].positions,
 
       }
-      console.log($scope.settings.rows[0].jobLocation.reston.values[0].location);
+      console.log($scope.settings.rows[0].experience.techExperience.values[0].positions);
     });
 
     // console.log($scope.jobLocation);
@@ -49,8 +52,8 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         label: 'Resume length',
         required: false,
         options: [
-          {name: 'True', value: 'true'},
-          {name: 'False', value: 'false'}
+          {name: 'True', value: true},
+          {name: 'False', value: false}
         ]
       }
     },
@@ -60,7 +63,6 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
       templateOptions: {
         type: 'text',
         label: 'Positions',
-        placeholder: 'engineer, developer, software architect',
         required: false
       }
     },
@@ -148,8 +150,8 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         label: 'Relevance',
         required: false,
         options: [
-          {name: 'True', value: 'true'},
-          {name: 'False', value: 'false'}
+          {name: 'True', value: true},
+          {name: 'False', value: false}
         ]
       }
     },
