@@ -12,6 +12,12 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         experience_enable: $scope.settings.rows[0].experience.techExperience.enabled,
         experience: $scope.settings.rows[0].experience.techExperience.values[0].positions,
         experience_deg: $scope.settings.rows[0].experience.techExperience.values[0].degrees,
+        email: $scope.settings.rows[0].contactInfo.allInfo.enabled,
+        phone: $scope.settings.rows[0].contactInfo.allInfo.enabled,
+        urls: $scope.settings.rows[0].contactInfo.allInfo.enabled,
+        indeed: $scope.settings.rows[0].contactInfo.allInfo.enabled,
+        linkedin: $scope.settings.rows[0].contactInfo.allInfo.enabled,
+        github: $scope.settings.rows[0].contactInfo.allInfo.enabled,
         contact_enable: $scope.settings.rows[0].contactInfo.allInfo.enabled,
         etl_enable: $scope.settings.rows[0].keywords.etl.enabled,
         webApp_enable: $scope.settings.rows[0].keywords.webApp.enabled,
@@ -26,15 +32,8 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         mobile: $scope.settings.rows[0].keywords.mobile.values,
         bigData: $scope.settings.rows[0].keywords.bigData.values,
 
-
-
       }
-      console.log($scope.settings.rows[0].keywords.etl.values);
     });
-
-    // console.log($scope.jobLocation);
-
-
 
   	// The model object that we reference
     // on the  element in index.html
@@ -262,7 +261,6 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
       type: 'input',
       templateOptions: {
         type: 'text',
-        placeholder: 'ETL, Big Data, Languages',
         required: false
       },
       hideExpression: '!model.mobile_enable'
@@ -280,7 +278,6 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
       type: 'input',
       templateOptions: {
         type: 'text',
-        placeholder: 'ETL, Big Data, Languages',
         required: false
       },
       hideExpression: '!model.bigData_enable'
