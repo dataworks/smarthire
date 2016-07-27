@@ -41,18 +41,21 @@ class LuceneTokenizer(analyzer: String = null) {
  */
 object LuceneTokenizer {
   /**
-   * Returns the tokens from the
+   * Tokenizes the string as english words and returns and Iterator
+   *  that groups the tokens in sections of 10
    *
-   *
+   * @param tokenString The string to be tokenized
+   * @return The grouped iterator of tokens
    */
   def getTokens(tokenString: String): Iterator[Seq[String]] = {
     return tokenize(tokenString).grouped(10)
   }
 
   /**
+   * Will tokenize a string as english words
    *
-   *
-   *
+   * @param tokenString The string to be tokenized
+   * @return A sequence of tokens
    */
   def tokenize(tokenString: String): Seq[String] = {
     val tokenizer = new LuceneTokenizer("english")
