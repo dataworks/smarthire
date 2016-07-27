@@ -23,13 +23,23 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
     // the 'fields' attribute on the  element
     vm.settingsFields = [
     {
+      key: 'job_location_enable',
+      type: 'checkbox',
+      templateOptions: {
+        label: 'Location',
+        required: false
+      }
+    },
+    {
       key: 'job_location',
       type: 'input',
       templateOptions: {
         type: 'text',
-        label: 'Location',
         // placeholder: 'Reston, VA',
         required: false
+      },
+      expressionProperties: {
+        hideExpression: '!settings.job_location_enable'
       }
     },
     {
