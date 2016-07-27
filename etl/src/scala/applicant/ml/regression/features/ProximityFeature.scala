@@ -41,6 +41,7 @@ class ProximityFeature(newSetting: FeatureSetting, locationMap: HashMap[(String,
    *  Will return a score for the proximity of the applicant to the job location
    *
    * @param applicant The applicant whose feature is checked
+   * @return Raw score for prximity, scaled 1-0
    */
   def getFeatureScore(applicant: ApplicantData): Double = {
     val valuesMap = setting.values(0).asInstanceOf[Map[String,AnyRef]]

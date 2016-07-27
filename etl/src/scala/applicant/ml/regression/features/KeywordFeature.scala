@@ -14,6 +14,7 @@ class KeywordFeature(newSetting: FeatureSetting) extends BaseFeature {
    *    at least twice in the applican's resume
    *
    * @param applicant The applicant whose feature is checked
+   * @return The raw score for keywords, scaled 1-0
    */
   def getFeatureScore(applicant: ApplicantData): Double = {
     val keywordList: ListBuffer[String] = newSetting.values.asInstanceOf[ListBuffer[String]]
