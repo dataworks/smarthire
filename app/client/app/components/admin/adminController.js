@@ -180,7 +180,7 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
       key: 'etl_enable',
       type: 'checkbox',
       templateOptions: {
-        label: 'ETL Key Words',
+        label: 'Key Words',
         required: false
       }
     },
@@ -189,6 +189,7 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
       type: 'input',
       templateOptions: {
         type: 'text',
+        label: 'ETL',
         required: false
       },
       hideExpression: '!model.etl_enable'
@@ -197,7 +198,7 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
       key: 'webApp_enable',
       type: 'checkbox',
       templateOptions: {
-        label: 'Web App Key Words',
+        label: 'Key Words',
         required: false
       }
     },
@@ -206,6 +207,7 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
       type: 'input',
       templateOptions: {
         type: 'text',
+        label: 'Web App',
         required: false
       },
       hideExpression: '!model.webApp_enable'
@@ -214,7 +216,7 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
       key: 'languages_enable',
       type: 'checkbox',
       templateOptions: {
-        label: 'Languages Key Words',
+        label: 'Key Words',
         required: false
       }
     },
@@ -223,6 +225,7 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
       type: 'input',
       templateOptions: {
         type: 'text',
+        label: 'Languages',
         required: false
       },
       hideExpression: '!model.languages_enable'
@@ -231,7 +234,7 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
       key: 'dbms_enable',
       type: 'checkbox',
       templateOptions: {
-        label: 'Database Key Words',
+        label: 'Key Words',
         required: false
       }
     },
@@ -240,6 +243,7 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
       type: 'input',
       templateOptions: {
         type: 'text',
+        label: 'Database',
         required: false
       },
       hideExpression: '!model.dbms_enable'
@@ -248,7 +252,7 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
       key: 'mobile_enable',
       type: 'checkbox',
       templateOptions: {
-        label: 'Mobile Key Words',
+        label: 'Key Words',
         required: false
       }
     },
@@ -257,6 +261,7 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
       type: 'input',
       templateOptions: {
         type: 'text',
+        label: 'Mobile',
         required: false
       },
       hideExpression: '!model.mobile_enable'
@@ -265,7 +270,7 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
       key: 'bigData_enable',
       type: 'checkbox',
       templateOptions: {
-        label: 'Big Data Key Words',
+        label: 'Key Words',
         required: false
       }
     },
@@ -274,6 +279,7 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
       type: 'input',
       templateOptions: {
         type: 'text',
+        label: 'Big Data',
         required: false
       },
       hideExpression: '!model.bigData_enable'
