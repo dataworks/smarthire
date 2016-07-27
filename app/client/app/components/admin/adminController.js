@@ -67,21 +67,60 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
       }
     },
     {
-      // all lower case
-      key: 'contact',
-      type: 'select',
+      template:'<b> Contact Information </b>'
+    },
+    {
+      key: 'email',
+      type: 'checkbox',
       templateOptions: {
-        type: 'checkbox',
-        label: 'Contact Information',
+        label: 'Email',
         required: false,
-        options: [
-          {name: 'Email', value: 'email'},
-          {name: 'Phone', value: 'phone'},
-          {name: 'LinkedIn', value: 'linkedin'},
-          {name: 'GitHub', value: 'github'},
-          {name: 'URLs', value: 'urls'},
-          {name: 'Indeed', value: 'indeed'}
-        ]
+        value: 'email'
+      }
+    },
+    {
+      key: 'phone',
+      type: 'checkbox',
+      templateOptions: {
+        label: 'Phone',
+        required: false,
+        value: 'phone'
+      }
+    },
+    {
+      key: 'urls',
+      type: 'checkbox',
+      templateOptions: {
+        label: 'URLs',
+        required: false,
+        value: 'urls'
+      }
+    },
+    {
+      key: 'linkedin',
+      type: 'checkbox',
+      templateOptions: {
+        label: 'LinkedIn',
+        required: false,
+        value: 'linkedin'
+      }
+    },
+    {
+      key: 'github',
+      type: 'checkbox',
+      templateOptions: {
+        label: 'GitHub',
+        required: false,
+        value: 'github'
+      }
+    },
+    {
+      key: 'indeed',
+      type: 'checkbox',
+      templateOptions: {
+        label: 'Indeed',
+        required: false,
+        value: 'indeed'
       }
     },
     {
