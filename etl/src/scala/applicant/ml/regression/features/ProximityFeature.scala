@@ -17,7 +17,6 @@ class ProximityFeature(newSetting: FeatureSetting, locationMap: HashMap[(String,
    *          1 signifies close by
    */
   def scaleDistance(meters: Double, maxDistance: Double): Double = {
-    //f(x) = 2.0/(1 + 100^(x/4500000))
     return if (meters >= maxDistance) 0.0 else (2.0/(1 + Math.exp(meters/(maxDistance/2))))
   }
 

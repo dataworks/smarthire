@@ -17,6 +17,9 @@ object RegressionSettings {
   /**
    * Constructor for the map that is returned from the mlsettings index in elasticsearch.
    * The map is parsed into the RegressionSettings object.
+   *
+   * @param elasticMap The map of setings returned from elasticsearch
+   * @return A regression settings object constructed from the map
    */
   def apply(elasticMap: scala.collection.Map[String, AnyRef]): RegressionSettings = {
     val result = new RegressionSettings()
@@ -50,6 +53,10 @@ object RegressionSettings {
   /**
    * Constructor that automatically queries elasticsearch for the settings and
    *  creates a RegressionSettings out of the results.
+   *
+   * @param sc A spark context. Used to query elasticsearch
+   * @return The regression settings based on an elasticsearch query of the
+   *          settings index
    */
   def apply(sc: SparkContext): RegressionSettings = {
     val settingsMap = sc.esRDD("settings/setting").first()
@@ -59,6 +66,8 @@ object RegressionSettings {
   /**
    * This is the default apply method to turn on every feature, use tech keywords,
    *  and use Reston VA as the job location.
+   *
+   * @return A regression settings object made out of some default values
    */
   def apply(): RegressionSettings = {
     val result = new RegressionSettings()
@@ -70,7 +79,11 @@ object RegressionSettings {
     val webApp = new FeatureSetting("WebApp", true, ListBuffer("AngularJS","Javascript","Grails","Spring","Hibernate","node.js","CSS","HTML"))
     val mobile = new FeatureSetting("Mobile", true, ListBuffer("Android","iOS","Ionic","Cordova","Phonegap"))
     val languages = new FeatureSetting("Languages", true, ListBuffer("Java","Scala","Groovy","C","Python","Ruby","Haskell"))
+<<<<<<< HEAD
     val proximity = new FeatureSetting("Proximity", true, ListBuffer(Map("location" -> "Reston, VA", "maxDistance" -> 1000000.0)))
+=======
+    val proximity = new FeatureSetting("Proximity", true, ListBuffer(Map("location" -> "Reston, VA", "maxDistance" -> 2000000.0)))
+>>>>>>> b59eb0a09d4a8270bd2d43d8da7b1d08849d0eb6
     val contact = new FeatureSetting("ContactInfo", true, ListBuffer("linkedin", "github", "indeed", "urls", "email", "phone"))
     val length = new FeatureSetting("Resume Length", true, ListBuffer(3000.0: java.lang.Double))
     val experience = new FeatureSetting("Experience", true, ListBuffer(Map("positions" -> ListBuffer("technology", "computer", "information", "engineer", "developer", "software", "analyst", "application", "admin"), "degrees" -> ListBuffer("tech", "computer", "information", "engineer", "c.s.", "programming", "I.S.A.T."))))
@@ -102,6 +115,8 @@ class RegressionSettings() extends Serializable {
   /**
    * Returns a map of the internal data.
    * This map can be directly uploaded into the mlsettings elasticsearch index
+   *
+   * @return A map of the containing feature settings
    */
   def toMap(): Map[String, AnyRef] = {
     val result: Map[String, AnyRef] = featureSettingMap.map { case (category, categoryMap) =>
@@ -115,11 +130,20 @@ class RegressionSettings() extends Serializable {
   }
 }
 
+/**
+ * FeatureSetting is an object used to contain information for a BaseFeature object to use
+ *  when calculating a feature score for an applicant
+ */
 class FeatureSetting(featureName: String, isEnabled: Boolean, featureValues: ListBuffer[AnyRef]) extends Serializable {
   val name: String = featureName
   val enabled: Boolean = isEnabled
   val values = featureValues
 
+  /**
+   * Returns the internal represtation in a map
+   *
+   * @return THe internal represtation as a map
+   */
   def toMap(): Map[String, Any] = {
     return if (values.isEmpty) Map("name" -> name, "enabled" -> enabled) else Map("name" -> name, "enabled" -> enabled, "values" -> values)
   }
