@@ -4,11 +4,21 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
 
     $scope.settings = Admin.query(function(settings) {
       vm.settings = {
+        job_location_enable: $scope.settings.rows[0].jobLocation.reston.enabled,
         job_location: $scope.settings.rows[0].jobLocation.reston.values[0].location,
+        job_location_dist: $scope.settings.rows[0].jobLocation.reston.values[0].maxDistance,
         resume_length: $scope.settings.rows[0].resumeLength.standardLength.enabled,
         relevance: $scope.settings.rows[0].relevance.relevance.enabled,
+        experience_enable: $scope.settings.rows[0].experience.techExperience.enabled,
         experience: $scope.settings.rows[0].experience.techExperience.values[0].positions,
         experience_deg: $scope.settings.rows[0].experience.techExperience.values[0].degrees,
+        contact_enable: $scope.settings.rows[0].contactInfo.allInfo.enabled,
+        etl_enable: $scope.settings.rows[0].keywords.etl.enabled,
+        webApp_enable: $scope.settings.rows[0].keywords.webApp.enabled,
+        languages_enable: $scope.settings.rows[0].keywords.languages.enabled,
+        dbms_enable: $scope.settings.rows[0].keywords.dbms.enabled,
+        mobile_enable: $scope.settings.rows[0].keywords.mobile.enabled,
+        bigData_enable: $scope.settings.rows[0].keywords.bigData.enabled,
 
       }
       console.log($scope.settings.rows[0].experience.techExperience.values[0].degrees);
@@ -27,14 +37,34 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
     // the 'fields' attribute on the  element
     vm.settingsFields = [
     {
+      key: 'job_location_enable',
+      type: 'checkbox',
+      templateOptions: {
+        label: 'Location',
+        required: false
+      }
+    },
+    {
       key: 'job_location',
       type: 'input',
       templateOptions: {
         type: 'text',
-        label: 'Location',
+        label: 'City, State',
         // placeholder: 'Reston, VA',
         required: false
-      }
+      },
+      hideExpression: '!model.job_location_enable'
+    },
+    {
+      key: 'job_location_dist',
+      type: 'input',
+      templateOptions: {
+        type: 'text',
+        label: 'Max Distance',
+        // placeholder: 'Reston, VA',
+        required: false
+      },
+      hideExpression: '!model.job_location_enable'
     },
     {
       key: 'resume_length',
@@ -49,13 +79,22 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
       }
     },
     {
+      key: 'experience_enable',
+      type: 'checkbox',
+      templateOptions: {
+        label: 'Experience',
+        required: false
+      }
+    },
+    {
       key: 'experience',
       type: 'input',
       templateOptions: {
         type: 'text',
         label: 'Positions',
-        required: false
-      }
+        required: false,
+      },
+      hideExpression: '!model.experience_enable'
     },
     {
       key: 'experience_deg',
@@ -64,11 +103,17 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         type: 'text',
         label: 'Degrees',
         placeholder: 'tech, computer science, programming',
-        required: false
-      }
+        required: false,
+      },
+      hideExpression: '!model.experience_enable'
     },
     {
-      template:'<b> Contact Information </b>'
+      key: 'contact_enable',
+      type: 'checkbox',
+      templateOptions: {
+        label: 'Contact Information',
+        required: false
+      }
     },
     {
       key: 'email',
@@ -77,7 +122,8 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         label: 'Email',
         required: false,
         value: 'email'
-      }
+      },
+      hideExpression: '!model.contact_enable'
     },
     {
       key: 'phone',
@@ -86,7 +132,8 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         label: 'Phone',
         required: false,
         value: 'phone'
-      }
+      },
+      hideExpression: '!model.contact_enable'
     },
     {
       key: 'urls',
@@ -95,7 +142,8 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         label: 'URLs',
         required: false,
         value: 'urls'
-      }
+      },
+      hideExpression: '!model.contact_enable'
     },
     {
       key: 'linkedin',
@@ -104,7 +152,8 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         label: 'LinkedIn',
         required: false,
         value: 'linkedin'
-      }
+      },
+      hideExpression: '!model.contact_enable'
     },
     {
       key: 'github',
@@ -113,7 +162,8 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         label: 'GitHub',
         required: false,
         value: 'github'
-      }
+      },
+      hideExpression: '!model.contact_enable'
     },
     {
       key: 'indeed',
@@ -122,17 +172,116 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         label: 'Indeed',
         required: false,
         value: 'indeed'
+      },
+      hideExpression: '!model.contact_enable'
+    },
+    {
+      key: 'etl_enable',
+      type: 'checkbox',
+      templateOptions: {
+        label: 'ETL Key Words',
+        required: false
       }
     },
     {
-      key: 'key_words',
+      key: 'etl',
       type: 'input',
       templateOptions: {
         type: 'text',
-        label: 'Tags',
         placeholder: 'ETL, Big Data, Languages',
         required: false
+      },
+      hideExpression: '!model.etl_enable'
+    },
+    {
+      key: 'webApp_enable',
+      type: 'checkbox',
+      templateOptions: {
+        label: 'Web App Key Words',
+        required: false
       }
+    },
+    {
+      key: 'webApp',
+      type: 'input',
+      templateOptions: {
+        type: 'text',
+        placeholder: 'ETL, Big Data, Languages',
+        required: false
+      },
+      hideExpression: '!model.webApp_enable'
+    },
+    {
+      key: 'languages_enable',
+      type: 'checkbox',
+      templateOptions: {
+        label: 'Languages Key Words',
+        required: false
+      }
+    },
+    {
+      key: 'languages',
+      type: 'input',
+      templateOptions: {
+        type: 'text',
+        placeholder: 'ETL, Big Data, Languages',
+        required: false
+      },
+      hideExpression: '!model.languages_enable'
+    },
+    {
+      key: 'dbms_enable',
+      type: 'checkbox',
+      templateOptions: {
+        label: 'Database Key Words',
+        required: false
+      }
+    },
+    {
+      key: 'dbms',
+      type: 'input',
+      templateOptions: {
+        type: 'text',
+        placeholder: 'ETL, Big Data, Languages',
+        required: false
+      },
+      hideExpression: '!model.dbms_enable'
+    },
+    {
+      key: 'mobile_enable',
+      type: 'checkbox',
+      templateOptions: {
+        label: 'Mobile Key Words',
+        required: false
+      }
+    },
+    {
+      key: 'mobile',
+      type: 'input',
+      templateOptions: {
+        type: 'text',
+        placeholder: 'ETL, Big Data, Languages',
+        required: false
+      },
+      hideExpression: '!model.mobile_enable'
+    },
+    {
+      key: 'bigData_enable',
+      type: 'checkbox',
+      templateOptions: {
+        label: 'Big Data Key Words',
+        required: false
+      }
+    },
+    {
+      key: 'bigData',
+      type: 'input',
+      templateOptions: {
+        type: 'text',
+        placeholder: 'ETL, Big Data, Languages',
+        required: false
+      },
+      hideExpression: '!model.bigData_enable'
     },
     {
       key: 'relevance',
