@@ -8,9 +8,10 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         resume_length: $scope.settings.rows[0].resumeLength.standardLength.enabled,
         relevance: $scope.settings.rows[0].relevance.relevance.enabled,
         experience: $scope.settings.rows[0].experience.techExperience.values[0].positions,
+        experience_deg: $scope.settings.rows[0].experience.techExperience.values[0].degrees,
 
       }
-      console.log($scope.settings.rows[0].experience.techExperience.values[0].positions);
+      console.log($scope.settings.rows[0].experience.techExperience.values[0].degrees);
     });
 
     // console.log($scope.jobLocation);
