@@ -28,6 +28,11 @@ object ScoreCalculator {
   //logger
   val log: Logger = LoggerFactory.getLogger(getClass())
 
+  /**
+   * Updates all the applicant scores in Elasticsearch
+   *
+   * @param options Command object containing values from command line options
+   */
   def reloadScores(options: Command) {
     val conf = new SparkConf().setMaster(options.sparkMaster)
       .setAppName("generateMLmodel").set("es.nodes", options.esNodes)
@@ -84,7 +89,9 @@ object ScoreCalculator {
     sc.stop()
   }
 
-
+  /**
+   * Main
+   */
   def main(args: Array[String]) {
     //Command line option parser
     val parser = new OptionParser[Command]("ResumeParser") {
