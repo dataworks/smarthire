@@ -11,6 +11,7 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         relevance: $scope.settings.rows[0].relevance.relevance.enabled,
         experience_enable: $scope.settings.rows[0].experience.techExperience.enabled,
         experience: $scope.settings.rows[0].experience.techExperience.values[0].positions,
+        experience_deg: $scope.settings.rows[0].experience.techExperience.values[0].degrees,
         email: $scope.settings.rows[0].contactInfo.allInfo.enabled,
         phone: $scope.settings.rows[0].contactInfo.allInfo.enabled,
         urls: $scope.settings.rows[0].contactInfo.allInfo.enabled,
@@ -24,13 +25,15 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         dbms_enable: $scope.settings.rows[0].keywords.dbms.enabled,
         mobile_enable: $scope.settings.rows[0].keywords.mobile.enabled,
         bigData_enable: $scope.settings.rows[0].keywords.bigData.enabled,
+        etl: $scope.settings.rows[0].keywords.etl.values,
+        webApp: $scope.settings.rows[0].keywords.webApp.values,
+        languages: $scope.settings.rows[0].keywords.languages.values,
+        dbms: $scope.settings.rows[0].keywords.dbms.values,
+        mobile: $scope.settings.rows[0].keywords.mobile.values,
+        bigData: $scope.settings.rows[0].keywords.bigData.values,
+
       }
-      console.log($scope.settings.rows[0].experience.techExperience.values[0].positions);
     });
-
-    // console.log($scope.jobLocation);
-
-
 
   	// The model object that we reference
     // on the  element in index.html
@@ -186,7 +189,6 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
       type: 'input',
       templateOptions: {
         type: 'text',
-        placeholder: 'ETL, Big Data, Languages',
         required: false
       },
       hideExpression: '!model.etl_enable'
@@ -204,7 +206,6 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
       type: 'input',
       templateOptions: {
         type: 'text',
-        placeholder: 'ETL, Big Data, Languages',
         required: false
       },
       hideExpression: '!model.webApp_enable'
@@ -222,7 +223,6 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
       type: 'input',
       templateOptions: {
         type: 'text',
-        placeholder: 'ETL, Big Data, Languages',
         required: false
       },
       hideExpression: '!model.languages_enable'
@@ -240,7 +240,6 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
       type: 'input',
       templateOptions: {
         type: 'text',
-        placeholder: 'ETL, Big Data, Languages',
         required: false
       },
       hideExpression: '!model.dbms_enable'
@@ -258,7 +257,6 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
       type: 'input',
       templateOptions: {
         type: 'text',
-        placeholder: 'ETL, Big Data, Languages',
         required: false
       },
       hideExpression: '!model.mobile_enable'
@@ -276,7 +274,6 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
       type: 'input',
       templateOptions: {
         type: 'text',
-        placeholder: 'ETL, Big Data, Languages',
         required: false
       },
       hideExpression: '!model.bigData_enable'
