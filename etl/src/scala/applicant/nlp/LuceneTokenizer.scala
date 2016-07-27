@@ -28,6 +28,9 @@ class LuceneTokenizer(analyzer: String = null) {
         return result
     }
 
+    /**
+     * Sets the analyzer to english if the string "english" is used in the constructor
+     */
     private def getAnalyzer(): Analyzer = {
         return if (analyzer == "english") new EnglishAnalyzer() else new StandardAnalyzer()
     }
@@ -37,10 +40,20 @@ class LuceneTokenizer(analyzer: String = null) {
  * Some utilities surrounding Lucene Tokenizing
  */
 object LuceneTokenizer {
+  /**
+   * Returns the tokens from the
+   *
+   *
+   */
   def getTokens(tokenString: String): Iterator[Seq[String]] = {
     return tokenize(tokenString).grouped(10)
   }
 
+  /**
+   *
+   *
+   *
+   */
   def tokenize(tokenString: String): Seq[String] = {
     val tokenizer = new LuceneTokenizer("english")
     return tokenizer.tokenize(tokenString).filter { term =>

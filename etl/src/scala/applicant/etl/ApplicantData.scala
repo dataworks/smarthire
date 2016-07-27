@@ -31,6 +31,11 @@ class ApplicantData {
   var score = -1.0
   var gpa = 0.0
 
+  /**
+   * Converts the ApplicantData object into a map for saving to Elasticsearch
+   *
+   * @return A map representation of this ApplicantData object
+   */
   def toMap(): Map[String, Any] = {
 
     val map: Map[String, Any] = Map(
@@ -152,6 +157,7 @@ object ApplicantData {
    * Creates a new ApplicantData object and loads variables
    *
    * @param elasticMap A map structure returned from querying on the elasticsearch applicant index
+   * @return A new ApplicantData object
    */
   def apply(elasticMap: scala.collection.Map[String, AnyRef]): ApplicantData = {
     val app = new ApplicantData()

@@ -24,7 +24,8 @@ object TextExtractor {
   /**
    * Uses Apache Tika library to parse out text from a PDF
    *
-   *@param data A PortableDataStream from Spark of a PDF file
+   * @param data A PortableDataStream from Spark of a PDF file
+   * @return A tuple where first element is the extracted text and the second value is the metadata as a scala map
    */
 
   def extractAll(data: InputStream): (String, Map[String, String]) = {
