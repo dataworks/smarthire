@@ -4,9 +4,10 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
 
     $scope.settings = Admin.query(function(settings) {
       vm.settings = {
-        job_location: '' + $scope.settings.rows[0].jobLocation.reston.values[0]
+        job_location: $scope.settings.rows[0].jobLocation.reston.values[0].location,
+
       }
-      console.log($scope.settings.rows[0].jobLocation.reston.values[0]);
+      console.log($scope.settings.rows[0].jobLocation.reston.values[0].location);
     });
 
     // console.log($scope.jobLocation);
@@ -54,7 +55,7 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
       }
     },
     {
-      key: 'experience',
+      key: 'experience_deg',
       type: 'input',
       templateOptions: {
         type: 'text',
