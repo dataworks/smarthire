@@ -86,9 +86,8 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
     },
     {
       key: 'experience',
-      type: 'input',
+      type: 'textarea',
       templateOptions: {
-        type: 'text',
         label: 'Positions',
         required: false,
       },
@@ -96,9 +95,8 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
     },
     {
       key: 'experience_deg',
-      type: 'input',
+      type: 'textarea',
       templateOptions: {
-        type: 'text',
         label: 'Degrees',
         placeholder: 'tech, computer science, programming',
         required: false,
