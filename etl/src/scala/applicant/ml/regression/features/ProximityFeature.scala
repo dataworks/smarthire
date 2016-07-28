@@ -64,10 +64,10 @@ class ProximityFeature(newSetting: FeatureSetting, locationMap: HashMap[(String,
             val rawResult = GeoUtils.haversineEarthDistance(loc1Coords, loc2Coords)
             return scaleDistance(rawResult, maxDistance)
           case None =>
-            return 0.25
+            return 0.0
         }
       case None =>
-        return 0.25
+        return 0.0
     }
   }
 }
