@@ -11,6 +11,9 @@ class ExperienceFeature(newSetting: FeatureSetting) extends BaseFeature {
   /**
    * Will look through a list of keywords and check if the search string contains
    *  any of them
+   * @param search The string to search within
+   * @param lst The sequence of keywords to look for
+   * @return A boolean value of whether search contains any of the keywords in lst
    */
   private def stringListContainment(search: String, lst: Seq[String]): Boolean = {
     val check = search.toLowerCase
@@ -25,6 +28,10 @@ class ExperienceFeature(newSetting: FeatureSetting) extends BaseFeature {
   /**
    * Will check if a position string contains certain keywords
    *  that indicate if it is a tech position
+   * @param currentScore The current score for this feature
+   * @param pos The job position to check for keywords
+   * @param lst A sequence of keywords
+   * @return The score with +1 if pos contains any keywords from lst
    */
   def checkPosition(currentScore: Double, pos: String, lst: Seq[String]): Double = {
     if (stringListContainment(pos, lst)) {
@@ -36,6 +43,9 @@ class ExperienceFeature(newSetting: FeatureSetting) extends BaseFeature {
   /**
    * Will check if a degree string contains certain keywords
    *  that indicate if it is a tech degree
+   * @param deg The string to search within
+   * @param lst The sequence of keywords to look for
+   * @return A boolean value of whether deg contains any of the keywords in lst
    */
   def checkDegree(deg: String, lst: Seq[String]): Boolean = {
     return stringListContainment(deg, lst)
@@ -44,6 +54,9 @@ class ExperienceFeature(newSetting: FeatureSetting) extends BaseFeature {
   /**
    * Will scale a GPA by a specified amount and adjust
    *  it extra so that very low gpas do not give much credit
+   * @param gpa GPA
+   * @param scale The amount to scale gpa by
+   * @return Scaled GPA
    */
   private def gpaScaler(gpa: Double, scale: Double): Double = {
     return (gpa*gpa*scale)/4.0

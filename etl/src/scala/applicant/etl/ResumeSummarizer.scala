@@ -5,18 +5,19 @@ import applicant.nlp.LuceneTokenizer
 import scala.collection.mutable.{LinkedHashSet, LinkedHashMap, HashMap, ListBuffer}
 
 /**
- * IN DEVELOPMENT
+ * Class to summarize resumes (or any other large string, like a news article)
  *
  */
 
 object ResumeSummarizer {
 
   /**
-   * Foo
+   * Summarizes article using algorithm outlined <a href="https://news.ycombinator.com/item?id=1803020">here</a>
    *
-   *@param
+   * @param resume The resume (or article) to be summarized
+   * @param charLimit Max characters for the summary, not a hard limit
+   * @return The most relevant sentences from resume
    */
-
   def summarize(resume : String, charLimit : Int) : String = {
     val mostFreqWords : HashMap[String, Int] = getMostFreqWords(100, resume)
     val regEx = "(?m)((\\.|!|\\?)+(\\s|\\z))|(\n\n)|([→•●〓♦➢>○❾◆◦✓·°❖∗\\|\\*])|(^-)|(^–)|((?=^[A-Z]))"

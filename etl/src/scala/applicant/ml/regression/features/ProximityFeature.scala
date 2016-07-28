@@ -17,8 +17,7 @@ class ProximityFeature(newSetting: FeatureSetting, locationMap: HashMap[(String,
    *          1 signifies close by
    */
   def scaleDistance(meters: Double, maxDistance: Double): Double = {
-    //f(x) = 2.0/(1 + 100^(x/4500000))
-    return if (meters >= maxDistance) 0.0 else (2.0/(1 + Math.pow(100, meters/maxDistance)))
+    return if (meters >= maxDistance) 0.0 else (2.0/(1 + Math.exp(meters/(maxDistance/2))))
   }
 
   /**
@@ -42,6 +41,7 @@ class ProximityFeature(newSetting: FeatureSetting, locationMap: HashMap[(String,
    *  Will return a score for the proximity of the applicant to the job location
    *
    * @param applicant The applicant whose feature is checked
+   * @return Raw score for prximity, scaled 1-0
    */
   def getFeatureScore(applicant: ApplicantData): Double = {
     val valuesMap = setting.values(0).asInstanceOf[Map[String,AnyRef]]

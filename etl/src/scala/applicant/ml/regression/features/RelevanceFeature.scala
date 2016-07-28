@@ -18,6 +18,7 @@ class RelevanceFeature(newSetting: FeatureSetting, naiveBayesModel: NaiveBayesMo
    *  Will return a score of the word frequency relevance
    *
    * @param applicant The applicant whose feature is checked
+   * @return Raw score for relevance, scaled 1-0
    */
   def getFeatureScore(applicant: ApplicantData): Double = {
     val tokenList = LuceneTokenizer.getTokens(applicant.fullText)

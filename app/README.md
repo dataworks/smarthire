@@ -24,6 +24,28 @@ Although SSL is not completely necessary to run SmartHire, it is highly recommen
 
 Once the key and certificate have been obtained, navigate to ```/your-directory/server/``` and place the two files (server.key and server.crt) there. They should be in the same place as server.js. The code in server.js and config.js will handle the rest of setting up SSL, so no other steps are necessary. 
 
+### Setting up Oauth 
+The application contains an Admin page, where the user can change the settings to change the models created by the machine learning algorithm. This allows the application to be used not only for the tech field but other fields as well. To access this Admin page, a user must login. The application currently only uses Oauth with GitHub, and this feature was implemented by using [Passport.js](http://passportjs.org/). 
+
+First, login to GitHub. Click on the dropdown arrow located in the right hand corner and navigate to **Settings**. On the left hand side, click on **Oauth applications**. Click on the **Developer Applications** tab, then click on **Register a new application**. Once finished, a Client ID and Client secret will show up. These will be used later.
+
+Now enter a name for the application (ex. SmartHire) and enter a description if desired. The homepage URL will look something like:
+```
+https://your-url.com/app/applicants
+```
+The authorization callback URL will look like: 
+```
+https://your-url.com/app/service/auth/callback
+```
+
+The last step is to create a plaintext file named **oauth** (there are no file extensions in the name!), and place the Client ID, Client secret, and authorization callback URL in this format: 
+```
+Client ID
+Client secret
+Authorization callback URL
+```
+Save this file in the directory ```/you-directory/server/``` in the same place as server.js. When the application is started, click on the Login button in the top right corner to see the Oauth function.
+
 
 ## Running the App Locally
 

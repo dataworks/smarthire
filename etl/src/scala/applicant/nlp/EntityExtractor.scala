@@ -16,7 +16,7 @@ import scala.io.Source
 /**
  * Uses entity models to parse information from a resume text string
  *
- * @param modelFiles a list of string paths to NLP models
+ * @param models a list of string paths to NLP models
  * @param patterns a path to a file containing regular expression files
  */
 class EntityExtractor(models: Seq[String], patterns: String) {
@@ -68,6 +68,7 @@ class EntityExtractor(models: Seq[String], patterns: String) {
      * Use the models to grab the entity values from a string
      *
      * @param options command line options
+     * @return A map of the entity label and value in all lowercase and original format
      */
     def extractEntities(text: String): LinkedHashMap[(String, String),(String, String)]  = {
         this.clearNameFinderData()
