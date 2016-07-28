@@ -15,9 +15,8 @@ exports.listApplicants = function(req, res, type) {
   }
 
   if (req.query.query) { 
-    esservice.query(config.applicants, req.query, res, {query_string: { query: req.query.query, default_operator: "AND" }}, function(res, hits, count) {
+    esservice.query(config.applicants, req.query, res, {query_string: { query: req.query.query, default_operator: "AND" }}, function(res, hits, count, aggs) {
       var applicants = hits;
-      console.log(req.query);
       var labelQuery = buildQuery(res, hits, type, query);
       esservice.query(config.labels, applicants.length, res, labelQuery, function(res, hits) {
         //double for loop inefficient probably should switch to hashmap
@@ -31,19 +30,40 @@ exports.listApplicants = function(req, res, type) {
           if(!applicants[x].type)
             applicants[x].type = 'new';
         } 
-        esservice.defaultHandler(res, applicants, count, true);
+        esservice.defaultHandler(res, applicants, count, true, aggs);
       });
-    });
+    }, buildAggs());
   }
   else {
     esservice.query(config.labels, {size: 5000}, res, {query_string: { query: query, default_operator: "AND" }}, function(res, hits) {
       var labelQuery = buildQuery(res, hits, type);
-      esservice.query(config.applicants, req.query, res, labelQuery, null);
-    },function (error, response) {
+      esservice.query(config.applicants, req.query, res, labelQuery, null, buildAggs());
+    }, function (error, response) {
       console.log(error);
     });  
   }
 }
+
+/*
+ * Calls the suggest method in ES.js
+ *
+ * @param term - the search term
+ * @param res - HTTP response object 
+ */
+exports.suggest = function(term, res) {
+  esservice.suggest(config.applicants, term,'additionalInfo.resume', res);
+}
+
+/*
+ * Aggregations for analyis only returns agg data 
+ *
+ * @param req - HTTP response object 
+ * @param res - HTTP response object 
+ */
+exports.aggregations = function(req, res) {
+  esservice.aggregations(config.applicants, {match_all: {}}, res, buildAggs());
+}
+
 
 /*
  * Builds the query string for ES based on type
@@ -80,66 +100,15 @@ function buildQuery(res, hits, type, query) {
 }
 
 /*
- * Calls the suggest method in ES.js
- *
- * @param term - the search term
- * @param res - HTTP response object 
- */
-exports.suggest = function(term, res) {
-  esservice.suggest(config.applicants, term,'additionalInfo.resume', res);
-}
-
-/*
- * Aggregations for analyis
- *
- * @param res - HTTP response object 
- * @param field - ES field
- */
-exports.aggregations = function(res, type, field, query) {
-  var q = '*';
-  if(type !== 'new')
-    q = "type:" + type;
-
-  if(type) {
-    esservice.query(config.labels, {size: 5000}, res, { query_string: { query: q, default_operator: "AND" }}, function(res, hits) {
-      var labelQuery = buildQuery(res, hits, type);
-      aggs(field, labelQuery, res);
-    },function (error, response) {
-      console.log(error);
-    });
-  } else {
-      if(query) {
-        aggs(field, { query_string: { query: query, default_operator: "AND" }}, res);
-      }
-      else {
-        aggs(field, {match_all: {}}, res);
-      }
+ * returns a common aggregtaion object
+ **/
+function buildAggs() {
+  return {
+    languages: {terms:{ size: 5, field: "skills.language"}}, 
+    etl: {terms:{ size: 5, field: "skills.etl"}},
+    web: {terms:{ size: 5, field: "skills.webapp"}},
+    mobile: {terms:{ size: 5, field: "skills.mobile"}},
+    db: {terms:{ size: 5, field:"skills.database"}},
+    bigdata: {terms:{ size: 5, field: "skills.bigdata"}}
   }
-}
-
-/**
- * Private function for aggregation queries
- *
- * @param field - type of skill
- * @param query - search term
- * @param res - response 
- */
-function aggs(field, query, res) {
-  if(field === 'languages') 
-    esservice.aggregations(config.applicants, 'skills.language', query, res);
-
-  if(field === 'etl')
-    esservice.aggregations(config.applicants, 'skills.etl', query, res);
-
-  if(field === 'web')
-    esservice.aggregations(config.applicants, 'skills.webapp', query, res);
-
-  if(field === 'mobile')
-    esservice.aggregations(config.applicants, 'skills.mobile', query, res);
-
-  if(field === 'db')
-    esservice.aggregations(config.applicants, 'skills.database', query, res);
-
-  if(field === 'bigData')
-    esservice.aggregations(config.applicants, 'skills.bigdata', query, res);
 }

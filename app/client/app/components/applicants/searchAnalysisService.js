@@ -7,7 +7,7 @@ applicantServices.factory('searchAnalysis', function() {
      * @param id - div id of the chart
      * @param return - returns instance of a pie chart
      */
-    displayGraph: function (data, id, map) {
+    displayGraph: function (data, id) {
       var labels = data.map(function(index) {
         return index.key;
       }); 

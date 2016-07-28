@@ -31,6 +31,7 @@ exports.query = function(config, params, res, query, handler, aggs) {
     body: {
       sort: sort ? [sort] : null,
       query: query,
+      aggs: aggs,
       highlight: {
         number_of_fragments: 0,
         pre_tags: ["<mark>"],
@@ -39,16 +40,23 @@ exports.query = function(config, params, res, query, handler, aggs) {
           "*": {}
         },
         require_field_match: false
-      }
+      },
     }
   }).then(function(resp) {
     // Parse ES response and send result back
     var hits = module.exports.parseSearchHits(resp, res);
 
+    var aggsArr = [];
+    if(aggs && (typeof aggs !== 'function')) {
+      for(var x in resp.aggregations) {
+        aggsArr.push((resp.aggregations[x].buckets));
+      }
+    }
+
     if (handler) {
-      handler(res, hits, resp.hits.total);
+      handler(res, hits, resp.hits.total, aggsArr);
     } else {
-      module.exports.defaultHandler(res, hits, resp.hits.total, true);
+      module.exports.defaultHandler(res, hits, resp.hits.total, true, aggsArr);
     }
 
     // Release client resources
@@ -74,7 +82,7 @@ exports.parseSearchHits = function(resp, res) {
         // Merge key into source object
         merge(source, k, hit.highlight[k][0], ["id"]);
       }
-    }
+    } 
     return source;
 
   });
@@ -85,9 +93,17 @@ exports.parseSearchHits = function(resp, res) {
  *
  * @param res - HTTP response from queries
  * @param hits - Data in array format
+ * @param count - Numbr of hits
+ * @param aggs - aggregations
  */
-exports.defaultHandler = function(res, hits, count, useCount) {
-  if (useCount)
+exports.defaultHandler = function(res, hits, count, useCount, aggs) {
+  if(aggs)
+    res.json({
+      "rows": hits,
+      "size": count,
+      "aggs": aggs
+    });
+  else if (useCount)
     res.json({
       "rows": hits,
       "size": count
@@ -158,28 +174,18 @@ exports.suggest = function(config, term, field, res) {
  * @param query - performs a query first if requested
  * @param res - HTTP response to send back data
  */
-exports.aggregations = function(config, field, query, res) {
+exports.aggregations = function(config, query, res, aggs) {
   var client = new elasticsearch.Client({
     host: config.url
   });
-  
+
   client.search({
     index: config.index,
     type: config.type,
     body: {
       size: 0,
       query: query,
-      aggs: {
-        aggs_name: {
-          terms: {
-            size: 5,
-            field: field,
-            order: {
-              _count: "desc"
-            }
-          }
-        }
-      }
+      aggs: aggs
     }
   }).then(function(resp) {
     var hits = module.exports.getAggregationHits(resp);
@@ -208,9 +214,12 @@ exports.getAutocompleteKeys = function(resp) {
  * @param resp - HTTP response 
  */
 exports.getAggregationHits = function(resp) {
-  return resp.aggregations.aggs_name.buckets.map(function(hit) {
-    return hit;
-  });
+  var hits = [];
+  for(var x in resp.aggregations) {
+    hits.push(resp.aggregations[x].buckets);
+  }
+
+  return hits;
 }
 
 /**

@@ -5,24 +5,17 @@ applicantControllers.controller('AnalysisCtrl', ['$scope', 'Analysis', 'chartSer
       $scope.mobile, $scope.db, $scope.bigData
     ];
 
-    var fields = ['languages', 'etl', 'web', 'mobile', 'db', 'bigData'];
-    var ids = ['Language', 'ETL', 'Web', 'Mobile', 'Databases', 'Big'];
+    var ids = ['Big', 'Language', 'Web', 'Mobile', 'ETL', 'Databases'];
 
-    /**
-     * Run through each query and get the top 5 terms
-     *
-     * @param value - comes with function from array.prototype.foreach
-     * @param index - current value in the arrays
-     */
-    $scope.queries.forEach(function(value, index) {
-      $scope.queries[index] = analysis.query({
-        field: fields[index]
-      });
-
-      $scope.queries[index].$promise.then(function(data) {
-        $scope.showGraph(data, ids[index]);
-      });
+    analysis.query().$promise.then(function(data) {
+      for(var i = 0; i < data.length; i++) {
+        var arr = Object.keys(data[i]).map(function(key) {
+          return data[i][key]
+        });
+        chartService.displayGraph(arr, ids[i]);
+      }
     });
+
 
     /**
      * calls function in chartService to display pie charts

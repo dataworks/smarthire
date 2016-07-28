@@ -115,7 +115,7 @@ app.get("/service/suggest", function(req, res) {
  * @param callback function - Calls a service method to query user input to find relavent terms
  */
 app.get("/service/analysis", function(req, res) {
-  applicantService.aggregations(res, req.query.type, req.query.field, req.query.query);
+  applicantService.aggregations(req, res);
 });
 
 app.get("/service/settings", function(req, res) {

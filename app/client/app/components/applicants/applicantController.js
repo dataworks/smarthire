@@ -33,8 +33,7 @@ applicantControllers.controller('ApplicantCtrl', ['$sce', '$scope', '$location',
       $scope.mobile, $scope.db, $scope.bigData
     ];
 
-    $scope.fields = ['languages', 'etl', 'web', 'mobile', 'db', 'bigData'];
-    $scope.ids = ['Language', 'ETL', 'Web', 'Mobile', 'Databases', 'Big'];
+    $scope.ids = ['Big', 'Language', 'Web', 'Mobile', 'ETL', 'Databases'];
     $scope.charts = [];
 
     /**
@@ -146,7 +145,7 @@ applicantControllers.controller('ApplicantCtrl', ['$sce', '$scope', '$location',
 
       }
 
-      $scope.getAggregations(false, type);
+      $scope.getAggregations();
     };
 
     /**
@@ -169,7 +168,7 @@ applicantControllers.controller('ApplicantCtrl', ['$sce', '$scope', '$location',
       }
 
       $scope.loadingData = false;
-      $scope.getAggregations(false, $scope.selection);
+      $scope.getAggregations();
     };
 
     /**
@@ -381,38 +380,22 @@ applicantControllers.controller('ApplicantCtrl', ['$sce', '$scope', '$location',
         order: $scope.sortOrder
       });
 
-      $scope.getAggregations(true);
+      $scope.getAggregations();
       //sets text in search bar to what user typed in, hides the query call
       $scope.displayText = searchText;
     }
 
     /**
      * Returns aggregation data for graphs
-     *
-     * @param search - boolean if it is for search or not
      */
-    $scope.getAggregations = function(search, type) {
+    $scope.getAggregations = function() {
       for (var i = 0; i < $scope.charts.length; i++) {
         $scope.charts[i].destroy();
       }
 
-      $scope.queries.forEach(function(value, index) {
-        if (search) {
-          $scope.queries[index] = analysis.query({
-            query: $scope.searchText,
-            field: $scope.fields[index]
-          });
-        } 
-        else {
-          $scope.queries[index] = analysis.query({
-            type: type,
-            field: $scope.fields[index]
-          });
-        }
-
-        $scope.queries[index].$promise.then(function(data) {
-          $scope.charts.push(chartService.displayGraph(data, $scope.ids[index]));
-        });
+      $scope.applicants.$promise.then(function(data) {
+        for(var i in data.aggs)
+          $scope.charts.push(chartService.displayGraph(data.aggs[i], $scope.ids[i]));
       });
     }
 
