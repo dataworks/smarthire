@@ -35,23 +35,21 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
       }
     });
 
-  	// The model object that we reference
+    // The model object that we reference
     // on the  element in index.html
     // vm.settings = {};
-    
+
     // An array of our form fields with configuration
     // and options set. We make reference to this in
     // the 'fields' attribute on the  element
-    vm.settingsFields = [
-    {
+    vm.settingsFields = [{
       key: 'job_location_enable',
       type: 'checkbox',
       templateOptions: {
         label: 'Location',
         required: false
       }
-    },
-    {
+    }, {
       key: 'job_location',
       type: 'input',
       templateOptions: {
@@ -61,8 +59,7 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         required: false
       },
       hideExpression: '!model.job_location_enable'
-    },
-    {
+    }, {
       key: 'job_location_dist',
       type: 'input',
       templateOptions: {
@@ -72,24 +69,21 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         required: false
       },
       hideExpression: '!model.job_location_enable'
-    },
-    {
+    }, {
       key: 'resume_length',
       type: 'checkbox',
       templateOptions: {
         label: 'Resume length',
         required: false
       }
-    },
-    {
+    }, {
       key: 'experience_enable',
       type: 'checkbox',
       templateOptions: {
         label: 'Experience',
         required: false
       }
-    },
-    {
+    }, {
       key: 'experience',
       type: 'textarea',
       templateOptions: {
@@ -97,8 +91,7 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         required: false,
       },
       hideExpression: '!model.experience_enable'
-    },
-    {
+    }, {
       key: 'experience_deg',
       type: 'textarea',
       templateOptions: {
@@ -107,16 +100,14 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         required: false,
       },
       hideExpression: '!model.experience_enable'
-    },
-    {
+    }, {
       key: 'contact_enable',
       type: 'checkbox',
       templateOptions: {
         label: 'Contact Information',
         required: false
       }
-    },
-    {
+    }, {
       key: 'email',
       type: 'checkbox',
       templateOptions: {
@@ -125,8 +116,7 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         value: 'email'
       },
       hideExpression: '!model.contact_enable'
-    },
-    {
+    }, {
       key: 'phone',
       type: 'checkbox',
       templateOptions: {
@@ -135,8 +125,7 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         value: 'phone'
       },
       hideExpression: '!model.contact_enable'
-    },
-    {
+    }, {
       key: 'urls',
       type: 'checkbox',
       templateOptions: {
@@ -145,8 +134,7 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         value: 'urls'
       },
       hideExpression: '!model.contact_enable'
-    },
-    {
+    }, {
       key: 'linkedin',
       type: 'checkbox',
       templateOptions: {
@@ -155,8 +143,7 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         value: 'linkedin'
       },
       hideExpression: '!model.contact_enable'
-    },
-    {
+    }, {
       key: 'github',
       type: 'checkbox',
       templateOptions: {
@@ -165,8 +152,7 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         value: 'github'
       },
       hideExpression: '!model.contact_enable'
-    },
-    {
+    }, {
       key: 'indeed',
       type: 'checkbox',
       templateOptions: {
@@ -175,16 +161,14 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         value: 'indeed'
       },
       hideExpression: '!model.contact_enable'
-    },
-    {
+    }, {
       key: 'etl_enable',
       type: 'checkbox',
       templateOptions: {
         label: 'Key Words',
         required: false
       }
-    },
-    {
+    }, {
       key: 'etl',
       type: 'input',
       templateOptions: {
@@ -193,16 +177,14 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         required: false
       },
       hideExpression: '!model.etl_enable'
-    },
-    {
+    }, {
       key: 'webApp_enable',
       type: 'checkbox',
       templateOptions: {
         label: 'Key Words',
         required: false
       }
-    },
-    {
+    }, {
       key: 'webApp',
       type: 'input',
       templateOptions: {
@@ -211,16 +193,14 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         required: false
       },
       hideExpression: '!model.webApp_enable'
-    },
-    {
+    }, {
       key: 'languages_enable',
       type: 'checkbox',
       templateOptions: {
         label: 'Key Words',
         required: false
       }
-    },
-    {
+    }, {
       key: 'languages',
       type: 'input',
       templateOptions: {
@@ -229,16 +209,14 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         required: false
       },
       hideExpression: '!model.languages_enable'
-    },
-    {
+    }, {
       key: 'dbms_enable',
       type: 'checkbox',
       templateOptions: {
         label: 'Key Words',
         required: false
       }
-    },
-    {
+    }, {
       key: 'dbms',
       type: 'input',
       templateOptions: {
@@ -247,16 +225,14 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         required: false
       },
       hideExpression: '!model.dbms_enable'
-    },
-    {
+    }, {
       key: 'mobile_enable',
       type: 'checkbox',
       templateOptions: {
         label: 'Key Words',
         required: false
       }
-    },
-    {
+    }, {
       key: 'mobile',
       type: 'input',
       templateOptions: {
@@ -265,16 +241,14 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         required: false
       },
       hideExpression: '!model.mobile_enable'
-    },
-    {
+    }, {
       key: 'bigData_enable',
       type: 'checkbox',
       templateOptions: {
         label: 'Key Words',
         required: false
       }
-    },
-    {
+    }, {
       key: 'bigData',
       type: 'input',
       templateOptions: {
@@ -283,15 +257,13 @@ applicantControllers.controller('AdminCtrl', ['$scope', 'Admin',
         required: false
       },
       hideExpression: '!model.bigData_enable'
-    },
-    {
+    }, {
       key: 'relevance',
       type: 'checkbox',
       templateOptions: {
         label: 'Relevance',
         required: false,
       }
-    },
-    ];
+    }, ];
   }
-  ]);
+]);

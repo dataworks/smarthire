@@ -1,4 +1,4 @@
-applicantControllers.controller('AnalysisCtrl', ['$scope', 'Analysis', 'chartService',
+applicantControllers.controller('AnalysisCtrl', ['$scope', 'analysis', 'chartService',
   function($scope, analysis, chartService) {
 
     $scope.queries = [$scope.languages, $scope.etl, $scope.web,
@@ -15,7 +15,6 @@ applicantControllers.controller('AnalysisCtrl', ['$scope', 'Analysis', 'chartSer
         chartService.displayGraph(arr, ids[i]);
       }
     });
-
 
     /**
      * calls function in chartService to display pie charts

@@ -1,18 +1,18 @@
 <!-- this is for the admin page, the submit button is not connected to the json we are reading from ran out of time to 
 complete this page.  It is built using formly.js.  Most of the code that runs the form is contained in adminController -->
 <body ng-controller="AdminCtrl">
-	
-	<h3><a onclick="parent.location='/app/service/logout'; return false;">logout</a></h3>
-	
-<div class="container col-md-4 col-md-offset-4">
-	<!-- example -->
-	<form novalidate>
-		<h1>Settings</h1>
-		<formly-form model="vm.settings" fields="vm.settingsFields" form="vm.settingsForm">
-			<button type="submit" class="btn btn-primary" ng-disabled="vm.settingsForm.$invalid">Submit</button>
-		</formly-form>
-	</form>
-</div>
+
+  <h3><a onclick="parent.location='/app/service/logout'; return false;">logout</a></h3>
+
+  <div class="container col-md-4 col-md-offset-4">
+    <!-- example -->
+    <form novalidate>
+      <h1>Settings</h1>
+      <formly-form model="vm.settings" fields="vm.settingsFields" form="vm.settingsForm">
+        <button type="submit" class="btn btn-primary" ng-disabled="vm.settingsForm.$invalid">Submit</button>
+      </formly-form>
+    </form>
+  </div>
 
 
 </body>

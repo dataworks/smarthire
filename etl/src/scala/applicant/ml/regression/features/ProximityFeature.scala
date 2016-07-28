@@ -17,7 +17,7 @@ class ProximityFeature(newSetting: FeatureSetting, locationMap: HashMap[(String,
    *          1 signifies close by
    */
   def scaleDistance(meters: Double, maxDistance: Double): Double = {
-    return if (meters >= maxDistance) 0.0 else (2.0/(1 + Math.exp(meters/(maxDistance/2))))
+    return if (meters >= maxDistance) 0.0 else (2.0/(1 + Math.pow(100, ((meters*3)/(maxDistance)))))
   }
 
   /**
@@ -64,10 +64,10 @@ class ProximityFeature(newSetting: FeatureSetting, locationMap: HashMap[(String,
             val rawResult = GeoUtils.haversineEarthDistance(loc1Coords, loc2Coords)
             return scaleDistance(rawResult, maxDistance)
           case None =>
-            return 0.25
+            return 0.0
         }
       case None =>
-        return 0.25
+        return 0.0
     }
   }
 }
