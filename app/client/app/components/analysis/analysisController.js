@@ -16,7 +16,6 @@ applicantControllers.controller('AnalysisCtrl', ['$scope', 'Analysis', 'chartSer
       }
     });
 
-
     /**
      * calls function in chartService to display pie charts
      * 

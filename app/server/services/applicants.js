@@ -85,12 +85,10 @@ function buildQuery(res, hits, type, query) {
       }
       else if (type === 'new') {
         return {bool: { must_not: { ids: { values:  ids }}}}
-        //return "NOT id:(" + ids.join(" OR ") + ")";
       } 
       // creates a query of all of the label types
       else if (type === 'favorite' || type === 'archive' || type === 'review') {
         return {bool: { must: { ids: { values:  ids }}}}
-        //return "id:(" + ids.join(" OR ") + ")";
       }
     }
   } 

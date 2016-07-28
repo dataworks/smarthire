@@ -1,16 +1,16 @@
 <body ng-controller="AdminCtrl">
-	
-	<h3><a onclick="parent.location='/app/service/logout'; return false;">logout</a></h3>
-	
-<div class="container col-md-4 col-md-offset-4">
-	<!-- example -->
-	<form novalidate>
-		<h1>Settings</h1>
-		<formly-form model="vm.settings" fields="vm.settingsFields" form="vm.settingsForm">
-			<button type="submit" class="btn btn-primary" ng-disabled="vm.settingsForm.$invalid">Submit</button>
-		</formly-form>
-	</form>
-</div>
+
+  <h3><a onclick="parent.location='/app/service/logout'; return false;">logout</a></h3>
+
+  <div class="container col-md-4 col-md-offset-4">
+    <!-- example -->
+    <form novalidate>
+      <h1>Settings</h1>
+      <formly-form model="vm.settings" fields="vm.settingsFields" form="vm.settingsForm">
+        <button type="submit" class="btn btn-primary" ng-disabled="vm.settingsForm.$invalid">Submit</button>
+      </formly-form>
+    </form>
+  </div>
 
 
 </body>
